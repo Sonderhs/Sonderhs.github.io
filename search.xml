@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>从零开始学Java02:运算符（所用版本：JDK17）</title>
+      <link href="/2024/01/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Java%EF%BC%9A%E8%BF%90%E7%AE%97%E7%AC%A6/"/>
+      <url>/2024/01/08/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Java%EF%BC%9A%E8%BF%90%E7%AE%97%E7%AC%A6/</url>
+      
+        <content type="html"><![CDATA[<p>​</p><h1 id="从零开始学Java02-运算符（所用版本：JDK17）"><a href="#从零开始学Java02-运算符（所用版本：JDK17）" class="headerlink" title="从零开始学Java02:运算符（所用版本：JDK17）"></a>从零开始学Java02:运算符（所用版本：JDK17）</h1><p>学习视频：<a href="https://www.bilibili.com/video/BV17F411T7Ao">黑马程序员Java零基础视频教程</a></p><h2 id="一、运算符"><a href="#一、运算符" class="headerlink" title="一、运算符"></a>一、运算符</h2><h3 id="1-运算符与表达式"><a href="#1-运算符与表达式" class="headerlink" title="1.运算符与表达式"></a>1.运算符与表达式</h3><p><strong>运算符：对字面量或者变量进行操作的符号</strong><br><strong>表达式：用运算符把字面量或者变量连接起来，符合Java语法的式子就可以称为表达式</strong></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>从零开始学Java01:Java的基础概念（所用版本：JDK17）</title>
       <link href="/2023/12/29/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Java%EF%BC%9AJava%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/"/>
       <url>/2023/12/29/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Java%EF%BC%9AJava%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5/</url>
@@ -13,7 +38,7 @@
       
       <categories>
           
-          <category> Java </category>
+          <category> Java学习 </category>
           
       </categories>
       
@@ -33,7 +58,7 @@
       <link href="/2023/12/28/markdown%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/"/>
       <url>/2023/12/28/markdown%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/</url>
       
-        <content type="html"><![CDATA[<p>​</p><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><p>一个#表示一级标题</p><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><p>两个##表示二级标题</p><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><p>三个###表示三级标题</p><h3 id="两个空格-换行符：换行"><a href="#两个空格-换行符：换行" class="headerlink" title="两个空格+换行符：换行"></a>两个空格+换行符：换行</h3><p>换行</p><h3 id="中间空一行：换段"><a href="#中间空一行：换段" class="headerlink" title="中间空一行：换段"></a>中间空一行：换段</h3><h3 id="强调："><a href="#强调：" class="headerlink" title="强调："></a>强调：</h3><p>1.加粗 <strong>在字的两端加上两个星号</strong>，或者<strong>ctrl+b</strong><br>2.斜体  <em>在字的两端加一个星号</em></p><h3 id="有序列表："><a href="#有序列表：" class="headerlink" title="有序列表："></a>有序列表：</h3><ol><li>1.+空格</li><li>回车自动编号<ol><li>二级标题</li></ol></li></ol><h3 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h3><p><img src="/markdown%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.assets/Sakura-1704640683015-2.PNG" alt="Sakura"></p><p><em>小樱</em>()给图片加入文字说明</p><p>插入图片语法<br>!+[ ]+( )</p><h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>使用竖线划分  </p><table><thead><tr><th>小明</th><th align="center">小红</th><th>小强</th></tr></thead><tbody><tr><td>1.2</td><td align="center">1.5</td><td>1.7</td></tr></tbody></table><p>alt+shift+f格式化表格形式<br>利用：进行左右对齐：左冒号左对齐，右冒号右对齐，两边都有冒号中间对齐</p><h3 id="添加链接"><a href="#添加链接" class="headerlink" title="添加链接"></a>添加链接</h3><p>这是一个<a href="https://www.bilibili.com/video/BV1si4y1472o/?spm_id_from=333.337.search-card.all.click&vd_source=2fdc486181b2991ef85aa5040ec81a32">链接</a><br>直接复制粘贴，markdown自动识别URL</p><h3 id="添加代码块"><a href="#添加代码块" class="headerlink" title="添加代码块"></a>添加代码块</h3><p>用三个波浪线~~~括起来，指定语言后有高亮</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h3 id="关于基础语法的文章"><a href="#关于基础语法的文章" class="headerlink" title="关于基础语法的文章"></a>关于基础语法的文章</h3><p><a href="https://www.limfx.pro/ReadArticle/57/yi-zhong-xie-zuo-de-xin-fang-fa">链接</a></p><h3 id="禅模式"><a href="#禅模式" class="headerlink" title="禅模式"></a>禅模式</h3><p>ctrl+k–&gt;z</p>]]></content>
+        <content type="html"><![CDATA[<p>​</p><h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><p>一个#表示一级标题</p><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><p>两个##表示二级标题</p><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><p>三个###表示三级标题</p><h3 id="两个空格-换行符：换行"><a href="#两个空格-换行符：换行" class="headerlink" title="两个空格+换行符：换行"></a>两个空格+换行符：换行</h3><p>换行</p><h3 id="中间空一行：换段"><a href="#中间空一行：换段" class="headerlink" title="中间空一行：换段"></a>中间空一行：换段</h3><h3 id="强调："><a href="#强调：" class="headerlink" title="强调："></a>强调：</h3><p>1.加粗 <strong>在字的两端加上两个星号</strong>，或者<strong>ctrl+b</strong><br>2.斜体  <em>在字的两端加一个星号</em></p><h3 id="有序列表："><a href="#有序列表：" class="headerlink" title="有序列表："></a>有序列表：</h3><ol><li>1.+空格</li><li>回车自动编号<ol><li>二级标题</li></ol></li></ol><h3 id="插入图片"><a href="#插入图片" class="headerlink" title="插入图片"></a>插入图片</h3><p><img src="/../images/01markdown%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/Sakura.PNG" alt="Alt text"></p><p><em>小樱</em>()给图片加入文字说明</p><p>插入图片语法<br>!+[ ]+( )</p><h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>使用竖线划分  </p><table><thead><tr><th>小明</th><th align="center">小红</th><th>小强</th></tr></thead><tbody><tr><td>1.2</td><td align="center">1.5</td><td>1.7</td></tr></tbody></table><p>alt+shift+f格式化表格形式<br>利用：进行左右对齐：左冒号左对齐，右冒号右对齐，两边都有冒号中间对齐</p><h3 id="添加链接"><a href="#添加链接" class="headerlink" title="添加链接"></a>添加链接</h3><p>这是一个<a href="https://www.bilibili.com/video/BV1si4y1472o/?spm_id_from=333.337.search-card.all.click&vd_source=2fdc486181b2991ef85aa5040ec81a32">链接</a><br>直接复制粘贴，markdown自动识别URL</p><h3 id="添加代码块"><a href="#添加代码块" class="headerlink" title="添加代码块"></a>添加代码块</h3><p>用三个波浪线~~~括起来，指定语言后有高亮</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;hello world!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h3 id="关于基础语法的文章"><a href="#关于基础语法的文章" class="headerlink" title="关于基础语法的文章"></a>关于基础语法的文章</h3><p><a href="https://www.limfx.pro/ReadArticle/57/yi-zhong-xie-zuo-de-xin-fang-fa">链接</a></p><h3 id="禅模式"><a href="#禅模式" class="headerlink" title="禅模式"></a>禅模式</h3><p>ctrl+k–&gt;z</p>]]></content>
       
       
       <categories>
