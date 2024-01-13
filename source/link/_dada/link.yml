@@ -1,0 +1,11 @@
+- class_name: 友情链接
+  class_desc: 
+  link_list:
+    - name: Github
+      link: https://github.com/Sonderhs
+      avatar: <i class="fa-brands fa-github"></i>
+      descr: 软件项目白嫖平台
+    - name: Bilibili
+      link: https://space.bilibili.com/361660022
+      avatar: https://i.loli.net/2020/05/14/TLJBum386vcnI1P.png
+      descr: 哔哩哔哩大学
