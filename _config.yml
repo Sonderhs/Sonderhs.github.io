@@ -108,3 +108,8 @@ search:
   field: post
   format: html
   limmit: 10000
+
+
+markdown:
+    plugins:
+      - '@renbaoshuo/markdown-it-katex'
