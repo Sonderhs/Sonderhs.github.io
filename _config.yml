@@ -40,7 +40,7 @@ external_link:
   exclude: ''
 filename_case: 0
 render_drafts: false
-post_asset_folder: false
+post_asset_folder: true
 relative_link: false
 future: true
 syntax_highlighter: highlight.js
@@ -101,7 +101,11 @@ theme: butterfly
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://gitee.com/sonderhs/Sonderhs.git
+  branch: master
+
+
 
 search:
   path: search.xml
@@ -113,3 +117,9 @@ search:
 markdown:
     plugins:
       - '@renbaoshuo/markdown-it-katex'
+
+marked:
+  prependRoot: true
+  postAsset: true
+
+

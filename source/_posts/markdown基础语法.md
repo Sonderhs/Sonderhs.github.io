@@ -38,7 +38,7 @@ cover: ../image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG
 
 
 ### 1.6插入图片
-![Alt text](../image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG)
+![](/image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG)
 *小樱*（）给图片加入文字说明
 
 插入图片语法  

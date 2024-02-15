@@ -142,19 +142,19 @@ $f(x_1,x_2,\ldots,x_n) = \left({1 \over x_1}\right)^2+\left({1 \over x_2}\right)
 ## 十、符号 
 
 ### 10.1 数学符号 
-![alt text](../image/markdown数学公式语法/数学符号.jpg)
+![](/image/markdown数学公式语法/数学符号.jpg)
 
 ### 10.2 三角函数 
-![alt text](../image/markdown数学公式语法/三角函数.jpg)
+![](/image/markdown数学公式语法/三角函数.jpg)
 
 ### 10.3 定积分 
-![alt text](../image/markdown数学公式语法/定积分.jpg)
+![](/image/markdown数学公式语法/定积分.jpg)
 
 ### 10.4 集合
-![alt text](../image/markdown数学公式语法/集合.jpg)
+![](/image/markdown数学公式语法/集合.jpg)
 
 ### 10.5 对数符号 
-![alt text](../image/markdown数学公式语法/对数符号.jpg)
+![](/image/markdown数学公式语法/对数符号.jpg)
 
 ### 10.6 希腊字母
-![alt text](../image/markdown数学公式语法/希腊字母.jpg)
+![](/image/markdown数学公式语法/希腊字母.jpg)
