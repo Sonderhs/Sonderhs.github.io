@@ -10,9 +10,10 @@ cover: ../image/markdown数学公式语法/0.JPG
 ---
 
 # Markdown数学公式语法
-~~~
-使用$将数学公式写在两个$之间。写在两个$$之间是把公式居中。 
-~~~
+
+将数学公式写在两个$之间。写在两个之间是把公式居中。 
+更多符号表示见：https://katex.org/docs/supported
+
 
 
 ## 一、上下标
@@ -142,19 +143,77 @@ $f(x_1,x_2,\ldots,x_n) = \left({1 \over x_1}\right)^2+\left({1 \over x_2}\right)
 ## 十、符号 
 
 ### 10.1 数学符号 
-![](/image/markdown数学公式语法/数学符号.jpg)
+| 符号             | 代码           | 描述     |
+| ---------------- | -------------- | -------- |
+| $\not=$          | \not=          | 不等于   |
+| $\approx$        | \approx        | 约等于   |
+| $\leq$           | \leq           | 小于等于 |
+| $\geq$           | \geq           | 大于等于 |
+| $\times$         | \times         | 乘号     |
+| $\pm$            | \pm            | 正负号   |
+| $\div$           | \div           | 除号     |
+| $\sum$           | \sum           | 累加     |
+| $\prod$          | \prod          | 累乘     |
+| $\coprod$        | \coprod        | 累除     |
+| $\overline{a+b}$ | \overline{a+b} | 平均值   |
+
 
 ### 10.2 三角函数 
-![](/image/markdown数学公式语法/三角函数.jpg)
+| 符号       | 代码     | 描述 |
+| ---------- | -------- | ---- |
+| $\bot$     | \bot     | 垂直 |
+| \angle$    | \angle   | 角   |
+| $30^\circ$ | 30^\circ | 30度 |
+| $\sin$     | \sin     | 正弦 |
+| $\cos$     | \cos     | 余弦 |
+| $\tan$     | \tan     | 正切 |
+| $\cot$     | \cot     | 余切 |
+| $\sec$     | \sec     | 正割 |
+| $\csc$     | \csc     | 余割 |
+
 
 ### 10.3 定积分 
-![](/image/markdown数学公式语法/定积分.jpg)
+| 符号      | 代码    | 描述     |
+| --------- | ------- | -------- |
+| $\infty$  | \infty  | 无穷     |
+| $\int$    | \int    | 定积分   |
+| $\iint$   | \iint   | 双重积分 |
+| $\iiint$  | \iiint  | 三重积分 |
+| $\oint$   | \oint   | 曲线积分 |
+| $y\prime$ | y\prime | 求导     |
+| $\lim$    | \lim    | 极限     |
 
-### 10.4 集合
-![](/image/markdown数学公式语法/集合.jpg)
+### 10.4 对数符号 
+| 符号   | 代码 | 符号  | 代码 | 符号  | 代码 |
+| ------ | ---- | ----- | ---- | ----- | ---- |
+| $\log$ | \log | $\ln$ | \ln  | $\lg$ | \lg  |
 
-### 10.5 对数符号 
-![](/image/markdown数学公式语法/对数符号.jpg)
 
-### 10.6 希腊字母
-![](/image/markdown数学公式语法/希腊字母.jpg)
+### 10.5 希腊字母
+| 符号 | 代码     | 符号 | 代码   |
+| ---- | -------- | ---- | ------ |
+| α    | \alpha   | β    | \beta  |
+| γ    | \gamma   | δ    | \delta |
+| ϵ    | \epsilon | ζ    | \zeta  |
+| η    | \eta     | θ    |
+| ι    | \iota    | κ    | \kappa |
+| λ    | \lambda  | μ    | \mu    |
+| ν    | \nu      | ξ    | \xi    |
+| π    | \pi      | ρ    | \rho   |
+| σ    | \sigma   | τ    | \tau   |
+| υ    | \upsilon | ϕ    | \phi   |
+| χ    | \chi     | ψ    | \psi   |
+| ω    | \omega   |
+
+
+
+## 十一、逻辑符号
+| 符号         | 代码       | 符号          | 代码        | 符号              | 代码            | 符号          | 代码        |
+| ------------ | ---------- | ------------- | ----------- | ----------------- | --------------- | ------------- | ----------- |
+| $\forall$$   | \forall    | $\complement$ | \complement | $\therefore$      | \therefore      | $\emptyset$   | \emptyset   |
+| $\uparrow$   | \uparrow   | $\subset$     | \subset     | $\because$        | \because        | $\neg$        | \neg        |
+| $\exists$    | \exists    | $\supset$     | \supset     | $\mapsto$         | \mapsto         | $\varnothing$ | \varnothing |
+| $\nexists$   | \nexists   | $\mid$        | \mid        | $\to$             | \to             | $\implies$    | \implies    |
+| $\in$        | \in        | $\land$       | \land       | $\gets$           | \gets           | $\impliedby$  | \impliedby  |
+| $\downarrow$ | \downarrow | $\lor$        | \lor        | $\leftrightarrow$ | \leftrightarrow | $\iff$        | \iff        |
+| $\notin$     | \notin     | $\ni$         | \ni         |                   |                 |               |             |
