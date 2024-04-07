@@ -56,7 +56,11 @@ print(type(666))
 print(type(13.14))
 ```
 打印结果为：
+<<<<<<< HEAD
 ```output
+=======
+```
+>>>>>>> 382791f44d868e90dcbf3d8fabdba66f0de9cc18
 <class 'str'>
 <class 'int'>
 <class 'float'>
