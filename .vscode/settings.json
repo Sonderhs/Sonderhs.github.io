@@ -4,6 +4,8 @@
         "elif",
         "impliedby",
         "itcast",
-        "itheima"
+        "itheima",
+        "readline",
+        "readlines"
     ]
 }
