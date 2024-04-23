@@ -61,7 +61,7 @@ pyecharts官网是：https://pyecharts.org
 pyecharts官方画廊：https://gallery.pyecharts.org/#/README
 
 pip安装pyecharts:
-pip install pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyecharts
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyecharts
 
 ## 9.3 pyecharts入门使用
 基础折线图：
