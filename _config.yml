@@ -100,10 +100,14 @@ theme: butterfly
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
+# deploy:
+#   type: git
+#   repo: https://gitee.com/sonderhs/Sonderhs.git
+#   branch: master
 deploy:
   type: git
-  repo: https://gitee.com/sonderhs/Sonderhs.git
-  branch: master
+  repo: https://github.com/Sonderhs/Sonderhs.github.io.git
+  branch: main
 
 
 
