@@ -11,7 +11,7 @@ cover: ../image/markdown数学公式语法/0.JPG
 
 # Markdown数学公式语法
 
-将数学公式写在两个$之间。写在两个之间是把公式居中。 
+将数学公式写在两个$之间。写在两个\$\$之间是把公式居中。 
 更多符号表示见：https://katex.org/docs/supported
 
 
@@ -118,14 +118,15 @@ $\vec a \cdot \vec b = 1$
 
 
 ## 八、累加/累乘
-公式累加\sum_1^n, 累乘\prod_{i=0}^n
+公式累加\displaystyle\sum_{i=1}^n, 累乘\prod_{i=0}^n
+
 
 例： 
 ~~~
-累加  $\sum_1^n$
+累加  $\displaystyle\sum_{i=1}^n$
 累乘  $\prod_{i=0}^n$
 ~~~
-累加  $\sum_1^n$  
+累加  $\displaystyle\sum_{i=1}^n$  
 累乘  $\prod_{i=0}^n$
 
 
@@ -195,7 +196,7 @@ $f(x_1,x_2,\ldots,x_n) = \left({1 \over x_1}\right)^2+\left({1 \over x_2}\right)
 | α    | \alpha   | β    | \beta  |
 | γ    | \gamma   | δ    | \delta |
 | ϵ    | \epsilon | ζ    | \zeta  |
-| η    | \eta     | θ    |
+| η    | \eta     | θ    | \theta |
 | ι    | \iota    | κ    | \kappa |
 | λ    | \lambda  | μ    | \mu    |
 | ν    | \nu      | ξ    | \xi    |
@@ -210,10 +211,11 @@ $f(x_1,x_2,\ldots,x_n) = \left({1 \over x_1}\right)^2+\left({1 \over x_2}\right)
 ## 十一、逻辑符号
 | 符号         | 代码       | 符号          | 代码        | 符号              | 代码            | 符号          | 代码        |
 | ------------ | ---------- | ------------- | ----------- | ----------------- | --------------- | ------------- | ----------- |
-| $\forall$$   | \forall    | $\complement$ | \complement | $\therefore$      | \therefore      | $\emptyset$   | \emptyset   |
+| $\forall$   | \forall    | $\complement$ | \complement | $\therefore$      | \therefore      | $\emptyset$   | \emptyset   |
 | $\uparrow$   | \uparrow   | $\subset$     | \subset     | $\because$        | \because        | $\neg$        | \neg        |
 | $\exists$    | \exists    | $\supset$     | \supset     | $\mapsto$         | \mapsto         | $\varnothing$ | \varnothing |
 | $\nexists$   | \nexists   | $\mid$        | \mid        | $\to$             | \to             | $\implies$    | \implies    |
 | $\in$        | \in        | $\land$       | \land       | $\gets$           | \gets           | $\impliedby$  | \impliedby  |
 | $\downarrow$ | \downarrow | $\lor$        | \lor        | $\leftrightarrow$ | \leftrightarrow | $\iff$        | \iff        |
 | $\notin$     | \notin     | $\ni$         | \ni         |                   |                 |               |             |
+

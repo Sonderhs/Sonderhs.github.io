@@ -1,11 +1,14 @@
 {
     "cSpell.words": [
         "boxuegu",
+        "dtype",
         "elif",
         "fmax",
         "impliedby",
         "itcast",
         "itheima",
+        "ndarray",
+        "Numpy",
         "pyecharts",
         "readline",
         "readlines"
