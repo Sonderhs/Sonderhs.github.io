@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>从零开始学Python(三) | 青山皆过客</title><meta name="author" content="Sonderhs"><meta name="copyright" content="Sonderhs"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从零开始学Python(三)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零开始学Python(三)">
+<meta property="og:url" content="http://example.com/2024/04/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%89)/index.html">
+<meta property="og:site_name" content="青山皆过客">
+<meta property="og:description" content="从零开始学Python(三)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/1.JPG">
+<meta property="article:published_time" content="2024-04-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-04-11T12:44:44.905Z">
+<meta property="article:author" content="Sonderhs">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/1.JPG"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/04/10/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%89)/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '从零开始学Python(三)',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2024-04-11 20:44:44'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/00index/sakura.PNG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/1.JPG')"><nav id="nav"><span id="blog-info"><a href="/" title="青山皆过客"><span class="site-name">青山皆过客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">从零开始学Python(三)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-04-09T16:00:00.000Z" title="发表于 2024-04-10 00:00:00">2024-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-04-11T12:44:44.905Z" title="更新于 2024-04-11 20:44:44">2024-04-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Python/">Python</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="从零开始学Python(三)"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>第三章 Python循环语句</h1>
+<h2 id="3-1-while循环的基础语法">3.1 while循环的基础语法</h2>
+<h3 id="3-1-1-while循环语句">3.1.1 while循环语句</h3>
+<p>while循环格式：</p>
+<p>while   条件:</p>
+<p>     满足条件时要做的事情1<br>
+     满足条件时要做的事情2<br>
+     满足条件时要做的事情3<br>
+     …（省略）…</p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> i &lt; <span class="number">5</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;黑马程序员&quot;</span>)</span><br><span class="line">    i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">黑马程序员</span><br><span class="line">黑马程序员</span><br><span class="line">黑马程序员</span><br><span class="line">黑马程序员</span><br><span class="line">黑马程序员</span><br></pre></td></tr></table></figure>
+<p><strong>注：<br>
+1.while循环的条件需要得到布尔类型，True表示继续循环，False表示终止循环<br>
+2.需要设置循环条件，如i+=1配合i&lt;5，就能确保循环的有限次<br>
+3.空格缩进和if判断一样，都需要设置</strong></p>
+<h2 id="3-2-while循环的基础案例">3.2 while循环的基础案例</h2>
+<p>案例：<br>
+设置一个范围1-100的随机整数变量，通过while循环，配合input语句，判断输入的数字是否等于随机数，要求如下：</p>
+<ul>
+<li>无限次机会</li>
+<li>每次一猜不中，会提示大了或小了</li>
+<li>猜完数字后，提示猜了几次</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 猜数字</span></span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="comment"># num为生成的随机数，count用于记录猜了几次</span></span><br><span class="line">num = random.randint(<span class="number">1</span>,<span class="number">100</span>)</span><br><span class="line">count = <span class="number">0</span></span><br><span class="line">guess_num = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;请输入你的猜测结果&quot;</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> guess_num != num:</span><br><span class="line">    <span class="keyword">if</span> guess_num &gt; num:</span><br><span class="line">        guess_num = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;你猜的数字大了,请再猜一次&quot;</span>))</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        guess_num = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&quot;你猜的数字小了,请再猜一次&quot;</span>))</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;恭喜你猜对了，你一共猜了<span class="subst">&#123;count&#125;</span>次&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="3-3-while循环的嵌套">3.3 while循环的嵌套</h2>
+<p>while嵌套循环的语法格式：</p>
+<p>while   条件:</p>
+<p>     满足条件时要做的事情1<br>
+     满足条件时要做的事情2<br>
+     满足条件时要做的事情3<br>
+     …（省略）…</p>
+<p>     while   条件:</p>
+<p>          满足条件时要做的事情1<br>
+          满足条件时要做的事情2<br>
+          满足条件时要做的事情3<br>
+          …（省略）…</p>
+<p>示例：表白100天，每天都会送10朵玫瑰花</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 表白100天，每天送10朵玫瑰花</span></span><br><span class="line">i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> i &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;今天是第<span class="subst">&#123;i&#125;</span>天，准备表白...&quot;</span>)</span><br><span class="line">    j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt;= <span class="number">10</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;这是今天送的第<span class="subst">&#123;j&#125;</span>朵玫瑰花&quot;</span>)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;小美我喜欢你&quot;</span>)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;坚持到第<span class="subst">&#123;i - <span class="number">1</span>&#125;</span>天，表白成功&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="3-4-while嵌套循环案例">3.4 while嵌套循环案例</h2>
+<p>案例：<br>
+使用while循环打印九九乘法表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> i &lt;= <span class="number">9</span>:</span><br><span class="line">    j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> j &lt;= i:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;j&#125;</span>×<span class="subst">&#123;i&#125;</span>=<span class="subst">&#123;i * j&#125;</span>\t&quot;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>()  <span class="comment"># print空内容就是换行</span></span><br><span class="line">    i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">1×1=1	</span><br><span class="line">1×2=2	2×2=4	</span><br><span class="line">1×3=3	2×3=6	3×3=9	</span><br><span class="line">1×4=4	2×4=8	3×4=12	4×4=16	</span><br><span class="line">1×5=5	2×5=10	3×5=15	4×5=20	5×5=25	</span><br><span class="line">1×6=6	2×6=12	3×6=18	4×6=24	5×6=30	6×6=36	</span><br><span class="line">1×7=7	2×7=14	3×7=21	4×7=28	5×7=35	6×7=42	7×7=49	</span><br><span class="line">1×8=8	2×8=16	3×8=24	4×8=32	5×8=40	6×8=48	7×8=56	8×8=64	</span><br><span class="line">1×9=9	2×9=18	3×9=27	4×9=36	5×9=45	6×9=54	7×9=63	8×9=72	9×9=81</span><br></pre></td></tr></table></figure>
+<h2 id="3-5-for循环语法">3.5 for循环语法</h2>
+<h3 id="3-5-1-for循环的基础语法">3.5.1 for循环的基础语法</h3>
+<p>while循环与for循环的区别：</p>
+<ul>
+<li>while循环的循环条件是自定义的，自行控制循环条件</li>
+<li>for循环是一种“轮询”机制，是对一批内容进行“逐个处理”</li>
+<li>for循环无法定义循环条件，只能从被处理的数据集中依次取出内容进行处理，所以理论上Python中的for循环无法构建无限循环</li>
+</ul>
+<p><img src="/image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/while%E5%BE%AA%E7%8E%AF.png" alt=""></p>
+<p><img src="/image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/for%E5%BE%AA%E7%8E%AF.png" alt=""></p>
+<p>for循环语法：<br>
+for   临时变量   in   待处理数据集:</p>
+<p>        循环满足条件时执行的代码</p>
+<p><strong>注：与C语言或Java语言中的for循环不同，Python中的for循环需要提前设置好循环范围，循环的推动由程序自动进行，所以for循环也被叫做遍历循环</strong></p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 遍历字符串</span></span><br><span class="line"><span class="comment"># 定义字符串name</span></span><br><span class="line">name = <span class="string">&quot;itheima&quot;</span></span><br><span class="line"><span class="comment"># for循环处理字符串</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> name:</span><br><span class="line">    <span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">i</span><br><span class="line">t</span><br><span class="line">h</span><br><span class="line">e</span><br><span class="line">i</span><br><span class="line">m</span><br><span class="line">a</span><br></pre></td></tr></table></figure>
+<h3 id="3-5-2-for循环的基础案例">3.5.2 for循环的基础案例</h3>
+<p>for循环基础案例：<br>
+数一数有几个a：定义字符串name，内容为itheima is a brand of itcast，通过for循环遍历此字符串，统计有几个字母a</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&quot;itheima is a brand of itcast&quot;</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> name:</span><br><span class="line">    <span class="keyword">if</span> x == <span class="string">&#x27;a&#x27;</span>:</span><br><span class="line">        count += <span class="number">1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;该字符串中一共有<span class="subst">&#123;count&#125;</span>个a&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">该字符串中一共有4个a</span><br></pre></td></tr></table></figure>
+<h3 id="3-5-3-range语句">3.5.3 range语句</h3>
+<p>for循环语法：<br>
+for   临时变量   in   待处理数据集:</p>
+<p>        循环满足条件时执行的代码</p>
+<p>for循环语法中的待处理数据集，严格来说称之为：序列类型<br>
+序列类型是指：其内容可以一个个一次取出的一种类型，包括：</p>
+<ul>
+<li>字符串</li>
+<li>列表</li>
+<li>元组</li>
+<li>等</li>
+</ul>
+<p>range语句：<br>
+利用range语句我们可以获得一个简单的数字序列。</p>
+<ul>
+<li>语法1：<br>
+range(num): 获取一个从0开始，到num结束的数字序列（不含num本身），如range(5)取得的数据是：[0,1,2,3,4]</li>
+<li>语法2：<br>
+range(num1,num2)：获得一个从num1开始，到num2结束的数字序列（不包含num2本身），如range(5,10)取得的数据是[5,6,7,8,9]</li>
+<li>语法3:<br>
+range(num1,num2,step)：获得一个从num1开始，到num2结束的数字序列（不包含num2本身），数字之间的步长以step为准（step默认为1），如range(5,10,2)取得的数据是[5,7,9]</li>
+</ul>
+<h3 id="3-5-4-变量作用域">3.5.4 变量作用域</h3>
+<p>for循环语法：<br>
+for   临时变量   in   待处理数据集:</p>
+<p>        循环满足条件时执行的代码</p>
+<p>for循环中的临时变量，在编程规范上，其作用范围（作用域）只限定在for循环内部<br>
+如果在for循环外部访问临时变量：</p>
+<ul>
+<li>实际上是可以访问到的</li>
+<li>但在编程规范上是不允许、不建议这么做的</li>
+<li>如需访问，可以再for循环上面定义该变量</li>
+</ul>
+<h2 id="3-6-for循环的嵌套">3.6 for循环的嵌套</h2>
+<h3 id="3-6-1-for循环嵌套语法">3.6.1 for循环嵌套语法</h3>
+<p>for   临时变量   in   待处理数据集:</p>
+<p>        循环满足条件时执行的代码</p>
+<p>        for   临时变量   in   待处理数据集:</p>
+<p>                循环满足条件时执行的代码</p>
+<p>示例：表白100天，每天都会送10朵玫瑰花</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 表白100天，每天送10朵玫瑰花</span></span><br><span class="line">i = <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;今天是第<span class="subst">&#123;i&#125;</span>天，准备表白...&quot;</span>)</span><br><span class="line">    j = <span class="number">1</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">11</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;这是今天送的第<span class="subst">&#123;j&#125;</span>朵玫瑰花&quot;</span>)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;小美我喜欢你&quot;</span>)</span><br><span class="line">    i += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;坚持到第<span class="subst">&#123;i - <span class="number">1</span>&#125;</span>天，表白成功&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="3-6-2-for循环嵌套案例">3.6.2 for循环嵌套案例</h3>
+<p>案例：打印九九乘法表</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">10</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, i + <span class="number">1</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;<span class="subst">&#123;j&#125;</span>×<span class="subst">&#123;i&#125;</span>=<span class="subst">&#123;i * j&#125;</span>\t&quot;</span>, end=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">        j += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>()  <span class="comment"># print空内容就是换行</span></span><br><span class="line">    i += <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-7-循环中断：break和continue">3.7 循环中断：break和continue</h2>
+<h3 id="3-7-1-continue关键字">3.7.1 continue关键字</h3>
+<ul>
+<li>continue关键字用于：中断本次循环，直接进入下一次循环</li>
+<li>continue可以用于：for循环和while循环，效果一致</li>
+<li>continue在嵌套循环时之作用于其所在的循环</li>
+</ul>
+<p>语法：<br>
+for   i   in   range(1,100):</p>
+<p>           语句1<br>
+           continue<br>
+           语句2</p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">6</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;语句1&quot;</span>)</span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;语句2&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">语句1</span><br><span class="line">语句1</span><br><span class="line">语句1</span><br><span class="line">语句1</span><br><span class="line">语句1</span><br></pre></td></tr></table></figure>
+<h3 id="3-7-2-break关键字">3.7.2 break关键字</h3>
+<ul>
+<li>break关键字用于：直接结束循环</li>
+<li>break可用于：for循环和while循环，效果一致</li>
+<li>break在嵌套循环时之作用于其所在的循环</li>
+</ul>
+<p>语法：<br>
+for   i   in   range(1,100):</p>
+<p>           语句1<br>
+           continue<br>
+           语句2</p>
+<p>语句3</p>
+<p>示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">6</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;语句1&quot;</span>)</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;语句2&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;语句3&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">语句1</span><br><span class="line">语句3</span><br></pre></td></tr></table></figure>
+<h2 id="3-8-循环综合案例">3.8 循环综合案例</h2>
+<p>练习案例：发工资<br>
+某公司，账户余额有1万元，给20名员工发工资。</p>
+<ul>
+<li>员工编号从1到20，从编号1开始，依次领取工资，每人可领取1000元</li>
+<li>领工资时，财务判断员工的绩效分（1-10）（随机生成），如果低于5，不发工资，换下一位</li>
+<li>如果工资发完了，结束发工资</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">account = <span class="number">10000</span></span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">21</span>):</span><br><span class="line">    score = random.randint(<span class="number">1</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 先判断账户是否有余额，如果没有余额直接结束发工资，不用再继续判断绩效分</span></span><br><span class="line">    <span class="keyword">if</span> account == <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;工资发完了，下个月领取吧&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="comment"># 判断绩效分</span></span><br><span class="line">    <span class="keyword">if</span> score &lt; <span class="number">5</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;员工<span class="subst">&#123;num&#125;</span>,绩效分<span class="subst">&#123;score&#125;</span>,低于5，不发工资，下一位&quot;</span>)</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line">    <span class="comment"># 绩效分大于等于5，判断账户余额是否够发工资，够的话发工资，不够的话直接结束发工资</span></span><br><span class="line">    <span class="keyword">if</span> account &gt;= <span class="number">1000</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;向员工<span class="subst">&#123;num&#125;</span>发工资1000元，账户余额还有<span class="subst">&#123;account - <span class="number">1000</span>&#125;</span>元&quot;</span>)</span><br><span class="line">        account -= <span class="number">1000</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;工资发完了，下个月领取吧&quot;</span>)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>打印结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">向员工1发工资1000元，账户余额还有9000元</span><br><span class="line">向员工2发工资1000元，账户余额还有8000元</span><br><span class="line">员工3,绩效分2,低于5，不发工资，下一位</span><br><span class="line">员工4,绩效分4,低于5，不发工资，下一位</span><br><span class="line">向员工5发工资1000元，账户余额还有7000元</span><br><span class="line">向员工6发工资1000元，账户余额还有6000元</span><br><span class="line">向员工7发工资1000元，账户余额还有5000元</span><br><span class="line">员工8,绩效分2,低于5，不发工资，下一位</span><br><span class="line">员工9,绩效分2,低于5，不发工资，下一位</span><br><span class="line">向员工10发工资1000元，账户余额还有4000元</span><br><span class="line">向员工11发工资1000元，账户余额还有3000元</span><br><span class="line">向员工12发工资1000元，账户余额还有2000元</span><br><span class="line">向员工13发工资1000元，账户余额还有1000元</span><br><span class="line">向员工14发工资1000元，账户余额还有0元</span><br><span class="line">工资发完了，下个月领取吧</span><br></pre></td></tr></table></figure></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python/">Python</a></div><div class="post_share"><div class="social-share" data-image="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%89%EF%BC%89/1.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/04/11/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%9B%9B)/" title="从零开始学Python(四)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%9B%9B%EF%BC%89/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">从零开始学Python(四)</div></div></a></div><div class="next-post pull-right"><a href="/2024/04/09/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%BA%8C)/" title="从零开始学Python(二)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%BA%8C%EF%BC%89/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">从零开始学Python(二)</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2024/04/07/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%80)/" title="从零开始学Python(一)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%80%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-07</div><div class="title">从零开始学Python(一)</div></div></a></div><div><a href="/2024/04/15/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%83)/" title="从零开始学Python(七)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%83%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-15</div><div class="title">从零开始学Python(七)</div></div></a></div><div><a href="/2024/04/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B9%9D)/" title="从零开始学Python(九)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B9%9D%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-18</div><div class="title">从零开始学Python(九)</div></div></a></div><div><a href="/2024/04/09/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%BA%8C)/" title="从零开始学Python(二)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%BA%8C%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-09</div><div class="title">从零开始学Python(二)</div></div></a></div><div><a href="/2024/04/16/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%85%AB)/" title="从零开始学Python(八)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%85%AB%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-16</div><div class="title">从零开始学Python(八)</div></div></a></div><div><a href="/2024/04/14/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%85%AD)/" title="从零开始学Python(六)"><img class="cover" src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%85%AD%EF%BC%89/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-14</div><div class="title">从零开始学Python(六)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/00index/sakura.PNG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sonderhs</div><div class="author-info__description">青山皆过客，我亦非归人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">16</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">第三章 Python循环语句</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-while%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">3.1 while循环的基础语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-while%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">3.1.1 while循环语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-while%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A1%88%E4%BE%8B"><span class="toc-text">3.2 while循环的基础案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-while%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="toc-text">3.3 while循环的嵌套</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-while%E5%B5%8C%E5%A5%97%E5%BE%AA%E7%8E%AF%E6%A1%88%E4%BE%8B"><span class="toc-text">3.4 while嵌套循环案例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-for%E5%BE%AA%E7%8E%AF%E8%AF%AD%E6%B3%95"><span class="toc-text">3.5 for循环语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-1-for%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">3.5.1 for循环的基础语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-2-for%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%9F%BA%E7%A1%80%E6%A1%88%E4%BE%8B"><span class="toc-text">3.5.2 for循环的基础案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-3-range%E8%AF%AD%E5%8F%A5"><span class="toc-text">3.5.3 range语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-4-%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-text">3.5.4 变量作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-for%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%B5%8C%E5%A5%97"><span class="toc-text">3.6 for循环的嵌套</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-1-for%E5%BE%AA%E7%8E%AF%E5%B5%8C%E5%A5%97%E8%AF%AD%E6%B3%95"><span class="toc-text">3.6.1 for循环嵌套语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-2-for%E5%BE%AA%E7%8E%AF%E5%B5%8C%E5%A5%97%E6%A1%88%E4%BE%8B"><span class="toc-text">3.6.2 for循环嵌套案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-7-%E5%BE%AA%E7%8E%AF%E4%B8%AD%E6%96%AD%EF%BC%9Abreak%E5%92%8Ccontinue"><span class="toc-text">3.7 循环中断：break和continue</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-1-continue%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">3.7.1 continue关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-7-2-break%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-text">3.7.2 break关键字</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-8-%E5%BE%AA%E7%8E%AF%E7%BB%BC%E5%90%88%E6%A1%88%E4%BE%8B"><span class="toc-text">3.8 循环综合案例</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/05/02/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)%EF%BC%9A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(一):监督学习"><img src="/../image/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="吴恩达机器学习(一):监督学习"/></a><div class="content"><a class="title" href="/2024/05/02/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)%EF%BC%9A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(一):监督学习">吴恩达机器学习(一):监督学习</a><time datetime="2024-05-01T16:00:00.000Z" title="发表于 2024-05-02 00:00:00">2024-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/19/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%8D%81)/" title="从零开始学Python(十)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%8D%81%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(十)"/></a><div class="content"><a class="title" href="/2024/04/19/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%8D%81)/" title="从零开始学Python(十)">从零开始学Python(十)</a><time datetime="2024-04-18T16:00:00.000Z" title="发表于 2024-04-19 00:00:00">2024-04-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B9%9D)/" title="从零开始学Python(九)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B9%9D%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(九)"/></a><div class="content"><a class="title" href="/2024/04/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B9%9D)/" title="从零开始学Python(九)">从零开始学Python(九)</a><time datetime="2024-04-17T16:00:00.000Z" title="发表于 2024-04-18 00:00:00">2024-04-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/16/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%85%AB)/" title="从零开始学Python(八)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%85%AB%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(八)"/></a><div class="content"><a class="title" href="/2024/04/16/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%85%AB)/" title="从零开始学Python(八)">从零开始学Python(八)</a><time datetime="2024-04-15T16:00:00.000Z" title="发表于 2024-04-16 00:00:00">2024-04-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/15/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%83)/" title="从零开始学Python(七)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B8%83%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(七)"/></a><div class="content"><a class="title" href="/2024/04/15/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B8%83)/" title="从零开始学Python(七)">从零开始学Python(七)</a><time datetime="2024-04-14T16:00:00.000Z" title="发表于 2024-04-15 00:00:00">2024-04-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Sonderhs</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
