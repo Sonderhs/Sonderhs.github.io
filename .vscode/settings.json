@@ -9,8 +9,10 @@
         "itheima",
         "ndarray",
         "Numpy",
+        "overfitting",
         "pyecharts",
         "readline",
-        "readlines"
+        "readlines",
+        "underfit"
     ]
 }
