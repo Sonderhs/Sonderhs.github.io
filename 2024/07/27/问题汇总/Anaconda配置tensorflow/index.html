@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Anaconda安装tensorflow | 青山皆过客</title><meta name="author" content="Sonderhs"><meta name="copyright" content="Sonderhs"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Anaconda安装tensorflow中遇到的问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anaconda安装tensorflow">
+<meta property="og:url" content="http://example.com/2024/07/27/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/Anaconda%E9%85%8D%E7%BD%AEtensorflow/index.html">
+<meta property="og:site_name" content="青山皆过客">
+<meta property="og:description" content="Anaconda安装tensorflow中遇到的问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/cover.png">
+<meta property="article:published_time" content="2024-07-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-27T14:08:38.477Z">
+<meta property="article:author" content="Sonderhs">
+<meta property="article:tag" content="问题汇总">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/cover.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2024/07/27/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/Anaconda%E9%85%8D%E7%BD%AEtensorflow/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Anaconda安装tensorflow',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2024-07-27 22:08:38'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/00index/sakura.PNG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/cover.png')"><nav id="nav"><span id="blog-info"><a href="/" title="青山皆过客"><span class="site-name">青山皆过客</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Anaconda安装tensorflow</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2024-07-26T16:00:00.000Z" title="发表于 2024-07-27 00:00:00">2024-07-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-07-27T14:08:38.477Z" title="更新于 2024-07-27 22:08:38">2024-07-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">问题汇总</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">573</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Anaconda安装tensorflow"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>一、tensorflow的安装</h1>
+<p>安装参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Lx4y1s7UK/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&amp;vd_source=2fdc486181b2991ef85aa5040ec81a32">使用Anaconda快速搭建tensorflow-gpu环境教学</a><br>
+感谢大佬的指导！</p>
+<ol>
+<li>登录anaconda官网下载anaconda<br>
+官网地址：<a target="_blank" rel="noopener" href="https://www.anaconda.com/download/success">https://www.anaconda.com/download/success</a></li>
+<li>打开anaconda prompt<br>
+<img src="/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/tf1.png" alt=""><br>
+创建虚拟环境，输入</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n tf_gpu python=<span class="number">3.9</span></span><br></pre></td></tr></table></figure>
+<p>需要确认的地方直接写‘y’<br>
+3. 虚拟环境创建成功后，可以使用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda env <span class="built_in">list</span></span><br></pre></td></tr></table></figure>
+<p>进行查看<br>
+4. 创建完成后，需要激活虚拟环境，输入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda activate tf_gpu</span><br></pre></td></tr></table></figure>
+<p>激活完成后如下所示：<br>
+<img src="/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/tf2.png" alt=""><br>
+5. 激活完成后，开始安装tensorflow，输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install tensorflow-gpu=<span class="number">2.6</span></span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>由于numpy版本不匹配，所以需要更新numpy版本：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -i https://pypi.tuna.tsinghua.edu.cn/simple numpy==<span class="number">1.23</span><span class="number">.4</span></span><br></pre></td></tr></table></figure>
+<p>为了保证正常运行，建议依次输入以下指令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda install cudatoolkit=<span class="number">11.3</span></span><br><span class="line"></span><br><span class="line">conda install cudnn=<span class="number">8.2</span></span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>numpy更新完成后输入python打开Python编译器，输入：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;TensorFlow Version:&quot;</span>, tf.__version__)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Available devices: &quot;</span>, tf.config.experimental.list_physical_devices())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Num GPUs Available: &quot;</span>, <span class="built_in">len</span>(tf.config.experimental.list_physical_devices(<span class="string">&#x27;GPU&#x27;</span>)))</span><br></pre></td></tr></table></figure>
+<p>输出结果如下图所示说明安装成功：<br>
+<img src="/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/tf3.png" alt=""><br>
+8. 输入</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="built_in">list</span></span><br></pre></td></tr></table></figure>
+<p>即可查看已安装的包</p>
+<p>之后在Pycharm中切换为该虚拟环境即可成功导入tensorflow包</p>
+<h1>二、Anaconda配置tensorflow过程中的问题</h1>
+<p>今天在Anaconda环境下安装tensorflow时，由于之前我的Anaconda安装在C盘中，后面移动到D盘了，所以在配置虚拟环境时出现了问题：</p>
+<ol>
+<li>在创建虚拟环境时系统会默认创建在C盘中，之后在激活虚拟路径时会出现系统找不到之指定路径的情况：<br>
+<img src="/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/1.png" alt="之前没有截图，大概就是这种情况"></li>
+<li>在安装tensorflow时，出现以下字样：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EnvironmentLocationNotFound: Not a conda environment: C:\Users\鏉庣€氱敓\.c</span><br></pre></td></tr></table></figure>
+<p>经过在网上查找之后，原因应该是由于C盘路径中有中文所以产生错误，但是修改用户名称需要涉及注册表登一系列操作，很危险，并且存在需要重装系统的风险，所以采取了改变虚拟环境默认安装路径的方法，具体操作方法为：<br>
+找到C:\Users\XXX.condarc配置文件，在内部添加以下字段即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">envs_dirs:</span><br><span class="line">  - D:\Python\Anaconda\envs # 此处为你创建虚拟环境时的默认路径</span><br></pre></td></tr></table></figure>
+<p><img src="/image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/2.png" alt=""><br>
+之后按照一般的步骤安装tensorflow即可。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">问题汇总</a></div><div class="post_share"><div class="social-share" data-image="/../image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/05/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%BA%8C)%EF%BC%9A%E9%AB%98%E7%BA%A7%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(二):高级算法学习"><img class="cover" src="/../image/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%BA%8C)/cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">吴恩达机器学习(二):高级算法学习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/00index/sakura.PNG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Sonderhs</div><div class="author-info__description">青山皆过客，我亦非归人</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">一、tensorflow的安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">二、Anaconda配置tensorflow过程中的问题</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/07/27/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/Anaconda%E9%85%8D%E7%BD%AEtensorflow/" title="Anaconda安装tensorflow"><img src="/../image/%E9%97%AE%E9%A2%98/Anaconda%E5%AE%89%E8%A3%85tensorflow/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Anaconda安装tensorflow"/></a><div class="content"><a class="title" href="/2024/07/27/%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/Anaconda%E9%85%8D%E7%BD%AEtensorflow/" title="Anaconda安装tensorflow">Anaconda安装tensorflow</a><time datetime="2024-07-26T16:00:00.000Z" title="发表于 2024-07-27 00:00:00">2024-07-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%BA%8C)%EF%BC%9A%E9%AB%98%E7%BA%A7%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(二):高级算法学习"><img src="/../image/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%BA%8C)/cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="吴恩达机器学习(二):高级算法学习"/></a><div class="content"><a class="title" href="/2024/05/10/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%BA%8C)%EF%BC%9A%E9%AB%98%E7%BA%A7%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(二):高级算法学习">吴恩达机器学习(二):高级算法学习</a><time datetime="2024-05-09T16:00:00.000Z" title="发表于 2024-05-10 00:00:00">2024-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/05/02/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)%EF%BC%9A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(一):监督学习"><img src="/../image/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)/cover.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="吴恩达机器学习(一):监督学习"/></a><div class="content"><a class="title" href="/2024/05/02/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%B4%E6%81%A9%E8%BE%BE%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0(%E4%B8%80)%EF%BC%9A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" title="吴恩达机器学习(一):监督学习">吴恩达机器学习(一):监督学习</a><time datetime="2024-05-01T16:00:00.000Z" title="发表于 2024-05-02 00:00:00">2024-05-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/19/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%8D%81)/" title="从零开始学Python(十)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E5%8D%81%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(十)"/></a><div class="content"><a class="title" href="/2024/04/19/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E5%8D%81)/" title="从零开始学Python(十)">从零开始学Python(十)</a><time datetime="2024-04-18T16:00:00.000Z" title="发表于 2024-04-19 00:00:00">2024-04-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/04/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B9%9D)/" title="从零开始学Python(九)"><img src="/../image/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python%EF%BC%88%E4%B9%9D%EF%BC%89/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="从零开始学Python(九)"/></a><div class="content"><a class="title" href="/2024/04/18/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AD%A6Python(%E4%B9%9D)/" title="从零开始学Python(九)">从零开始学Python(九)</a><time datetime="2024-04-17T16:00:00.000Z" title="发表于 2024-04-18 00:00:00">2024-04-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By Sonderhs</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
