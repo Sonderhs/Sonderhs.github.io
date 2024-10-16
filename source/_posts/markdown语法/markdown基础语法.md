@@ -37,12 +37,16 @@ cover: ../image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG
     1.5.2.1. 二级标题
 
 
-### 1.6 插入图片
-![](/image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG)
-*小樱*（）给图片加入文字说明
-
-插入图片语法  
-!+[ ]+( )
+### 1.6 插入图片或视频
+插入图片语法：
+```
+!+[图片描述]+(图片相对路径)
+```
+插入视频语法：
+```
+<video src="相对路径" autoplay="true" controls="controls" width="800" height="400">
+</video>
+```
 
 ### 1.7 表格
 使用竖线划分
@@ -80,3 +84,6 @@ int main(){
 
 ### 1.11 禅模式
 ctrl+k-->z
+
+参考资料：
+[Markdown官方教程](https://markdown.com.cn/)
