@@ -2,7 +2,7 @@
 title: Anaconda安装tensorflow
 tags: 问题汇总
 categories: 问题汇总
-top_img: ../image/问题/Anaconda安装tensorflow/cover.png
+top_img: transparent
 date: 2024-7-27 00:00:00
 copyright: false
 description: Anaconda安装tensorflow中遇到的问题

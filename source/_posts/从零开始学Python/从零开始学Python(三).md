@@ -2,10 +2,10 @@
 title: 从零开始学Python(三)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（三）/1.JPG
+top_img: transparent
 date: 2024-4-10 00:00:00
 copyright: false
-description: 从零开始学Python(三)
+description: 第三章 Python循环语句
 cover: ../image/从零开始学Python/从零开始学Python（三）/1.JPG
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: Markdown基础语法
+title: Directional diffusion models for graph representation learning
 tags: markdown
 categories: markdown
 top_img: transparent

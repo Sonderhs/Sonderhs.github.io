@@ -2,10 +2,10 @@
 title: 从零开始学Python(五)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（五）/1.JPG
+top_img: transparent
 date: 2024-4-12 00:00:00
 copyright: false
-description: 从零开始学Python(五)
+description: 第五章 Python数据容器
 cover: ../image/从零开始学Python/从零开始学Python（五）/1.JPG
 ---
 

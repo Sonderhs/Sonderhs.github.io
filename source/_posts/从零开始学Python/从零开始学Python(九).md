@@ -2,10 +2,10 @@
 title: 从零开始学Python(九)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（九）/1.JPG
+top_img: transparent
 date: 2024-4-18 00:00:00
 copyright: false
-description: 从零开始学Python(九)
+description: 第九章 Python基础综合案例：图形可视化
 cover: ../image/从零开始学Python/从零开始学Python（九）/1.JPG
 ---
 

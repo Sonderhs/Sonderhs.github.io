@@ -2,10 +2,10 @@
 title: 从零开始学Python(四)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（四）/1.JPG
+top_img: transparent
 date: 2024-4-11 00:00:00
 copyright: false
-description: 从零开始学Python(四)
+description: 第四章 Python函数
 cover: ../image/从零开始学Python/从零开始学Python（四）/1.JPG
 ---
 

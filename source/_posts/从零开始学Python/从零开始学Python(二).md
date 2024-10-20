@@ -2,10 +2,10 @@
 title: 从零开始学Python(二)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（二）/1.JPG
+top_img: transparent
 date: 2024-4-9 00:00:00
 copyright: false
-description: 从零开始学Python(二)
+description: 第二章 Python判断语句
 cover: ../image/从零开始学Python/从零开始学Python（二）/1.JPG
 ---
 

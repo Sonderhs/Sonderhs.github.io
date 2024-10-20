@@ -2,10 +2,10 @@
 title: Diffusion Model原理及代码解析
 tags: Diffusion
 categories: 深度学习
-top_img: ../image/Deep_Learning/Diffusion_Model/cover.png
+top_img: transparent
 date: 2024-10-15 00:00:00
 copyright: false
-description: diffsion model学习
+description: diffusion model学习
 cover: ../image/Deep_Learning/Diffusion_Model/cover.png
 ---
 
@@ -14,7 +14,7 @@ cover: ../image/Deep_Learning/Diffusion_Model/cover.png
 ![diffusion model传播过程](/image/Deep_Learning/Diffusion_Model/diffusion_model_process.png)
 目前有很多生成模型，比如GAN，VAE，Flow-based models，Diffusion models等等:
 ![不同生成模型对比图](/image/Deep_Learning/Diffusion_Model/different_models.png)
-本文主要介绍基于[Denoising Diffusion Probabilistic Models](http://arxiv.org/abs/2006.11239)的diffusion model。
+本文主要介绍的模型是[Denoising Diffusion Probabilistic Models](http://arxiv.org/abs/2006.11239)。
 
 # 一、基础知识
 ## 1.1 条件概率的一般形式
@@ -133,38 +133,38 @@ $$
 $$
 那么公式(2-8)就可以化为：
 $$
-q(x_{t-1}|x_t,x_0) = q(x_t|x_{t-1},x_0)\frac{q(x_{t-1}|x_0)}{q(x_t|x_0)} \tag{2-11}
+q(x_{t-1}|x_t,x_0) = q(x_t|x_{t-1},x_0)\frac{q(x_{t-1}|x_0)}{q(x_t|x_0)} \tag{2-12}
 $$
 且：
 $$
-q(x_{t-1}|x_t,x_0) = \mathcal{N}(x_{t-1};\tilde{\mu_t}(x_t,x_0),\tilde{\beta_t}\Iota) \tag{2-12}
+q(x_{t-1}|x_t,x_0) = \mathcal{N}(x_{t-1};\tilde{\mu_t}(x_t,x_0),\tilde{\beta_t}\Iota) \tag{2-13}
 $$
 根据高斯分布的概率密度函数：
 $$\begin{align*}
 f(x) &= \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}} \\
-     &= \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}[\frac{1}{\sigma^2}x^2-\frac{2\mu}{\sigma^2}x+\frac{\mu^2}{\sigma^2}]} \tag{2-13}
+     &= \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{1}{2}[\frac{1}{\sigma^2}x^2-\frac{2\mu}{\sigma^2}x+\frac{\mu^2}{\sigma^2}]} \tag{2-14}
 \end{align*}
 $$
-我们就将公式(2-11)化为：
+我们就将公式(2-12)化为：
 $$\begin{align*}
 q(x_{t-1}|x_t,x_0) &= q(x_t|x_{t-1},x_0)\frac{q(x_{t-1}|x_0)}{q(x_t|x_0)} \\
 &\propto exp(-\frac{1}{2}(\frac{(x_t-\sqrt{\alpha_t}x_{t-1})^2}{\beta_t}+\frac{(x_{t-1}-\sqrt{\bar\alpha_{t-1}x_0})^2}{1-\bar\alpha_{t-1}}-\frac{(x_t-\sqrt{\bar\alpha_t}x_0)^2}{1-\bar\alpha_t})) \\
-&= exp(-\frac{1}{2}((\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}})x_{t-1}^2-(\frac{2\sqrt{\alpha_t}}{\beta_t}x_t+\frac{2\sqrt{\bar\alpha_{t-1}}}{1-\bar\alpha_{t-1}}x_0)x_{t-1}+C(x_t,x_0))) \tag{2-14}
+&= exp(-\frac{1}{2}((\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}})x_{t-1}^2-(\frac{2\sqrt{\alpha_t}}{\beta_t}x_t+\frac{2\sqrt{\bar\alpha_{t-1}}}{1-\bar\alpha_{t-1}}x_0)x_{t-1}+C(x_t,x_0))) \tag{2-15}
 \end{align*}$$
-再根据公式(2-13)的形式我们可以得到公式(2-12)中的$\tilde{\mu}(x_t,x_0)$和$\tilde{\beta_t}$
+再根据公式(2-14)的形式我们可以得到公式(2-13)中的$\tilde{\mu}(x_t,x_0)$和$\tilde{\beta_t}$
 $$
 \begin{align*}
-   \tilde{\beta_t} = 1/(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}})=\frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t \hspace{6.97cm}\tag{2-15}\newline
-   \tilde{\mu_t}(x_t,x_0) = (\frac{\sqrt{\alpha_t}}{\beta_t}x_t+\frac{\sqrt{\bar\alpha_t}}{1-\bar\alpha_t}x_0)/(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}}) = \frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}x_t+\frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1-\bar\alpha_t}x_0 \tag{2-16}
+   \tilde{\beta_t} = 1/(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}})=\frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t \hspace{6.97cm}\tag{2-16}\newline
+   \tilde{\mu_t}(x_t,x_0) = (\frac{\sqrt{\alpha_t}}{\beta_t}x_t+\frac{\sqrt{\bar\alpha_t}}{1-\bar\alpha_t}x_0)/(\frac{\alpha_t}{\beta_t}+\frac{1}{1-\bar\alpha_{t-1}}) = \frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1})}{1-\bar\alpha_t}x_t+\frac{\sqrt{\bar\alpha_{t-1}}\beta_t}{1-\bar\alpha_t}x_0 \tag{2-17}
 \end{align*}
 $$
 再根据公式(2-4)我们可以得到：
 $$
-x_0 = \frac{1}{\sqrt{\bar\alpha_t}}(x_t-\sqrt{1-\bar\alpha_t}\bar{z_t}) \tag{2-17}
+x_0 = \frac{1}{\sqrt{\bar\alpha_t}}(x_t-\sqrt{1-\bar\alpha_t}\bar{z_t}) \tag{2-18}
 $$
-将公式(2-17)带入到公式(2-16)中可以得到：
+将公式(2-18)带入到公式(2-17)中可以得到：
 $$
-\tilde\mu_t = \frac{1}{\sqrt{\alpha_t}}(x_t-\frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\bar{z_t})
+\tilde\mu_t = \frac{1}{\sqrt{\alpha_t}}(x_t-\frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\bar{z_t}) \tag{2-19}
 $$
 **但是在论文中实现的DDPM与我们上面的计算还是有一些小小的不同：**
 ![sampling](/image/Deep_Learning/Diffusion_Model/sampling.png)
@@ -177,7 +177,334 @@ $$
    ChatGPT也是这样说的：
    ![ChatGPT对于该问题的回答](/image/Deep_Learning/Diffusion_Model/chatgpt.png)
 
+## 2.3 Training过程
+Training过程如下：
+![Training Algorithm](/image/Deep_Learning/Diffusion_Model/loss.png)
+在训练过程中，我们首先从分布$q(x_0)$中采样出一个干净的图片$x_0$，然后从$\{1,..,T\}$中随机采样一个$t$用于控制原图与添加的噪声的比例，最后再从标准正态分布中随机采样一个噪声$\epsilon$，这样就完成了采样的工作。
+然后我们通过$x_0$和$\epsilon$生成有噪声的图$x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$，之后我们将$x_t$和$t$输入到一个噪声预测器中，预测得到一个噪声$\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)$，然后将预测得到的噪声与我们的原噪音$\epsilon$进行比较，具体过程如下图所示：
+![Training Process](/image/Deep_Learning/Diffusion_Model/noise_predictor.png)
+根据上面的分析，我们的目标就是尽可能减小原噪声$\epsilon$与预测噪声$\epsilon_\theta$的差别，所以我们的损失函数就是：
+$$
+L_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
+$$
 
+# 三、代码实现
+## 3.1 数据集选择
+简单起见，我们使用sklearn库中的make_s_curve函数来生成三维S曲线数据集。
+该make_s_curve函数使用数学公式生成S曲线，并返回包含生成的数据和相应目标值的元组。生成的数据是二维NumPy数组(n_samples, 3)，其中n_samples为样本数，每一行代表三维空间中的一个点。目标值是一个一维NumPy形状数组(n_samples,)，其中包含S曲线中每个点的颜色代码（介于 0 和 1 之间）。
+使用make_s_curve函数生成S曲线的示例:
+```python
+# 生成S-curve数据集
+from sklearn.datasets import make_s_curve
+import matplotlib.pyplot as plt
+ 
+X, y = make_s_curve(n_samples=1000)
+
+fig = plt.figure()
+ax = fig.add_subplot(projection='3d')
+ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y)
+plt.show()
+```
+生成的3D数据集可视化如下：
+![S-curve data](/image/Deep_Learning/Diffusion_Model/3D.png)
+
+我们使用make_s_curve函数生成一个包含10000个点的数据集。为了方便起见。我们只取s_curve的第0维和第2维，相当于s_curve的一个截面。
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import make_s_curve
+import torch
+
+s_curve, _ = make_s_curve(10**4, noise=0.1)
+s_curve = s_curve[:,[0,2]]/10.0  # 每个点取第0维和第2维, 再除以10
+print("shape of s:", np.shape(s_curve))
+
+data = s_curve.T
+fig,ax = plt.subplots()
+ax.scatter(*data,color='orange',edgecolor='white');
+ax.axis('off')
+
+dataset = torch.Tensor(s_curve).float()  # 将S曲线构建成一个张量
+plt.show()
+```
+最终生成的数据集如下所示：
+![S-curve data](/image/Deep_Learning/Diffusion_Model/data.png)
+
+## 3.2 计算超参数
+在计算超参数之前，我们先来总结一下我们都有哪些超参数需要计算：
+1. 首先是$\beta_t$，它控制了添加的噪声的比例。这里我们取$\beta_t \in [0.00001, 0.005]$。
+2. 然后是$\alpha_t$以及$\bar\alpha$，其中$\alpha_t=1-\beta_t，\bar\alpha=\prod_{i=1}^T\alpha_i$。
+
+所以我们最后的代码就是：
+```python
+# 计算所需要的超参数
+num_steps = 100  # 设置步长用来生成beta
+
+# 生成beta
+betas = torch.linspace(-6, 6, num_steps)  # β从-6到6均匀取100个值
+betas = torch.sigmoid(betas)*(0.5e-2 - 1e-5)+1e-5  # 将β的值全部控制在[1e-5，0.5e-2]之间
+
+# 计算alpha
+alphas = 1 - betas  # α_t=1-βt
+alphas_prod = torch.cumprod(alphas,0)  # α_t的累乘
+alphas_prod_p = torch.cat([torch.tensor([1]).float(), alphas_prod[:-1]], 0)  # α^t-1d的累乘
+alphas_bar_sqrt = torch.sqrt(alphas_prod)  # 根号下α_t的累乘
+one_minus_alphas_bar_log = torch.log(1 - alphas_prod)  # 1-α_t的累乘再取log
+one_minus_alphas_bar_sqrt = torch.sqrt(1 - alphas_prod)  # 根号下1-α_t的累乘
+
+# 使用assert来确保所有相关张量的形状相同，避免后续计算中出现形状不匹配的问题
+assert alphas.shape==alphas_prod.shape==alphas_prod_p.shape==alphas_bar_sqrt.shape==one_minus_alphas_bar_log.shape==one_minus_alphas_bar_sqrt.shape
+print("all the same shape",betas.shape)
+```
+其中：
+* torch.linspace(start, end, steps=100, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False): 其作用是返回一个tensor张量，这个张量包含了从start到end的等距的steps个数据点；
+* torch.sigmoid()：sigmoid公式：$f(x)=\frac{1}{1+e^{-x}}$。因为sigmoid函数的值域为[0,1]，所以sigmoid(betas)可以将$\beta$的值平滑地压缩到[0,1]之间，再通过乘以(0.5e-2 - 1e-5) + 1e-5将$\beta$的值放缩到[1e-5,0.5e-2]之间。
+* alphas_prod_p = torch.cat([torch.tensor([1]).float(), alphas_prod[:-1]], 0)：torch.tensor([1]).float()：创建一个标量1（对应α_0时的累乘值，通常初始状态下α_0设为1）；alphas_prod[:-1]：取alphas_prod除去最后一个元素的部分，即[α_1 * α_2 * ... * α_t]；torch.cat([...], 0)：将标量1和去掉最后一个元素的alphas_prod拼接在一起。
+  假设alphas_prod是[α_1, α_1 * α_2, α_1 * α_2 * α_3, ..., α_1 * α_2 * ... * α_t]。那么alphas_prod_p就是[1, α_1, α_1 * α_2, α_1 * α_2 * α_3, ..., α_1 * α_2 * ... * α_{t-1}]（即去掉最后一个元素，前面拼上一个1）。
+## 3.3 前向传播过程
+前向扩散过程中，根据公式：
+$$
+x_t = \sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\bar{z_t} \tag{3-1}
+$$
+我们可以知道可以基于$x_0$得到任意时刻$t$的值$x_t$。
+代码如下：
+```python
+# 计算任意时刻的x采样值，基于x_0和重参数化技巧
+def q_x(x_0, t):
+
+    noise = torch.randn_like(x_0)  # noise为从正态分布中采样的随机噪声，也就是公式中的z_t
+    
+    alphas_t = alphas_bar_sqrt[t]  # 根号下bar{α_t}
+    alphas_1_m_t = one_minus_alphas_bar_sqrt[t]  # 根号下(1-bar{α_t})
+    return (alphas_t * x_0 + alphas_1_m_t * noise) # 在x[0]的基础上添加噪声
+```
+**注**：torch.randn_like()：返回一个与输入张量大小相同的张量，其中填充了均值为0方差为1的正态分布的随机值。
+
+## 3.4 演示原始数据分布加噪100步后的效果
+```python
+num_shows = 20
+fig,axs = plt.subplots(2, 10, figsize=(28,3))  # 创建一个2行10列的子图 (即20个子图)，每个子图大小为28x3。fig是图像对象，axs是子图的坐标轴数组
+plt.rc('text',color='black')
+
+#共有10000个点，每个点包含两个坐标
+#生成100步以内每隔5步加噪声后的图像
+for i in range(num_shows):
+    # 用于确定当前的子图位置。j确定当前是第几行，k确定是第几列
+    j = i // 10
+    k = i % 10
+    q_i = q_x(dataset, torch.tensor([i*num_steps//num_shows])) # 生成t时刻的采样数据
+    axs[j,k].scatter(q_i[:,0], q_i[:,1], color='green', edgecolor='white')
+    axs[j,k].set_axis_off()
+    axs[j,k].set_title('$q(\mathbf{x}_{'+str(i*num_steps//num_shows)+'})$')
+
+plt.show()
+```
+效果如下：
+![](/image/Deep_Learning/Diffusion_Model/100imagine.png)
+通过图像我们可以看出经过不断加噪之后图像会变得越来越趋于纯噪声图片。
+
+## 3.5 编写拟合逆扩散过程高斯分布的模型
+简单起见，我们使用一个简单的多层感知机(MLP)来实现模型：
+```python
+import torch
+import torch.nn as nn
+
+class MLPDiffusion(nn.Module):
+    
+    def __init__(self, n_steps, num_units=128):
+        super(MLPDiffusion,self).__init__()
+        
+        self.linears = nn.ModuleList(
+            [
+                nn.Linear(2, num_units),
+                nn.ReLU(),
+                nn.Linear(num_units,num_units),
+                nn.ReLU(),
+                nn.Linear(num_units,num_units),
+                nn.ReLU(),
+                nn.Linear(num_units,2),
+            ]
+        )
+        self.step_embeddings = nn.ModuleList(
+            [
+                nn.Embedding(n_steps,num_units),  # [100,128]
+                nn.Embedding(n_steps,num_units),
+                nn.Embedding(n_steps,num_units),
+            ]
+        )
+        
+    def forward(self, x, t):
+        for idx, embedding_layer in enumerate(self.step_embeddings):
+            t_embedding = embedding_layer(t)  # 选第t步的Embedding
+            x = self.linears[2*idx](x)  # 先送入Linear层
+            x += t_embedding  # 加上Embedding
+            x = self.linears[2*idx+1](x)  # 再送入ReLU层
+        
+        x = self.linears[-1](x)  # 最后一个Linear层, 输出为[10000, 2]
+        return x
+```
+这里我们构建了一个7层的MLP模型（虽然MLPDiffusion中step_embeddings也定义了3个时间嵌入层(nn.Embedding)，但这些不属于标准的"网络层"如线性层或激活层）。它们用于引入时间步的信息，并在每次计算中与线性层的输出相加，而不是单独作为一层计算）：
+1. Linear(2, num_units)：从2维输入映射到128维。
+2. ReLU()：非线性激活。
+3. Linear(num_units, num_units)：128维到128维的映射。
+4. ReLU()：非线性激活。
+5. Linear(num_units, num_units)：再一次128维到128维的映射。
+6. ReLU()：非线性激活。
+7. Linear(num_units, 2)：输出层，128维压缩回2维。
+
+**注**：embedding层可以引入时间步的信息，通过时间步嵌入，模型能根据当前的时间步 t 调整对数据的处理策略。例如：早期时间步时，模型可能只需要做少量修复，因为数据仍然接近原始状态；而晚期时间步时，模型需要更复杂的操作来逆转严重污染的数据。在扩散模型中，时间步嵌入让模型理解数据如何从无噪声逐渐变为噪声化的过程，并帮助模型逐步去噪。
+
+## 3.6 编写损失函数
+在训练过程中，我们通过输入加噪后的图片$x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon$和$t$预测出噪声$\epsilon_\theta$，再通过预测得到的噪声与原噪声对比获得损失。
+![Training Algorithm](/image/Deep_Learning/Diffusion_Model/loss.png)
+所以我们的损失函数就是:
+$$
+L_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
+$$
+```python
+def diffusion_loss_fn(model, x_0, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, n_steps):
+    # 对任意时刻t进行采样计算loss
+    
+    batch_size = x_0.shape[0]  # 获取输入图像x_0的batch_size
+    
+    # 对一个batchsize样本生成随机的时刻t, 覆盖到更多不同的t
+    t = torch.randint(0, n_steps, size=(batch_size//2,))  # 在0到n_steps-1的范围内生成batch_size/2个随机数（表示时间步t）
+    t = torch.cat([t, n_steps-1-t], dim=0)  # 生成的t值会与n_steps-1-t进行拼接，确保生成的时间步尽量不重复，并增加多样性
+    t = t.unsqueeze(-1)  # 增加一个维度，使其形状变为(batch_size, 1)
+    
+    # x0的系数
+    a = alphas_bar_sqrt[t]  # 根号下bar{α_t}
+    
+    # eps的系数
+    aml = one_minus_alphas_bar_sqrt[t]  # 根号下(1-bar{α_t})
+    
+    # 生成随机噪音eps
+    e = torch.randn_like(x_0)  
+    
+    # 计算输入x_t：根号下bar{α_t}*x_0+根号下(1-bar{α_t})*eps
+    x = x_0 * a+e * aml  
+    
+    # 计算t时刻的随机噪声预测值
+    output = model(x, t.squeeze(-1))  # 模型预测的是噪声, 噪声维度与x0一样大, [10000,2]
+    
+    # 与真实噪声一起计算误差，求平均值
+    return (e - output).square().mean()
+```
+
+## 3.7 编写逆扩散采样函数（inference过程）
+根据论文中的采样过程：
+![Sampling Algorithm](/image/Deep_Learning/Diffusion_Model/sampling.png)
+我们可以根据$x_t$和$t$计算得到$x_{t-1}$，然后一步一步往前推，直到将图像还原到$x_0$。
+```python
+def p_sample_loop(model, shape, n_steps, betas, one_minus_alphas_bar_sqrt):
+    # 从x[T]恢复x[T-1]、x[T-2]、...x[0]
+      
+    cur_x = torch.randn(shape)  # 随机噪声, 对应x_t
+    x_seq = [cur_x]  # x[T]、x[T-1]、x[T-2]、...x[0]
+    for i in reversed(range(n_steps)):
+        cur_x = p_sample(model, cur_x, i, betas, one_minus_alphas_bar_sqrt)
+        x_seq.append(cur_x)
+    return x_seq
+
+
+def p_sample(model, x, t, betas, one_minus_alphas_bar_sqrt):
+    # 从x[T]采样t时刻的重构值，也就是将x_t还原为x_{t-1}
+
+    t = torch.tensor([t])
+    coeff = betas[t] / one_minus_alphas_bar_sqrt[t]  # 模型输出的系数：β_t/根号下(1-bar{α_t}) = 1-α_t/根号下(1-bar{α_t})
+    eps_theta = model(x, t)  # 模型的输出: ε_θ(x_t, t)
+        
+    # (1/根号下α_t)*(x_t-(1-α_t/根号下(1-bar{α_t}))*ε_θ(x_t, t))
+    mean = (1/(1-betas[t]).sqrt())*(x-(coeff*eps_theta))  
+    
+    z = torch.randn_like(x)  # 对应公式中的z
+    sigma_t = betas[t].sqrt()  # 对应公式中的σ_t
+    
+    sample = mean + sigma_t * z 
+    
+    return (sample)
+```
+
+## 3.8 训练模型
+训练模型并打印loss及中间重构效果：
+```python
+print('Training model...')
+batch_size = 128
+dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
+num_epoch = 4000
+plt.rc('text',color='blue')
+
+model = MLPDiffusion(num_steps)  # 输出维度是2，输入是x和step
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3) 
+
+for t in range(num_epoch):
+    for idx, batch_x in enumerate(dataloader):
+        loss = diffusion_loss_fn(model, batch_x, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, num_steps)  # 计算损失
+        optimizer.zero_grad()  # 梯度清零
+        loss.backward()  # 损失回传
+        torch.nn.utils.clip_grad_norm_(model.parameters(),1.)  # 梯度裁剪
+        optimizer.step()  
+        
+    if(t % 100 == 0):
+        print(loss)  # 每100个epoch打印一次loss
+        x_seq = p_sample_loop(model, dataset.shape, num_steps, betas, one_minus_alphas_bar_sqrt)
+        
+        fig, axs = plt.subplots(1, 10, figsize=(28,3))
+        for i in range(1, 11):
+            cur_x = x_seq[i*10].detach()
+            axs[i-1].scatter(cur_x[:,0],cur_x[:,1],color='red',edgecolor='white');
+            axs[i-1].set_axis_off();
+            axs[i-1].set_title('$q(\mathbf{x}_{'+str(i*10)+'})$')
+```
+效果如下（由于图像过多，这里只截取了epoch为0，1000，2000，3000，4000时的图像）：
+![epoch=0](/image/Deep_Learning/Diffusion_Model/0.png)
+![epoch=1000](/image/Deep_Learning/Diffusion_Model/1000.png)
+![epoch=2000](/image/Deep_Learning/Diffusion_Model/2000.png)
+![epoch=3000](/image/Deep_Learning/Diffusion_Model/3000.png)
+![epoch=4000](/image/Deep_Learning/Diffusion_Model/4000.png)
+根据图象我们可以看到，随着epoch的不断增加，图像的去噪效果越来越好。
+
+## 3.9 动态可视化
+```python
+import io
+from PIL import Image
+
+# 前向过程
+imgs = []
+for i in range(100):
+    plt.clf()
+    q_i = q_x(dataset,torch.tensor([i]))
+    plt.scatter(q_i[:,0],q_i[:,1],color='red',edgecolor='white',s=5);
+    plt.axis('off');
+    
+    img_buf = io.BytesIO()
+    plt.savefig(img_buf,format='png')
+    img = Image.open(img_buf)
+    imgs.append(img)
+
+# 逆向过程
+reverse = []
+for i in range(100):
+    plt.clf()
+    cur_x = x_seq[i].detach()
+    plt.scatter(cur_x[:,0],cur_x[:,1],color='red',edgecolor='white',s=5);
+    plt.axis('off')
+    
+    img_buf = io.BytesIO()
+    plt.savefig(img_buf,format='png')
+    img = Image.open(img_buf)
+    reverse.append(img)
+
+imgs = imgs
+imgs[0].save("diffusion_qian.gif", format='GIF', append_images=imgs, save_all=True, duration=100, loop=0)
+
+imgs = reverse
+imgs[0].save("diffusion_ni.gif", format='GIF', append_images=imgs, save_all=True, duration=100, loop=0)
+```
+前向过程：
+![前向过程](/image/Deep_Learning/Diffusion_Model/forward_gif.gif)
+逆向过程：
+![逆向过程](/image/Deep_Learning/Diffusion_Model/reverse_gif.gif)
 
 
 参考资料：

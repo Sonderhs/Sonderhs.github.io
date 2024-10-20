@@ -51,7 +51,7 @@ avatar:
 disable_top_img: false
 
 # The banner image of home page
-index_img: ../image/00index/6.png
+index_img: ../image/00index/background.png
 
 # If the banner of page not setting, it will show the top_img
 default_top_img:
@@ -642,7 +642,7 @@ text_align_justify: false
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background:
+background: url(/image/00index/background.png)
 
 # Footer Background
 footer_bg: false
@@ -724,7 +724,7 @@ display_mode: light
 beautify:
   enable: true
   field: post # site/post
-  title-prefix-icon: # '\f0c1'
+  title-prefix-icon: '\f863'
   title-prefix-icon-color: # '#F47466'
 
 # Global font settings
@@ -913,6 +913,8 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
+    - "<style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style>"
+    - <link rel="stylesheet" href="/themes/css/transpancy.css">
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
     - <div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div>

@@ -2,10 +2,10 @@
 title: 从零开始学Python(七)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（七）/1.JPG
+top_img: transparent
 date: 2024-4-15 00:00:00
 copyright: false
-description: 从零开始学Python(七)
+description: 第七章 Python文件操作
 cover: ../image/从零开始学Python/从零开始学Python（七）/1.JPG
 ---
 

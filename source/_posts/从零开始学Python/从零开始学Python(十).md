@@ -2,10 +2,10 @@
 title: 从零开始学Python(十)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（十）/1.JPG
+top_img: transparent
 date: 2024-4-19 00:00:00
 copyright: false
-description: 从零开始学Python(十)
+description: 第十章 Python面向对象
 cover: ../image/从零开始学Python/从零开始学Python（十）/1.JPG
 ---
 

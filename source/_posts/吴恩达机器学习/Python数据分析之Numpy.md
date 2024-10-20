@@ -2,7 +2,7 @@
 title: Python数据分析之Numpy
 tags: Python数据分析
 categories: Python数据分析
-top_img: ../image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG
+top_img: transparent
 date: 2023-12-28 00:00:00
 copyright: false
 description: Python数据分析之Numpy

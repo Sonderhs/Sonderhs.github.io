@@ -2,10 +2,10 @@
 title: 从零开始学Python(八)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（八）/1.JPG
+top_img: transparent
 date: 2024-4-16 00:00:00
 copyright: false
-description: 从零开始学Python(八)
+description: 第八章 Python异常、模块与包
 cover: ../image/从零开始学Python/从零开始学Python（八）/1.JPG
 ---
 

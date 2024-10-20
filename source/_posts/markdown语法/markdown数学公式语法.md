@@ -2,7 +2,7 @@
 title: Markdown数学公式语法
 tags: markdown
 categories: markdown
-top_img: ../image/markdown数学公式语法/0.JPG
+top_img: transparent
 date: 2023-12-29 00:00:00
 copyright: false
 description: markdown数学公式语法

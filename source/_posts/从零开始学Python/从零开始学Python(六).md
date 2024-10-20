@@ -2,10 +2,10 @@
 title: 从零开始学Python(六)
 tags: Python
 categories: Python
-top_img: ../image/从零开始学Python/从零开始学Python（六）/1.JPG
+top_img: transparent
 date: 2024-4-14 00:00:00
 copyright: false
-description: 从零开始学Python(六)
+description: 第六章 Python函数进阶
 cover: ../image/从零开始学Python/从零开始学Python（六）/1.JPG
 ---
 
