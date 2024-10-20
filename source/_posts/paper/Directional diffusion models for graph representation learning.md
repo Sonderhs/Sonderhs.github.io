@@ -52,8 +52,9 @@ $$
 #### Extracting representations
 提取表征的过程如下：
 ![Extracting representation](/image/paper/Directional_diffusion_models_for_graph_representation_learning/extracting_representations.png)
-我们首先计算节点特征的均值$\mu$和标准差$\sigma$，然后对于每一个时间步$k$，我们都根据公式(1)引入$k$步的定向噪声并使用预训练得到的降噪网络$f_\theta$来对噪声数据$X_t$进行降噪和编码。$f_\theta$的解码器将去噪节点特征映射为一个潜码，同时平滑相邻节点之间的潜码。
+我们首先计算节点特征的均值$\mu$和标准差$\sigma$，然后对于每一个时间步$k$，我们都根据公式(1)引入$k$步的定向噪声得到$X_k$，并使用预训练得到的降噪网络$f_\theta$来对噪声数据$X_k$进行降噪和编码。$f_\theta$的解码器将去噪节点特征映射为一个潜码，同时平滑相邻节点之间的潜码。
 最后我们从$f_\theta$的解码器中提取激活然后再将它们拼接起来就得到了最后的表征$H_k={h_{k,1},h_{k,2},...,h_{k,N}} \in \Reals^{N×d_h}$。
-### Experiments
+
+## Experiments
 实验表明，通过添加定向噪声，确实可以大幅提高diffusion model在处理图数据问题时的准确性。
 ![Experiments](/image/paper/Directional_diffusion_models_for_graph_representation_learning/experiments.png)
