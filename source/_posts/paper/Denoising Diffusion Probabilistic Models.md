@@ -1,7 +1,7 @@
 ---
 title: Diffusion Model原理及代码解析
-tags: Diffusion
-categories: 深度学习
+tags: Diffusion,paper
+categories: 深度学习,paper
 top_img: transparent
 date: 2024-10-15 00:00:00
 copyright: false
@@ -185,7 +185,7 @@ Training过程如下：
 ![Training Process](/image/Deep_Learning/Diffusion_Model/noise_predictor.png)
 根据上面的分析，我们的目标就是尽可能减小原噪声$\epsilon$与预测噪声$\epsilon_\theta$的差别，所以我们的损失函数就是：
 $$
-L_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
+\mathcal{L}_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
 $$
 
 # 三、代码实现
@@ -359,7 +359,7 @@ class MLPDiffusion(nn.Module):
 ![Training Algorithm](/image/Deep_Learning/Diffusion_Model/loss.png)
 所以我们的损失函数就是:
 $$
-L_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
+\mathcal{L}_{simple}(\theta) = \char"1D53C_{t,x_0,\epsilon}[||\epsilon-\epsilon_\theta(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,t)||^2]
 $$
 ```python
 def diffusion_loss_fn(model, x_0, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, n_steps):
