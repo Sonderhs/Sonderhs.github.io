@@ -10,7 +10,7 @@ cover: ../image/paper/Directional_diffusion_models_for_graph_representation_lear
 ---
 
 # Directional diffusion models for graph representation learning
-
+论文地址：[Directional diffusion models for graph representation learning](https://proceedings.neurips.cc/paper_files/paper/2023/hash/6751ee6546b31ceb7d4ee12276b9f4d9-Abstract-Conference.html)
 ## Introduction
 本文主要研究的是如何让diffusion model更好的应用于图学习领域。
 Diffusion model已经可以很好地处理图像（image）数据，那么为什么diffusion model不能直接用于处理图（graph）数据呢？这里首先要说明一下image和graph的区别。
@@ -58,3 +58,4 @@ $$
 ## Experiments
 实验表明，通过添加定向噪声，确实可以大幅提高diffusion model在处理图数据问题时的准确性。
 ![Experiments](/image/paper/Directional_diffusion_models_for_graph_representation_learning/experiments.png)
+
