@@ -1,7 +1,7 @@
 ---
 title: Diffusion Model原理及代码解析
-tags: Diffusion,paper
-categories: 深度学习,paper
+tags: paper
+categories: paper
 top_img: transparent
 date: 2024-10-15 00:00:00
 copyright: false
