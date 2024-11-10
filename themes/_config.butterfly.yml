@@ -913,8 +913,10 @@ css_prefix: true
 # 插入代码到头部 </head> 之前 和 底部 </body> 之前
 inject:
   head:
+    - <link rel="stylesheet" href="/node_modules/hexo-theme-butterfly/source/css/transpancy.css">
     - "<style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style>"
-    - <link rel="stylesheet" href="/transpancy.css">
+    - <link rel="stylesheet" href="/css/transpancy.css">
+    - - <link rel="stylesheet" href="D:/Blog/node_modules/hexo-theme-butterfly/source/css/transpancy.css">
     # - <link rel="stylesheet" href="/xxx.css">
   bottom:
     - <div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div>

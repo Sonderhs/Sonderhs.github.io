@@ -498,3 +498,4 @@ Transformer完整代码实现地址：[Transformer](https://github.com/Sonderhs/
 [2] [注意力机制的本质|Self-Attention|Transformer|QKV矩阵](https://www.bilibili.com/video/BV1dt4y1J7ov)
 [3] [【可视化】Transformer中多头注意力的计算过程](https://www.bilibili.com/video/BV1SF4m1K7gk)
 [4] [【研1基本功 （真的很简单）注意力机制】手写多头注意力机制](https://www.bilibili.com/video/BV1o2421A7Dr)
+[5] [ 如何理解Transformer的位置编码，PositionalEncoding详解](https://www.bilibili.com/video/BV1AD421g7hs)
