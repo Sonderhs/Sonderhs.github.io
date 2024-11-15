@@ -196,25 +196,6 @@ import torch
 import torch.nn as nn
 
 
-def rnn_forward(input, weight_ih, h_prev, weight_hh, bias_ih, bias_hh):
-    h_out = torch.zeros(bs, T, hidden_size)
-
-    for t in range(T):
-        x = input[:, t, :]  # batch_size * input_szie
-        # 切片之后x会变为2维，所以我们需要对x升维
-        x = x.unsqueeze(2)  # batch_size * input_size * 1
-        weight_ih_batch = weight_ih.unsqueeze(0).tile(bs, 1, 1)  # batch_size * hidden_size * input_size
-        weight_hh_batch = weight_hh.unsqueeze(0).tile(bs, 1, 1)  # batch_size * hidden_size * hidden_size
-
-        w_ih_times_x = torch.bmm(weight_ih_batch, x).squeeze(-1)  # batch_size * hidden_size
-        w_hh_times_h = torch.bmm(weight_hh_batch, h_prev.unsqueeze(2)).squeeze(-1)  # batch_size * hidden_size
-        h_prev = torch.tanh(w_ih_times_x + bias_ih + w_hh_times_h + bias_hh)
-
-        h_out[:, t, :] = h_prev
-
-    return h_out, h_prev.unsqueeze(0)
-
-
 class MyBiRNN(nn.Module):
     def __init__(self, bs, T, input_size, hidden_size):
         super(MyBiRNN, self).__init__()
@@ -236,15 +217,33 @@ class MyBiRNN(nn.Module):
         self.bias_ih_reverse = torch.zeros(self.hidden_size, requires_grad=True)
         self.bias_hh_reverse = torch.zeros(self.hidden_size, requires_grad=True)
 
+    def rnn_forward(self, input, weight_ih, h_prev, weight_hh, bias_ih, bias_hh):
+        h_out = torch.zeros(self.bs, self.T, self.hidden_size)
+
+        for t in range(self.T):
+            x = input[:, t, :]  # batch_size * input_szie
+            # 切片之后x会变为2维，所以我们需要对x升维
+            x = x.unsqueeze(2)  # batch_size * input_size * 1
+            weight_ih_batch = weight_ih.unsqueeze(0).tile(bs, 1, 1)  # batch_size * hidden_size * input_size
+            weight_hh_batch = weight_hh.unsqueeze(0).tile(bs, 1, 1)  # batch_size * hidden_size * hidden_size
+
+            w_ih_times_x = torch.bmm(weight_ih_batch, x).squeeze(-1)  # batch_size * hidden_size
+            w_hh_times_h = torch.bmm(weight_hh_batch, h_prev.unsqueeze(2)).squeeze(-1)  # batch_size * hidden_size
+            h_prev = torch.tanh(w_ih_times_x + bias_ih + w_hh_times_h + bias_hh)
+
+            h_out[:, t, :] = h_prev
+
+        return h_out, h_prev.unsqueeze(0)
+
     def forward(self, input, h_prev):
         h_out = torch.zeros(self.bs, self.T, self.hidden_size * 2)  # 双向RNN,所以特征是2倍
 
         # forward layer
-        forward_output = rnn_forward(input, self.weight_ih, h_prev[0], self.weight_hh, self.bias_ih, self.bias_hh)[0]
+        forward_output = self.rnn_forward(input, self.weight_ih, h_prev[0], self.weight_hh, self.bias_ih, self.bias_hh)[0]
         # backward layer
         # 反向传播时需要将输入反转，因为：
         # 假如输入为[x1,x2,x3,x4]，那么在backward中则是依次输入[x4,x3,x2,x1]
-        backward_output = rnn_forward(torch.flip(input, [1]), self.weight_ih_reverse,
+        backward_output = self.rnn_forward(torch.flip(input, [1]), self.weight_ih_reverse,
                                       h_prev[1], self.weight_hh_reverse, self.bias_ih_reverse,
                                       self.bias_hh_reverse)[0]
 
@@ -256,7 +255,7 @@ class MyBiRNN(nn.Module):
         h_out[:, :, :self.hidden_size] = forward_output
         h_out[:, :, self.hidden_size:] = torch.flip(backward_output, [1])
 
-        # 最终状态应该是forward和backward各自的最终输出拼接在一起，即[h4^1,h4^2]
+        # 最终状态应该是forward和backward各自的最终输出拼接在一起，即[h4^1|h4^2]
         h_n = torch.zeros(2, bs, hidden_size)
         h_n[0, :, :] = forward_output[:, -1, :]
         h_n[1, :, :] = backward_output[:, -1, :]
@@ -277,7 +276,6 @@ if __name__ == "__main__":
     print(my_bi_rnn_output)
     print("my_bi_state_final:")
     print(my_bi_state_final)
-
 ```
 
 
