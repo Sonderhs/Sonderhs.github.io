@@ -3,6 +3,8 @@ title: 循环神经网络RNN原理及代码实现
 tags: 
 - 深度学习
 - RNN
+- GRU
+- LSTM
 categories: 深度学习
 top_img: transparent
 date: 2024-11-15 00:00:00
@@ -277,6 +279,106 @@ if __name__ == "__main__":
     print(my_bi_rnn_output)
     print("my_bi_state_final:")
     print(my_bi_state_final)
+```
+
+
+# 二、门控循环单元（GRU）
+传统的循环神经网络RNN虽然能够联系上下文的信息，但是RNN的梯度需要通过时间反向传播(Backpropagation Through Time)传播很长的时间步。当序列长度较大时，就会出现梯度消失或梯度爆炸的问题。这种问题可能会导致某些不太重要的信息对其后续信息的预测造成影响。
+所以我们引入了“长短期记忆”(long-short-term memory, LSTM)和“门控循环单元”(gated recurrent unit,GRU)。
+## 2.1 GRU结构
+GRU通过引入重置门(reset gate)和更新门(update gate)来实现对重要度不同信息的控制。重置门控制前一时刻隐藏状态对当前时刻候选隐藏状态的影响程度，更新们控制上一时刻的隐藏状态($h_{t-1}$)与当前候选隐藏状态($\tilde{h_{t}}$)的混合程度，决定信息的保留和更新比例。
+GRU的结构如下图：
+![GRU结构](/image/Deep_Learning/RNN/GRU.png)
+GRU的公式如下：
+$$
+r_t = \sigma(W_{ir}x_t + b_{ir} + W_{hr}h_{t-1} + b_{hr}) \hspace{1.65cm}\\
+z_t = \sigma(W_{iz}x_t + b_{iz} + W_{hz}h_{t-1} + b_{hz}) \hspace{1.65cm}\\
+n_t = tanh(W_{in}x_t + b_{in} + r_t \odot (W_{hn}h_{t-1} + b_{hn})) \\
+h_t = (1-z_t) \odot n_t + z_t \odot h_{t-1} \hspace{2.65cm}
+$$
+
+## 2.2 手写GRU
+GRU的实现与RNN类似，但是学要注意的是，因为我们在$r_t,z_t,n_t$中都要实现$W_ix_t$和$W_hx_t$，所以我们可以将三个权重矩阵拼接到一起，然后只进行一次矩阵乘法运算即可。
+```python
+import torch
+import torch.nn as nn
+
+
+# 手写GRU
+class MyGRU(nn.Module):
+    def __init__(self, bs, T, input_size, hidden_size):
+        super(MyGRU, self).__init__()
+
+        self.bs = bs
+        self.T = T
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+
+        # 由于是三个权重矩阵拼接在一起，所以一共是3*hidden_szie行
+        self.weight_ih = nn.Parameter(torch.Tensor(3 * self.hidden_size, self.input_size))  # (3*hidden_size, input_size)
+        self.weight_hh = nn.Parameter(torch.Tensor(3 * self.hidden_size, self.hidden_size))  # (3*hiddden_size, hidden_size)
+        # 偏置矩阵同理
+        self.bias_ih = nn.Parameter(torch.Tensor(3 * hidden_size))
+        self.bias_hh = nn.Parameter(torch.Tensor(3 * hidden_size))
+
+        # 初始化权重
+        nn.init.xavier_uniform_(self.weight_ih)
+        nn.init.orthogonal_(self.weight_hh)
+        nn.init.zeros_(self.bias_ih)
+        nn.init.zeros_(self.bias_hh)
+
+    def forward(self, input, h_prev):
+        # 初始化输出矩阵
+        output = torch.zeros(self.bs, self.T, self.hidden_size)
+
+        # 权重矩阵升维
+        bath_w_ih = self.weight_ih.unsqueeze(0).tile(self.bs, 1, 1)  # (bs, 3*hiddden_size, input_size)
+        bath_w_hh = self.weight_hh.unsqueeze(0).tile(self.bs, 1, 1)  # (bs, 3*hiddden_size, hidden_size)
+
+        # 递归计算每个时间步
+        for t in range(self.T):
+            x = input[:, t, :]  # (bs, input_size)
+            # x切片后是2维，由于权重为3维，所以x也需要升维
+            x = x.unsqueeze(-1)  # (bs, input_size, 1)
+
+            # 计算W*x和W*h_prev
+            w_times_x = torch.bmm(bath_w_ih, x)  # (bs, 3*hidden_size, 1)
+            w_times_x = w_times_x.squeeze(-1)  # (bs, 3*hidden_size)
+            w_times_h_prev = torch.bmm(bath_w_hh, h_prev.unsqueeze(-1))  # (bs, 3*hidden_size, 1)
+            w_times_h_prev = w_times_h_prev.squeeze(-1)  # (bs, 3*hidden_size)
+
+            # 计算重置门和更新门
+            r_t = torch.sigmoid(w_times_x[:, :self.hidden_size] + self.bias_ih[:self.hidden_size] +
+                                w_times_h_prev[:, :self.hidden_size] + self.bias_hh[:self.hidden_size])
+            z_t = torch.sigmoid(w_times_x[:, self.hidden_size:2 * self.hidden_size] + self.bias_ih[self.hidden_size:2 * self.hidden_size] +
+                                w_times_h_prev[:, self.hidden_size:2 * self.hidden_size] + self.bias_hh[self.hidden_size:2 * self.hidden_size])
+
+            # 计算候选隐藏状态
+            n_t = torch.tanh(w_times_x[:, 2 * self.hidden_size:] + self.bias_ih[2 * self.hidden_size:] +
+                             r_t * (w_times_h_prev[:, 2 * self.hidden_size:] + self.bias_hh[2 * self.hidden_size:]))
+
+            # 更新最隐藏状态
+            h_prev = (1 - z_t) * n_t + z_t * h_prev
+            output[:, t, :] = h_prev
+
+        return output, h_prev
+
+
+if __name__ == "__main__":
+    bs, T, input_size, hidden_size = 2, 3, 4, 5
+    input = torch.randn(bs, T, input_size)
+    h_prev = torch.randn(bs, hidden_size)
+
+    # 调用API
+    gru = nn.GRU(input_size, hidden_size, batch_first=True)
+    output, h_final = gru(input, h_prev.unsqueeze(0))
+
+    mygru = MyGRU(bs, T, input_size, hidden_size)
+    my_output, my_h_final = mygru(input, h_prev)
+
+    print(output.shape == my_output.shape)
+    # print(my_output)
+    # print(my_h_final)
 ```
 
 
