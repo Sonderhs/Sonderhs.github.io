@@ -285,3 +285,4 @@ if __name__ == "__main__":
 [2] [PyTorch RNN的原理及其手写复现](https://www.bilibili.com/video/BV13i4y1R7jB)
 [3] [如何从RNN起步，一步一步通俗理解LSTM](https://blog.csdn.net/v_JULY_v/article/details/89894058)
 [4] [循环神经网络 RNN【动手学深度学习v2】](https://www.bilibili.com/video/BV1D64y1z7CA)
+[5] [深度学习05-RNN循环神经网络](https://blog.csdn.net/liaomin416100569/article/details/131380370)
