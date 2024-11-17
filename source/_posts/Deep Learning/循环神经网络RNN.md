@@ -1,5 +1,5 @@
 ---
-title: 循环神经网络RNN原理及代码实现
+title: 循环神经网络RNN、门控制单元GRU、长短期记忆网络LSTM原理及代码实现
 tags: 
 - 深度学习
 - RNN
@@ -14,7 +14,7 @@ cover: ../image/Deep_Learning/RNN/cover.png
 ---
 
 
-# 循环神经网络RNN原理及代码实现
+# 循环神经网络RNN、门控制单元GRU、长短期记忆网络LSTM原理及代码实现
 
 # 一、循环神经网络（RNN）
 循环神经网络（RNN）是用来处理和生成数据序列的模型，广泛应用于自然语言处理、语音识别、时间序列分析等领域。序列模型的关键特性是它能够处理输入和输出之间的依赖关系，使模型能够理解数据在时间或序列上的顺序。
@@ -281,11 +281,118 @@ if __name__ == "__main__":
     print(my_bi_state_final)
 ```
 
-
-# 二、门控循环单元（GRU）
+# 二、长短期记忆网络（LSTM）
 传统的循环神经网络RNN虽然能够联系上下文的信息，但是RNN的梯度需要通过时间反向传播(Backpropagation Through Time)传播很长的时间步。当序列长度较大时，就会出现梯度消失或梯度爆炸的问题。这种问题可能会导致某些不太重要的信息对其后续信息的预测造成影响。
 所以我们引入了“长短期记忆”(long-short-term memory, LSTM)和“门控循环单元”(gated recurrent unit,GRU)。
-## 2.1 GRU结构
+传统的RNN对于输入的重要性判断很固定，越早输入的越不重要，越晚输入的越重要，这显然存在一定的问题。而LSTM则是通过门控制的方式实现了对输入重要度的控制。
+## 2.1 LSTM结构
+原始的RNN隐藏状态只有一个$h$，它对于短期输入非常敏感，所以我们的想法就是增加一个隐藏状态$c$用来保存长期状态，我们把状态$c$称为候选记忆单元，这就是LSTM。
+LSTM的结构如下图：
+![LSTM结构](/image/Deep_Learning/RNN/LSTM.png)
+LSTM的公式如下：
+$$
+i_t = \sigma(W_{ii}x_t + b_{ii} + W_{hi}h_{t-1} + b_{hi}) \hspace{0.8cm}\\
+f_t = \sigma(W_{if}x_t + b_{if} + W_{hf}h_{t-1} + b_{hf}) \hspace{0.55cm}\\
+g_t = tanh(W_{ig}x_t + b_{ig} + W_{hg}h_{t-1} + b_{hig}) \\
+o_t = \sigma(W_{io}x_t + b_{io} + W_{ho}h_{t-1} + b_{ho}) \hspace{0.6cm}\\
+c_t = f_t \odot c_{t-1} + i_t \odot g_t \hspace{2.65cm}\\
+h_t = o_t \odot tanh(c_t) \hspace{3.25cm}
+$$
+LSTM中有三种门：$i_t$是输入门，它控制使用多少来自候选记忆单元$g_t$的数据，遗忘门$f_t$控制保留多少过去的记忆元$c_{t-1}$的内容，输出门$o_t$用于决定当前时刻输出哪些信息。
+公式中的激活函数$\sigma$(即sigmoid)和$tanh$目的都是将输出限制在[0,1]之间。
+## 2.2 手写LSTM
+LSTM的实现与RNN类似，但是需要注意的是，因为我们在$i_t,f_t,g_t,o_t$中都要实现$W_ix_t$和$W_hx_t$，所以我们可以将四个权重矩阵拼接到一起，然后只进行一次矩阵乘法运算即可。
+```python
+import torch
+import torch.nn as nn
+
+
+# 手写LSTM
+class MyLSTM(nn.Module):
+    def __init__(self, bs, T, input_size, hidden_size):
+        super(MyLSTM, self).__init__()
+
+        self.bs = bs
+        self.T = T
+        self.input_size = input_size
+        self.hidden_size = hidden_size
+
+        # 由于是四个权重矩阵拼接在一起，所以一共是4*hidden_szie行
+        self.weight_ih = nn.Parameter(
+            torch.Tensor(4 * self.hidden_size, self.input_size))  # (4*hidden_size, input_size)
+        self.weight_hh = nn.Parameter(
+            torch.Tensor(4 * self.hidden_size, self.hidden_size))  # (4*hiddden_size, hidden_size)
+        # 偏置矩阵同理
+        self.bias_ih = nn.Parameter(torch.Tensor(4 * hidden_size))
+        self.bias_hh = nn.Parameter(torch.Tensor(4 * hidden_size))
+
+        # 初始化权重
+        nn.init.xavier_uniform_(self.weight_ih)
+        nn.init.orthogonal_(self.weight_hh)
+        nn.init.zeros_(self.bias_ih)
+        nn.init.zeros_(self.bias_hh)
+
+    def forward(self, input, initial_states):
+        h_0, c_0 = initial_states
+        bs, T, input_size = input.shape
+        hidden_size = self.weight_ih.shape[0] // 4
+
+        prev_h = h_0
+        prev_c = c_0
+        # 权重矩阵扩维
+        # w_ih.shape = (4*hidden_size ,input_size)
+        # w_hh.shape = (4*hidden_szie, hidden_size)
+        bath_w_ih = self.weight_ih.unsqueeze(0).tile(bs, 1, 1)  # (bs, 4*hidden_size, inputsize)
+        bath_w_hh = self.weight_hh.unsqueeze(0).tile(bs, 1, 1)  # (bs, 4*hiddden_size, hidden_size)
+
+        output = torch.zeros(bs, T, hidden_size)
+
+        for t in range(T):
+            x = input[:, t, :]
+            x = x.unsqueeze(-1)  # 升维
+
+            w_times_x = torch.bmm(bath_w_ih, x).squeeze(-1)  # (bs, 4*hidden_szie)
+            w_times_prev_h = torch.bmm(bath_w_hh, prev_h.unsqueeze(-1)).squeeze(-1)  # (bs, 4*hidden_size)
+
+            # 输入门
+            i_t = torch.sigmoid(w_times_x[:, :hidden_size] + self.bias_ih[:hidden_size] +
+                                w_times_prev_h[:, :hidden_size] + self.bias_hh[:hidden_size])
+            # 遗忘门
+            f_t = torch.sigmoid(w_times_x[:, hidden_size:2 * hidden_size] + self.bias_ih[hidden_size:2 * hidden_size] +
+                                w_times_prev_h[:, hidden_size:2 * hidden_size] + self.bias_hh[
+                                                                                 hidden_size:2 * hidden_size])
+
+            g_t = torch.tanh(
+                w_times_x[:, 2 * hidden_size:3 * hidden_size] + self.bias_ih[2 * hidden_size:3 * hidden_size] +
+                w_times_prev_h[:, 2 * hidden_size:3 * hidden_size] + self.bias_hh[2 * hidden_size:3 * hidden_size])
+            # 输出门
+            o_t = torch.sigmoid(w_times_x[:, 3 * hidden_size:] + self.bias_ih[3 * hidden_size:] +
+                                w_times_prev_h[:, 3 * hidden_size:] + self.bias_hh[3 * hidden_size:])
+
+            prev_c = f_t * prev_c + i_t * g_t
+            prev_h = o_t * torch.tanh(prev_c)
+            output[:, t, :] = prev_h
+
+        return output, [prev_h, prev_c]
+
+
+if __name__ == "__main__":
+    bs, T, input_size, hidden_size = 2, 3, 4, 5
+    input = torch.randn(bs, T, input_size)
+    c_0 = torch.randn(bs, hidden_size)
+    h_0 = torch.randn(bs, hidden_size)
+
+    mylstm = MyLSTM(bs, T, input_size, hidden_size)
+    my_output, (my_h_final, my_c_final) = mylstm(input, (h_0, c_0))
+
+    print("My LSTM")
+    print(my_output)
+    print(my_h_final, my_c_final)
+```
+
+# 三、门控循环单元（GRU）
+GRU的实现原理与LSTM类似，只不过GRU对LSTM做了一些优化，减少了一些参数。
+## 3.1 GRU结构
 GRU通过引入重置门(reset gate)和更新门(update gate)来实现对重要度不同信息的控制。重置门控制前一时刻隐藏状态对当前时刻候选隐藏状态的影响程度，更新们控制上一时刻的隐藏状态($h_{t-1}$)与当前候选隐藏状态($\tilde{h_{t}}$)的混合程度，决定信息的保留和更新比例。
 GRU的结构如下图：
 ![GRU结构](/image/Deep_Learning/RNN/GRU.png)
@@ -296,9 +403,9 @@ z_t = \sigma(W_{iz}x_t + b_{iz} + W_{hz}h_{t-1} + b_{hz}) \hspace{1.65cm}\\
 n_t = tanh(W_{in}x_t + b_{in} + r_t \odot (W_{hn}h_{t-1} + b_{hn})) \\
 h_t = (1-z_t) \odot n_t + z_t \odot h_{t-1} \hspace{2.65cm}
 $$
-
-## 2.2 手写GRU
-GRU的实现与RNN类似，但是学要注意的是，因为我们在$r_t,z_t,n_t$中都要实现$W_ix_t$和$W_hx_t$，所以我们可以将三个权重矩阵拼接到一起，然后只进行一次矩阵乘法运算即可。
+我们通过$r_t$来计算候选隐藏状态$n_t$，然后再根据$z_t$控制候选隐藏状态与前一隐藏状态的比例，从而计算得到新的隐藏状态$h_t$。
+## 3.2 手写GRU
+GRU的实现与LSTM非常类似，只不过参数变为了LSTM的$\frac{3}{4}$:
 ```python
 import torch
 import torch.nn as nn
@@ -380,6 +487,8 @@ if __name__ == "__main__":
     # print(my_output)
     # print(my_h_final)
 ```
+
+
 
 
 
