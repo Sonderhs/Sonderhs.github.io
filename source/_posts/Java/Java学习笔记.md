@@ -1041,3 +1041,430 @@ public class Users {
 
 ---------------------------------------------------- 
 **2025.01.04**
+
+# 第六章 面向对象进阶
+## 6.1 static
+* static表示静态，是Java中的一个修饰符，可以修饰成员方法、成员变量。
+* 静态存储位置(静态区)位于堆内存，静态变量是随着类的加载而加载的，是优于对象出现的。没有static修饰的成员变量和方法则是属于对象的。
+
+### 6.1.1 静态变量
+被static修饰的成员变量，叫做静态变量。
+* 定义格式：
+```java
+修饰符 static 数据类型 变量名 = 初始值；
+
+例：
+public class Student{
+    public static String teacherName;
+}
+```
+* 特点：
+  * 被该类所有对象共享
+  * 不属于对象，属于类
+  * 随着类的加载而加载。优先于对象存在
+
+* 调用方式：
+  * 类名调用(推荐)
+  * 对象名调用
+  * 例：
+    ```java
+    //类名调用
+    Student.teacherName = "张三";
+
+    //对象名调用
+    Student stu = new Student();
+    stu.teacherName = "张三"；
+    ```
+
+### 6.1.2 静态方法
+被static修饰的成员方法，叫做静态方法
+* 特点：
+  * 多用在测试类和工具类中
+  * Javabean类中很少会用
+
+* 调用方法：
+  * 类名调用(推荐)
+  * 对象名调用
+
+* 常用的类：
+  * Javabean类：用来描述一类事物的类。比如：Student,Teacher,Dog,Cat等。
+  * 测试类：用来检查其他类是否书写正确，带有main方法的类，是程序的入口。
+  * 工具类：不是用来描述一类事物的类，而是帮我们做一些事情的类。
+    
+* 工具类：
+  * 类名见名知意 
+  * 私有化构造方法
+  * 方法定义为静态
+例如：
+```java
+"""
+按照如下要求编写一个数组的工具类：
+1.提供一个工具类方法printArr,用于返回整数数组的内容，
+返回的字符串格式为：[10, 20, 50, 34, 100](只考虑整数数组，且只考虑一维数组)
+2.提供这样一个工具方法getAerage,用于返回平均分。(只考虑浮点型数组，切只考虑一维数组)
+3.定义一个测试类TestDemo,调用该工具类的工具方法,并返回结果
+"""
+
+//工具类定义
+public class ArrayUtil {
+    //私有化构造方法
+    //目的：为了不让外界创建它的对象
+    private ArrayUtil(){}
+
+    //定义静态方法
+    public static String printArr(int[] arr){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < arr.length - 1; i++) {
+            sb.append(arr[i]).append(", ");
+        }
+        sb.append(arr[arr.length-1]).append("]");
+        return sb.toString();
+    }
+
+    public static double getAerage(double[] arr){
+        double sum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        return sum / arr.length;
+    }
+}
+
+//测试类定义
+public class TestDemo {
+    public static void main(String[] args) {
+        //测试工具类
+        int[] arr1 = {1, 2, 3, 4, 5};
+        String str = ArrayUtil.printArr(arr1);
+        System.out.println(str);
+
+        double[] arr2 = {1.5, 2.6, 1.6, 8.2};
+        double aerage = ArrayUtil.getAerage(arr2);
+        System.out.println(aerage);
+    }
+}
+
+//输出结果：
+//[1, 2, 3, 4, 5]
+//3.4749999999999996
+```
+
+### 6.1.3 static的注意事项
+* 静态方法只能访问静态变量和静态方法
+* 非静态方法可以访问静态变量或静态方法，也可以访问非静态的成员变量和非静态的成员方法
+* 静态方法中没有this关键字
+
+重新认识main方法：
+* public：被JVM调用，访问权限足够大
+* static：被JVM调用，不用创建对象，直接类名访问。因为main方法是静态的，所以测试类中的其他方法也需要是静态的
+* void：被JVM调用，不需要给JVM返回值
+* main：一个通用的名称，虽然不是关键字，但是被JVM识别
+* String[] args：以前用于接收键盘录入数据的，现在没用
+
+## 6.2 继承
+### 6.2.1 继承 
+* 封装
+  * 对象代表什么，就得封装对应的数据，并提供数据对应的行为
+* 继承
+  * Java中提供一个关键字extends，用这个关键字，我们可以让一个类和另一个类建立起继承关系
+  如：
+  ```java
+    public class Student extends Person {}
+  ```
+  * Student称为子类(派生类)，Person称为父类(基类或超类)
+* 使用继承的好处
+  * 可以把多个子类中重复的代码抽取到父类中了，提高代码的复用性
+  * 子类可以在父类的基础上增加其他功能，使子类更强大
+* 什么时候用继承
+  * 当类与类之间存在相同的内容，并满足子类是父类中的一种，就可以考虑使用继承来优化代码
+
+### 6.2.2 继承的特点和继承体系的设计
+* 继承的特点
+  * 只支持单继承：一个子类只能继承一个父类
+  * 不支持多继承：子类不能同时继承多个父类
+  * 但支持多层继承：子类A继承父类B，父类B可以继承父类C，则B为A的直接父类，C为A的间接父类
+  * 每一个类都直接或者间接继承于Object
+* 继承体系的设计
+  * 抽取子类中相同的方法，构造为父类
+
+### 6.2.3 子类继承的内容
+子类到底能继承父类中的哪些内容：
+|          | 非私有 | private |
+| -------- | ------ | ------- |
+| 构造方法 | 不能   | 不能    |
+| 成员变量 | 能     | 能      |
+| 成员方法 | 能     | 不能    |
+
+* 构造方法不能被继承，如果直接继承父类的构造方法，就会造成构造方法名与类名不一致的问题
+* 非私有成员变量可以直接继承，私有成员变量也能继承，但是使用时需要使用父类中的Get和Set方法
+
+成员变量的继承的内存图：
+![非私有成员变量的继承的内存图](/image/Java学习笔记/succeed1.png)
+![私有成员变量的继承的内存图](/image/Java学习笔记/succeed2.png)
+
+* 成员方法的继承使用的是虚方法表，虚方法表是子类从父类中继承的，且每个子类的虚方法表都是在父类的虚方法表的基础上加上自己的虚方法所构成的
+* 只有父类中的虚方法才能被子类继承
+* 虚方法满足三个要求：
+  * 非private
+  * 非static
+  * 非final
+
+成员方法的继承的内存图：
+![成员方法的继承的内存图](/image/Java学习笔记/succeed3.png)
+
+
+### 6.2.4 继承中的特点
+#### 6.2.4.1 继承中成员变量的访问特点
+* 继承中成员变量的访问特点
+  * 就近原则：谁离我近，我就用谁
+  * super调用，直接访问父类
+  例：
+  ```java
+    public class Fu{
+        String name = "Fu";
+    }
+
+    public class Zi extends Fu{
+        String name = "Zi";
+        public void ziShow(){
+            String name = "ziShow";
+            System.out.println(name);
+            System.out.println(this.name);
+            System.out.println(super.name);  //super代表父类
+        }
+    }
+
+    //输出结果：
+    //ziShow
+    //Zi
+    //Fu
+  ```
+
+#### 6.2.4.2 继承中成员方法的访问特点
+* 继承中成员方法的访问特点
+  * 就近原则：谁离我近，我就用谁
+  * super调用，直接访问父类
+* 方法的重写
+  * 当父类的方法不能满足子类现在的需求时，需要进行方法重写
+  * 书写格式：在继承体系中，子类出现了和父类中一模一样的方法声明，我们就称子类这个方法是重写的方法
+  * @Override重写注解
+    * @Override是放在重写后的方法上，校验子类重写时语法是否正确
+    * 加上注解后如果有红色波浪线，表示语法错误
+  * 重写的本质是子类中重写的成员方法覆盖了虚方法表中对应的成员方法
+例：
+```java
+public class Person {
+    public void eat(){
+        System.out.println("吃米饭，吃菜");
+    }
+
+    public void drink(){
+        System.out.println("喝开水");
+    }
+}
+
+
+class OverseasStudent extends Person{
+    public void lunch(){
+        this.eat();
+        this.drink();
+
+        super.eat();
+        super.drink();
+    }
+    
+    //当父类的方法不能满足子类现在的需求时，需要进行方法重写
+    //重写时加上注解
+    @Override
+    public void eat(){
+        System.out.println("吃意大利面");
+    }
+
+    @Override
+    public void drink(){
+        System.out.println("喝凉水");
+    }
+}
+```
+
+* 方法重写的注意事项和要求
+  * 重写方法的名称、形参列表必须与父类中的一致
+  * 子类重写父类方法是，访问权限子类必须大于等于父类(空着不写<protected<public)
+  * 子类重写父类方法时，返回值类型必须小于等于父类
+  * 重写的方法尽量与父类保持一致
+  * 只有被添加到虚方法表中的方法才能被重写
+
+#### 6.2.4.3 继承中构造方法的访问特点
+* 继承中构造方法的访问特点
+  * 父类中的构造方法不会被子类继承，但是可以通过super调用
+  * 子类中所有的构造方法默认先访问父类中的无参构造，再执行自己
+    * 原因：子类在初始化时，有可能会使用到父类中的数据，如果父类没有完成初始化，子类将无法使用父类的数据
+    * 所以，子类在初始化之前，一定要调用父类构造方法先完成父类数据空间的初始化 
+  * 如何调用父类构造方法
+    * 子类构造方法的第一行语句默认是：super()，不写也存在，且必须在第一行
+    * 如果想调用父类有参构造，必须手动写super进行调用
+  例：
+  ```java
+    //Person.java
+    public class Person {
+        String name;
+        int age;
+
+        public Person() {
+        }
+
+        public Person(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+    //Student.java
+    public class Student extends Person{
+        public Student(){
+            super();
+        }
+
+        public Student(String name,int age){
+            super(name,age);
+        }
+    }
+  ```
+
+#### 6.2.4.4 this\super使用总结
+* this：理解为一个变量，表示当前方法调用者的地址值
+* super：代表父类存储空间
+
+| 关键字 |            访问成员变量            |              访问成员方法               |          访问构造方法          |
+| ------ | :--------------------------------: | :-------------------------------------: | :----------------------------: |
+| this   | this.成员变量<br>访问本类成员变量  | this.成员方法(...)<br>访问本类成员方法  | this(...)<br>访问本类构造方法  |
+| super  | super.成员变量<br>访问父类成员变量 | super.成员方法(...)<br>访问父类成员方法 | super(...)<br>访问父类构造方法 |
+
+空参构造初始化赋值：
+```java
+public class Student{
+    String name;
+    int age;
+    String school;
+
+    public Student(){
+        //表示调用本类中的其他构造方法
+        //细节：虚拟机就不会再添加super()
+        this(null, 0, "传智大学");
+    }
+
+    public Student(String name, int age, String school){
+        this.name = name;
+        this.age = age;
+        this.school = school;
+    }
+}
+```
+
+#### 6.2.4.5 练习
+写出带有继承结构的标准Javabean类：
+1. 经理
+成员变量：工号，姓名，工资，管理奖金
+成员方法：工作(管理其他人)，吃饭(吃米饭)
+2. 厨师
+成员变量：工号，姓名，工资
+成员方法：工作(炒菜)，吃饭(吃米饭)
+
+父类Person.java
+```java
+public class Person {
+    private String id;
+    private String name;
+    private int salary;
+
+    public Person() {
+    }
+
+    public Person(String id, String name, int salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
+    public void work(){
+        System.out.println("员工正在工作");
+    }
+
+    public void eat(){
+        System.out.println("吃饭(吃米饭)");
+    }
+}
+```
+
+子类经理Manager.java
+```java
+public class Manager extends Person{
+    private int managerSalary;
+
+    //空参构造
+    public Manager() {
+    }
+
+    //带全部参数的构造
+    //父类+子类
+    public Manager(String id, String name, int salary, int managerSalary) {
+        super(id, name, salary);
+        this.managerSalary = managerSalary;
+    }
+
+    public int getManagerSalary() {
+        return managerSalary;
+    }
+
+    public void setManagerSalary(int managerSalary) {
+        this.managerSalary = managerSalary;
+    }
+
+    @Override
+    public void work() {
+        System.out.println("经理正在管理其他人");
+    }
+}
+```
+
+子类厨师Cook.java
+```java
+public class Cook extends Person{
+    public Cook() {
+    }
+
+    public Cook(String id, String name, int salary) {
+        super(id, name, salary);
+    }
+
+    @Override
+    public void work() {
+        System.out.println("厨师正在炒菜");
+    }
+}
+```
