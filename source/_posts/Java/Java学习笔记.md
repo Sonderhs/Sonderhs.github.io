@@ -1097,13 +1097,13 @@ public class Student{
   * 方法定义为静态
 例如：
 ```java
-"""
+/*
 按照如下要求编写一个数组的工具类：
 1.提供一个工具类方法printArr,用于返回整数数组的内容，
 返回的字符串格式为：[10, 20, 50, 34, 100](只考虑整数数组，且只考虑一维数组)
 2.提供这样一个工具方法getAerage,用于返回平均分。(只考虑浮点型数组，切只考虑一维数组)
 3.定义一个测试类TestDemo,调用该工具类的工具方法,并返回结果
-"""
+*/
 
 //工具类定义
 public class ArrayUtil {
@@ -1468,3 +1468,330 @@ public class Cook extends Person{
     }
 }
 ```
+
+---------------------------------------------------- 
+**2025.01.05**
+
+## 6.3 多态
+### 6.3.1 多态
+* 封装
+  * 对象代表什么，就得封装对应的数据，并提供数据对应的行为
+* 多态
+  * 同种类型的对象表现出不同的形态
+  * 表现形式：父类类型 对象名称 = 子类对象
+  * 前提：
+    * 有继承关系
+    * 有父类引用指向子类对象
+    * 有方法重写
+  * 好处：
+    * 使用父类作为参数，可以接收所有子类对象，体现多态的扩展性与便利性
+示例：
+```java
+//父类Person.java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void show(){
+        System.out.println(name + ", " + age);
+    }
+}
+
+//子类Student.java
+public class Student extends Person{
+
+    @Override
+    public void show() {
+        System.out.println("学生的信息为：" + getName() + ", " + getAge());
+    }
+}
+
+//子类Teacher.java
+public class Teacher extends Person{
+
+    @Override
+    public void show() {
+        System.out.println("老师的信息为：" + getName() + ", " + getAge());
+    }
+}
+
+//子类Administer.java
+public class Administer extends Person{
+
+    @Override
+    public void show() {
+        System.out.println("管理员的信息为：" + getName() + ", " + getAge());
+    }
+}
+
+//测试类
+public class Test {
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.setName("张三");
+        s.setAge(23);
+
+        Teacher t = new Teacher();
+        t.setName("李四");
+        t.setAge(24);
+
+        Administer a = new Administer();
+        a.setName("王五");
+        a.setAge(25);
+
+        register(s);
+        register(t);
+        register(a);
+    }
+
+
+    //这个方法既能接收老师，又能接收学生，还能接收管理员
+    //只能把参数写成这三个类型的父类
+    public static void register(Person p){
+        p.show();
+    }
+}
+
+//输出结果：
+//学生的信息为：张三, 23
+//老师的信息为：李四, 24
+//管理员的信息为：王五, 25
+```
+
+### 6.3.2 多态调用成员的特点
+* 多态调用成员的特点
+  * 变量调用：编译看左边，运行也看左边
+  * 方法调用：编译看左边，运行看右边
+示例：
+```java
+public class Test {
+    public static void main(String[] args) {
+        //多态创建对象
+        Animal a = new Dog();
+
+        //调用成员变量：编译看左边，运行也看左边
+        //编译看左边：javac编译代码时会看左边的父类中有没有这个变量，如果有则编译成功，没有则编译失败
+        //运行也看左边：java运行时，实际获取的是左边父类中成员变量的值
+        System.out.println(a.name);  //动物
+
+        //调用成员方法：编译看左边，运行看右边
+        //编译看左边：javac编译代码时看左边的父类中有没有这个方法，有则编译成功，没有则编译失败
+        //运行看右边：java运行时，实际获取的是右边子类中的成员方法
+        a.show();  //Dog ---- show方法
+    }
+}
+
+class Animal{
+    String name = "动物";
+
+    public void show(){
+        System.out.println("Animal ---- show方法");
+    }
+}
+
+class Dog extends Animal{
+    String name = "狗";
+
+    @Override
+    public void show() {
+        System.out.println("Dog ---- show方法");
+    }
+}
+```
+
+多态调用成员的内存图：
+![多态调用成员的内存图](/image/Java学习笔记/polymorphism1.png)
+
+### 6.3.3 多态的优势和弊端
+* 多态的优势
+  * 在多态形式下，右边对象可以实现解耦合，便于扩展和维护
+  例：
+  ```java
+  Person  p = new Student();
+  p.work();
+
+  //当业务逻辑发生改变时，后续代码无需修改
+  //假如我们的对象要改为Teacher，我们只需将代码修改为Person p = new Teacher()即可，
+  //且在调用方法时会自动调用更改后类的方法
+  ```
+  * 定义方法的时候，使用父类作为参数，可以接受所有子类对象，体现多态的扩展性和便利性
+* 多态的弊端
+  * 不能调用子类的特有功能
+  * 解决方法：强制类型转换
+    * Dog d = (Dog) a;
+    * 强制转换前需要判断对象的类型是不是目标类型
+    * 使用instanceof关键字判断
+    ```java
+    if (a instanceof Dog){
+        Dog d = (Dog) a;
+    }
+    ```
+  * Java新特性
+    ```java
+    //先判断a是否为Dog类型，如果是则强转成Dog类型，转换之后变量名为d
+    //如果不是，则不强转，结果直接是false
+    if (a instanceof Dog d){
+        d.lookHome;
+    }
+    ```
+* 引用数据类型的类型转换
+  * 自动类型转换：
+  ```java
+  Person p = new Student();
+  ```
+  * 强制类型转换：可以转换成真正的子类类型，从而调用子类独有的功能
+  ```java
+  Student s = (Student)p;
+  ```
+
+## 6.4 包和final
+### 6.4.1 包
+* 包
+  * 包就是文件夹，用来管理各种不同功能的java类，方便后期代码维护
+  * 命名规则
+    * 公司域名反写+包的作用，需要全部英文小写，见名知意。
+    * 如：com.itheima.domain
+* 使用其他类时，需要使用全类名(包名+类名)
+  * 如：com.itheima.domain.Student s = new com.itheima.domain.Student();
+  * 还可以直接进行导包：import com.itheima.domain.Student;
+* 什么时候需要导包
+  * 使用同一包中的类时，不需要导包
+  * 使用java.lang包中的类时，不需要导包
+  * 其他情况都需要导包
+  * 如果同时使用两个包中的同名类，需要用全类名
+
+### 6.4.2 final
+* final
+  * 最终的，即不可被改变的
+* final可以修饰
+  * 方法：表明该方法是最终方法，不能被重写
+    * 如：public final void lookHome(){}
+  * 类：表明该类是最终类，不能被继承
+    * 如：public final class Math(){}
+  * 变量：叫做常量，只能被赋值一次
+    * 如：public static final double PI = 3.1415926;
+    * 实际开发中，常量一般作为系统的配置信息，方便维护，提高可读性
+    * 常量的命名规范
+        * 单个单词：全部大写
+        * 多个单词：全部大写，单词之间用下划线隔开
+    * 细节
+        * final修饰的变量是基本类型：那么变量存储的数据值不能发生改变
+        * final修饰的变量是引用类型：那么变量存储的地址值不能发生改变，对象内部的可以改变
+
+## 6.5 权限修饰符和代码块
+### 6.5.1 权限修饰符
+* 权限修饰符
+  * 用来控制一个成员能够被访问的范围
+  * 可以修饰成员变量，方法，构造方法，内部类
+* 权限修饰符的分类
+  * 有四种作用范围由小到大(private<空着不写<protected<public)
+  
+  |  修饰符   | 同一个类中 | 同一个包中其他类 | 不同包下的子类 | 不同包下的无关类 |
+  | :-------: | :--------: | :--------------: | :------------: | :--------------: |
+  |  private  |     √      |                  |                |                  |
+  | 空着不写  |     √      |        √         |                |                  |
+  | protected |     √      |        √         |       √        |                  |
+  |  public   |     √      |        √         |       √        |        √         |
+
+* 实际开发中一般只用private和public
+  * 成员变量私有
+  * 方法公开
+  * 特例：如果方法中的代码是抽取其他方法中共性代码，这个方法一般也私有
+
+### 6.5.2 代码块
+* 代码块
+  * 局部代码块
+    * 在方法内部的代码块，当程序运行出代码块时，代码块内的变量就会从内存中消除
+    * 提前结束变量的生命周期
+    * 可以节约内存空间
+    * 现在基本上不使用
+  * 构造代码块
+    * 将构造方法中重复的代码写在成员位置的代码块
+    ```java
+    public class Student{
+        private String name;
+        private int age;
+
+        public Student(){
+            System.out.println("开始创建对象了");
+        }
+
+        public Student(String name, int age){
+            System.out.println("开始创建对象了");
+            this.name = name;
+            this.age = age;
+        }
+    }
+
+    //当空参构造和带参构造中有相同的代码时，可以抽取为构造代码块
+    public class Student{
+        private String name;
+        private int age;
+        {
+            System.out.println("开始创建对象了");
+        }
+        public Student(){
+        }
+
+        public Student(String name, int age){
+            this.name = name;
+            this.age = age;
+        }
+    }
+    ```
+    * 现在也很少使用，因为不够灵活
+  * 静态代码块
+    * 在构造代码块的基础上加上static{}
+    * 特点：需要通过static关键字修饰，随着类的加载而加载，并且自动触发、只执行一次
+    * 使用场景：在类加载的时候，做一些数据初始化的时候使用
+
+## 6.6 抽象类
+* 抽象方法
+  * 将共性的行为(方法)抽取到父类之后，由于每一个子类执行的内容是不一样的，所以在父类中不能确定具体的方法体，该方法就可以定义为抽象方法
+  * 定义格式：public abstract 返回值类型 方法名(参数列表);
+* 抽象类
+  * 如果一个类中存在抽象方法，那么该类就必须声明为抽象类
+  * 定义格式：public abstract class 类名{}
+* 注意事项
+  * 抽象类不能实例化
+  * 抽象类中不一定有抽象方法，有抽象方法的类一定是抽象类
+    * 抽象类中写成员变量、构造方法和成员方法是为了子类能够继承
+  * 可以有构造方法
+  * 抽象类的子类
+    * 要么重写抽象类中的所有抽象方法
+    * 要么是抽象类
+示例：
+```java
+public abstract class Person{
+
+    public abstract void work();
+}
+```
+* 抽象类和抽象方法的意义
+  * 为子类设定一个标准，强制子类必须按照这种格式进行重写
+  * ---------------------------------------------------- 
+**2025.01.06**
