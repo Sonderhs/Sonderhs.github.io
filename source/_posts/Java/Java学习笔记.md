@@ -1793,5 +1793,227 @@ public abstract class Person{
 ```
 * 抽象类和抽象方法的意义
   * 为子类设定一个标准，强制子类必须按照这种格式进行重写
-  * ---------------------------------------------------- 
+
+---------------------------------------------------- 
 **2025.01.06**
+
+## 6.7 接口
+### 6.7.1 接口
+* 接口
+  * 接口就是一种规则，是对行为的抽象
+  * 当多个子类(但不是所有子类)需要共同的方法时，就可以使用接口来定义行为
+* 定义和使用
+  * 使用关键字interface来定义
+    * public interface 接口名 {}
+  * 接口不能实例化对象
+  * 接口和类之间是实现关系，通过implements关键字表示
+    * public class 类名 implements 接口名 {}
+  * 接口的子类(实现类)
+    * 要么重写接口中的所有抽象方法
+    * 要么是抽象类
+  * 注意
+    * 接口和类的实现关系，可以单实现，也可以多实现
+      * public class 类名 implements 接口名1, 接口名2 {}
+    * 实现类还可以在继承一个类的同时实现多个接口
+      * public class 类名 extends 父类 implements 接口名1, 接口名2 {}
+
+示例：编写带有接口和抽象类的标准Javabean类
+* 青蛙  属性：名字，年龄  行为：吃虫子，蛙泳
+* 狗    属性：名字，年龄  行为：吃骨头，狗刨
+* 兔子  属性：名字，年龄  行为：吃胡萝卜
+```java
+//父类 Animals.java
+public abstract class Animal {
+    private String name;
+    private int age;
+
+    public Animal() {
+    }
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public abstract void eat();
+}
+
+//接口 Swim.java
+public interface Swim {
+    public abstract void swim();
+}
+
+//子类 Frog.java
+public class Frog extends Animal implements Swim{
+    public Frog() {
+    }
+
+    public Frog(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("青蛙在吃虫子");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println("青蛙在蛙泳");
+    }
+}
+
+//子类 Dog.java
+public class Dog extends Animal implements Swim{
+    public Dog() {
+    }
+
+    public Dog(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("狗在吃骨头");
+    }
+
+    @Override
+    public void swim() {
+        System.out.println("狗在狗刨");
+    }
+}
+
+//子类 Rabbit.java
+public class Rabbit extends Animal{
+    public Rabbit() {
+    }
+
+    public Rabbit(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("兔子在吃胡萝卜");
+    }
+}
+```
+
+### 6.7.2 接口的细节
+* 接口中成员变量的特点
+  * 成员变量
+    * 只能是常量
+    * 默认修饰符：public static final
+  * 构造方法
+    * 没有
+  * 成员方法
+    * 只能是抽象方法(JDK7以前)
+    * 默认修饰符：public abstract
+* 接口和类之间的关系
+  * 类和类之间
+    * 继承关系，只能单继承，不能多继承，但是可以多层继承
+  * 类和接口的关系
+    * 实现关系，可以单实现，也可以多实现，还可以在继承一个类的同时实现多个接口
+    * 多个接口中有重名的方法，在类中只重写一次即可
+  * 接口和接口的关系
+    * 继承关系，可以单继承，也可以多继承
+    * 如果实现类实现了最下面的子接口，那么就需要重写所有的抽象方法
+
+### 6.7.3 接口进阶
+* JDK7以前接口中只能定义抽象方法
+* JDK8新特性：接口中可以定义有方法体的方法。(默认、静态)
+  * 允许在接口中定义默认方法，需要使用关键字default修饰
+  * 作用：解决接口升级的问题
+  * 接口中默认方法的定义格式
+    * public default 返回值类型 方法名(参数列表) {}
+    * 例：public default void show() {}
+  * 接口中默认方法的注意事项
+    * 默认方法不是抽象方法，所以不会被强制重写；但是如果被重写，重写的时候去掉default关键字
+    * public可以省略，default不能省略
+    * 如果实现了多个接口，多个接口中存在相同名字的默认方法，子类就必须对该方法进行重写
+  * 允许在接口中定义静态方法，需要用static修饰
+  * 接口中静态方法的定义格式
+    * public static 返回值类型 方法名(参数列表) {}
+    * 例：public static void show() {}
+  * 接口中静态方法的注意事项
+    * 静态方法只能通过接口名调用，不能通过实现类名或者对象名调用
+    * public可以省略，static不能省略 
+  * 默认方法可以被重写，静态方法不能被重写，因为静态方法不会被加入到虚方法表中
+* JDK9新特性：接口中可以定义私有方法
+  * 当一个接口中的不同方法有相同的方法体时，可以将相同的部分抽取出来定义为私有方法
+  * 接口中私有方法的定义格式
+  * 1. 为默认方法服务
+    * private 返回值类型 方法名(参数列表) {}
+    * 示例:private void show() {}
+  * 2. 为静态方法服务
+    * private static 返回值类型 方法名(参数列表) {}
+    * 示例：private static void method() {}
+  例：
+  ```java
+  public interface InterA{
+    public default void show1(){
+        System.out.println("show1方法开始执行了");
+        System.out.println("记录程序在运行过程中的各种细节，这里有100行代码");
+    }
+
+    public default void show2(){
+        System.out.println("show2方法开始执行了");
+        System.out.println("记录程序在运行过程中的各种细节，这里有100行代码");
+    }
+  }
+
+  //show1与show2中有相同的内容，所以可以进行提取，提取后为：
+  public interface InterA{
+    public default void show1(){
+        System.out.println("show1方法开始执行了");
+        show3();
+    }
+
+    public default void show2(){
+        System.out.println("show2方法开始执行了");
+        show3();
+    }
+
+    private void show3(){
+        System.out.println("记录程序在运行过程中的各种细节，这里有100行代码");
+    }
+
+    //如果上面不是默认方而是静态方法，则应写为：
+    private static void show4(){
+        System.out.println("记录程序在运行过程中的各种细节，这里有100行代码");
+    }
+  }
+  ```
+
+* 接口的应用
+  * 接口代表规则，是行为的抽象，想要让哪个类拥有一个行为，就让这个类实现对应的接口就可以了
+  * 当一个方法的参数是接口时，可以传递接口所有实现类的对象，这种方式称之为接口多态
+* 适配器设计模式
+  * 设计模式：是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码，让代码更容易被他人理解、保证代码的可靠性、程序的重用性
+  * 适配器设计模式：解决接口与接口实现类之间的矛盾问题
+  * 当一个接口中抽象方法过多，但我只需要使用其中一部分的时候，就可以使用适配器设计模式
+  * 书写步骤
+    * 1. 编写中间类XXXAdapter，实现对应的接口
+    * 2. 对接口中的抽象方法进行空实现
+    * 3. 让真正的实现类继承中间类，并重写需要用的方法
+    * 4. 为了避免其他类创建适配器类的对象，中间的适配器类需要用abstract进行修饰
+    * 注：如果真正的实现类需要继承其他类，那么可以让中间类继承父类，真正的实现类进行间接继承即可
+
+---------------------------------------------------- 
+**2025.01.07**
