@@ -2016,4 +2016,290 @@ public class Rabbit extends Animal{
     * 注：如果真正的实现类需要继承其他类，那么可以让中间类继承父类，真正的实现类进行间接继承即可
 
 ---------------------------------------------------- 
-**2025.01.07**
+**2025.01.08**
+
+## 6.8 内部类
+### 6.8.1 内部类
+* 内部类
+  * 在一个类的里面再定义一个类
+  例：
+  ```java
+  //外部类
+  public class Outer{
+    //内部类
+    public class Inner{
+
+    }
+  }
+  ```
+  * 内部类表示的事物是外部类的一部分，内部类单独出现没有任何意义
+  * 内部类的访问特点
+    * 内部类可以直接访问外部类的成员，包括私有
+    * 外部类要访问内部类的成员，必须创建对象
+    例：
+    ```java
+    public class Car{
+        String carName;
+        int carAge;
+        String carColor;
+
+        public void show(Car this){
+            System.out.println(this.carName);
+            //外部类要访问内部类的成员，必须创建对象
+            Engine e = new Engine();
+            System.out.println(e.engineName);
+        }
+
+        class Engine{
+            String engineName;
+            int engineAge;
+
+            public void show(){
+                System.out.println(engineName);
+                //内部类可以直接访问外部类的成员
+                System.out.println(carName);
+            }
+        }
+    }
+    ```
+### 6.8.2 内部类的分类
+* 内部类的分类
+  * 成员内部类
+  * 静态内部类
+  * 局部内部类
+  * 匿名内部类(重点)
+
+### 6.8.2.1 成员内部类
+* 成员内部类
+  * 写在成员位置的，属于外部类的成员
+  例：
+  ```java
+  //外部类
+  public class Car{
+    String carName;
+    int carAge;
+    int carColor;
+    //成员内部类
+    class Engine{
+        String engineName;
+        int engineAge;
+    }
+  }
+  ```
+  * 成员内部类可以被一些修饰符所修饰，比如：private,默认,protectede,public,static等
+    * private:外界无法直接创建内部类对象
+    * 默认:在本包内可以创建内部类对象
+    * protected:只能在本包和其他包子类中使用
+    * public:所有地方都可用
+  * 在成员内部类里面，JDK16之前不能定义静态变量，JDK16才可以定义静态变量
+* 创建对象
+  * 方式一：在外部类中编写方法，对外提供内部类的对象
+  * 方式二：直接创建格式：外部类名.内部类名 对象名 = 外部类对象.内部类对象;
+  例：
+  ```java
+  //Outer.java
+  public class Outer{
+    String name;
+
+    class Inner{
+
+    }
+
+    public Inner getInstance(){
+        return new Inner();
+    }
+  }
+
+  //Test.java
+  //方式一：提供方法
+  Outer o = new Outer();
+  Object i = o.getInstance();
+  //或
+  System.out.println(o.getInstance());
+  //方式二：直接创建格式
+  Outer.Inner oi = new Outer().new Inner();
+  ```
+
+* 内部类获取外部类成员变量
+  * 外部类名.this.外部类成员变量
+  例：
+  ```java
+  public class Outer{
+    private int a = 10;
+
+    class Inner{
+        private int a = 20;
+
+        public void show(){
+            int a = 30;
+            System.out.println(a);  //30
+            System.out.println(this.a);  //20
+            System.out.println(Outer.this.a);  //10
+        }
+    }
+  }
+  ```
+  * java会给内部类对象添加一个隐藏的成员变量Outer this，这个this记录了外部类对象的地址值
+  * 内部类的内存图
+  ![内部类的内存图](/image/Java学习笔记/Inner1.png)
+
+### 6.8.2.2 静态内部类
+* 静态内部类
+  * 静态内部类只能访问外部类中的静态变量和静态方法，如果想要访问非静态的需要创建对象
+* 创建对象
+  * 外部类名.内部类名 对象名 = new 外部类名.内部类名();  //new的是内部类而不是外部类
+  * 调用非静态方法的格式
+    * 先创建对象，用对象调用
+  * 调用静态方法的格式
+    * 外部类名.内部类名.方法名();
+  例：
+  ```java
+  //Outer.java
+  public class Outer{
+    int a = 10;
+    static int b = 20;
+
+    //静态内部类
+    static class Inner{
+        public void show1(){
+            Outer o = new Outer();
+            //访问外部类非静态成员变量需要先创建外部类对象
+            System.out.println(o.a);
+            //访问外部类静态成员变量可以直接访问
+            System.out.println(b);
+        }
+
+        public static void show2(){
+            System.out.println("静态方法被调用了");
+        }
+    }
+  }
+
+  //Test.java
+  Outer.Inner oi = new Outer.Inner();
+  oi.show1();
+
+  Outer.Inner.show2();
+  ```
+
+### 6.8.2.3 局部内部类
+* 局部内部类
+  * 将内部类定义在方法里面就叫做局部内部类，类似于方法里面的局部变量
+  * 外界无法直接使用，需要在方法内部创建对象并使用
+  * 该类可以直接访问外部类的成员，也可以访问方法内的局部变量
+例：
+```java
+public class Outer{
+    int b = 20;
+
+    public void show(){
+        int a = 10;
+
+        //局部内部类
+        class Inner{
+            String name;
+            int age;
+
+            public void method1(){
+                //该类可以直接访问外部类的成员
+                System.out.println(b);
+                //也可以访问方法内的局部变量
+                System.out.println(a);
+                System.out.println("局部内部类中的method1方法");
+            }
+
+            public static void method2(){
+                System.out.println("局部内部类中的method2静态方法");
+            }
+        } 
+
+        //创建局部内部类对象
+        Inner i  = new Inner();
+        System.out.println(i.name);
+        System.out.println(i.age);
+        i.method1();
+        Inner.method2();
+    }
+}
+```
+
+### 6.8.2.4 匿名内部类
+* 匿名内部类
+  * 匿名内部类本质上就是隐藏了名字的内部类
+* 格式：
+  ```java
+  new 类名或者接口名(){
+    重写方法;
+  };
+  ```
+  * 匿名内部类指的是 {重写方法;} 这一部分
+  * 匿名内部类实现了接口/类
+  * new的对象是内部类而不是接口/类
+  * 整体实际上是匿名内部类的对象
+  例：
+  ```java
+  //父类Animal.java
+  public abstract class Animal{
+    public abstract void eat();
+  }
+
+  //接口Swim.java
+  public interface Swim{
+    public abstract void swim();
+  }
+
+  //测试类Test.java
+  public class Test {
+    public static void main(String[] args) {
+        //匿名内部类
+        new Swim(){  //实现关系
+            @Override
+            public void swim(){
+                System.out.println("重写的swim方法");
+            }
+        };    
+
+        new Animal(){  //继承关系
+            @Override
+            public void eat(){
+                System.out.println("重写eat方法");
+            }
+        };  
+
+
+        //以前方法调用method:创建子类Dog继承Animal，重写方法，再创建Dog对象调用method
+        //使用匿名内部类
+        method(
+            new Animal() {
+                @Override
+                public void eat(){
+                System.out.println("狗吃骨头");
+                }
+            }
+        );
+
+        //接口多态,new的对象是匿名内部类的对象
+        Swim s = new Swim(){
+            new Swim() {
+                @Override
+                public void swim(){
+                System.out.println("重写后的swim方法");
+                }
+            }
+        };
+        s.swim();
+
+    }
+
+    public static void method(Animal a){
+        a.eat();
+    }
+  }
+  ```
+* 使用场景
+  * 当方法的参数是接口或者类时
+  * 以接口为例，可以传递这个接口的实现类对象
+  * 如果实现类只要使用一次，就可以用匿名内部类简化代码
+
+---------------------------------------------------- 
+**2025.01.08**
