@@ -6,7 +6,7 @@ top_img: transparent
 date: 2023-12-29 00:00:00
 copyright: false
 description: markdown数学公式语法
-cover: ../image/markdown数学公式语法/0.JPG
+cover: ../image/Markdown/markdown数学公式语法/0.JPG
 ---
 
 # Markdown数学公式语法

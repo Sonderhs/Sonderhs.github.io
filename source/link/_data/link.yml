@@ -3,9 +3,9 @@
   link_list:
     - name: Github
       link: https://github.com/Sonderhs
-      avatar: ../image/00index/github.png
+      avatar: ../image/BlogCover/github.png
       descr: 软件项目白嫖平台
     - name: Bilibili
       link: https://space.bilibili.com/361660022
-      avatar: ../image/00index/bilibili.png
+      avatar: ../image/BlogCover/bilibili.png
       descr: 哔哩哔哩大学

@@ -6,7 +6,7 @@ top_img: transparent
 date: 2024-4-7 00:00:00
 copyright: false
 description: 从零开始学Python
-cover: ../image/从零开始学Python/从零开始学Python（一）/1.JPG
+cover: ../image/Deep_Learning/从零开始学Python/从零开始学Python（一）/1.JPG
 ---
 
 # 第一章 Python基础语法
@@ -745,9 +745,9 @@ while循环与for循环的区别：
 * for循环是一种“轮询”机制，是对一批内容进行“逐个处理”
 * for循环无法定义循环条件，只能从被处理的数据集中依次取出内容进行处理，所以理论上Python中的for循环无法构建无限循环
 
-![](/image/从零开始学Python/从零开始学Python（三）/while循环.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（三）/while循环.png)
 
-![](/image/从零开始学Python/从零开始学Python（三）/for循环.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（三）/for循环.png)
 
 for循环语法：
 for&nbsp;&nbsp;&nbsp;临时变量&nbsp;&nbsp;&nbsp;in&nbsp;&nbsp;&nbsp;待处理数据集:
@@ -1145,7 +1145,7 @@ r = add(1, 2)
 print(r)
 ```
 
-效果如下：![函数说明文档](/image/从零开始学Python/从零开始学Python（四）/函数说明文档.png)
+效果如下：![函数说明文档](/image/Deep_Learning/从零开始学Python/从零开始学Python（四）/函数说明文档.png)
 
 ## 4.6 函数的嵌套调用
 * 嵌套调用是指：一个函数里又调用了另一个函数
@@ -1379,7 +1379,7 @@ print(type(nest_list))
 
 ## 5.3 列表的遍历
 列表的遍历可以使用下标索引
-![](/image/从零开始学Python/从零开始学Python（五）/list1.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/list1.png)
 
 如图，列表中的每一个元素都有其位置下标索引，从前往后的方向，从0开始依次递增
 
@@ -1400,7 +1400,7 @@ Rose
 ```
 
 或者，列表也可以进行反向索引，也就是从后往前：从-1开始，依次递减（-1, -2, -3, ...）
-![](/image/从零开始学Python/从零开始学Python（五）/list2.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/list2.png)
 
 语法：
 ```python
@@ -1420,7 +1420,7 @@ Tom
 
 嵌套列表的下标（索引）
 如果列表是嵌套的列表，同样支持下标索引,类似C语言中的二维数组
-![](/image/从零开始学Python/从零开始学Python（五）/list3.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/list3.png)
 
 语法：
 ```python
@@ -1470,7 +1470,7 @@ class Student:
 * 方法的使用：student = Student()
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num = student.add(1, 2)
 
-![**列表常用方法**](/image/从零开始学Python/从零开始学Python（五）/列表常用方法.png)
+![**列表常用方法**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/列表常用方法.png)
 
 ### 5.4.1 index查询方法
 * 查询某元素的下标
@@ -1825,7 +1825,7 @@ t5的类型是<class 'tuple'>，内容是((1, 2, 3), (4, 5, 6))
 
 ## 5.8 元组的常用操作
 元组常用方法：
-![**元组常用方法**](/image/从零开始学Python/从零开始学Python（五）/元组常用方法.png)
+![**元组常用方法**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/元组常用方法.png)
 
 ### 5.8.1 index查询方法
 语法：
@@ -1957,7 +1957,7 @@ print(f"从字符串{my_str}取下标为2的元素是：{value1}，从字符串{
 
 ## 5.11 字符串的常用操作
 字符串常用方法：
-![**字符串常用方法**](/image/从零开始学Python/从零开始学Python（五）/字符串常用方法.png)
+![**字符串常用方法**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/字符串常用方法.png)
 
 ### 5.11.1 index查询方法
 语法：
@@ -2251,7 +2251,7 @@ my_empty_set的内容是：set()，它的类型是<class 'set'>
 
 ## 5.16 集合的常用操作
 集合常用方法：
-![**集合常用方法**](/image/从零开始学Python/从零开始学Python（五）/集合常用方法.png)
+![**集合常用方法**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/集合常用方法.png)
 
 ### 5.16.1 add添加方法
 语法：
@@ -2597,7 +2597,7 @@ print(f"小明的数学成绩为：{score}")
 ```
 ## 5.23 字典的常用操作
 字典常用方法：
-![**字典常用方法**](/image/从零开始学Python/从零开始学Python（五）/字典常用方法.png)
+![**字典常用方法**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/字典常用方法.png)
 
 ### 5.23.1 新增元素方法
 语法：
@@ -2804,10 +2804,10 @@ for key in my_dict:
   * 支持：列表、集合、字典
   * 不支持：元组、字符串
 
-![**数据容器特点对比**](/image/从零开始学Python/从零开始学Python（五）/数据容器特点对比.png)
+![**数据容器特点对比**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/数据容器特点对比.png)
 
 ## 5.26 容器通用操作
-![**容器通用操作**](/image/从零开始学Python/从零开始学Python（五）/容器通用操作.png)
+![**容器通用操作**](/image/Deep_Learning/从零开始学Python/从零开始学Python（五）/容器通用操作.png)
 
 sorted通用排序操作：
 语法：
@@ -3053,7 +3053,7 @@ UTF-8是目前全球通用的编码格式，除非有特殊需求，否则一律
 
 
 ## 7.2 文件的读取操作
-![](/image/从零开始学Python/从零开始学Python（七）/文件读取操作汇总.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（七）/文件读取操作汇总.png)
 
 ### 7.2.1 open()打开函数方法
 语法：
@@ -3063,7 +3063,7 @@ open(name, mode, encoding)
 * mode：设置打开文件的模式（访问模式）：只读、写入、追加等
 * encoding：编码格式（推荐使用UTF-8）
 
-![](/image/从零开始学Python/从零开始学Python（七）/mode常用的三种基础访问模式.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（七）/mode常用的三种基础访问模式.png)
 
 示例：
 ```python
@@ -3572,7 +3572,7 @@ print("world")
 创建一个 模块名.py 文件，并在其中写入需要使用的类、变量或函数
 调用时先import导入模块，之后就可以使用模块中的功能了
 
-![](/image/从零开始学Python/从零开始学Python（八）/制作并使用自定义模块.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/制作并使用自定义模块.png)
 
 注：当导入多个模块，且模块内有同名功能，当调用这个同名功能时，调用的是后面模块的功能
 
@@ -3678,13 +3678,13 @@ Python包：
 从逻辑上看，包的本质依然是模块
 包的作用：当我们的模块文件越来越多时，包可以帮助我们管理这些模块，包的作用就是包含多个模块，但包的本质依然是模块
 
-![](/image/从零开始学Python/从零开始学Python（八）/Python包.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python包.png)
 
 新建包步骤如下：
 1. 新建包'my_package'
 2. 新建包内模块：'my_module1'和'my_module2'
 3. 模块内代码如下：
-![](/image/从零开始学Python/从零开始学Python（八）/Python包代码.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python包代码.png)
 
 使用方式：导入包：
 * 方式一：
@@ -3781,16 +3781,16 @@ https://pypi.tuna.tsinghua.edu.cn/simple 是清华大学提供的一个可使用
 我在使用pycharm安装第三方包时出现了无法搜索到第三方包的问题，具体原因应该是因为网络原因，解决办法如下，视频可参考：https://www.bilibili.com/video/BV1SM4y1H71G/?spm_id_from=333.1007.top_right_bar_window_history.content.click
 
 第一步：首先点击左下方Python Packages，之后点击设置（Manage repositories）
-![](/image/从零开始学Python/从零开始学Python（八）/Python第三方包安装1.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python第三方包安装1.png)
 
 第二步：添加库
-![](/image/从零开始学Python/从零开始学Python（八）/Python第三方包安装2.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python第三方包安装2.png)
 
 第三步：打开设置，找到Tools中的Server Certificates，选择勾选Accept non-trusted certificates automatically，即自动接收没有信任的证书
-![](/image/从零开始学Python/从零开始学Python（八）/Python第三方包安装3.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python第三方包安装3.png)
 
 第四步：在设置中的Project->Python interpreter中点击加号添加第三方包即可
-![](/image/从零开始学Python/从零开始学Python（八）/Python第三方包安装4.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python第三方包安装4.png)
 
 # 第九章 Python基础综合案例：图形可视化
 
@@ -3864,7 +3864,7 @@ line.add_yaxis("GDP", [30, 20, 10])
 line.render()
 ```
 得到的效果为：
-![](/image/从零开始学Python/从零开始学Python（九）/基础折线图1.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（九）/基础折线图1.png)
 
 pyecharts配置选项：
 全局配置选项
@@ -3885,7 +3885,7 @@ line.set_global_opts(
 ```
 
 最终得到的效果为：
-![](/image/从零开始学Python/从零开始学Python（九）/基础折线图2.png)
+![](/image/Deep_Learning/从零开始学Python/从零开始学Python（九）/基础折线图2.png)
 
 
 # 第十章 Python面向对象

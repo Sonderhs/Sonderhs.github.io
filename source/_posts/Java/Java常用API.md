@@ -6,7 +6,7 @@ top_img: transparent
 date: 2025-3-3 00:00:00
 copyright: false
 description: Java常用API
-cover: ../image/Java常用API/1.JPG
+cover: ../image/Java/Java常用API/1.JPG
 ---
 
 # 第一章 Math

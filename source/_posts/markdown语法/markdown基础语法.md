@@ -6,7 +6,7 @@ top_img: transparent
 date: 2023-12-28 00:00:00
 copyright: false
 description: markdown基础语法
-cover: ../image/markdown%E8%AF%AD%E6%B3%95%E5%9F%BA%E7%A1%80/1.PNG
+cover: ../image/Markdown/markdown语法基础/1.PNG
 ---
 
 # 一、一级标题

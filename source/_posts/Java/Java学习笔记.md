@@ -6,7 +6,7 @@ top_img: transparent
 date: 2025-1-2 00:00:00
 copyright: false
 description: Java学习笔记
-cover: ../image/Java学习笔记/1.JPG
+cover: ../image/Java/Java学习笔记/1.JPG
 ---
 
 **2025.01.02**
@@ -1200,8 +1200,8 @@ public class TestDemo {
 * 非私有成员变量可以直接继承，私有成员变量也能继承，但是使用时需要使用父类中的Get和Set方法
 
 成员变量的继承的内存图：
-![非私有成员变量的继承的内存图](/image/Java学习笔记/succeed1.png)
-![私有成员变量的继承的内存图](/image/Java学习笔记/succeed2.png)
+![非私有成员变量的继承的内存图](/image/Java/Java学习笔记/succeed1.png)
+![私有成员变量的继承的内存图](/image/Java/Java学习笔记/succeed2.png)
 
 * 成员方法的继承使用的是虚方法表，虚方法表是子类从父类中继承的，且每个子类的虚方法表都是在父类的虚方法表的基础上加上自己的虚方法所构成的
 * 只有父类中的虚方法才能被子类继承
@@ -1211,7 +1211,7 @@ public class TestDemo {
   * 非final
 
 成员方法的继承的内存图：
-![成员方法的继承的内存图](/image/Java学习笔记/succeed3.png)
+![成员方法的继承的内存图](/image/Java/Java学习笔记/succeed3.png)
 
 
 ### 6.2.4 继承中的特点
@@ -1624,7 +1624,7 @@ class Dog extends Animal{
 ```
 
 多态调用成员的内存图：
-![多态调用成员的内存图](/image/Java学习笔记/polymorphism1.png)
+![多态调用成员的内存图](/image/Java/Java学习笔记/polymorphism1.png)
 
 ### 6.3.3 多态的优势和弊端
 * 多态的优势
@@ -2141,7 +2141,7 @@ public class Rabbit extends Animal{
   ```
   * java会给内部类对象添加一个隐藏的成员变量Outer this，这个this记录了外部类对象的地址值
   * 内部类的内存图
-  ![内部类的内存图](/image/Java学习笔记/Inner1.png)
+  ![内部类的内存图](/image/Java/Java学习笔记/Inner1.png)
 
 ### 6.8.2.2 静态内部类
 * 静态内部类
