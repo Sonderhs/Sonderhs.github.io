@@ -8,10 +8,9 @@ top_img: transparent
 date: 2025-3-1 00:00:00
 copyright: false
 description: HuggingFace Transformers基础入门篇
-cover: ../image/LLM/1.JPG
+cover: ../image/LLM/HuggingFace Transformers基础入门篇/cover.jpg
 ---
 
-**2025.01.02**
 # 第一章 Pipeline
 ## 1.1 Pipeline介绍
 Pipeline指的是将数据预处理、模型调用、结果后处理三部分组装成的流水线，使我们可以通过直接输入文本便获得最终的答案
@@ -684,3 +683,6 @@ trainer.predict(tokenizer_dataset["test"])
 输入：这家酒店真的很差，我再也不会来了, 预测：差评
 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [00:01<00:00,  5.44it/s]
 ```
+
+参考资料：
+[1] [【手把手带你实战HuggingFace Transformers-入门篇】基础知识与环境安装](https://www.bilibili.com/video/BV1ma4y1g791)
