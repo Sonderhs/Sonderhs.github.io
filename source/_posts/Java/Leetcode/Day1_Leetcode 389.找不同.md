@@ -6,7 +6,7 @@ top_img: transparent
 date: 2025-3-13 00:00:00
 copyright: false
 description: Leetcode 389.找不同
-cover: ../image/Java/算法Leetcode/Day1_Leetcode 389.找不同/1.JPG
+cover: ../image/Java/算法Leetcode/Day1_Leetcode389.找不同/1.JPG
 ---
 
 # Leetcode 389.找不同
