@@ -887,3 +887,1076 @@ public class RegexDemo {
     }
 }
 ```
+
+正则表达式小结：
+| 符号      | 含义                 | 举例                   |
+| :-------- | :------------------- | :--------------------- |
+| []        | 里面的内容出现一次   | [0-9] [a-zA-Z0-9]      |
+| ()        | 分组                 | a(bc)+                 |
+| ^         | 取反                 | [^abc]                 |
+| &&        | 交集                 | [a-z&&m-p]             |
+| \|        | 写在方括号外表示并集 | [a-zA-Z0-9] x     \| X |
+| .         | 任意字符             | \n回车符号不匹配       |
+| \\        | 转义字符             | \\d                    |
+| \\d       | 0-9                  | \\d+                   |
+| \\D       | 非0-9                | \\D+                   |
+| \\s       | 空白字符             | [\t\n\x0B\f\r]         |
+| \\S       | 非空白字符           | [^\s]                  |
+| \\w       | 单词字符             | [a-zA-Z_0-9]           |
+| \\W       | 非单词字符           | [^\w]                  |
+| ?         | 0次或1次             | \\d?                   |
+| *         | 0次或多次            | \\d*                   |
+| +         | 1次或多次            | \\d+                   |
+| {}        | 具体次数             | \\d{7,19}              |
+| (?i)      | 忽略后面字符的大小写 | (?i)abc                |
+| a((?i)b)c | 只忽略b的大小写      | a((?i)b)c              |
+
+## 7.2 正则表达式练习
+需求：
+* 验证输入的手机号码是否满足要求
+* 验证输入的邮箱号码是否满足要求
+* 验证输入的电话号码是否满足要求
+
+```java
+public class RegexDemo2 {
+    public static void main(String[] args) {
+        /*
+        验证手机号：13112345678 13712345667 13945679027 139456790271
+        验证座机号码：020-2324242 02122442 027-42424 0712-3242434
+        验证邮箱号码：3232323@qq.com zhangsan@itcast.cnn dlei0009@163.com dlei0009@pci.com.cn
+         */
+
+        String regex1 = "1[3-9]\\d{9}";
+        System.out.println("13112345678".matches(regex1));  // true
+        System.out.println("13712345667".matches(regex1));  // true
+        System.out.println("13945679027".matches(regex1));  // true
+        System.out.println("139456790271".matches(regex1));  // false
+        System.out.println("-----------------------------");
+
+        String regex2 = "0\\d{2,3}-?[1-9]\\d{4,9}";
+        System.out.println("020-2324242".matches(regex2));  // true
+        System.out.println("02122442".matches(regex2));  // true
+        System.out.println("027-42424".matches(regex2));  // true
+        System.out.println("0712-3242434".matches(regex2));  // true
+        System.out.println("-----------------------------");
+
+        //第一部分：@的左边 \\w+
+        //               任意的字母数字下划线，至少出现一次
+        //第二部分：@ 只能出现一次
+        //第三部分：
+        //3.1 .的左边 [\\w&&[^_]]{2,6}:任意字母数字总共出现2-6次
+        //3.2 . \\.
+        //3.3 大写字母小写字母都可以，只能出现2-3次 [a-zA-Z]{2,3}
+        //    我们可以把3.2和3.3看做一组，这一组可以出现一到两次
+        String regex3 = "\\w+@[\\w&&[^_]]{2,6}(\\.[a-zA-Z]{2,3}){1,2}";
+        System.out.println("3232323@qq.com".matches(regex3));  // true
+        System.out.println("zhangsan@itcast.cnn".matches(regex3));  // true
+        System.out.println("dlei0009@163.com".matches(regex3));  // true
+        System.out.println("dlei0009@pci.com.cn".matches(regex3));  // true
+
+        String regex4 = "([01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d";  // 24小时时间表达式
+        //优化
+        String regex5 = "([01]\\d|2[0-3])(:[0-5]\\d){2}";
+
+        //忽略大小写
+        String regex6 = "(?i)abc";
+        System.out.println("abc".matches(regex3));  // true
+        System.out.println("aBc".matches(regex3));  // true
+        System.out.println("ABC".matches(regex3));  // true
+    }
+}
+```
+
+## 7.3 爬虫
+### 7.3.1 本地数据爬取
+* Pattern: 表示正则表达式
+* Matcher: 文本匹配器，它可以按照正则表达式的规则去读取字符串，从头开始读取，在大串中去找符合匹配规则的子串。
+* m.find(): 
+  * 从头开始读取，如果有满足规则的子串，就返回true，并记录子串的起始索引和结束索引+1，如果没有则返回false
+  * 第二次调用时会从上次的结尾继续往后读取
+* m.group(): 根据find方法记录的索引截取字符串
+
+示例：
+```java
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class RegexDemo {
+    public static void main(String[] args) {
+        String str = "Java自从95年问世以来，经历了很多版本，目前企业中用的最多的是Java8和Java11，" +
+                "因为这两个是长期支持版本，下一个长期支持版本是Java17，相信在未来不久Java17也会逐渐登上历史舞台";
+
+        //1.获取正则表达式的对象
+        Pattern p = Pattern.compile("Java\\d{0,2}");
+        //2.获取文本匹配器的对象
+        //拿着m去读取str，找符合p规则的子串
+        Matcher m = p.matcher(str);
+
+        //3.利用循环获取
+        while (m.find()) {
+            String s = m.group();
+            System.out.println(s);
+        }
+    }
+}
+
+//输出：Java
+//     Java8
+//     Java11
+//     Java17
+//     Java17
+```
+### 7.3.2 网络数据爬取
+* 把连接:https://m.sengzan.com/jiaoyu/29104.html?ivk sa=1025883i中所有的身份证号码都爬取出来。
+
+
+```java
+public class RegexDemo7 {
+    public static void main(String[] args) throws IOException {
+        //创建一个URL对象
+        URL url = new URL("https://m.sengzan.com/jiaoyu/29104.html?ivk sa=1025883i");
+        //连接上这个网址
+        //细节:保证网络是畅通
+        URLConnection conn = url.openConnection();//创建一个对象去读取网络中的数据
+        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        //获取正则表达式的对象pattern
+        String regex = "[1-9]\\d{17}";
+        Pattern pattern = Pattern.compile(regex);//在读取的时候每次读一整行
+        while ((line = br.readLine()) != null) {
+            //拿着文本匹配器的对象matcher按照pattern的规则去读取当前的这一行信息
+            Matcher matcher = pattern.matcher(line);
+            while (matcher.find()) {
+                System.out.println(matcher.group());
+            }
+        }
+        br.close();
+    }
+}
+```
+### 7.3.3 带条件爬取
+* ?= ?表示前面的数据，=表示后面要跟随的数据，但是在获取时只获取前半部分
+* ?: ?表示前面的数据，:表示后面要跟随的数据，但是在获取时获取全部
+
+示例：
+需求：有如下文本，按要求爬取数据。
+​Java自从95年问世以来，经历了很多版本，目前企业中用的最多的是Java8和Java11，因为这两个是长期支持版本，下一个长期支持版本是Java17，相信在未来不久Java17也会逐渐登上历史舞台。
+需求1：爬取版本号为8，11.17的Java文本，但是只要Java，不显示版本号。
+需求2：爬取版本号为8，11，17的Java文本。正确爬取结果为：Java8 Java11 Java17 Java17
+需求3：爬取除了版本号为8，11，17的Java文本。 
+
+```java
+public class RegexDemo9{
+    public static void main(String[] args) {
+        String s = "Java自从95年问世以来，经历了很多版本，目前企业中用的最多的是Java8和Java11，" +
+            "因为这两个是长期支持版本，下一个长期支持版本是Java17，相信在未来不久Java17也会逐渐登上历史舞台";
+
+        //需求1:
+        String regex1 = "Java(?=8|11|17)";
+        //需求2:
+        String regex2 = "Java(8|11|17)";
+        String regex3 = "Java(?:8|11|17)";
+        //需求3:
+        String regex4 = "Java(?!8|11|17)";
+
+        Pattern p = Pattern.compile(regex4);
+        Matcher m = p.matcher(s);
+        while (m.find()) {
+            System.out.println(m.group());
+        }
+    }
+}
+```
+### 7.3.4 贪婪爬取和非贪婪爬取
+* 只写+和表示贪婪匹配，如果在+和后面加问号表示非贪婪爬取
+* +? 非贪婪匹配
+* *? 非贪婪匹配
+* 贪婪爬取:在爬取数据的时候尽可能的多获取数据
+* 非贪婪爬取:在爬取数据的时候尽可能的少获取数据
+
+```java
+public class RegexDemo10 {
+    public static void main(String[] args) {
+        String s = "Java自从95年问世以来，abbbbbbbbbbbbaaaaaaaaaaaaaaaaaa" +
+                "经历了很多版木，目前企业中用的最多的是]ava8和]ava11，因为这两个是长期支持版木。" +
+                "下一个长期支持版本是Java17，相信在未来不久Java17也会逐渐登上历史舞台";
+
+        String regex = "ab+";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(s);
+
+        while (m.find()) {
+            System.out.println(m.group());
+        }
+    }
+}
+```
+## 7.4 String类中使用正则表达式的方法
+### 7.4.1 split():切割字符串
+* public String split(String regex): 参数regex表示正则表达式。可以将当前字符串中匹配regex正则表达式的符号作为"分隔符"来切割字符串
+
+示例：
+```java
+String s = "小诗诗dqwefqwfqwfwq12312小丹丹dqwefqwfqwfwq12312小惠惠";
+//方法在底层跟之前一样也会创建文本解析器的对象
+//然后从头开始去读取字符串中的内容，只要有满足的，那么就切割。
+String[] arr = s.split("[\\w&&[^_]]+");
+for (int i = 0; i &lt; arr.length; i++) {
+    System.out.println(arr[i]);
+}
+
+//输出：小诗诗
+//     小丹丹
+//     小惠惠
+```
+
+### 7.4.2 replaceAll():替换字符串
+* public String replaceAll(String regex, String newStr): 参数regex表示一个正则表达式。可以将当前字符串中匹配regex正则表达式的字符串替换为newStr
+
+示例：
+```java
+String s = "小诗诗dqwefqwfqwfwq12312小丹丹dqwefqwfqwfwq12312小惠惠";
+//方法在底层跟之前一样也会创建文本解析器的对象
+//然后从头开始去读取字符串中的内容，只要有满足的，那么就用第一个参数去替换。
+String result1 = s.replaceAll("[\\w&&[^_]]+", "vs");
+System.out.println(result1);
+
+//输出：小诗诗vs小丹丹vs小惠惠
+```
+
+## 7.5 分组
+* 组号：
+  * 从1开始，连续不间断
+  * 以左括号为基准，最左边的是第一组
+* 捕获分组：后续还要继续使用本组的数据
+  * 正则内部使用：\\组号
+  * 正则外部使用：$组号
+* 非捕获分组：分组之后不需要再用本组数据，仅仅是把数据括起来，且不占用组号
+  * (?:正则)：获取所有
+  * (?=正则)：获取前面部分
+  * (?!正则)：获取不是指定内容的前面部分
+
+
+```java
+//需求1:判断一个字符串的开始字符和结束字符是否一致?只考虑一个字符
+//举例: a123a b456b 17891 &abc& a123b(false)
+// \\组号:表示把第X组的内容再出来用一次
+String regex1 = "(.).+\\1";
+System.out.println("a123a".matches(regex1));  //true
+System.out.println("b456b".matches(regex1));  //true
+System.out.println("17891".matches(regex1));  //true
+System.out.println("&abc&".matches(regex1));  //true
+System.out.println("a123b".matches(regex1));  //false
+System.out.println("--------------------------");
+
+
+//需求2:判断一个字符串的开始部分和结束部分是否一致?可以有多个字符
+//举例: abc123abc b456b 123789123 &!@abc&!@ abc123abd(false)
+String regex2 = "(.+).+\\1";
+System.out.println("abc123abc".matches(regex2));  //true
+System.out.println("b456b".matches(regex2));  //true
+System.out.println("123789123".matches(regex2));  //true
+System.out.println("&!@abc&!@".matches(regex2));  //true
+System.out.println("abc123abd".matches(regex2));  //false
+System.out.println("---------------------");
+
+//需求3:判断一个字符串的开始部分和结束部分是否一致?开始部分内部每个字符也需要一致
+//举例: aaa123aaa bbb456bbb 111789111 &&abc&&
+//(.):把首字母看做一组
+// \\2:把首字母拿出来再次使用
+// *:作用于\\2,表示后面重复的内容出现日次或多次
+String regex3 = "((.)\\2*).+\\1";
+System.out.println("aaa123aaa".matches(regex3));  //true
+System.out.println("bbb456bbb".matches(regex3));  //true
+System.out.println("111789111".matches(regex3));  //true
+System.out.println("&&abc&&".matches(regex3));  //true
+System.out.println("aaa123aab".matches(regex3));  //false
+
+//非捕获分组
+//regex1报错原因是?:为非捕获分组，不占用组号，所以不存在第一组，所以\\1会报错
+//String regex1 ="[1-9]\\d{16}(?:\\d|x|x)\\1";
+String regex2 ="[1-9]\\d{16}(\\d Xx)\\1";
+System.out.println("41080119930228457x".matches(regex2));  //false
+```
+
+# 第八章 时间类
+* JDK7前时间相关类：
+  * Date: 时间
+  * SimpleDateFormat: 格式化时间
+  * Calendar: 日历
+
+## 8.1 Date介绍
+* 世界标准时间：格林尼治时间/格林威治时间(Greenwich Mean Time)简称GMT，目前世界标准时间(UTC)已经替换为：原子钟
+* 中国标准时间：世界标准时间+8小时
+* Date类是一个JDK写好的Javabean类，用来描述时间，精确到毫秒
+* 利用空参构造创建的对象，默认表示系统当前时间
+* 利用有参构造创建的对象，表示指定的时间
+
+## 8.2 Date常用方法
+### 8.2.1 Date():创建Date对象，表示当前时间
+* public Date(): 创建Date对象，表示当前时间
+
+示例：
+```java
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        Date d = new Date();
+        System.out.println(d);
+    }
+}
+
+//输出：Wed Mar 12 12:40:13 CST 2025
+```
+### 8.2.2 Date(long date):创建Date对象，表示指定时间
+* public Date(long date): 创建Date对象，表示指定时间
+
+```java
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        Date d = new Date(0L);  //表示从时间原点开始过了0毫秒的时间
+        System.out.println(d);
+    }
+}
+
+//输出：Thu Jan 01 08:00:00 CST 1970
+```
+### 8.2.3 setTime(long time):设置/修改毫秒值
+* public void setTime(long time): 设置/修改毫秒值
+
+示例：
+```java
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        Date d = new Date(0L);
+        System.out.println(d);
+
+        d.setTime(1000L);
+        System.out.println(d);
+    }
+}
+
+//输出：Thu Jan 01 08:00:00 CST 1970
+//     Thu Jan 01 08:00:01 CST 1970
+```
+### 8.2.4 getTime():获取时间对象的毫秒值
+* public long getTime(): 获取时间对象的毫秒值
+
+示例：
+```java
+import java.util.Date;
+
+public class Main {
+    public static void main(String[] args) {
+        Date d = new Date(0L);
+        System.out.println(d);
+
+        d.setTime(1000L);
+        System.out.println(d);
+
+        long time = d.getTime();
+        System.out.println(time);
+    }
+}
+
+//输出：Thu Jan 01 08:00:00 CST 1970
+//     Thu Jan 01 08:00:01 CST 1970
+//     1000
+```
+## 8.3 SimpleDateFormat介绍
+* Date类获取的时间只能是固定格式
+* 格式化：SimpleDateFormat类可以把时间变成其他格式
+* 解析：SimpleDateFormat能把字符串表示的时间变成Date对象
+## 8.4 SimpleDateFormat常用方法
+### 8.4.1 SimpleDateFormat():构造一个SimpleDateFormat，使用默认格式
+* public SimpleDateFormat():构造一个SimpleDateFormat，使用默认格式
+
+示例：
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatDemo {
+    public static void main(String[] args) {
+        SimpleDateFormat s = new SimpleDateFormat();
+        Date d = new Date(0L);
+        String str = s.format(d);
+        System.out.println(str);
+    }
+}
+
+//输出：1970/1/1 上午8:00
+```
+### 8.4.2 SimpleDateFormat(String pattern):构造一个SimpleDateFormat，使用指定格式
+* public SimpleDateFormat(String pattern):构造一个SimpleDateFormat，使用指定格式
+
+格式化的时间形式的常用模式对应关系：
+|     |     |
+| --- | --- |
+| y   | 年  |
+| M   | 月  |
+| d   | 日  |
+| H   | 时  |
+| m   | 分  |
+| s   | 秒  |
+例如：2023-11-11 13:27:06可以表示为yyyy-MM-dd HH:mm:ss
+
+示例：
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatDemo {
+    public static void main(String[] args) {
+        SimpleDateFormat s = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date d = new Date(0L);
+        String str = s.format(d);
+        System.out.println(str);
+    }
+}
+
+//输出：1970年01月01日 08:00:00
+```
+### 8.4.3 format(Date date):格式化
+* public final String format(Date date): 格式化(日期对象->字符串)
+
+示例：
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatDemo {
+    public static void main(String[] args) {
+        SimpleDateFormat s = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+        Date d = new Date(0L);
+        String str = s.format(d);
+        System.out.println(str);
+    }
+}
+
+//输出：1970年01月01日 08:00:00
+```
+### 8.4.4 parse(String source):解析
+* public Date parse(String source): 解析(字符串->日期对象)
+* 创建对象的格式要跟字符串的格式完全一致
+
+示例：
+```java
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatDemo {
+    public static void main(String[] args) throws ParseException {
+        String str = "2025-03-12 13:18:00";
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = s.parse(str);
+        System.out.println(d);
+    }
+}
+
+//输出：Wed Mar 12 13:18:00 CST 2025
+```
+
+## 8.5 Calendar介绍
+* Calendar代表了系统当前时间的日历对象，可以单独修改、获取时间中的年月日
+* Calendar是一个抽象类，不能直接创建对象
+
+## 8.6 Calendar常用方法
+### 8.6.1 getInstance():获取当前时间的日历对象
+* public static Calendar getInstance(): 获取当前时间的日历对象
+* 会根据系统的不同时区获取不同的日历对象
+* 会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+* 月份：0-11
+* 星期：1(星期日) 2(星期一) 3(星期二) 4(星期三) 5(星期四) 6(星期五) 7(星期六)
+
+示例：
+```java
+import java.util.Calendar;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal);
+    }
+}
+
+//输出：java.util.GregorianCalendar[time=1741758841637,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=31,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2025,MONTH=2,WEEK_OF_YEAR=11,WEEK_OF_MONTH=3,DAY_OF_MONTH=12,DAY_OF_YEAR=71,DAY_OF_WEEK=4,DAY_OF_WEEK_IN_MONTH=2,AM_PM=1,HOUR=1,HOUR_OF_DAY=13,MINUTE=54,SECOND=1,MILLISECOND=637,ZONE_OFFSET=28800000,DST_OFFSET=0]
+```
+### 8.6.2 getTime():获取日期对象
+* public final Date getTime(): 获取日期对象
+
+示例：
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal);
+
+        Date d = cal.getTime();
+
+        System.out.println(cal);
+    }
+}
+
+//输出：java.util.GregorianCalendar[time=1741759101026,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=31,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=2025,MONTH=2,WEEK_OF_YEAR=11,WEEK_OF_MONTH=3,DAY_OF_MONTH=12,DAY_OF_YEAR=71,DAY_OF_WEEK=4,DAY_OF_WEEK_IN_MONTH=2,AM_PM=1,HOUR=1,HOUR_OF_DAY=13,MINUTE=58,SECOND=21,MILLISECOND=26,ZONE_OFFSET=28800000,DST_OFFSET=0]
+```
+### 8.6.3 setTime(Date date):给日历设置日期对象
+* public final void setTime(Date date):给日历设置日期对象
+
+示例：
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+        System.out.println(cal);
+
+        Date d = new Date(0L);
+        cal.setTime(d);
+
+        System.out.println(cal);
+    }
+}
+
+//输出：java.util.GregorianCalendar[time=0,areFieldsSet=true,areAllFieldsSet=true,lenient=true,zone=sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=31,lastRule=null],firstDayOfWeek=1,minimalDaysInFirstWeek=1,ERA=1,YEAR=1970,MONTH=0,WEEK_OF_YEAR=1,WEEK_OF_MONTH=1,DAY_OF_MONTH=1,DAY_OF_YEAR=1,DAY_OF_WEEK=5,DAY_OF_WEEK_IN_MONTH=1,AM_PM=0,HOUR=8,HOUR_OF_DAY=8,MINUTE=0,SECOND=0,MILLISECOND=0,ZONE_OFFSET=28800000,DST_OFFSET=0]
+```
+### 8.6.4 getTimeInMillis():拿到时间毫秒值
+* public long getTimeInMillis():拿到时间毫秒值
+
+### 8.6.5 setTimeInMillis(long millis):给日历设置时间毫秒值
+* public void setTimeInMillis(long millis): 给日历设置时间毫秒值
+
+### 8.6.6 get(int field):取日历中的某个字段信息
+* public int get(int field): 取日历中的某个字段信息
+
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        System.out.println(year+"-"+month+"-"+day);
+    }
+}
+
+//输出：2025-3-12
+```
+### 8.6.7 set(int field,int value):修改日历中的某个字段信息
+* public void set(int field,int value): 修改日历中的某个字段信息
+
+示例：
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(Calendar.YEAR, 2000);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        System.out.println(year+"-"+month+"-"+day);
+    }
+}
+
+//输出：2000-3-12
+```
+### 8.6.8 add(int field,int amount):为某个字段增加/减少指定的值
+* public void add(int field,int amount): 为某个字段增加/减少指定的值
+* 正数往后加，负数往前减
+
+示例：
+```java
+import java.util.Calendar;
+import java.util.Date;
+
+public class CalendarDemo {
+    public static void main(String[] args) {
+        //会根据系统的不同时区获取不同的日历对象
+        //会把时间中的纪元，年，月，日，时，分，秒，星期等等都放到一个数组当中
+        Calendar cal = Calendar.getInstance();
+
+        cal.add(Calendar.YEAR, 2);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        System.out.println(year+"-"+month+"-"+day);
+    }
+}
+
+//输出：2027-3-12
+```
+
+## 8.7 JDK8时间类
+JDK7与JDK8中时间类区别：
+* JDK7：代码麻烦，需要现将日期对象转换为毫秒值才能进行计算和比较。多线程环境下会导致数据安全问题
+* JDK8：代码简单，时间日期对象都是不可变的，解决了这个问题
+
+## 8.8 JDK8时间类常用方法
+### 8.8.1 ZoneId:时区
+* static Set\<String> getAvailableZoneIds(): 获取Java中支持的所有时区
+* static ZoneId systemDefault(): 获取系统默认时区
+* static ZoneId of(String zoneId): 获取一个指定时区
+
+示例：
+```java
+import java.time.ZoneId;
+import java.util.Set;
+
+public class ZoneIdDemo {
+    public static void main(String[] args) {
+        Set<String> zoneIds = ZoneId.getAvailableZoneIds();
+        System.out.println(zoneIds.size());
+
+        ZoneId zoneId = ZoneId.systemDefault();
+        System.out.println(zoneId);
+
+        ZoneId zoneId1 = ZoneId.of("America/Toronto");
+        System.out.println(zoneId1);
+    }
+}
+
+//输出：603
+//     Asia/Shanghai
+//     America/Toronto
+```
+### 8.8.2 Instant:时间戳
+* static Instant now(): 获取当前时间的Instant对象(标准时间)
+* static Instant ofXxxx(long epochMilli): 根据(秒/毫秒/纳秒)获取Instant对象
+* ZonedDateTime atZone(ZoneId zone): 指定时区
+* boolean isXxx(Instant otherInstant): 判断系列的方法
+* Instant minusXxx(long millisToSubtract): 减少时间系列的方法
+* Instant plusXxx(long millisToSubtract): 增加时间系列的方法
+
+示例：
+```java
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+public class InstantDemo {
+    public static void main(String[] args) {
+        Instant now = Instant.now();
+        System.out.println(now);
+
+        Instant instant1 = Instant.ofEpochMilli(0L);
+        System.out.println(instant1);
+
+        ZonedDateTime zonedDateTime = Instant.now().atZone(ZoneId.of("Asia/Shanghai"));
+        System.out.println(zonedDateTime);
+
+        Instant instant2 = Instant.ofEpochMilli(0L);
+        Instant instant3 = Instant.ofEpochMilli(1000L);
+
+        boolean result = instant2.isBefore(instant3);
+        System.out.println(result);
+
+        Instant instant4 = Instant.now().minusMillis(1000L);
+        System.out.println(instant4);
+    }
+}
+
+//输出：2025-03-13T08:51:30.159427Z
+//     1970-01-01T00:00:00Z
+//     2025-03-13T16:51:30.165425100+08:00[Asia/Shanghai]
+//     true
+//     2025-03-13T08:51:29.179210200Z
+```
+### 8.8.3 ZonedDateTime:带时区的时间
+* static ZonedDateTime now(): 获取当前时间的ZonedDateTime对象
+* static ZonedDateTime ofXxxx(...) :获取指定时间的ZonedDateTime对象
+* ZonedDateTime withXxx(时间): 修改时间系列的方法
+* ZonedDateTime miusXxx(时间): 减少时间系列的方法
+* ZonedDateTime plusXxx(时间): 增加时间系列的方法
+
+示例：
+```java
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+public class ZoneDateTimeDemo {
+    public static void main(String[] args) {
+        ZonedDateTime now = ZonedDateTime.now();
+        System.out.println(now);
+
+        //年月日时分秒纳秒时区
+        ZonedDateTime time1 = ZonedDateTime.of(2025,10,1,11,12,12,0, ZoneId.of("Asia/Shanghai"));
+        System.out.println(time1);
+
+        Instant instant = Instant.ofEpochMilli(0L);
+        ZoneId zoneId = ZoneId.of("Asia/Shanghai");
+        ZonedDateTime time2 = ZonedDateTime.ofInstant(instant, zoneId);
+        System.out.println(time2);
+
+        ZonedDateTime time3 = time2.withYear(2000);
+        System.out.println(time3);
+
+        ZonedDateTime time4 = time3.minusYears(1);
+        System.out.println(time4);
+
+        ZonedDateTime time5 = time4.plusYears(1);
+        System.out.println(time5);
+    }
+}
+
+//输出：2025-03-13T17:08:15.850085300+08:00[Asia/Shanghai]
+//     2025-10-01T11:12:12+08:00[Asia/Shanghai]
+//     1970-01-01T08:00+08:00[Asia/Shanghai]
+//     2000-01-01T08:00+08:00[Asia/Shanghai]
+//     1999-01-01T08:00+08:00[Asia/Shanghai]
+//     2000-01-01T08:00+08:00[Asia/Shanghai]
+```
+### 8.8.4 DateTimeFormatter:用于时间的格式化和解析
+* static DateTimeFormatter ofPattern(格式): 获取格式对象
+* String format(时间对象): 按照指定方式格式化
+
+示例：
+```java
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
+public class DateTimeFormatterDemo {
+    public static void main(String[] args) {
+        ZonedDateTime time = Instant.now().atZone(ZoneId.of("Asia/Shanghai"));
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+        System.out.println(dateTimeFormatter.format(time));
+    }
+}
+
+//输出：2025-03-13 17:12:30.558
+```
+### 8.8.5 LocalDate:年、月、日；LocalTime:时、分、秒LocalDateTime:年、月、日、时、分、秒
+* static XXX now(): 获取当前时间的对象
+* static XXX of(...): 获取指定时间的对象
+* get开头的方法: 获取日历中的年月日时分秒等信息
+* isBefore、isAfter: 比较两个LocalDate
+* with开头的: 修改时间系列的方法
+* minus开头的: 减少时间系列的方法
+* plus开头的: 增加时间系列的方法
+* public LocalDate toLocalDate(): LocalDateTime转换成一个LocalDate对象
+* public LocalTime toLocalTime(): LocalDateTime转换成一个LocalTime对象
+
+### 8.8.6 Duration:时间间隔(秒，纳秒)；Period:时间间隔(年，月，日)；ChronoUnit:时间间隔(所有单位)
+* Duration: 用于计算两个时间间隔(秒，纳秒)
+* Period: 用于计算两个时间间隔(年，月，日)
+* ChronoUnit: 用于计算两个时间间隔(所有单位)
+
+示例：
+```java
+import java.time.LocalDate;
+import java.time.Period;
+
+public class PeriodDemo {
+    public static void main(String[] args) {
+        LocalDate now = LocalDate.now();
+        System.out.println(now);
+
+        LocalDate localDate = LocalDate.of(2000, 1, 1);
+        System.out.println(localDate);
+
+        //第二个参数减去第一个参数
+        Period period = Period.between(localDate, now);
+        System.out.println(period.getYears());
+        System.out.println(period.getMonths());
+        System.out.println(period.getDays());
+
+        //两个时间之间一共间隔多少个月
+        System.out.println(period.toTotalMonths());
+    }
+}
+
+//输出：2025-03-13
+//     2000-01-01
+//     25
+//     2
+//     12
+//     302
+```
+
+# 第九章 包装类
+* 包装类是基本数据类型对应的对象
+* JDK5以后，包装类可以直接自动装箱和自动拆箱
+* JDK5以后获取包装类对象就不需要new，不需要调用方法，直接赋值即可
+
+| 基本数据类型 | 包装类    |
+| :----------- | :-------- |
+| byte         | Byte      |
+| short        | Short     |
+| char         | Character |
+| int          | Integer   |
+| long         | Long      |
+| float        | Float     |
+| double       | Double    |
+| boolean      | Boolean   |
+
+## 9.1 获取Integer对象的方式(了解)
+* public Integer(int value): 根据传递的整数创建一个Integer对象
+* public Integer(String s): 根据传递的字符串创建一个Integer对象
+* public static Integer valueOf(int i): 根据传递的整数创建一个Integer对象
+* public static Integer valueOf(String s): 根据传递的字符串创建一个Integer对象
+* public static Integer valueOf(String s,int radix): 根据传递的字符串和进制创建一个Integer对象
+
+## 9.2 Integer常用方法
+* public static String toBinaryString(int i): 得到二进制
+* public static String toOctalString(int i): 得到八进制
+* public static String toHexString(int i): 得到十六进制
+* public static int parseInt(String s): 将字符串类型的整数转成int类型的整数
+
+示例：
+```java
+public class IntegerDemo {
+    public static void main(String[] args) {
+        String str1 = Integer.toBinaryString(100);
+        System.out.println(str1);
+
+        String str2 = Integer.toOctalString(100);
+        System.out.println(str2);
+
+        String str3 = Integer.toHexString(100);
+        System.out.println(str3);
+
+        int i = Integer.parseInt("123");
+        System.out.println(i);
+        System.out.println(i + 1);
+    }
+}
+
+//输出：1100100
+//     144
+//     64
+//     123
+//     124
+```
+
+# 第十章 Arrays
+## 10.1 Arrays介绍
+Arrays是操作数组的工具类
+## 10.2 Arrays常用方法
+### 10.2.1 toString(数组):把数组拼接成一个字符串
+* public static String toString(数组): 把数组拼接成一个字符串
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+//输出：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+### 10.2.2 binarySearch(数组,查找的元素):二分查找法查找元素
+* public static int binarySearch(数组,查找的元素): 二分查找法查找元素
+* 元素存在则返回真实索引
+* 元素不存在则返回-插入点-1
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(arr));
+
+        System.out.println(Arrays.binarySearch(arr, 10));
+        System.out.println(Arrays.binarySearch(arr, 20));
+    }
+}
+
+//输出：9
+//     -11
+```
+### 10.2.3 copyOf(原数组,新数组长度):拷贝数组
+* public static int[] copyOf(原数组,新数组长度): 拷贝数组
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(arr));
+
+        int[] newArr1 = Arrays.copyOf(arr, 20);
+        System.out.println(Arrays.toString(newArr1));
+    }
+}
+
+//输出：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+```
+### 10.2.4 copyOfRange(原数组,起始索引,结束索引):拷贝数组(指定范围)
+* public static int[] copyOfRange(原数组,起始索引,结束索引): 拷贝数组(指定范围)
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(arr));
+
+        int[] newArr2 = Arrays.copyOfRange(arr, 0, 9);
+        System.out.println(Arrays.toString(newArr2));
+    }
+}
+
+//输出：[1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+### 10.2.5 fill(数组,元素):填充数组
+* public static void fill(数组,元素): 填充数组
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        System.out.println(Arrays.toString(arr));
+
+        Arrays.fill(arr, 100);
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+//输出：[100, 100, 100, 100, 100, 100, 100, 100, 100, 100]
+```
+### 10.2.6 sort(数组):按照默认方式进行数组排序
+* public static void sort(数组): 按照默认方式进行数组排序
+* 默认是升序排序，底层使用的是快速排序
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        int[] arr2 = {10, 8, 6, 1, 4, 3, 5, 7, 2, 9};
+        Arrays.sort(arr2);
+        System.out.println(Arrays.toString(arr2));
+    }
+}
+
+//输出：[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+### 10.2.7 sort(数组,排序规则):按照指定的规则排序
+* public static void sort(数组,排序规则): 按照指定的规则排序
+* 只能给引用数据类型的数组进行排序
+* 如果数组是基本数据类型的，需要变成其对应的包装类
+* 第二个参数是一个接口，所以在调用方法时需要传递这个端口的实现类对象作为排序的规则
+* 因为这个实现类只需要使用一次，所以没必要单独写一个类，直接使用匿名内部类即可
+* 利用插入排序+二分查找的方式进行排序
+* 默认把0索引的数据当做是有序的序列，将其他元素插入进去
+* 如果comparator返回值是负数，拿着A继续跟前面的数据进行比较
+* 如果comparator返回值是正数，拿着A继续跟后面的数据进行比较
+* 如果comparator返回值是0，拿着A继续跟后面的数据进行比较
+* 负数->放前面 正数/0->放后面
+* o1 - o2: 升序排列
+* o2 - o1: 降序排列
+
+示例：
+```java
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        Integer[] arr = {10, 8, 6, 1, 4, 3, 5, 7, 2, 9};
+        Arrays.sort(arr, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+//输出：[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+```
+
+## 10.3 lambda表达式
+* 函数式编程：函数式编程是一种思想特点，函数式编程思想就是忽略面向对象的复杂语法，强调做什么，而不是谁去做
+* 语法：() -> {}
+  * (): 对应着方法的形参
+  * ->: 固定格式
+  * {}: 对应着方法的方法体
+* lambda表达式可以简化匿名内部类的书写
+* lambda表达式只能简化函数式接口的匿名内部类的写法
+* 函数式接口：有且仅有一个抽象方法的接口叫做函数式接口，接口上方可以加@FunctionallInterface注解
+
+示例：
+```java
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Main {
+    public static void main(String[] args) {
+        Integer[] arr = {10, 8, 6, 1, 4, 3, 5, 7, 2, 9};
+        Arrays.sort(arr, (Integer o1, Integer o2) ->{
+                return o2 - o1;
+            }
+        );
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+//输出：[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+```
+
+* lambda表达式的省略规则：
+  * 参数类型可以省略不写
+  * 如果只有一个参数，参数类型可以省略，同时()也可以省略
+  * 如果lambda表达式的方法体只有一行，大括号，分号，return可以省略不写，且需要同时省略
+
+示例：
+```java
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class Main {
+    public static void main(String[] args) {
+        Integer[] arr = {10, 8, 6, 1, 4, 3, 5, 7, 2, 9};
+        Arrays.sort(arr, (o1, o2)-> o2 - o1);
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+//输出：[10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+```
