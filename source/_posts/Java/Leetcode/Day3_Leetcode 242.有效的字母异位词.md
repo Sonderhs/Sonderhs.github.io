@@ -6,7 +6,7 @@ top_img: transparent
 date: 2025-3-15 00:00:00
 copyright: false
 description: Leetcode 242.有效的字母异位词
-cover: ../image/Java/算法Leetcode/Day3_Leetcode 242.有效的字母异位词/1.JPG
+cover: ../image/Java/算法Leetcode/Day3_Leetcode242.有效的字母异位词/1.JPG
 ---
 
 # Leetcode 242.有效的字母异位词
