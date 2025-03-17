@@ -303,3 +303,176 @@ public class ForDemo {
 //     ccc
 //     ddd
 ```
+
+---------------------------------------------------- 
+**2025.03.17**
+
+## 1.5 List
+List集合的特点：
+* 有序：存和取的元素顺序一致
+* 有索引：可以通过索引操作元素
+* 可重复：存储的元素可以重复
+
+## 1.6 List常用方法
+List集合的特有方法：
+* Collection的方法List都继承了
+* List集合因为有索引，所以多了很多索引操作的方法
+
+### 1.6.1 add(int index,E element):在此集合中的指定位置插入指定的元素
+* void add(int index,E element): 在此集合中的指定位置插入指定的元素
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        list.add(1, "ddd");
+        System.out.println(list);
+    }
+}
+
+//输出：[aaa, ddd, bbb, ccc]
+```
+### 1.6.2 remove(int index):删除指定索引处的元素，返回被删除的元素
+* E remove(int index): 删除指定索引处的元素，返回被删除的元素
+* List中有两种remove
+  * 一种是删除指定元素
+  * 一种是删除指定索引处的元素
+  * 在调用方法时，如果方法出现了重载现象，优先调用实参跟形参一致的那个方法
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        String remove = list.remove(2);
+        System.out.println(remove);
+        System.out.println(list);
+    }
+}
+
+//输出：ccc
+//     [aaa, bbb]
+```
+### 1.6.3 set(int index,E element):修改指定索引处的元素，返回被修改的元素
+* E set(int index,E element): 修改指定索引处的元素，返回被修改的元素
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        String set = list.set(2, "eee");
+        System.out.println(set);
+        System.out.println(list);
+    }
+}
+
+//输出：ccc
+//     [aaa, bbb, eee]
+```
+### 1.6.4 get(int index):返回指定索引处的元素
+* E get(int index): 返回指定索引处的元素
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        String get = list.get(2);
+        System.out.println(get);
+    }
+}
+
+//输出：ccc
+```
+## 1.7 List遍历方式
+List遍历方式一共有五种，其中三种是继承于Collection的：
+* 迭代器遍历: 在遍历过程中需要删除元素，使用迭代器遍历
+* 列表迭代器遍历：在遍历过程中需要添加元素，使用列表迭代器遍历
+* 增强for遍历：仅仅想遍历，使用增强for或Lambda表达式遍历
+* Lambda表达式遍历：仅仅想遍历，使用增强for或Lambda表达式遍历
+* 普通for循环：如果遍历的时候想操作索引，可以使用普通for
+
+### 1.7.1 列表迭代器遍历
+* 利用ListIterator进行遍历
+* 可以在遍历过程中使用迭代器本身的add方法添加元素：iterator.add()
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        ListIterator<String> iterator = list.listIterator();
+        while (iterator.hasNext()) {
+            String str = iterator.next();
+            System.out.println(str);
+        }
+    }
+}
+
+//输出：aaa
+//     bbb
+//     ccc
+```
+### 1.7.2 普通for遍历
+* 利用for循环和get方法遍历
+
+示例：
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class ListDemo {
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<String>();
+        list.add("aaa");
+        list.add("bbb");
+        list.add("ccc");
+
+        for (int i = 0; i < list.size(); i++) {
+            String s = list.get(i);
+            System.out.println(s);
+        }
+    }
+}
+
+//输出：aaa
+//     bbb
+//     ccc
+```
