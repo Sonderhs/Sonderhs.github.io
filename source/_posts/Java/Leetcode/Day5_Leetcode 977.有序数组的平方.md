@@ -78,7 +78,7 @@ class Solution {
 * 空间复杂度：O(1)。除了存储答案的数组以外，我们只需要维护常量空间。
 
 ```java
-cclass Solution {
+class Solution {
     public int[] sortedSquares(int[] nums) {
         int n = nums.length;
         int[] ans = new int[n];
