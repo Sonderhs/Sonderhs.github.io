@@ -559,7 +559,94 @@ public class ListDemo {
 创建迭代器时的底层原理：
 ![迭代器底层原理](/image/Java/Java集合进阶/迭代器底层原理.png)
 
+---------------------------------------------------- 
+**2025.03.24**
+### 3.7 树
+* 树的结构：
+![树的结构](/image/Java/Java集合进阶/tree1.png)
 
+* 树的每个节点包含四个值：
+  * 父节点地址
+  * 值
+  * 左子节点地址
+  * 右子节点地址
+* 度：每一个节点的子结点数量
+* 树高：树的总层数
+* 根节点：最顶层的节点
+* 左子结点：左下方的节点
+* 右子节点：右下方的节点
+
+#### 3.7.1 二叉查找树
+* 二叉查找树，又称二叉排序树或者二叉搜索树
+* 特点：
+  * 每一个节点上最多有两个子结点
+  * 任意节点左子树上的值都小于当前节点
+  * 任意节点右子树上的值都大于当前节点
+![二叉查找树](/image/Java/Java集合进阶/tree2.png)
+* 二叉查找树添加节点规则：
+  * 小的存左边
+  * 大的存右边
+  * 一样的不存
+
+#### 3.7.2 二叉树遍历方式
+* 前序遍历：根->左->右
+* 中序遍历：左->根->右
+* 后序遍历：左->右->根
+* 层序遍历：一层一层遍历
+
+#### 3.7.3 平衡二叉树
+* 由于二叉查找树可能会因数据分布造成两边不平衡的问题，所以才有平衡二叉树
+* 规则：任意节点左右子树高度差不超过1
+
+| <img src="/image/Java/Java集合进阶/tree3.png" width="350"/> | <img src="/image/Java/Java集合进阶/tree4.png" width="250"/> |
+| ----------------------------------------------------------- | ----------------------------------------------------------- |
+
+* 平衡二叉树的旋转机制：由于平衡二叉树要保持平衡，所以在添加节点时需要使用旋转机制
+* 左旋步骤：
+  * 确定支点：从添加的节点开始，不断地往父节点找不平衡的节点
+  * 将根节点的右侧往左拉
+  * 原先的右子节点变成新的父节点，并把多余的左子结点出让，给已降级的根节点当右子节点
+
+| <img src="/image/Java/Java集合进阶/tree5.png" alt="确定支点" width="350"/> | <img src="/image/Java/Java集合进阶/tree6.png" alt="根节点的右侧往左拉" width="350"/> | <img src="/image/Java/Java集合进阶/tree7.png" alt="让出左子结点" width="350"/> |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+
+* 右旋步骤：
+  * 确定支点：从添加的节点开始，不断地往父节点找不平衡的节点
+  * 将根节点的左侧往右拉
+  * 原先的左子节点变成新的父节点，并把多余的右子结点出让，给已降级的根节点当左子节点
+
+| <img src="/image/Java/Java集合进阶/tree8.png" alt="确定支点" width="350"/> | <img src="/image/Java/Java集合进阶/tree9.png" alt="根节点的左侧往右拉" width="350"/> | <img src="/image/Java/Java集合进阶/tree10.png" alt="让出右子结点" width="350"/> |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+
+* 平衡二叉树需要旋转的四种情况
+  * 左左：当根节点左子树的左子树有节点插入，导致二叉树不平衡
+    * 一次右旋
+  * 左右：当根节点左子树的右子树有节点插入，导致二叉树不平衡
+    * 先局部左旋，再整体右旋
+  * 右右：当根节点右子树的右子树有节点插入，导致二叉树不平衡
+    * 一次左旋
+  * 右左：当根节点右子树的左子树有节点插入，导致二叉树不平衡
+    * 先局部右旋，再整体左旋
+
+#### 3.7.4 红黑树
+* 红黑树是一种自平衡的二叉查找树
+* 1972年出现，当时被称为平衡二叉B树，后来1978年被修改为红黑树
+* 它是一种特殊的二叉查找树，红黑树的每一个节点上都有存储位表示节点的颜色
+* 每一个节点可以是红或者黑，红黑树不是高度平衡的，它的平衡是通过“红黑规则”进行实现的
+![平衡二叉树与红黑树](/image/Java/Java集合进阶/tree11.png)
+* 红黑树规则：
+  * 每一个节点或是红色的，或是黑色的
+  * 根节点必须是黑色
+  * 如果一个节点没有子结点或者父节点，则该节点相应的指针属性为Nil，这些Nil视为叶节点，每个叶节点(Nil)是黑色的
+  * 如果某一个节点是红色的，那么它的子结点必须是黑色(不能出现两个红色节点相连的情况)
+  * 对每一个节点，从该节点到其所有后代叶节点的简单路径上，均包含相同数目的黑色节点
+  * “左根右，根叶黑，不红红，黑路同”
+![红黑树](/image/Java/Java集合进阶/tree12.png)
+* 红黑树添加节点规则：
+  * ![红黑树添加节点规则](/image/Java/Java集合进阶/tree13.png)
+
+---------------------------------------------------- 
+**2025.03.23**
 ## 第四章 泛型
 * 泛型：是JDK5中引入的特性，可以在编译阶段约束操作的数据类型，并进行检查
 * 泛型的格式：<数据类型>
@@ -782,4 +869,182 @@ class Ye {}
 class Fu extends Ye {}
 class Zi extends Fu {}
 class Student {}
+```
+
+---------------------------------------------------- 
+**2025.03.24**
+## 第五章 Set
+Set系列集合：
+* 无序：存取顺序不一致
+* 不重复：可以去除重复
+* 无索引：没有带索引的方法，所以不能使用普通for循环遍历，也不能通过索引来获取元素
+
+Set集合的实现类：
+* HashSet：无序、不重复、无索引
+* LinkedSet：有序、不重复、无索引
+* TreeSet：可排序、不重复、无索引
+
+Set接口中的方法基本上与Collection的API一致
+![Set继承Collection中的方法](/image/Java/Java集合进阶/set1.png)
+
+
+示例：
+```java
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.function.Consumer;
+
+public class Main {
+    public static void main(String[] args) {
+        //利用Set系列集合添加字符串并用多种方式遍历
+
+        Set<String> s = new HashSet<>();
+
+        //添加元素时，若该元素不存在则添加成功，若存在则添加失败
+        s.add("aaa");
+        s.add("bbb");
+        s.add("ccc");
+
+        //无序
+        System.out.println(s);  //[aaa, ccc, bbb]
+
+        //利用迭代器遍历
+        Iterator<String> iterator = s.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
+        //增强for
+        for (String string : s) {
+            System.out.println(string);
+        }
+
+        //lambda表达式遍历
+        s.forEach(str -> System.out.println(str));
+    }
+}
+```
+
+### 5.1 HashSet
+* HashSet底层原理：
+  * HashSet集合底层采取哈希表存储数据
+  * 哈希表是一种对于增删改查数据性能都比较好的结构
+* 哈希表组成：
+  * JDK8之前：数组+链表
+  * JDK8之后：数组+链表+红黑树
+* 哈希值：
+  * 根据hashCode方法计算出来的int类型的整数
+  * 该方法定义在Object类中，所有对象都可以调用，默认使用地址值进行计算
+  * 一般情况下，会重写hashCode方法，利用对象内部的属性值计算哈希值
+* 对象的哈希值特点：
+  * 如果没有重写hashCode方法，不同对象计算出的哈希值是不同的
+  * 如果已经重写hashCode方法，不同的对象只要属性值相同，计算出的哈希值就是一样的
+  * 在小部分情况下，不同属性值或不同地址值计算出来的哈希值也有可能一样(哈希碰撞)
+
+
+示例：
+```java
+//Student类
+import java.util.Objects;
+
+public class Student {
+    private String name;
+    private int age;
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age && Objects.equals(name, student.name);
+    }
+
+    //使用alt+insert重写hashCode方法
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+}
+```
+
+```java
+public class Main {
+    public static void main(String[] args) {
+
+        Student s1 = new Student("zhangsan", 23);
+        Student s2 = new Student("zhangsan", 23);
+
+        System.out.println(s1.hashCode());
+        System.out.println(s2.hashCode());
+    }
+}
+
+//输出：-1461067292
+//      -1461067292
+```
+
+### 5.2 HashSet底层原理
+![HashSet底层原理](/image/Java/Java集合进阶/set2.png)
+
+注意：
+* JDK8以后，当链表长度超过8，而且数组长度大于等于64时，自动转换为红黑树
+* 如果集合中存储的是自定义对象，必须要重写hashCode和equals方法
+
+### 5.3 LinkedHashSet
+* 特点：有序、不重复、无索引
+* 这里的有序指的是保证存储和取出的元素顺序一致
+* 原理：底层数据结构依然是哈希表，只是每个元素又额外多了一个双链表机制存储顺序
+![LinkedHashSet存储原理](/image/Java/Java集合进阶/set3.png)
+
+示例：
+```java
+import java.util.LinkedHashSet;
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("zhangsan", 23);
+        Student s2 = new Student("lisi", 24);
+        Student s3 = new Student("wangwu", 25);
+        Student s4 = new Student("zhangsan", 23);
+
+        LinkedHashSet<Student> set = new LinkedHashSet<>();
+
+        System.out.println(set.add(s1));
+        System.out.println(set.add(s2));
+        System.out.println(set.add(s3));
+        System.out.println(set.add(s4));
+
+        System.out.println(set);
+    }
+}
+
+//输出：true
+//      true
+//      true
+//      false
+//      [Student{name = zhangsan, age = 23}, Student{name = lisi, age = 24}, Student{name = wangwu, age = 25}]
 ```
