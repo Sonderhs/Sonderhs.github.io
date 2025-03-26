@@ -93,20 +93,20 @@ Q = XW_Q, K = XW_K, V = XW_V
 $$
 其中：$W_Q、W_K、W_V$均为可学习的权重矩阵。
 
-1. **多头分割**：将$Q、K、V$分割成$h$个头，没个头的维度比原来小。这样做的目的是让每个头关注不同的特征。
+3. **多头分割**：将$Q、K、V$分割成$h$个头，没个头的维度比原来小。这样做的目的是让每个头关注不同的特征。
 
-2. **计算每个头的注意力**：对于每个头$i$，计算注意力权重和加权的值向量：
+4. **计算每个头的注意力**：对于每个头$i$，计算注意力权重和加权的值向量：
 $$
-Attention_i(Q_i,K_i,V_i) = softmax(\frac{Q_iK_i^T}{\sqrt{d_k}})V_i
+head_i = Attention_i(Q_i,K_i,V_i) = softmax(\frac{Q_iK_i^T}{\sqrt{d_k}})V_i
 $$
 
-1. **拼接头部**：将所有头的注意力输出拼接起来形成一个新的矩阵：
+5. **拼接头部**：将所有头的注意力输出拼接起来形成一个新的矩阵：
 $$
 MultiHead(Q,K,V) = Concat(head_1,head_2,...,head_n)W_O
 $$
 其中：$W_O$是可学习的输出变换矩阵矩阵。
 
-1. **输出**：最终的多注意力输出回座位后续层的输入。
+6. **输出**：最终的多注意力输出回座位后续层的输入。
 过程可以表示为下面的图像：
 ![multihead attention](/image/Deep_Learning/Transformer/multihead_attention.png)
 

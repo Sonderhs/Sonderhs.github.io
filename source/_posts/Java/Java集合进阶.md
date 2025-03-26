@@ -1048,3 +1048,184 @@ public class Main {
 //      false
 //      [Student{name = zhangsan, age = 23}, Student{name = lisi, age = 24}, Student{name = wangwu, age = 25}]
 ```
+
+---------------------------------------------------- 
+**2025.03.24**
+### 5.4 TreeSet
+* TreeSet特点：
+  * 不重复、无索引、可排序
+  * 可排序：按照元素的默认规则(由小到大)排序
+  * TreeSet集合底层是基于红黑树的数据结构实现排序的，增删改查性能都好
+* TreeSet集合默认的规则：
+  * 对于数值类型：Integer，Double，默认按照从小到大的顺序进行排序
+  * 对于字符、字符串类型：按照字符在ASCII码表中的数字升序进行排序
+* TreeSet底层是红黑树，所以不需要重写hashCode和equals方法
+* 使用TreeSet需要在类中使用Comparable接口并重写compareTo方法指定排序规则
+
+
+示例:
+```java
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+        
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        treeSet.add(5);
+        treeSet.add(1);
+        treeSet.add(3);
+        treeSet.add(2);
+        treeSet.add(4);
+
+        for (Integer i : treeSet) {
+            System.out.print(i + " ");
+        }
+    }
+}
+
+//输出：1 2 3 4 5 
+```
+  
+### 5.5 TreeSet的两种比较方式
+#### 5.5.1 默认排序/自然排序
+* 默认排序/自然排序：Javabean类实现Comparable接口指定比较规则
+
+![](/image/Java/Java集合进阶/TreeSet1.png)
+
+示例：
+在Student类中实现按年龄大小排序
+```java
+public class Student implements Comparable<Student> {
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+
+
+    @Override
+    public int compareTo(Student o) {
+        //指定排序类型
+        //按年龄升序进行排序
+        return this.getAge() - o.getAge();
+    }
+}
+```
+测试类：
+```java
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Student s1 = new Student("zhangsan", 23);
+        Student s2 = new Student("lisi", 24);
+        Student s3 = new Student("wangwu", 25);
+
+        TreeSet<Student> treeSet = new TreeSet<>();
+        treeSet.add(s1);
+        treeSet.add(s2);
+        treeSet.add(s3);
+
+        for (Student s : treeSet) {
+            System.out.println(s);
+        }
+    }
+}
+
+//输出：Student{name = zhangsan, age = 23}
+//      Student{name = lisi, age = 24}
+//      Student{name = wangwu, age = 25}
+```
+
+#### 5.5.2 比较器排序
+* 比较器排序：创建TreeSet对象时，传递比较器Comparator指定规则
+* 默认使用第一种，如果第一中不能满足要求再使用第二种
+
+```java
+import java.util.Comparator;
+import java.util.TreeSet;
+
+public class ComparatorDemo {
+    public static void main(String[] args) {
+        //需求：存入四个字符串："c","ab","df","qwer"
+        //按照长度排序，如果一样长则按照首字母排序
+
+        //o1:表示当前要添加的元素
+        //o2:表示已经在红黑树中存在的元素
+        //返回值规则与之前一样：负值存左边，正值存右边
+        TreeSet<String> ts = new TreeSet<>(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int i = o1.length() - o2.length();
+                //如果长度相等使用默认的排序方法
+                i = i == 0 ? o1.compareTo(o2) : i;
+                return i;
+            }
+        });
+
+        ts.add("c");
+        ts.add("ab");
+        ts.add("df");
+        ts.add("qwer");
+
+        for (String s : ts) {
+            System.out.println(s);
+        }
+    }
+}
+
+//输出：c
+//      ab
+//      df
+//      qwer
+```
+
+**总结**
+* 如果想要集合中的元素可重复：用ArrayList集合，基于数组的。
+* 如果想要集合中的元素可重复，而且当前的增删操作明显多余查询：用LinkedList，基于链表的
+* 如果想对集合中的元素去重：用HashSet集合，基于哈希表的
+* 如果想对集合中的元素去重，而且保证存取顺序：用LinedHashSet集合，基于哈希表和双链表，效率低于HashSet
+* 如果想对集合中的元素进行排序：用TreeSet集合，基于红黑树。后续也可以用List集合实现排序
