@@ -1229,3 +1229,297 @@ public class ComparatorDemo {
 * 如果想对集合中的元素去重：用HashSet集合，基于哈希表的
 * 如果想对集合中的元素去重，而且保证存取顺序：用LinedHashSet集合，基于哈希表和双链表，效率低于HashSet
 * 如果想对集合中的元素进行排序：用TreeSet集合，基于红黑树。后续也可以用List集合实现排序
+---------------------------------------------------- 
+**2025.03.28**
+## 第六章 双列集合Map
+* 单列集合每次添加一个元素
+* 双列集合每次添加一对元素：分别为键和值
+  * 键：不能重复
+  * 值：可以重复
+* 键和值一一对应，每一个键只能找到自己对应的值
+* 键+值这个整体我们称之为键值对或键值对对象，在Java中叫做Entry对象
+
+### 6.1 Map常见API
+Map是双列集合的顶层接口，它的功能是全部双列集合都可以继承使用的
+![](/image/Java/Java集合进阶/map1.png)
+
+#### 6.1.1 put():添加元素
+* V put(K key,V value): 添加元素
+* 再添加数据时，如果键不存在，那么直接把键值对对象添加到map集合中
+* 如果键存在，那么会把原有的键值对对象覆盖，会把被覆盖的值进行返回
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+        String s = m.put("key3", "value4");
+        System.out.println(s);
+        System.out.println(m);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      value3
+//      {key1=value1, key2=value2, key3=value4}
+```
+#### 6.1.2 remove():根据键删除键值对元素
+* V remove(Object key): 根据键删除键值对元素
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+
+        String s = m.remove("key1");
+        System.out.println(s);
+        System.out.println(m);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      value1
+//      {key2=value2, key3=value3}
+```
+#### 6.1.3 clear():移除所有的键值对元素
+* void clear():移除所有的键值对元素
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+        
+        m.clear();
+        System.out.println(m);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      {}
+```
+#### 6.1.4 containsKey():判断集合是否包含指定的键
+* boolean containsKey(Object key):判断集合是否包含指定的键
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+
+        boolean keyFound = m.containsKey("key1");
+        System.out.println(keyFound);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      true
+```
+#### 6.1.5 containsValue():判断集合是否包含指定的值
+* boolean containsValue(Object value):判断集合是否包含指定的值
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+
+        boolean valueFound = m.containsValue("value2");
+        System.out.println(valueFound);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      true
+```
+#### 6.1.6 isEmpty():判断集合是否为空
+* boolean isEmpty():判断集合是否为空
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+
+        boolean result = m.isEmpty();
+        System.out.println(result);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      false
+```
+#### 6.1.7 size():集合的长度，也就是集合中键值对的个数
+* int size():集合的长度，也就是集合中键值对的个数
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        Map<String,String> m = new HashMap<>();
+
+        m.put("key1", "value1");
+        m.put("key2", "value2");
+        m.put("key3", "value3");
+        System.out.println(m);
+
+        int size = m.size();
+        System.out.println(size);
+    }
+}
+
+//输出：{key1=value1, key2=value2, key3=value3}
+//      3
+```
+
+### 6.2 Map集合遍历方式
+Map集合遍历方式一共有三种：
+* 键找值
+* 键值对
+* Lambda表达式
+
+#### 6.2.1 键找值
+* 先获取所有的键放到单列集合中，再使用get方法获取值
+![](/image/Java/Java集合进阶/map2.png)
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class MapDemo2 {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("伊志平", "小龙女");
+        map.put("郭靖", "穆念慈");
+        map.put("欧阳克", "黄蓉");
+
+        //通过键找值
+        Set<String> keys = map.keySet();
+        for (String key : keys) {
+            System.out.println(key + ":" + map.get(key));
+        }
+    }
+}
+
+//输出：伊志平:小龙女
+//      郭靖:穆念慈
+//      欧阳克:黄蓉
+```
+
+#### 6.2.2 键值对
+* 先获取map中的每一对键值对对象，再使用getKay()和getValue()方法获取key和value
+![](/image/Java/Java集合进阶/map3.png)
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class MapDemo3 {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("伊志平", "小龙女");
+        map.put("郭靖", "穆念慈");
+        map.put("欧阳克", "黄蓉");
+
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        for (Map.Entry<String, String> entry : entries) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+        }
+    }
+}
+
+//输出：伊志平:小龙女
+//      郭靖:穆念慈
+//      欧阳克:黄蓉
+```
+
+#### 6.2.3 Lambda表达式
+* forEach()遍历
+* 底层是使用增强for进行遍历的
+
+示例：
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
+
+public class MapDemo4 {
+    public static void main(String[] args) {
+        Map<String, String> map = new HashMap<>();
+
+        map.put("伊志平", "小龙女");
+        map.put("郭靖", "穆念慈");
+        map.put("欧阳克", "黄蓉");
+
+//        map.forEach(new BiConsumer<String, String>() {
+//            @Override
+//            public void accept(String key, String value) {
+//                System.out.println(key + ":" + value);
+//            }
+//        });
+        map.forEach((key, value) -> System.out.println(key + ":" + value));
+    }
+}
+
+//输出：伊志平:小龙女
+//      郭靖:穆念慈
+//      欧阳克:黄蓉
+```
