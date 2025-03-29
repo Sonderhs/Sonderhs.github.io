@@ -1229,9 +1229,11 @@ public class ComparatorDemo {
 * 如果想对集合中的元素去重：用HashSet集合，基于哈希表的
 * 如果想对集合中的元素去重，而且保证存取顺序：用LinedHashSet集合，基于哈希表和双链表，效率低于HashSet
 * 如果想对集合中的元素进行排序：用TreeSet集合，基于红黑树。后续也可以用List集合实现排序
+
+
 ---------------------------------------------------- 
 **2025.03.28**
-## 第六章 双列集合Map
+## 第六章 Map
 * 单列集合每次添加一个元素
 * 双列集合每次添加一对元素：分别为键和值
   * 键：不能重复
@@ -1522,4 +1524,386 @@ public class MapDemo4 {
 //输出：伊志平:小龙女
 //      郭靖:穆念慈
 //      欧阳克:黄蓉
+```
+
+---------------------------------------------------- 
+**2025.03.29**
+### 6.3 HashMap
+* HashMap特点：
+  * HashMap是Map里面的一个实现类
+  * 没有额外需要学习的特有方法，直接使用Map里面的方法就可以了
+  * 特点都是由键决定的：无序、不重复、无索引
+  * HashMap跟HashSet底层原理是一模一样的，都是哈希表结构
+
+![HashMap底层原理](/image/Java/Java集合进阶/hashmap1.png)
+
+### 6.4 HashMap练习
+#### 6.4.1 练习一
+需求：创建一个HashMap集合，键是学生对象(Student)，值是籍贯(String)
+存储三个键值对元素并遍历
+要求：同姓名，同年龄认为是一个学生
+
+
+```java
+//Student class
+import java.util.Objects;
+
+public class Student {
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+}
+```
+
+```java
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+
+public class Main {
+    public static void main(String[] args) {
+        Student s1 = new Student("zhangsan", 23);
+        Student s2 = new Student("lisi", 24);
+        Student s3 = new Student("wangwu", 25);
+
+        HashMap<Student, String> map = new HashMap<>();
+
+        map.put(s1, "beijing");
+        map.put(s2, "shanghai");
+        map.put(s3, "guangzhou");
+
+        map.forEach((Student student, String s) -> System.out.println(student.getName() + "今年" + student.getAge() + "岁，籍贯是" + s ));
+    }
+}
+
+//输出：wangwu今年25岁，籍贯是guangzhou
+//      lisi今年24岁，籍贯是shanghai
+//      zhangsan今年23岁，籍贯是beijing
+```
+
+#### 6.4.2 练习二
+需求：某个班级80名学生，现在需要组成秋游活动，班长提供了四个景点依次是(A、B、C、D)，每个学生只能选择一个景点，请统计出哪个景点想去的人最多
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+
+        String[] arr = {"A", "B", "C", "D"};
+
+        //投票数据
+        ArrayList<String> list = new ArrayList<>();
+        Random r = new Random();
+        for (int i = 0; i < 80; i++) {
+            int index = r.nextInt(arr.length);
+            list.add(arr[index]);
+        }
+
+        //如果统计的东西比较多不方便使用计数器思想
+        //就可以使用map集合利用集合进行统计
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (String name : list) {
+            if (map.containsKey(name)) {
+                //如果当前景点已存在就+1
+                map.put(name, map.get(name) + 1);
+            }else {
+                //不存在则添加到map中
+                map.put(name, 1);
+            }
+        }
+
+        int max = 0;
+        map.forEach((k, v) -> System.out.println(k + ": " + v));
+        Set<Map.Entry<String, Integer>> entries = map.entrySet();
+        for (Map.Entry<String, Integer> entry : entries) {
+            int count = entry.getValue();
+            if (count > max) {
+                max = count;
+            }
+        }
+
+        for (Map.Entry<String, Integer> entry : entries) {
+            int count = entry.getValue();
+            if (count == max) {
+                System.out.println(entry.getKey());
+            }
+        }
+    }
+}
+
+//输出：A: 18
+//      B: 23
+//      C: 20
+//      D: 19
+//      B
+```
+
+### 6.5 LinkedHashMap
+* LinkedHashMap特点：
+  * 由键决定：有序、不重复、无索引
+  * 这里的有序指的是保证存储和取出的元素顺序一致
+  * 原理：底层数据结构依然是哈希表，只是每个键值对元素又额外多了一个双链表的机制记录存储的顺序
+![LinkedHashMap底层原理](/image/Java/Java集合进阶/linkedhashmap1.png)
+
+示例：
+```java
+import java.util.LinkedHashMap;
+
+public class Main {
+    public static void main(String[] args) {
+
+        LinkedHashMap<String, Integer> map = new LinkedHashMap<>();
+
+        map.put("a", 1);
+        map.put("b", 2);
+        map.put("c", 3);
+
+        System.out.println(map);
+    }
+}
+
+//输出：{a=1, b=2, c=3}
+```
+
+### 6.6 TreeMap
+* TreeMap特点：
+  * TreeMap跟TreeSet底层原理一样，都是红黑树结构的
+  * 由键决定：不重复、无索引、可排序
+  * 可排序：对键进行排序
+  * 注意：默认按照键的从小到大进行排序，也可以自己规定键的排序规则
+* 键的排序规则
+  * 实现Comparable接口，指定比较规则
+  * 创建集合时传递Comparator比较器对象，指定比较规则
+
+### 6.7 TreeMap的基本应用
+#### 6.7.1 需求1
+需求：
+键：整数表示id
+值：字符串表示是商品名称
+要求：按照id的升序排列，按照id的降序排列
+
+```java
+import java.util.Comparator;
+import java.util.TreeMap;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeMap<Integer, String> treemap = new TreeMap<>(new Comparator<Integer>() {
+            //传递Comparator比较器对象
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                //升序
+                return o1 - o2;
+                //降序
+                //return o2 - o1;
+            }
+        });
+
+        treemap.put(136, "手机");
+        treemap.put(181, "平板");
+        treemap.put(166, "电脑");
+
+        System.out.println(treemap);
+    }
+}
+
+//输出：{136=手机, 166=电脑, 181=平板}
+```
+#### 6.7.2 需求2
+需求：
+键：学生对象
+值：籍贯
+要求：按照学生年龄的升序排列，年龄一样按照姓名的字母排列，同姓名年龄视为同一个人
+
+
+```java
+//Student类-实现Comparable接口
+import java.util.Objects;
+
+public class Student implements Comparable<Student> {
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return age == student.age && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+
+
+    @Override
+    public int compareTo(Student o) {
+        int result = this.getAge() - o.getAge();
+        if (result == 0) {
+            result = this.getName().compareTo(o.getName());
+        }
+        return result;
+    }
+}
+```
+
+```java
+import java.util.TreeMap;
+
+public class Main {
+    public static void main(String[] args) {
+        TreeMap<Student, String> treemap = new TreeMap<>();
+
+        Student s1 = new Student("zhangsan",  23);
+        Student s2 = new Student("lisi",  23);
+        Student s3 = new Student("wangwu",  22);
+
+        treemap.put(s1, "北京");
+        treemap.put(s2, "上海");
+        treemap.put(s3, "广州");
+
+        System.out.println(treemap);
+    }
+}
+
+//输出：{Student{name = wangwu, age = 22}=广州, Student{name = lisi, age = 23}=上海, Student{name = zhangsan, age = 23}=北京}
+```
+
+#### 6.7.3 需求3
+需求：
+字符串"aababcabcdabcde"
+请统计字符串中每一个字出现的次数，并按照以下格式输出
+输出结果：a(5)b(4)c(3)d(2)e(1)
+
+```java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        String s = "aaababcabcdabcde";
+
+        TreeMap<Character, Integer> treemap = new TreeMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            if (treemap.containsKey(s.charAt(i))) {
+                int count = treemap.get(s.charAt(i));
+                treemap.put(s.charAt(i), ++count);
+            }else {
+                treemap.put(s.charAt(i), 1);
+            }
+        }
+
+        //StringBuilder result = new StringBuilder();
+        //treemap.forEach((key, value) -> result.append(key).append("(").append(value).append(")"));
+
+        StringJoiner result = new StringJoiner("","","");
+        treemap.forEach((key, value) -> result.add(key + "").add("(").add(value + "").add(")"));
+        System.out.println(result);
+    }
+}
+
+//输出：a(6)b(4)c(3)d(2)e(1)
 ```
