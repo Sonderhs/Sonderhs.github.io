@@ -843,9 +843,9 @@ model.load_adapter("./LoraB/", adapter_name="LoraB")
 ```
 
 仅加载LoraA后模型结构为：
-![仅加载LoraA](/image/LLM/参数高效微调PEFT/jinjie1.png)
+![仅加载LoraA](/image/LLM/参数高效微调PEFT/jinjie4.png)
 加载LoeaB后模型结构为：
-![加载LoraA和LoraB](/image/LLM/参数高效微调PEFT/jinjie1.png)
+![加载LoraA和LoraB](/image/LLM/参数高效微调PEFT/jinjie5.png)
 
 ---
 **查看当前使用的模型**
