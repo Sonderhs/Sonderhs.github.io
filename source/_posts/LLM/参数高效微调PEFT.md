@@ -277,7 +277,7 @@ model = get_peft_model(model, config)
 ![](/image/LLM/参数高效微调PEFT/Prefix-Tuning2.png)
 
 ## 4.2 Prefix-Tuning 在注意力机制计算中的矩阵形状变化 
-Prefix-Tuning 的核心是 **在 Transformer 的多头自注意力（Self-Attention）机制中，为 Key（$ K $）和 Value（$ V $）添加可训练的前缀向量**，而 Query（$ Q $）仍然基于输入序列计算。因此，矩阵的形状在计算过程中会发生变化。
+Prefix-Tuning 的核心是在 Transformer 的多头自注意力（Self-Attention）机制中，为 Key（$K$）和 Value（$V$）添加可训练的前缀向量，而 Query（$Q$）仍然基于输入序列计算。因此，矩阵的形状在计算过程中会发生变化。
 
 ---
 
@@ -287,7 +287,7 @@ Prefix-Tuning 的核心是 **在 Transformer 的多头自注意力（Self-Attent
 - **序列长度**（输入文本的 token 数量）：$ T $
 - **隐藏层维度**（Transformer 维度）：$ d_{\text{model}} $
 - **注意力头数**（multi-head attention 的 head 数量）：$ h $
-- **每个注意力头的维度**（即 $ d_k = d_v $）：$ d_h = \frac{d_{\text{model}}}{h} $
+- **每个注意力头的维度**（即 $d_k = d_v$）：$d_h = \frac{d_{\text{model}}}{h}$
 - **前缀 token 数量**：$ p $（通常 5~50）
 - **Transformer 层数**：$ L $
 
@@ -448,7 +448,9 @@ config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM, num_virtual_tokens=10,
 model = get_peft_model(model, config)
 ```
 不使用prefix_projection的prompt_encoder：
-![prompt_encoder结构](/image/LLM/参数高效微调PEFT/Prefix-Tuning5.png)
+![不使用prefix_projection的prompt_encoder结构](/image/LLM/参数高效微调PEFT/Prefix-Tuning5.png)
+使用prefix_projection的prompt_encoder：
+![使用prefix_projection的prompt_encoder结构](/image/LLM/参数高效微调PEFT/Prefix-Tuning7.png)
 经过优化后可训练参数有983,040个，相当于原来参数1,304,094,720个的0.0754%
 ![Prefix-Tuning可训练参数量](/image/LLM/参数高效微调PEFT/Prefix-Tuning3.png)
 
@@ -566,7 +568,7 @@ base_model_name_or_path=None
 revision=None
 inference_mode=False
 r=8
-target_modules='.*\\.1.*query_key_value'
+target_modules='.*\\.1.*query_key_value'  # 可以使用正则表达式进行参数传递
 exclude_modules=None
 lora_alpha=8
 lora_dropout=0.0
@@ -599,11 +601,11 @@ model = get_peft_model(model, config)
 ```
 
 再使用target_modules指定要使用LoRA的层后模型内部会发生变化：
-| <img src="/image/LLM/参数高效微调PEFT/LoRA3.png" alt="原始模型" width="350"/> | <img src="/image/LLM/参数高效微调PEFT/LoRA2.png" alt="使用LoRA后" width="250"/> |
+| <img src="/image/LLM/参数高效微调PEFT/LoRA3.png" alt="原始模型" width="450"/> | <img src="/image/LLM/参数高效微调PEFT/LoRA2.png" alt="使用LoRA后" width="350"/> |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 
 经过优化后可训练参数有95,225,856个，相当于原来参数1,398,337,536个的6.8099%
-![](/image/LLM/参数高效微调PEFT/LoRA4.png)
+![LoRA可训练参数量](/image/LLM/参数高效微调PEFT/LoRA4.png)
 
 ## 5.3 LoRA训练模型与原模型合并
 **合并的影响**
@@ -669,4 +671,200 @@ merge_model.save_pretrained("./chatbot/merge_model")
   * 过小 (R 太低)：模型调整能力不足，影响性能。
   * 过大 (R 太高)：会接近全参数微调，失去 LoRA 的存储和计算优势。
 
+# 第六章 IA3
 
+## 6.1 IA3原理
+
+**IA3思想**：
+* IA3(Infused Adapter by Inhibiting and Amplifying Inner Activations)，IA3的思想就是抑制和放大内部的激活函数，通过可学习的向量对激活值进行抑制或放大。
+
+**具体做法**：
+* 会对K、V、FFN三部分的值进行调整，训练过程中同样冻结原始模型的权重，只更新课学习的部分向量部分
+* 训练完成后，与LoRA类似，也可以将学习部分的参数与原始权重合并，没有额外的推理开销
+
+![IA3可训练参数量](/image/LLM/参数高效微调PEFT/IA31.png)
+
+**实现方法**：可以直接使用peft库进行实现
+
+## 6.2 代码实现
+
+```python
+"""
+参数：
+task_type=<TaskType.CAUSAL_LM: 'CAUSAL_LM'>
+peft_type=<PeftType.IA3: 'IA3'>
+auto_mapping=None
+base_model_name_or_path='Langboat/bloom-1b4-zh'
+revision=None
+inference_mode=False
+target_modules={'query_key_value', 'mlp.dense_4h_to_h'}
+exclude_modules=None
+feedforward_modules={'mlp.dense_4h_to_h'}
+fan_in_fan_out=False
+modules_to_save=None
+init_ia3_weights=True
+"""
+
+# 配置文件
+from peft import IA3Config, TaskType, get_peft_model
+
+config = IA3Config(task_type=TaskType.CAUSAL_LM)
+
+# 创建模型
+model = get_peft_model(model, config)
+```
+
+在使用target_modules指定要使用IA3的层后模型内部会发生变化：
+| <img src="/image/LLM/参数高效微调PEFT/IA32.png" alt="原始模型" width="450"/> | <img src="/image/LLM/参数高效微调PEFT/IA33.png" alt="使用LoRA后" width="400"/> |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+
+
+
+这里IA3在mlp层中的实现方式与图片中的位置不太一样：图片中是在两个dense层之间，但实际上是在第二个dense层中
+原因：其实在源码中IA3的实现是在第二个dense层的前面部分，所以实际上IA3的实现还是在两个dense层之间
+![](/image/LLM/参数高效微调PEFT/IA35.png)
+
+经过优化后可训练参数有344,064个，相当于原来参数1,303,455,744个的0.0264%
+![](/image/LLM/参数高效微调PEFT/IA34.png)
+
+## 6.3 IA3的优缺点  
+
+**优点**：  
+* 参数高效  
+  * 只在注意力层和 MLP 层的输入处引入可训练的缩放参数，避免了对整个模型进行微调，从而减少了存储和计算开销。  
+
+* 避免灾难性遗忘  
+  * 由于不会修改原始的模型权重，IA3 允许模型在不同任务之间共享一个基础模型，而不会影响原始知识。  
+
+* 减少计算成本  
+  * 训练过程中仅调整少量参数，使得微调时计算资源占用远低于全参数微调（Full Fine-Tuning）。  
+
+* 易于集成  
+  * 仅需在 Transformer 的关键层（注意力层和 MLP 层）增加少量额外参数，无需改动模型架构，适用于大多数 Transformer 变体。  
+
+* 比 LoRA 更简单  
+  * 相比于 LoRA（Low-Rank Adaptation），IA3 只引入简单的缩放参数，而不是低秩矩阵，因此计算开销更小，并且不引入额外的矩阵乘法。  
+
+
+**缺点** ： 
+* 可表达性受限  
+  * IA3 仅通过缩放现有激活值来调整模型，而不像 LoRA 那样可以学习更复杂的变换，因此在某些任务上的适配能力可能不如 LoRA 或 Adapter 方法。  
+
+* 对任务敏感  
+  * 由于 IA3 只是对注意力和 MLP 进行缩放，它可能无法适应所有类型的任务，特别是在需要复杂表示调整的任务中可能表现较弱。  
+
+* 适应能力可能不如全参数微调
+  * 由于 IA3 仅修改缩放因子，而不是学习新的参数，因此在某些需要大幅调整模型行为的任务上，它可能无法达到全参数微调的效果。  
+
+* 在低数据任务上可能不稳定  
+  * 如果训练数据较少，IA3 可能无法有效学习适当的缩放参数，从而影响最终性能。  
+
+
+# 第七章 PEFT进阶操作
+## 7.1 自定义模型适配
+如何在自定义的模型中使用LoRA等方法呢？
+其实就是传递在Config中配置相应的参数就可以了
+
+---
+**首先我们创建自定义的模型**
+
+```python
+import torch
+from torch import nn
+from peft import LoraConfig, get_peft_model, PeftModel
+
+# 创建自定义模型
+net = nn.Squential(
+    nn.Linear(10, 10),
+    nn.ReLU(),
+    nn.Linear(10, 2)
+)
+```
+模型结构为：
+![](/image/LLM/参数高效微调PEFT/jinjie1.png)
+
+---
+**然后我们可以使用param查看可训练的层**
+
+```python
+for name, param in net.named_parameters():
+    print(name)
+```
+可训练的层有：
+![](/image/LLM/参数高效微调PEFT/jinjie2.png)
+
+---
+**之后设置参数并创建模型**
+
+```python
+config = LoraConfig(target_modules=["0"])
+
+model = get_peft_model(net, config)
+```
+使用LoRA后的模型结构为：
+![](/image/LLM/参数高效微调PEFT/jinjie3.png)
+这样就实现了对自定义模型的适配
+
+## 7.2 多适配器加载与切换
+
+---
+**首先创建模型分别作不同的LoRA训练**
+
+```python
+net = nn.Sequential(
+    nn.Linear(10, 10),
+    nn.ReLU(),
+    nn.Linear(10, 2)
+)
+
+config1 = LoraConfig(target_modules=["0"])
+model = get_peft_model(net, config1)
+model.save_pretrained("./LoraA")  # 保存训练好的权重
+
+config2 = LoraConfig(target_modules=["2"])
+model = get_peft_model(net, config2)
+model.save_pretrained("./LoraB")
+```
+模型结构为：
+![](/image/LLM/参数高效微调PEFT/jinjie1.png)
+
+---
+**加载训练好的模型**
+
+第一次加载时需要加载主模型
+第二次加载时就不需要加载主模型了
+
+```python
+# 加载LoraA
+model = PeftModel.from_pretrained(net, model_id="./LoraA/", adapter_name="LoraA")
+
+# 加载LoraB
+model.load_adapter("./LoraB/", adapter_name="LoraB")
+```
+
+仅加载LoraA后模型结构为：
+![仅加载LoraA](/image/LLM/参数高效微调PEFT/jinjie1.png)
+加载LoeaB后模型结构为：
+![加载LoraA和LoraB](/image/LLM/参数高效微调PEFT/jinjie1.png)
+
+---
+**查看当前使用的模型**
+默认使用LoraA
+```python
+model.active_adapter
+```
+
+---
+**切换模型**
+```python
+model.set_adapter("LoraB")
+```
+
+## 7.3 禁用适配器
+
+禁用适配器，也就是使用原始模型进行输出任务
+
+```python
+with model.disable_adapter():
+  print(model(torch.arange(0, 10).view(1, 10).float()))
+```
