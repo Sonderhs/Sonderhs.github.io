@@ -13,8 +13,8 @@ cover: ../image/LLM/参数高效微调PEFT/cover.jpg
 
 随着预训练语言模型的不断发展，模型的参数越来越多，更大的模型带来了更好的性能，但是也带来了一些问题，比如以传统微调的方式对模型进行全量参数更新会消耗巨大的计算与存储资源。
 参数高效微调(Parameter-efficient fine-tuning, PEFT)的方法仅对模型的一小部分参数进行训练，这一小部分参数可能是模型自身的，也可能是外部引入的，通过这种训练方式，不仅能够极大地减少需要训练的参数量，一些场景下效果甚至不输于全量微调。
-常见的参数高效微调方法见下图：(图片来源：[Scaling Down to Scale Up:
-A Guide to Parameter-Efficient Fine-Tuning](https://arxiv.org/pdf/2303.15647))
+常见的参数高效微调方法见下图：
+(图片来源：[Scaling Down to Scale Up:A Guide to Parameter-Efficient Fine-Tuning](https://arxiv.org/pdf/2303.15647))
 ![常见的参数高效微调方法](/image/LLM/参数高效微调PEFT/参数微调方法.png)
 
 本文使用的基础模型为**Langboat/bloom-1b4-zh**，模型大小为1.4B
@@ -868,3 +868,21 @@ model.set_adapter("LoraB")
 with model.disable_adapter():
   print(model(torch.arange(0, 10).view(1, 10).float()))
 ```
+
+# 第八章 总结
+
+以下是 BitFit、Prompt-Tuning、P-Tuning、Prefix-Tuning、LoRA 和 IA3 的对比总结：
+
+| 方法            | 主要思想 | 调整的参数 | 计算成本 | 存储需求 | 适用场景 | 备注 |
+|---------------|---------|----------|--------|--------|--------|------|
+| **BitFit** | 只对偏置项进行微调 | 仅调整模型的偏置项 | 低 | 低 | 轻量级适配任务 | 适用于资源受限场景 |
+| **Prompt-Tuning** | 在输入中加入可训练的提示向量 | 可训练的 prompt 向量 | 低 | 低 | 小数据微调 | 依赖手工设计的 prompt |
+| **P-Tuning** | 用可训练的连续向量替代离散文本提示 | 可训练的 prompt 嵌入 | 低 | 低 | 小样本学习 | 适用于复杂 NLP 任务 |
+| **Prefix-Tuning** | 对注意力层的 key 和 value 进行微调 | 仅调整前缀向量 (prefix) | 低 | 低 | 生成任务 | 避免影响原始模型权重 |
+| **LoRA (Low-Rank Adaptation)** | 在特定层添加低秩适配矩阵 | 低秩矩阵 (A、B) | 低 | 低 | 迁移学习 | 适用于大模型，节省显存 |
+| **IA3 (Intrinsic Attention Adapters)** | 仅调整注意力层的缩放因子 | 仅调整注意力层缩放参数 | 低 | 低 | 任务适配 | 不影响模型原权重 |
+
+
+参考资料：
+[1] [【手把手带你实战HuggingFace Transformers-入门篇】基础知识与环境安装](https://www.bilibili.com/video/BV1ma4y1g791)
+[2] [项目地址](https://github.com/zyds/transformers-code)

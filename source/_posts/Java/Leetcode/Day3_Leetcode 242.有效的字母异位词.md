@@ -52,6 +52,30 @@ class Solution {
 }
 ```
 
+```java
+// 使用数组作为哈希表，直接使用字符串中的字母的ASCII码作为索引
+class Solution {
+    public boolean isAnagram(String s, String t) {
+        int[] arr = new int[26];
+        for(int i = 0; i < s.length(); i++){
+            int index = s.charAt(i) - 'a';
+            arr[index]++;
+        }
+        for(int i = 0; i < t.length(); i++){
+            int index = t.charAt(i) - 'a';
+            arr[index]--;
+        }
+        boolean flag = true;
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] != 0){
+                flag = false;
+            }
+        }
+        return flag;
+    }
+}
+```
+
 ## 官方答案
 ### 方法一：排序
 **思路及算法：**
