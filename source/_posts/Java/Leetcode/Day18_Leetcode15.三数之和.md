@@ -38,7 +38,7 @@ nums[0] + nums[3] + nums[4] = (-1) + 2 + (-1) = 0 。
 解释：唯一可能的三元组和为 0 。
 
 ## 提交
-### 三指针
+### 排序+双指针
 首先对数组进行排序
 之后指针i从头开始遍历作为a，指针left和right作为b和c
 如果sum=a+b+c大于0，说明需要sum变小，所以right往左移，如果小于0则说明sum需要变大，left往右移
@@ -115,6 +115,7 @@ class Solution {
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] > 0) return res;
             // 去重a
+            // 前面已经得到了所有包含nums[i - 1]的目标集合，所以这里nums[i]应该与nums[i - 1]比来去重
             if (i > 0 && nums[i] == nums[i - 1]) continue;
             int left = i + 1;
             int right = nums.length - 1;
