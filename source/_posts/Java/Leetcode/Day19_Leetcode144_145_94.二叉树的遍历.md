@@ -1,17 +1,17 @@
 ---
-title: Leetcode 144_145_94二叉树的遍历
+title: Leetcode 144_145_94.二叉树的遍历
 tags: Leetcode
 categories: Leetcode
 top_img: transparent
 date: 2025-4-2 21:00:00
 copyright: false
-description: Leetcode 144_145_94二叉树的遍历
+description: Leetcode 144_145_94.二叉树的遍历
 cover: ../image/Java/算法Leetcode/Day19_Leetcode144_145_94.二叉树的遍历/1.JPG
 ---
 
 
 
-# Leetcode 144_145_94二叉树的遍历
+# Leetcode 144_145_94.二叉树的遍历
 ## 题目要求
 * 给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
 * 给你二叉树的根节点 root ，返回它节点值的 中序 遍历。
