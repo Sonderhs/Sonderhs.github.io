@@ -1913,14 +1913,13 @@ public class Main {
 ### 7.1 HashMap源码分析
 
 1. 看源码之前需要了解的一些内容
+    ```java
+    Node<K,V>[] table  // 哈希表结构中数组的名字
 
-```java
-Node<K,V>[] table  // 哈希表结构中数组的名字
+    DEFAULT_INITIAL_CAPACITY  // 数组默认长度16
 
-DEFAULT_INITIAL_CAPACITY  // 数组默认长度16
-
-DEFAULT_LOAD_FACTOR  // 默认加载因子0.75
-```
+    DEFAULT_LOAD_FACTOR  // 默认加载因子0.75
+    ```
 
 2. HashMap里面每一个对象包含以下内容：
    1. 链表中的键值对对象,包含：
