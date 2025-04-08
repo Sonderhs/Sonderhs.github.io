@@ -2501,3 +2501,80 @@ public class CollectionsDemo2 {
     }
 }
 ```
+
+---------------------------------------------------- 
+**2025.04.08**
+
+## 第九章 不可变集合
+
+* 创建不可变集合的应用场景
+  * 如果某个数据不能被修改，把它防御性地拷贝到不可变集合中是个很好的实践
+  * 当集合对象被不可信的库调用时，不可变形式是安全的
+  * 简单来说就是不想让别人修改集合中的内容
+* 创建不可变集合的书写格式
+  * 在List、Set、Map接口中都存在静态的of方法，可以获取一个不可变集合
+  * static \<E> List\<E> of(E...elements): 创建一个具有指定元素的List对象
+  * static \<E> Set\<E> of(E...elements): 创建一个具有指定元素的Set对象
+  * static \<K, V> Map\<K, V> of(E...elements): 创建一个具有指定元素的Map对象
+  * 这个集合不能添加，不能删除，不能修改，只能查询
+* 注意：
+  * Set中元素不能重复
+  * Map中键不能重复
+  * Map中最多传递20个元素（10个键值对）: 这是因为Key和Value都需要是可变参数，但是可变参数只能有一个
+* 传递可变参数的不可变Map集合：
+  * static \<K, V> Map\<K, V> ofEntries(Entry<?> extends K, ? extends V>...entries)
+
+示例：
+```java
+public class ImmutableDemo {
+    public static void main(String[] args) {
+        // 创建不可变List
+        List<String> list = List.of("张三", "李四", "王五");
+
+        // 创建不可变Set
+        // 元素不能重复
+        Set<String> set = Set.of("张三", "李四", "王五");
+
+        // 创建不可变Map
+        // 键是不能重复的
+        // 最多传递20个元素（10个键值对）
+        Map<String, int> map = Map.of("张三", 23,
+                                      "李四", 24,
+                                      "王五", 25);
+    }
+}
+```
+
+```java
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class Main {
+    public static void main(String[] args) {
+
+        HashMap<String, String> hashmap = new HashMap<>();
+        hashmap.put("张三", "南京");
+        hashmap.put("李四", "北京");
+        hashmap.put("王五", "上海");
+        hashmap.put("赵六", "北京");
+        hashmap.put("孙七", "深圳");
+        hashmap.put("周八", "广州");
+        hashmap.put("吴九", "河北");
+        hashmap.put("郑十", "成都");
+        hashmap.put("陈二", "新疆");
+
+        Set<Map.Entry<String, String>> entries = hashmap.entrySet();
+        Map.Entry[] arr = entries.toArray(new Map.Entry[0]);
+
+        // 不可变的Map集合
+        Map map1 = Map.ofEntries(arr);
+
+        // 简化
+        Map map2 = Map.ofEntries(hashmap.entrySet().toArray(new Map.Entry[0]));
+
+        // 使用可变集合直接生成不可变集合
+        Map<String, String> map3 = Map.copyOf(map1);
+    }
+}
+```
