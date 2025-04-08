@@ -2074,3 +2074,428 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,boolean evict) {
         return null;
     }
 ```
+
+### 7.2 TreeMap源码分析
+
+1.  TreeMap中每一个节点的内部属性
+    ```java
+    K key;					//键
+    V value;				//值
+    Entry<K,V> left;		//左子节点
+    Entry<K,V> right;		//右子节点
+    Entry<K,V> parent;		//父节点
+    boolean color;			//节点的颜色
+    ```
+
+
+
+
+2. TreeMap类中中要知道的一些成员变量
+    ```java
+    public class TreeMap<K,V>{
+    
+        //比较器对象
+        private final Comparator<? super K> comparator;
+
+        //根节点
+        private transient Entry<K,V> root;
+
+        //集合的长度
+        private transient int size = 0;
+    }
+    ```
+   
+
+3. 空参构造
+    ```java
+	//空参构造就是没有传递比较器对象
+	 public TreeMap() {
+        comparator = null;
+    }
+    ```
+	
+	
+	
+4. 带参构造
+    ```java
+	//带参构造就是传递了比较器对象。
+	public TreeMap(Comparator<? super K> comparator) {
+        this.comparator = comparator;
+    }
+    ```
+	
+	
+5. 添加元素
+    ```java
+	public V put(K key, V value) {
+        return put(key, value, true);
+    }
+
+    // 参数一：键
+    // 参数二：值
+    // 参数三：当键重复的时候，是否需要覆盖值
+            // true：覆盖
+            // false：不覆盖
+    ```
+
+**源码分析：**
+
+```java
+private V put(K key, V value, boolean replaceOld) {
+		//获取根节点的地址值，赋值给局部变量t
+        Entry<K,V> t = root;
+		//判断根节点是否为null
+		//如果为null，表示当前是第一次添加，会把当前要添加的元素，当做根节点
+		//如果不为null，表示当前不是第一次添加，跳过这个判断继续执行下面的代码
+        if (t == null) {
+			//方法的底层，会创建一个Entry对象，把他当做根节点
+            addEntryToEmptyMap(key, value);
+			//表示此时没有覆盖任何的元素
+            return null;
+        }
+		//表示两个元素的键比较之后的结果
+        int cmp;
+		//表示当前要添加节点的父节点
+        Entry<K,V> parent;
+		
+		//表示当前的比较规则
+		//如果我们是采取默认的自然排序，那么此时comparator记录的是null，cpr记录的也是null
+		//如果我们是采取比较去排序方式，那么此时comparator记录的是就是比较器
+        Comparator<? super K> cpr = comparator;
+		//表示判断当前是否有比较器对象
+		//如果传递了比较器对象，就执行if里面的代码，此时以比较器的规则为准
+		//如果没有传递比较器对象，就执行else里面的代码，此时以自然排序的规则为准
+        if (cpr != null) {
+            do {
+                parent = t;
+                cmp = cpr.compare(key, t.key);
+                if (cmp < 0)
+                    t = t.left;
+                else if (cmp > 0)
+                    t = t.right;
+                else {
+                    V oldValue = t.value;
+                    if (replaceOld || oldValue == null) {
+                        t.value = value;
+                    }
+                    return oldValue;
+                }
+            } while (t != null);
+        } else {
+			//把键进行强转，强转成Comparable类型的
+			//要求：键必须要实现Comparable接口，如果没有实现这个接口
+			//此时在强转的时候，就会报错。
+            Comparable<? super K> k = (Comparable<? super K>) key;
+            do {
+				//把根节点当做当前节点的父节点
+                parent = t;
+				//调用compareTo方法，比较根节点和当前要添加节点的大小关系
+                cmp = k.compareTo(t.key);
+				
+                if (cmp < 0)
+					//如果比较的结果为负数
+					//那么继续到根节点的左边去找
+                    t = t.left;
+                else if (cmp > 0)
+					//如果比较的结果为正数
+					//那么继续到根节点的右边去找
+                    t = t.right;
+                else {
+					//如果比较的结果为0，会覆盖
+                    V oldValue = t.value;
+                    if (replaceOld || oldValue == null) {
+                        t.value = value;
+                    }
+                    return oldValue;
+                }
+            } while (t != null);
+        }
+		//就会把当前节点按照指定的规则进行添加
+        addEntry(key, value, parent, cmp < 0);
+        return null;
+    }	
+	
+	
+	
+	 private void addEntry(K key, V value, Entry<K, V> parent, boolean addToLeft) {
+        Entry<K,V> e = new Entry<>(key, value, parent);
+        if (addToLeft)
+            parent.left = e;
+        else
+            parent.right = e;
+		//添加完毕之后，需要按照红黑树的规则进行调整
+        fixAfterInsertion(e);
+        size++;
+        modCount++;
+    }
+	
+	
+	
+	private void fixAfterInsertion(Entry<K,V> x) {
+		//因为红黑树的节点默认就是红色的
+        x.color = RED;
+
+		//按照红黑规则进行调整
+		
+		//parentOf:获取x的父节点
+		//parentOf(parentOf(x)):获取x的爷爷节点
+		//leftOf:获取左子节点
+        while (x != null && x != root && x.parent.color == RED) {
+			
+			
+			//判断当前节点的父节点是爷爷节点的左子节点还是右子节点
+			//目的：为了获取当前节点的叔叔节点
+            if (parentOf(x) == leftOf(parentOf(parentOf(x)))) {
+				//表示当前节点的父节点是爷爷节点的左子节点
+				//那么下面就可以用rightOf获取到当前节点的叔叔节点
+                Entry<K,V> y = rightOf(parentOf(parentOf(x)));
+                if (colorOf(y) == RED) {
+					//叔叔节点为红色的处理方案
+					
+					//把父节点设置为黑色
+                    setColor(parentOf(x), BLACK);
+					//把叔叔节点设置为黑色
+                    setColor(y, BLACK);
+					//把爷爷节点设置为红色
+                    setColor(parentOf(parentOf(x)), RED);
+					
+					//把爷爷节点设置为当前节点
+                    x = parentOf(parentOf(x));
+                } else {
+					
+					//叔叔节点为黑色的处理方案
+					
+					
+					//表示判断当前节点是否为父节点的右子节点
+                    if (x == rightOf(parentOf(x))) {
+						
+						//表示当前节点是父节点的右子节点
+                        x = parentOf(x);
+						//左旋
+                        rotateLeft(x);
+                    }
+                    setColor(parentOf(x), BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    rotateRight(parentOf(parentOf(x)));
+                }
+            } else {
+				//表示当前节点的父节点是爷爷节点的右子节点
+				//那么下面就可以用leftOf获取到当前节点的叔叔节点
+                Entry<K,V> y = leftOf(parentOf(parentOf(x)));
+                if (colorOf(y) == RED) {
+                    setColor(parentOf(x), BLACK);
+                    setColor(y, BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    x = parentOf(parentOf(x));
+                } else {
+                    if (x == leftOf(parentOf(x))) {
+                        x = parentOf(x);
+                        rotateRight(x);
+                    }
+                    setColor(parentOf(x), BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    rotateLeft(parentOf(parentOf(x)));
+                }
+            }
+        }
+		
+		//把根节点设置为黑色
+        root.color = BLACK;
+    }
+```
+
+**思考**
+1. TreeMap添加元素的时候，键是否需要重写hashCode和equals方法？
+此时是不需要重写的。
+
+
+2. HashMap是哈希表结构的，JDK8开始由数组，链表，红黑树组成的。既然有红黑树，HashMap的键是否需要实现Compareable接口或者传递比较器对象呢？
+不需要的。
+因为在HashMap的底层，默认是利用哈希值的大小关系来创建红黑树的
+
+
+3. TreeMap和HashMap谁的效率更高？
+如果是最坏情况，添加了8个元素，这8个元素形成了链表，此时TreeMap的效率要更高
+但是这种情况出现的几率非常的少。
+一般而言，还是HashMap的效率要更高。
+
+
+4. 你觉得在Map集合中，java会提供一个如果键重复了，不会覆盖的put方法呢？
+此时putIfAbsent本身不重要。
+传递一个思想：
+	代码中的逻辑都有两面性，如果我们只知道了其中的A面，而且代码中还发现了有变量可以控制两面性的发生。
+	那么该逻辑一定会有B面。
+	
+	习惯：
+		boolean类型的变量控制，一般只有AB两面，因为boolean只有两个值
+		int类型的变量控制，一般至少有三面，因为int可以取多个值。	
+
+
+5. 三种双列集合，以后如何选择？
+	HashMap LinkedHashMap TreeMap
+	
+	默认：HashMap（效率最高）
+	如果要保证存取有序：LinkedHashMap
+	如果要进行排序：TreeMap
+	
+
+## 第八章 可变参数与Collections
+
+### 8.1 可变参数
+* 可变参数本质上就是一个数组
+* 作用：在形参中接受多个数据
+* 格式：数据类型...参数名称（如：int...a）
+* 注意事项：
+  * 形参列表中可变参数只能有一个
+  * 可变参数必须放在形参列表的最后面
+
+示例：
+```java
+public class ArgsDemo {
+    public static void main(String[] args) {
+        int sum = getSum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        System.out.println(sum);
+    }
+
+    public static int getSum(int...args){
+        int sum = 0;
+        for (int i : args) {
+            sum += i;
+        }
+        return sum;
+    }
+}
+
+//输出：55
+```
+
+### 8.2 Collections
+* java.util.Collections：是集合工具类
+* 作用：Collections不是集合，而是集合的工具类
+
+Collections常用API：
+* public static \<T> boolean addAll(Collection\<T> c, T...elements): 批量添加元素
+* public static void shuffle(List<?> list): 打乱list集合元素的顺序
+* public static \<T> void sort(List\<T> list): 排序
+* public static \<T> void sort(List\<T> list, Comparator\<T> c): 根据指定规则排序
+* public static \<T> int binarySearch(List\<T> list, T key): 以二分查找法查找元素
+* public static \<T> void copy(List\<T> dest, List\<T> src): 拷贝集合中的元素
+* public static \<T> int fill(List\<T> list, T obj): 使用指定的元素填充集合
+* public static \<T> void max/min(Collection<T> coll): 根据默认的自然排序获取最大/小值
+* public static \<T> void swap(List<?> list, int i, int j): 交换集合中指定位置的元素
+
+
+示例：
+```java
+public class CollectionsDemo2 {
+    public static void main(String[] args) {
+        /*
+        public static <T> boolean addAll(Collection<T> c, T... elements)        批量添加元素
+        public static void shuffle(List<?> list)                                打乱List集合元素的顺序
+     */
+
+
+        System.out.println("-------------addAll和shuffle--------------------------");
+        //addAll  批量添加元素
+        //1.创建集合对象
+        ArrayList<String> list = new ArrayList<>();
+        //2.批量添加元素
+        Collections.addAll(list,"abc","bcd","qwer","df","asdf","zxcv","1234","qwer");
+        //3.打印集合
+        System.out.println(list);
+
+        //shuffle 打乱
+        Collections.shuffle(list);
+
+        System.out.println(list);
+
+
+
+      /*
+        public static <T> void sort(List<T> list)                       排序
+        public static <T> void sort(List<T> list, Comparator<T> c)      根据指定的规则进行排序
+        public static <T> int binarySearch (List<T> list,  T key)       以二分查找法查找元素
+        public static <T> void copy(List<T> dest, List<T> src)          拷贝集合中的元素
+        public static <T> int fill (List<T> list,  T obj)               使用指定的元素填充集合
+        public static <T> void max/min(Collection<T> coll)              根据默认的自然排序获取最大/小值
+        public static <T> void swap(List<?> list, int i, int j)         交换集合中指定位置的元素
+     */
+
+
+        System.out.println("-------------sort默认规则--------------------------");
+        //默认规则，需要重写Comparable接口compareTo方法。Integer已经实现，按照从小打大的顺序排列
+        //如果是自定义对象，需要自己指定规则
+        ArrayList<Integer> list1 = new ArrayList<>();
+        Collections.addAll(list1, 10, 1, 2, 4, 8, 5, 9, 6, 7, 3);
+        Collections.sort(list1);
+        System.out.println(list1);
+
+
+        System.out.println("-------------sort自己指定规则规则--------------------------");
+        Collections.sort(list1, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        System.out.println(list1);
+
+        Collections.sort(list1, (o1, o2) -> o2 - o1);
+        System.out.println(list1);
+
+        System.out.println("-------------binarySearch--------------------------");
+        //需要元素有序
+        ArrayList<Integer> list2 = new ArrayList<>();
+        Collections.addAll(list2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        System.out.println(Collections.binarySearch(list2, 9));
+        System.out.println(Collections.binarySearch(list2, 1));
+        System.out.println(Collections.binarySearch(list2, 20));
+
+        System.out.println("-------------copy--------------------------");
+        //把list3中的元素拷贝到list4中
+        //会覆盖原来的元素
+        //注意点：如果list3的长度 > list4的长度，方法会报错
+        ArrayList<Integer> list3 = new ArrayList<>();
+        ArrayList<Integer> list4 = new ArrayList<>();
+        Collections.addAll(list3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Collections.addAll(list4, 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        Collections.copy(list4, list3);
+        System.out.println(list3);
+        System.out.println(list4);
+
+        System.out.println("-------------fill--------------------------");
+        //把集合中现有的所有数据，都修改为指定数据
+        ArrayList<Integer> list5 = new ArrayList<>();
+        Collections.addAll(list5, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        Collections.fill(list5, 100);
+        System.out.println(list5);
+
+        System.out.println("-------------max/min--------------------------");
+        //求最大值或者最小值
+        ArrayList<Integer> list6 = new ArrayList<>();
+        Collections.addAll(list6, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        System.out.println(Collections.max(list6));
+        System.out.println(Collections.min(list6));
+
+        System.out.println("-------------max/min指定规则--------------------------");
+        // String中默认是按照字母的abcdefg顺序进行排列的
+        // 现在我要求最长的字符串
+        // 默认的规则无法满足，可以自己指定规则
+        // 求指定规则的最大值或者最小值
+        ArrayList<String> list7 = new ArrayList<>();
+        Collections.addAll(list7, "a","aa","aaa","aaaa");
+        System.out.println(Collections.max(list7, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
+            }
+        }));
+
+        System.out.println("-------------swap--------------------------");
+        ArrayList<Integer> list8 = new ArrayList<>();
+        Collections.addAll(list8, 1, 2, 3);
+        Collections.swap(list8,0,2);
+        System.out.println(list8);
+    }
+}
+```
