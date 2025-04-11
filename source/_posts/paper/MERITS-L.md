@@ -11,7 +11,7 @@ description: paper阅读：LLM supervised Pre-training for Multimodal Emotion Re
 cover: ../image/Deep_Learning/paper/MERITS-L/cover.png
 ---
 
-# BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks
+# LLM supervised Pre-training for Multimodal Emotion Recognition in Conversations
 
 {% pdf /image/Deep_Learning/paper/MERITS-L/MERITS-L.pdf %}
 

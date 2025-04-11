@@ -11,7 +11,7 @@ description: paper阅读：LaERC-S:Improving LLM-based Emotion Recognition in Co
 cover: ../image/Deep_Learning/paper/LaERC-S/cover.png
 ---
 
-# BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks
+# LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics
 
 {% pdf /image/Deep_Learning/paper/LaERC-S/LaERC-S.pdf %}
 
