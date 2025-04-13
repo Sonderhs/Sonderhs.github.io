@@ -3,7 +3,7 @@ title: Java 方法引用
 tags: Java
 categories: Java
 top_img: transparent
-date: 2025-4-11 20:00:00
+date: 2025-4-11 19:00:00
 copyright: false
 description: Java方法引用
 cover: ../image/Java/Java方法引用/1.JPG
@@ -405,4 +405,221 @@ public class FunctionDemo5 {
         list.stream().map(String::toUpperCase).forEach(s-> System.out.println(s));
     }
 }
+```
+
+### 2.5 使用数组的构造方法
+* 格式：数据类型[]::new
+* 范例：int[]::new
+* 细节：数组的类型需要跟流中数据的类型保持一致
+
+**练习：**
+集合中存储一些整数，收集到数组当中
+
+```java
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.function.IntFunction;
+
+public class FunctionDemo6 {
+    public static void main(String[] args) {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        Collections.addAll(list, 1, 2, 3, 4, 5);
+
+//        list.stream().toArray(new IntFunction<Integer[]>() {
+//            @Override
+//            public Integer[] apply(int value) {
+//                return new Integer[value];
+//            }
+//        });
+
+        // 细节:数组的类型需要跟流中数据的类型保持一致
+        list.stream().toArray(Integer[]::new);
+
+        System.out.println(list);
+    }
+}
+
+// 输出：[1, 2, 3, 4, 5]
+```
+
+### 2.6 总结
+**使用方法引用技巧：**
+1. 现在有没有一个方法符合我当前的需求
+2. 如果有这样的方法，这个方法是否满足引用的规则
+
+![](/image/Java/Java方法引用/方法引用总结1.png)
+![](/image/Java/Java方法引用/方法引用总结2.png)
+
+
+## 第三章 练习
+
+### 3.1 练习一
+* 集合中存储一些字符串数据，比如：张三,23
+* 收集到Student类型的数组中(使用方法引用完成)
+
+```java
+public class Student {
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    // 在Student类中创建新的构造方法
+    public Student(String s) {
+        this.name = s.split(",")[0];
+        this.age = Integer.parseInt(s.split(",")[1]);
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+```
+
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+        Collections.addAll(list, "张三,23", "李四,24", "王五,25");
+
+        Student[] arr = list.stream().map(Student::new).toArray(Student[]::new);
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+
+// 输出：[Student{name = 张三, age = 23}, Student{name = 李四, age = 24}, Student{name = 王五, age = 25}]
+```
+
+### 3.2 练习二
+* 创建集合添加学生对象，学生对象属性：name, age
+* 只获取姓名并放到数组当中(使用方法引用完成)
+
+```java
+public class Student {
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+```
+
+```java
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+
+public class Main {
+    public static void main(String[] args) {
+        ArrayList<Student> students = new ArrayList<Student>();
+        students.add(new Student("John", 18));
+        students.add(new Student("Jane", 17));
+        students.add(new Student("Jack", 18));
+
+//        String[] arr = students.stream()
+//                .map(new Function<Student, String>() {
+//                    @Override
+//                    public String apply(Student student) {
+//                        return student.getName();
+//                    }
+//                }).toArray(String[]::new);
+        String[] arr = students.stream()
+                .map(Student::getName).toArray(String[]::new);
+
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+
+// 输出：[John, Jane, Jack]
 ```
