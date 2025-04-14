@@ -9,7 +9,7 @@ description: Java常用API
 cover: ../image/Java/Java常用API/1.JPG
 ---
 
-# 第一章 Math
+# 一、Math
 ## 1.1 Math介绍
 Math类包含用于执行基本数学运算的方法，如初等指数、对数、平方根和三角函数。
 Math私有化构造方法，所有方法都是静态的。
@@ -102,7 +102,7 @@ public static void main(String[] args){
 
 //输出结果：0.5
 ```
-# 第二章 System
+# 二、System
 ## 2.1 System介绍
 System也是一个工具类，提供了一些与系统相关的方法。
 System类所在包为java.lang包，因此在使用的时候不需要进行导包。并且System类被final修饰了，因此该类是不能被继承的。
@@ -175,7 +175,7 @@ public static void main(String[] args){
 * 参数：表示打印的内容
 * 核心逻辑：当我们打印一个对象时，底层会调用对象的toString方法，把对象变成字符，然后再打印在控制台上
 
-# 第三章 Runtime
+# 三、Runtime
 ## 3.1 Runtime介绍
 Runtime表示当前虚拟机的运行环境
 ## 3.2 Runtime常用方法
@@ -257,7 +257,7 @@ public static void main(String[] args) throws IOException {
 
 //打开记事本
 ```
-# 第四章 Object，Objects
+# 四、Object，Objects
 ## 4.1 Object介绍
 Object是Java中的顶级父类，所有类都直接或间接的继承于Object类。
 Object类中的方法可以被所有子类访问。
@@ -446,7 +446,7 @@ public static void main(String[] args){
 //     true
 ```
 
-# 第五章 BigInteger
+# 五、BigInteger
 ## 5.1 BigInteger介绍
 Java中默认是int类型，int类型有取值范围：-2147483648 ~ 2147483647。如果数字过大，我们可以使用long类型，但是如果long类型也表示不下，我们就需要用到BigInteger，可以理解为：大的整数。
 ​BigInteger理论上最大到42亿的21亿次方。
@@ -723,7 +723,7 @@ public class Main {
 
 ![BigInteger的存储方式](/image/Java/Java常用API/BigInteger.png)
 
-# 第六章 BigDecimal
+# 六、BigDecimal
 ## 6.1 BigDecimal介绍
 BigDecimal用于小数的精确计算，用来表示很大的小数
 ## 6.2 BigDecimal构造方法
@@ -748,7 +748,7 @@ BigDeimal构造方法与BigInteger类似
 ## 6.4 BigDecimal底层存储方式
 BigDecimal会对输入的字符串进行遍历，然后把每一个字符对应的ASCII码存储到一个数组中
 
-# 第七章 正则表达式
+# 七、正则表达式
 ## 7.1 正则表达式
 正则表达式作用：
 * 校验字符串是否满足规则
@@ -1179,7 +1179,7 @@ String regex2 ="[1-9]\\d{16}(\\d Xx)\\1";
 System.out.println("41080119930228457x".matches(regex2));  //false
 ```
 
-# 第八章 时间类
+# 八、时间类
 * JDK7前时间相关类：
   * Date: 时间
   * SimpleDateFormat: 格式化时间
@@ -1704,7 +1704,7 @@ public class PeriodDemo {
 //     302
 ```
 
-# 第九章 包装类
+# 九、包装类
 * 包装类是基本数据类型对应的对象
 * JDK5以后，包装类可以直接自动装箱和自动拆箱
 * JDK5以后获取包装类对象就不需要new，不需要调用方法，直接赋值即可
@@ -1759,7 +1759,7 @@ public class IntegerDemo {
 //     124
 ```
 
-# 第十章 Arrays
+# 十、Arrays
 ## 10.1 Arrays介绍
 Arrays是操作数组的工具类
 ## 10.2 Arrays常用方法
