@@ -11,7 +11,7 @@ description: HuggingFace Transformers基础入门篇
 cover: ../image/LLM/HuggingFace Transformers基础入门篇/cover.jpg
 ---
 
-# 第一章 Pipeline
+# 一、Pipeline
 ## 1.1 Pipeline介绍
 Pipeline指的是将数据预处理、模型调用、结果后处理三部分组装成的流水线，使我们可以通过直接输入文本便获得最终的答案
 Pipeline支持非常多的任务类型：
@@ -57,7 +57,7 @@ pred = torch.argmax(torch.softmax(logits, dim=-1).item())
 result = model.config.id2label.get(pred)
 ```
 
-# 第二章 Tokenizer
+# 二、Tokenizer
 ## 2.1 Tokenizer介绍
 文字是一个抽象的概念，而计算机擅长处理的是数字运算，Tokenizer就是用于对数据做预处理，它一般包含四个步骤：
 * step1：分词：使用分词器对文本数据进行分词(字、字词)
@@ -188,7 +188,7 @@ Fast/Slow Tokenizer原理：
 * Slow Tokenizer
   * 基于Python实现，速度慢
 
-# 第三章 Model
+# 三、Model
 ## 3.1 Model介绍
 Transformer：
 * 原始的Transformer为编码器(Encoder)、解码器模型(Decoder)
@@ -264,7 +264,7 @@ clz_model(**inputs)
 # logits: 预测结果，由于设置的num_labels为3，所以为三分类结果(num_labels默认为2)
 ```
 
-# 第四章 Datasets
+# 四、Datasets
 ## 4.1 Datasets介绍
 Datasets是一个非常简单易用的数据集加载库，可以方便快捷地从本地或HuggingFace Hub加载数据集
 公开数据集地址：https://hunggingface.co/datatsets
@@ -439,7 +439,7 @@ dl = DataLoader(tokenized_dataset, batch_size=4, collate_fn=collator, shuffle=Tr
 # 注意：DataCollatorWithPadding进行的是动态填充，并不会把所有句子填充到相同长度
 ```
 
-# 第五章 Evaluate
+# 五、Evaluate
 ## 5.1 Evaluate介绍
 Evaluate库是一个用于加载任务评估函数的库
 函数库地址：https://huggingface.co/evaluate-metric
@@ -514,7 +514,7 @@ plot = radar_plot(data=data, model_names=model_names)
 ```
 ![评估结果对比可视化](/image/LLM/HuggingFace Transformers基础入门篇/evaluate.png)
 
-# 第六章 Trainer
+# 六、Trainer
 ## 6.1 Trainer介绍
 Trainer是transformers库中提供的训练函数，内部封装了完整的训练、评估逻辑，并集成了多重的后端，如DeepSpeed、Pytorch FSDP等，搭配TrainingArguments对训练过程中的各项参数进行配置，可以非常方便快捷地启动模型单机/分布式训练
 需要注意的是：
@@ -557,7 +557,7 @@ trainer = Trainer(model=model,
 trainer.train()
 ```
 
-# 第七章 实战代码：酒店评价分类任务
+# 七、实战代码：酒店评价分类任务
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 import torch

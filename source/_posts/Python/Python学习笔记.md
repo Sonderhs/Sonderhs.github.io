@@ -9,7 +9,7 @@ description: 从零开始学Python
 cover: ../image/Deep_Learning/从零开始学Python/从零开始学Python（一）/1.JPG
 ---
 
-# 第一章 Python基础语法
+# 一、Python基础语法
 
 ## 1.0 常用快捷键
 * ctrl+alt+s: 打开软件设置
@@ -330,7 +330,7 @@ print("我知道了，你是%s" % name)
 
 **注：input语句会自动将输入的内容转换为str类型，若要得到int类型的结果，可以进行数据类型转换**
 
-# 第二章 Python判断语句
+# 二、Python判断语句
 
 ## 2.1 布尔类型和比较运算符
 ### 2.1.1 布尔类型
@@ -619,7 +619,7 @@ else:
             print(f"对不起你没猜中，正确答案是{num}")
 ```
 
-# 第三章 Python循环语句
+# 三、Python循环语句
 
 ## 3.1 while循环的基础语法
 ### 3.1.1 while循环语句
@@ -973,7 +973,7 @@ for num in range(1, 21):
 工资发完了，下个月领取吧
 ```
 
-# 第四章 Python函数
+# 四、Python函数
 
 ## 4.1 函数初体验
 函数：是指组织好的，可重复使用的，用来实现特定功能的代码段。
@@ -1317,7 +1317,7 @@ while True:
 
 ```
 
-# 第五章 Python数据容器
+# 五、Python数据容器
 
 ## 5.1 Python数据容器入门
 Python中的数据容器：
@@ -2839,7 +2839,7 @@ print(f"字典对象的排序结果为：{sorted(my_dict)}")
 字典对象的排序结果为：['key1', 'key2', 'key3', 'key4', 'key5']
 ```
 
-# 第六章 Python函数进阶
+# 六、Python函数进阶
 
 ## 6.1 函数的多返回值
 语法：
@@ -3038,7 +3038,7 @@ test_func(lambda x, y: x + y)
 计算结果是：3
 ```
 
-# 第七章 Python文件操作
+# 七、Python文件操作
 
 ## 7.1 文件编码概念
 编码技术：即翻译的规则，记录了如何将内容翻译成二进制，以及如何将二进制翻译回可识别内容
@@ -3389,7 +3389,7 @@ f1.close()
 f2.close()
 ```
 
-# 第八章 Python异常、模块与包
+# 八、Python异常、模块与包
 ## 8.1 Python异常
 异常：当检测到一个错误时，Python解释器就无法继续执行了，反而出现了一些错误提示，这就是所谓的“异常”，也就是我们常说的BUG
 
@@ -3792,7 +3792,7 @@ https://pypi.tuna.tsinghua.edu.cn/simple 是清华大学提供的一个可使用
 第四步：在设置中的Project->Python interpreter中点击加号添加第三方包即可
 ![](/image/Deep_Learning/从零开始学Python/从零开始学Python（八）/Python第三方包安装4.png)
 
-# 第九章 Python基础综合案例：图形可视化
+# 九、Python基础综合案例：图形可视化
 
 ## 9.1 json数据格式
 
@@ -3888,7 +3888,7 @@ line.set_global_opts(
 ![](/image/Deep_Learning/从零开始学Python/从零开始学Python（九）/基础折线图2.png)
 
 
-# 第十章 Python面向对象
+# 十、Python面向对象
 与Java中类似，在Python中我们也可以使用对象进行组织数据：
 1. 设计类（class）
 2. 创建对象

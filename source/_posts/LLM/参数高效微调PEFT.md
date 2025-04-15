@@ -30,7 +30,7 @@ cover: ../image/LLM/参数高效微调PEFT/cover.jpg
 实际运行时差不多：
 ![](/image/LLM/参数高效微调PEFT/base.png)
 
-# 第一章 BitFit
+# 一、BitFit
 ## 1.1 BitFit原理
 
 **BitFit思想**：在进行训练时只训练一部分参数，BitFit选择就是只训练模型参数里面的所有bias部分，也就是偏置值，而冻结所有其他参数，从而减少计算和存储成本，同时保持较好的下游任务性能
@@ -69,7 +69,7 @@ num_param
 * 性能可能略逊于全参数微调：虽然在许多任务上表现良好，但在某些复杂任务上，BitFit 可能比全参数微调略差。
 * 适用范围有限：适用于 NLP 任务，但在计算机视觉等领域的效果仍需更多研究。
 
-# 第二章 Prompt-Tuning
+# 二、Prompt-Tuning
 ## 2.1 Prompt-Tuning原理
 
 **Prompt-Tuning思想**：冻结主模型全部参数，在训练数据前加入一小段Prompt，只训练Prompt的表示层，即一个Embedding模块。其中，Prompt又存在两种形式，一种是hard prompt，一种是soft prompt，prompt相当于是一种提示
@@ -205,7 +205,7 @@ print(tokenizer.decode(peft_model.generate(**ipt, max_length=128, do_sample=True
 * 对小模型效果有限：在小型 Transformer（如 BERT-base）上可能不如全参数微调效果好。
 
 
-# 第三章 P-Tuning
+# 三、P-Tuning
 ## 3.1 P-Tuning原理
 
 **P-Tuning思想**：在Prompt-Tuning的基础上，对Prompt部分进行一步的编码计算，加速收敛。具体来说，PEFT中支持两种编码方式，一种是LSTM，一种是MLP。与Prompt-Tuning不同的是，Prompt的形式只有Soft Prompt
@@ -264,7 +264,7 @@ model = get_peft_model(model, config)
 * 训练收敛可能较慢：P-Tuning v1 使用 LSTM 生成 Prompt，可能导致训练不稳定。P-Tuning v2 改进为 MLP，但仍需要 更多的超参数调整 来找到最优的 Prompt 表达。
 * 对小模型效果有限：在 大规模 Transformer（如 GPT-3, T5-XXL） 上表现良好，但在 小型模型（如 BERT-base, GPT-2-small） 上，可能 不如全参数微调或 LoRA 。这是因为 Prompt 本质上是通过输入影响模型，而不是直接调整模型内部参数。
 
-# 第四章 Prefix-Tuning
+# 四、Prefix-Tuning
 ## 4.1 Prefix-Tuning原理
 
 **Prefix-Tuning思想**：相较于Prompt-Tuning和P-Tuning，Prefix-Tuning不再将Prompt加在输入的Embedding层，而是将其作为可学习的前缀，放置在Transformer模型中的每一层中，具体表现形式为past_key_values
@@ -537,7 +537,7 @@ model = get_peft_model(model, config)
     - 不使用时，**表达能力可能不足**，尤其是复杂任务。
     - 使用时，**计算复杂度增加**，可能需要更多数据来稳定训练。
 
-# 第五章 LoRA
+# 五、LoRA
 
 ## 5.1 LoRA原理
 
@@ -671,7 +671,7 @@ merge_model.save_pretrained("./chatbot/merge_model")
   * 过小 (R 太低)：模型调整能力不足，影响性能。
   * 过大 (R 太高)：会接近全参数微调，失去 LoRA 的存储和计算优势。
 
-# 第六章 IA3
+# 六、IA3
 
 ## 6.1 IA3原理
 
@@ -760,7 +760,7 @@ model = get_peft_model(model, config)
   * 如果训练数据较少，IA3 可能无法有效学习适当的缩放参数，从而影响最终性能。  
 
 
-# 第七章 PEFT进阶操作
+# 七、PEFT进阶操作
 ## 7.1 自定义模型适配
 如何在自定义的模型中使用LoRA等方法呢？
 其实就是传递在Config中配置相应的参数就可以了
@@ -869,7 +869,7 @@ with model.disable_adapter():
   print(model(torch.arange(0, 10).view(1, 10).float()))
 ```
 
-# 第八章 总结
+# 八、总结
 
 以下是 BitFit、Prompt-Tuning、P-Tuning、Prefix-Tuning、LoRA 和 IA3 的对比总结：
 
