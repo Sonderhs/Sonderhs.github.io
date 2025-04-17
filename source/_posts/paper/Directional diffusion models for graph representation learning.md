@@ -1,6 +1,8 @@
 ---
 title: Directional diffusion models for graph representation learning
-tags: paper
+tags: 
+- paper
+- diffusion
 categories: paper
 top_img: transparent
 date: 2024-10-20 00:00:00

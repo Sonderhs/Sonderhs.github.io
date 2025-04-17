@@ -3,6 +3,7 @@ title: LLM supervised Pre-training for Multimodal Emotion Recognition in Convers
 tags: 
 - paper
 - LLM
+- ERC
 categories: paper
 top_img: transparent
 date: 2025-4-2 00:00:00

@@ -3,6 +3,7 @@ title: BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks
 tags: 
 - paper
 - LLM
+- ERC
 categories: paper
 top_img: transparent
 date: 2025-3-17 00:00:00

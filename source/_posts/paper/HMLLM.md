@@ -3,6 +3,7 @@ title: Hypergraph Multi-modal Large Language Model:Exploiting EEG and  Eye-track
 tags: 
 - paper
 - LLM
+- Hypergraph
 categories: paper
 top_img: transparent
 date: 2025-3-6 00:00:00

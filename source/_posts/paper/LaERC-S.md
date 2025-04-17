@@ -3,6 +3,7 @@ title: LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Spea
 tags: 
 - paper
 - LLM
+- ERC
 categories: paper
 top_img: transparent
 date: 2025-3-19 00:00:00

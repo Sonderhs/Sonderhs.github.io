@@ -3,6 +3,7 @@ title: HyperBERT:Mixing Hypergraph-Aware Layers with Language Models for Node Cl
 tags: 
 - paper
 - LLM
+- Hypergraph
 categories: paper
 top_img: transparent
 date: 2025-3-26 00:00:00
