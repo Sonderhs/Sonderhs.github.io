@@ -47,7 +47,7 @@ public class ExceptionDemo1 {
     }
 }
 ```
-![](/image/Java/Java异常和file/运行时异常和编译时异常2.png)'
+![](/image/Java/Java异常和file/运行时异常和编译时异常2.png)
 
 * 编译时异常：除了RuntimeException及其子类，其他的异常都是编译时异常。编译阶段需要进行处理，作用在于提醒程序员
 * 运行时异常：RuntimeException及其子类，编译阶段不需要处理，运行时出现的异常。

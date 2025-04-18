@@ -15,5 +15,5 @@
         "readlines",
         "underfit"
     ],
-    "markdown.validate.enabled": true
+    "markdown.validate.enabled": false
 }
