@@ -1,5 +1,5 @@
 ---
-title: Java异常和file
+title: Java异常和File类
 tags: Java
 categories: Java
 top_img: transparent
@@ -10,7 +10,7 @@ cover: ../image/Java/Java异常和file/1.JPG
 ---
 
 **2025.04.18**
-# 异常和file
+# 异常和File类
 
 ## 一、异常
 ### 1.1 异常体系介绍
@@ -525,6 +525,377 @@ public class Test {
         }
 
         System.out.println(girlFriend);
+    }
+}
+```
+
+---
+**2025.04.18**
+## 二、File类
+* File对象就表示一个路径，可以是文件的路径，也可以是文件夹的路径
+* 这个路径可以是存在的，也可以是不存在的
+
+### 2.1 File类的构造方法
+* public File(String pathname)：根据文件路径创建文件对象
+* public File(String parent, String child)：根据父路径名字符串和子路径名字符串创建文件对象
+* public File(File parent, String child)：根据父路径对应文件对象和子路径名字符串创建文件对象
+
+示例：
+```java 
+import java.io.File;
+
+public class FileDemo1 {
+    public static void main(String[] args) {
+        String str = "C:\\Users\\alienware\\Desktop\\a.txt";
+        File f1 = new File(str);
+        System.out.println(f1);
+
+        String parent = "C:\\Users\\alienware\\Desktop";
+        String child = "a.txt";
+        File f2 = new File(parent, child);
+        System.out.println(f2);
+
+        File parent2 = new File("C:\\Users\\alienware\\Desktop");
+        String child2 = "a.txt";
+        File f3 = new File(parent2, child2);
+        System.out.println(f3);
+    }
+}
+
+// 输出：C:\Users\alienware\Desktop\a.txt
+//       C:\Users\alienware\Desktop\a.txt
+//       C:\Users\alienware\Desktop\a.txt
+```
+
+### 2.2 File类的常用成员方法
+* 判断、获取
+  * public boolean isDirectory()：判断是否是文件夹
+  * public boolean isFile()：判断是否是文件
+  * public boolean exists()：判断文件或文件夹是否存在
+  * public long length()：获取文件的大小，单位是字节
+  * public String getAbsolutePath()：获取绝对路径
+  * public String getPath()：获取相对路径
+  * public String getName()：获取文件或文件夹的名字
+  * public long lastModified()：获取文件的最后修改时间，单位是毫秒
+* 创建、删除
+  * public boolean createNewFile()：创建文件，返回值表示是否创建成功
+  * public boolean mkdir()：创建文件夹，返回值表示是否创建成功
+  * public boolean mkdirs()：创建多级文件夹，返回值表示是否创建成功
+  * public boolean delete()：删除文件或文件夹，返回值表示是否删除成功
+* 获取并遍历
+  * public File[] listFiles()：获取当前文件夹下的所有文件和文件夹，返回值是File数组
+    * 当调用者File表示的路径不存在时，返回null
+    * 当调用者File表示的路径是文件时，返回null
+    * 当调用者File表示的路径是一个空文件夹时，返回一个长度为0的数组
+    * 当调用者File表示的路径是一个非空文件夹时，将里面所有文件和文件夹的路径放在File数组中返回
+    * 当调用者File表示的路径是一个有隐藏文件的文件夹时，将里面的所有文件和文件夹的路径放在File数组中返回，包含隐藏文件
+    * 当调用者File表示的路径是需要权限才能访问的文件夹时，返回null
+  * public static File[] listRoots()：获取所有的根目录，返回值是File数组
+  * public String[] list()：获取当前文件夹下的所有文件和文件夹
+  * public String[] list(FilenameFilter filter)：获取当前文件夹下的所有文件和文件夹，返回值是String数组
+    * filter：过滤器，过滤器的作用是对文件进行筛选，筛选出符合条件的文件
+    * filter.accept(File dir, String name)：dir表示当前文件夹，name表示当前文件夹下的每一个文件名，如果返回true就表示符合条件，false表示不符合条件
+    * filter可以是匿名内部类，也可以是Lambda表达式
+  * public File[] listFiles():获取当前文件夹下的所有文件和文件夹，返回值是File数组
+  * public File[] listFiles(FileFilter filter)：利用文件名过滤器获取当前路径下的所有内容
+  * public File listFiles(FilenameFilter filter)：利用文件名过滤器获取当前路径下的所有内容
+
+### 2.3 练习
+
+#### 2.3.1 创建文件夹
+​在当前模块下的aaa文件夹中创建一个a.txt文件
+
+代码实现：
+```java
+public class Test1 {
+    public static void main(String[] args) throws IOException {
+        //需求：在当前模块下的aaa文件夹中创建一个a.txt文件
+
+        //1.创建a.txt的父级路径
+        File file = new File("myfile\\aaa");
+        //2.创建父级路径
+        //如果aaa是存在的，那么此时创建失败的。
+        //如果aaa是不存在的，那么此时创建成功的。
+        file.mkdirs();
+        //3.拼接父级路径和子级路径
+        File src = new File(file,"a.txt");
+        boolean b = src.createNewFile();
+        if(b){
+            System.out.println("创建成功");
+        }else{
+            System.out.println("创建失败");
+        }
+    }
+}
+```
+
+
+#### 2.3.2 查找文件（不考虑子文件夹）
+​定义一个方法找某一个文件夹中，是否有以avi结尾的电影（暂时不需要考虑子文件夹）
+
+代码示例：
+```java
+public class Test2 {
+    public static void main(String[] args) {
+        /*需求：
+             定义一个方法找某一个文件夹中，是否有以avi结尾的电影。
+	        （暂时不需要考虑子文件夹）
+        */
+
+        File file = new File("D:\\aaa\\bbb");
+        boolean b = haveAVI(file);
+        System.out.println(b);
+    }
+    /*
+    * 作用：用来找某一个文件夹中，是否有以avi结尾的电影
+    * 形参：要查找的文件夹
+    * 返回值：查找的结果  存在true  不存在false
+    * */
+    public static boolean haveAVI(File file){// D:\\aaa
+        //1.进入aaa文件夹，而且要获取里面所有的内容
+        File[] files = file.listFiles();
+        //2.遍历数组获取里面的每一个元素
+        for (File f : files) {
+            //f：依次表示aaa文件夹里面每一个文件或者文件夹的路径
+            if(f.isFile() && f.getName().endsWith(".avi")){
+                return true;
+            }
+        }
+        //3.如果循环结束之后还没有找到，直接返回false
+        return false;
+    }
+}
+```
+
+#### 2.3.3（考虑子文件夹）
+​找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+代码示例：
+```java
+public class Test3 {
+    public static void main(String[] args) {
+        /* 需求：
+        找到电脑中所有以avi结尾的电影。（需要考虑子文件夹）
+
+
+        套路：
+            1，进入文件夹
+            2，遍历数组
+            3，判断
+            4，判断
+
+        */
+
+        findAVI();
+
+    }
+
+    public static void findAVI(){
+        //获取本地所有的盘符
+        File[] arr = File.listRoots();
+        for (File f : arr) {
+            findAVI(f);
+        }
+    }
+
+    public static void findAVI(File src){//"C:\\
+        //1.进入文件夹src
+        File[] files = src.listFiles();
+        //2.遍历数组,依次得到src里面每一个文件或者文件夹
+        if(files != null){
+            for (File file : files) {
+                if(file.isFile()){
+                    //3，判断，如果是文件，就可以执行题目的业务逻辑
+                    String name = file.getName();
+                    if(name.endsWith(".avi")){
+                        System.out.println(file);
+                    }
+                }else{
+                    //4，判断，如果是文件夹，就可以递归
+                    //细节：再次调用本方法的时候，参数一定要是src的次一级路径
+                    findAVI(file);
+                }
+            }
+        }
+    }
+}
+```
+
+#### 2.3.4 删除多级文件夹
+需求： 如果我们要删除一个有内容的文件夹 1.先删除文件夹里面所有的内容 2.再删除自己
+
+代码示例：
+```java
+public class Test4 {
+    public static void main(String[] args) {
+        /*
+           删除一个多级文件夹
+           如果我们要删除一个有内容的文件夹
+           1.先删除文件夹里面所有的内容
+           2.再删除自己
+        */
+
+        File file = new File("D:\\aaa\\src");
+        delete(file);
+
+    }
+
+    /*
+    * 作用：删除src文件夹
+    * 参数：要删除的文件夹
+    * */
+    public static void delete(File src){
+        //1.先删除文件夹里面所有的内容
+        //进入src
+        File[] files = src.listFiles();
+        //遍历
+        for (File file : files) {
+            //判断,如果是文件，删除
+            if(file.isFile()){
+                file.delete();
+            }else {
+                //判断,如果是文件夹，就递归
+                delete(file);
+            }
+        }
+        //2.再删除自己
+        src.delete();
+    }
+}
+```
+
+#### 2.3.5 统计大小
+​需求：统计一个文件夹的总大小
+
+代码示例：
+```java
+public class Test5 {
+    public static void main(String[] args) {
+       /*需求：
+            统计一个文件夹的总大小
+      */
+
+
+        File file = new File("D:\\aaa\\src");
+
+        long len = getLen(file);
+        System.out.println(len);//4919189
+    }
+
+    /*
+    * 作用：
+    *       统计一个文件夹的总大小
+    * 参数：
+    *       表示要统计的那个文件夹
+    * 返回值：
+    *       统计之后的结果
+    *
+    * 文件夹的总大小：
+    *       说白了，文件夹里面所有文件的大小
+    * */
+    public static long getLen(File src){
+        //1.定义变量进行累加
+        long len = 0;
+        //2.进入src文件夹
+        File[] files = src.listFiles();
+        //3.遍历数组
+        for (File file : files) {
+            //4.判断
+            if(file.isFile()){
+                //我们就把当前文件的大小累加到len当中
+                len = len + file.length();
+            }else{
+                //判断，如果是文件夹就递归
+                len = len + getLen(file);
+            }
+        }
+        return len;
+    }
+}
+```
+
+#### 2.3.6 统计文件个数
+需求：统计一个文件夹中每种文件的个数并打印。（考虑子文件夹） 打印格式如下： txt:3个 doc:4个 jpg:6个
+
+代码示例：
+```java
+public class Test6 {
+    public static void main(String[] args) throws IOException {
+        /*
+            需求：统计一个文件夹中每种文件的个数并打印。（考虑子文件夹）
+            打印格式如下：
+            txt:3个
+            doc:4个
+            jpg:6个
+        */
+        File file = new File("D:\\aaa\\src");
+        HashMap&lt;String, Integer&gt; hm = getCount(file);
+        System.out.println(hm);
+    }
+
+    /*
+    * 作用：
+    *       统计一个文件夹中每种文件的个数
+    * 参数：
+    *       要统计的那个文件夹
+    * 返回值：
+    *       用来统计map集合
+    *       键：后缀名 值：次数
+    *
+    *       a.txt
+    *       a.a.txt
+    *       aaa（不需要统计的）
+    *
+    *
+    * */
+    public static HashMap&lt;String,Integer&gt; getCount(File src){
+        //1.定义集合用来统计
+        HashMap&lt;String,Integer&gt; hm = new HashMap&lt;&gt;();
+        //2.进入src文件夹
+        File[] files = src.listFiles();
+        //3.遍历数组
+        for (File file : files) {
+            //4.判断，如果是文件，统计
+            if(file.isFile()){
+                //a.txt
+                String name = file.getName();
+                String[] arr = name.split("\\.");
+                if(arr.length &gt;= 2){
+                    String endName = arr[arr.length - 1];
+                    if(hm.containsKey(endName)){
+                        //存在
+                        int count = hm.get(endName);
+                        count++;
+                        hm.put(endName,count);
+                    }else{
+                        //不存在
+                        hm.put(endName,1);
+                    }
+                }
+            }else{
+                //5.判断，如果是文件夹，递归
+                //sonMap里面是子文件中每一种文件的个数
+                HashMap&lt;String, Integer&gt; sonMap = getCount(file);
+                //hm:  txt=1  jpg=2  doc=3
+                //sonMap: txt=3 jpg=1
+                //遍历sonMap把里面的值累加到hm当中
+                Set&lt;Map.Entry&lt;String, Integer&gt;&gt; entries = sonMap.entrySet();
+                for (Map.Entry&lt;String, Integer&gt; entry : entries) {
+                    String key = entry.getKey();
+                    int value = entry.getValue();
+                    if(hm.containsKey(key)){
+                        //存在
+                        int count = hm.get(key);
+                        count = count + value;
+                        hm.put(key,count);
+                    }else{
+                        //不存在
+                        hm.put(key,value);
+                    }
+                }
+            }
+        }
+        return hm;
     }
 }
 ```
