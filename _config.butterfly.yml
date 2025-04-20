@@ -3,7 +3,7 @@
 # --------------------------------------
 
 nav:
-  logo: # image
+  logo: ../image/BlogCover/hansen.png # image
   display_title: true
   fixed: false # fixed navigation bar
 
@@ -51,7 +51,7 @@ avatar:
 disable_top_img: false
 
 # The banner image of home page
-index_img: ../image/BlogCover/background.png
+index_img: ../image/BlogCover/new_background.png
 
 # If the banner of page not setting, it will show the top_img
 default_top_img:
@@ -642,7 +642,7 @@ text_align_justify: false
 # Website Background (設置網站背景)
 # can set it to color or image (可設置圖片 或者 顔色)
 # The formal of image: url(http://xxxxxx.com/xxx.jpg)
-background: url(/image/BlogCover/background.png)
+background: url(/image/BlogCover/new_background.png)
 
 # Footer Background
 footer_bg: false
@@ -650,7 +650,7 @@ footer_bg: false
 # Add mask to header or footer (为 header 或 footer 添加黑色半透遮罩)
 mask:
   header: true
-  footer: true
+  footer: false
 
 # the position of bottom right button/default unit: px (右下角按鈕距離底部的距離/默認單位為px)
 rightside_bottom:
@@ -738,8 +738,10 @@ font:
 # Font settings for the site title and site subtitle
 # 左上角網站名字 主頁居中網站名字
 blog_title_font:
-  font_link:
-  font-family:
+  font_link: https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&display=swap
+  font-family: "Playwrite RO"
+  # font_link: https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&family=Rubik+Iso&display=swap
+  # font-family: Playwrite RO, 'Rubik Iso'
 
 # The setting of divider icon (水平分隔線圖標設置)
 hr_icon:
