@@ -800,7 +800,7 @@ public class IOStreamDemo11 {
 }
 ```
 
-### 4.3 练习
+### 4.3 缓冲流练习
 1.4 练习:文本排序
 请将文本信息恢复顺序。
 
@@ -852,6 +852,412 @@ public class Demo05Test {
         //10.释放资源
         bw.close();
         br.close();
+    }
+}
+```
+
+### 4.4 转换流
+* 转换流：把字节流和字符流进行转换的桥梁
+  ![](/image/Java/JavaIO流/转换流2.png)
+* 转换流实际上也属于字符流的高级流
+  * 转换输入流：InputStreamReader
+  * 转换输出流：OutputStreamWriter
+  ![](/image/Java/JavaIO流/转换流1.png)
+
+* 转换流的作用
+  * 指定字符集读写数据(JDK之后已淘汰)
+    * JDK11之后可以直接使用FileReader和FileWriter的构造方法，直接传入Charset.forName对象来进行转换
+  * 字节流想要使用字符流中的方法了
+
+### 4.5 转换流练习
+
+#### 4.5.1 练习1：按照指定字符编码读取
+
+需求：利用转换流按照指定字符编码读取
+
+```java
+import java.io.*;
+import java.nio.charset.Charset;
+
+public class IOStreamDemo12 {
+    public static void main(String[] args) throws IOException {
+        /*
+        利用转换流按照指定字符编码读取
+         */
+
+//        InputStreamReader isr = new InputStreamReader(new FileInputStream("a.txt"), "GBK");
+//
+//        int ch;
+//        while ((ch = isr.read()) != -1) {
+//            System.out.print((char) ch);
+//        }
+//
+//        isr.close();
+
+        FileReader fr = new FileReader("a.txt", Charset.forName("GBK"));
+
+        int ch;
+        while ((ch = fr.read()) != -1) {
+            System.out.print((char) ch);
+        }
+
+        fr.close();
+    }
+}
+```
+
+#### 4.5.2 练习2：利用字节流读取一整行数据
+
+需求：利用字节流读取文件中的数据，每次读取一整行，而且不能出现乱码
+
+```java
+import java.io.*;
+import java.nio.charset.Charset;
+
+public class IOStreamDemo13 {
+    public static void main(String[] args) throws IOException {
+//        FileInputStream fis = new FileInputStream("a.txt");
+//        InputStreamReader isr = new InputStreamReader(fis);
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream("a.txt")));
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        br.close();
+    }
+}
+```
+
+### 4.6 序列化流
+* 序列化：把java中的对象转换成字节序列的过程
+* 反序列化：把字节序列转换成java对象的过程
+* 序列化流和反序列化流都属于字节流的高级流
+  * 序列化流(对象操作输出流)：
+    * public ObjectOutputStream(OutputStream out)：把基本流包装称高级流
+    * public final void writeObject(Object obj)：把对象序列化(写出)到文件中去
+    * 细节：使用对象输出流将对象保存到文件时会出现NotSerializableException异常，需要让Javabean类实现Serializable接口
+  * 反序列化流(对象操作输入流)：
+    * public ObjectInputStream(InputStream in)：把基本流包装称高级流
+    * public object readObject()：把序列化到本地文件中的对象，读到程序中来
+  ![](/image/Java/JavaIO流/序列化流1.png)
+
+示例：
+```java
+import java.io.*;
+
+public class IOStreamDemo14 {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        /*
+        利用序列化流将对象写到本地文件中
+        利用反序列化流将对象读到程序中
+         */
+        
+        // 序列化
+        Student stu = new Student("zhangsan", 23);
+
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("c.txt"));
+
+        oos.writeObject(stu);
+
+        oos.close();
+        
+        // 反序列化
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("c.txt"));
+
+        Student o = (Student) ois.readObject();
+
+        System.out.println(o);
+        
+        ois.close();
+    }
+}
+```
+
+### 4.7 序列化流细节
+#### 4.7.1 序列化流版本号
+* 序列化流的版本号：serialVersionUID
+  * 作用：序列化和反序列化时，判断对象是否一致
+  * 如果不一致，则会抛出InvalidClassException异常
+  * 如果一致，则可以正常进行序列化和反序列化操作
+* 版本号的定义：
+  * private static final long serialVersionUID = 1L
+
+示例：
+```java
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Student implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4430830299345459386L;
+    private String name;
+    private int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+```
+
+#### 4.7.2 序列化流的transient关键字
+* transient关键字：表示不需要序列化的属性
+  * transient修饰的属性不会被序列化到本地文件中去
+  * transient修饰的属性在反序列化时，值为默认值
+  * transient修饰的属性在反序列化时，值为默认值，不能被赋值
+
+示例：
+```java
+import java.io.Serial;
+import java.io.Serializable;
+
+public class Student implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 4430830299345459386L;
+    private String name;
+    private transient int age;
+
+
+    public Student() {
+    }
+
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    /**
+     * 获取
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 设置
+     * @param name
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * 获取
+     * @return age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * 设置
+     * @param age
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String toString() {
+        return "Student{name = " + name + ", age = " + age + "}";
+    }
+}
+```
+
+### 4.8 序列化流练习
+需求：将多个自定义对象序列化到文件中，但是由于对象的个数不确定，反序列化流该如何读取呢？
+
+```java
+// 序列化
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class IOStreamDemo15 {
+    public static void main(String[] args) throws IOException {
+        // 序列化
+        Student stu1 = new Student("zhangsan", 23);
+        Student stu2 = new Student("lisi", 24);
+        Student stu3 = new Student("wangwu", 25);
+
+        List<Student> students = new ArrayList<Student>();
+        Collections.addAll(students, stu1, stu2, stu3);
+
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("d.txt"));
+        oos.writeObject(students);
+        oos.close();
+    }
+}
+```
+
+```java
+// 反序列化
+import java.io.*;
+import java.util.List;
+
+public class IOStreamDemo16 {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("d.txt"));
+
+        List<Student> list = (List<Student>) ois.readObject();
+
+        for (Student student : list) {
+            System.out.println(student);
+        }
+
+        ois.close();
+    }
+}
+```
+
+### 4.9 打印流
+* 打印流：可以把数据打印到控制台或者文件中去
+
+![](/image/Java/JavaIO流/打印流1.png)
+
+* 打印流分为字节打印流和字符打印流
+  * 字节打印流：PrintStream
+  * 字符打印流：PrintWriter
+  * 特点：
+    * 打印流只操作文件目的地，不操作数据源
+    * 特有的写出方法可以实现，数据原样写出
+    * 特有的写出方法，可以实现自动刷新，自动换行
+
+#### 4.9.1 字节打印流
+* 字节流底层没有缓冲区，开不开自动刷新都一样
+* 字节打印流构造方法
+  * public PrintStream(OutputStream/File/String)：关联字节输出流/文件/文件路径
+  * public PrintStream(String fileName, Charset charset)：指定字符编码
+  * public PrintStream(OutputStream out, boolean autoFlush)：自动刷新
+  * public PrintStream(OutputStream out, boolean autoFlush, String encoding)：指定字符编码且自动刷新
+* 字节打印流成员方法
+  * public void write(int c)：常规方法：规则跟之前一样，将指定的字节写出
+  * public void println(Xxx xx)：特有方法：打印任意数据，自动刷新，自动换行
+  * public void print(Xxx xx)：特有方法：打印任意数据，自动刷新，不换行
+  * public void printf(String format, Object... args)：特有方法：带有占位符的打印语句，不换行
+
+示例：
+```java
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
+public class IOStreamDemo17 {
+    public static void main(String[] args) throws FileNotFoundException {
+        PrintStream ps = new PrintStream(new FileOutputStream("s.txt"));
+
+        ps.println(97);
+        ps.print(98);
+        ps.printf("%s 123 %s", 97, 98);
+        
+        ps.close();
+    }
+}
+
+
+// 运行结果：s.txt
+// 97
+// 9897 123 98
+```
+
+#### 4.9.2 字符打印流
+* 字符打印流构造方法
+  * public PrintWriter(Writer/File/String)：关联字符输出流/文件/文件路径
+  * public PrintWriter(String fileName, Charset charset)：指定字符编码
+  * public PrintWriter(Write w, boolean autoFlush)：自动刷新
+  * public PrintWriter(OutputStream out, boolean autoFlush, Charset charset)：指定字符编码且自动刷新
+* 字符打印流成员方法
+  * public void write(int c)：常规方法：规则跟之前一样，将指定的字节写出
+  * public void println(Xxx xx)：特有方法：打印任意数据，自动刷新，自动换行
+  * public void print(Xxx xx)：特有方法：打印任意数据，自动刷新，不换行
+  * public void printf(String format, Object... args)：特有方法：带有占位符的打印语句，不换行
+
+
+示例：
+```java
+import java.io.*;
+
+public class IOStreamDemo18 {
+    public static void main(String[] args) throws IOException {
+        PrintWriter pw = new PrintWriter(new FileWriter("s.txt"), true);
+
+        pw.println("Hello World");
+        pw.print(98);
+        pw.printf("%s 123 %s", 97, 98);
+
+        pw.close();
+    }
+}
+
+
+// 运行结果：s.txt
+// Hello World
+// 9897 123 98
+```
+
+#### 4.9.3 标准输出流
+
+```java
+import java.io.*;
+
+public class IOStreamDemo19 {
+    public static void main(String[] args) {
+        // 特殊的打印流，系统中的标准输出流，不能关闭
+        // 在系统中是唯一的
+        PrintStream ps = System.out;
+
+        ps.println("123");
+
+        // 上面的其实就是
+        System.out.println("123");
     }
 }
 ```
