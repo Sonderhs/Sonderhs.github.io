@@ -1,0 +1,672 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="paper阅读：MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition">
+<meta property="og:url" content="http://example.com/2025/04/17/paper/MSE-Adapter/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="paper阅读：MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Deep_Learning/paper/MSE-Adapter/cover.png">
+<meta property="article:published_time" content="2025-04-17T09:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T05:29:00.920Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="ERC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Deep_Learning/paper/MSE-Adapter/cover.png"><link rel="shortcut icon" href="/../image/BlogCover/hansen.png"><link rel="canonical" href="http://example.com/2025/04/17/paper/MSE-Adapter/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-04-23 13:29:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/hansen.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-17T09:00:00.000Z" title="发表于 2025-04-17 17:00:00">2025-04-17</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-23T05:29:00.920Z" title="更新于 2025-04-23 13:29:00">2025-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/paper/">paper</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>12分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition</h1>
+
+
+	<div class="row">
+    <embed src="/image/Deep_Learning/paper/MSE-Adapter/MSE-Adapter.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+<h2 id="一、论文总结">一、论文总结</h2>
+<p>这篇论文主要提出了一种名为 <strong>MSE-Adapter</strong> 的轻量级插件，用于赋予大型语言模型（LLMs）进行多模态情感分析（MSA）和对话情绪识别（ERC）的能力。以下是论文的核心内容总结：</p>
+<p><strong>论文pipeline：</strong><br>
+<img src="/image/Deep_Learning/paper/MSE-Adapter/pipeline.png" alt="pipeline"></p>
+<h3 id="1-1-背景与问题">1.1 背景与问题</h3>
+<p>当前基于预训练语言模型的多模态情感分析方法面临两大问题：</p>
+<ol>
+<li><strong>破坏通用能力</strong>：为特定任务（MSA/ERC）微调后，模型很难再用于其他任务；</li>
+<li><strong>计算开销大</strong>：例如 UniSA 的预训练需 3 天 8 张 V100 显卡。</li>
+</ol>
+<h3 id="1-2-方法概述：MSE-Adapter">1.2 方法概述：MSE-Adapter</h3>
+<p><strong>MSE-Adapter</strong> 是一个“即插即用”的轻量插件，具备以下特征：</p>
+<ul>
+<li><strong>冻结 LLM 主体</strong>：只训练少量参数（约 2.6M–2.8M），保留 LLM 的原始能力；</li>
+<li><strong>支持多模态输入</strong>：文本、语音、视觉；</li>
+<li><strong>输出情感标签</strong>：通过 LLM 的自回归生成机制生成情感或情绪类别。</li>
+</ul>
+<p><strong>模块结构</strong></p>
+<p><img src="/image/Deep_Learning/paper/MSE-Adapter/adapter.png" alt="MSE-Adapter结构"></p>
+<ol>
+<li>
+<p><strong>Text-Guide-Mixer（TGM）</strong>：</p>
+<ul>
+<li>使用 Hadamard 积实现文本与非文本模态（视觉、语音）的特征对齐；</li>
+<li>提高非文本信息被理解的可能性。</li>
+</ul>
+</li>
+<li>
+<p><strong>Multi-Scale Fusion（MSF）</strong>：</p>
+<ul>
+<li>对非文本模态先进行低层融合（Early Fusion），减轻 LLM 对多模态融合的负担；</li>
+<li>使用不同维度的 MLP 和卷积层实现信息整合。</li>
+</ul>
+</li>
+<li>
+<p><strong>Projector</strong>：</p>
+<ul>
+<li>将融合后的信息投影为 LLM 可理解的“伪 token”，供 LLM 后续生成情感标签。</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-3-实验设置与结果">1.3 实验设置与结果</h3>
+<ul>
+<li>
+<p><strong>数据集</strong>：</p>
+<ul>
+<li>英文：MOSEI（MSA）、MELD（ERC）</li>
+<li>中文：SIMS-V2（MSA）、CHERMA（ERC）</li>
+</ul>
+</li>
+<li>
+<p><strong>主干模型</strong>：Qwen-1.8B、ChatGLM3-6B、LLaMA2-7B</p>
+</li>
+<li>
+<p><strong>结果</strong>：</p>
+<ul>
+<li>MSE-Adapter 在大多数指标上优于现有方法，尤其在 ChatGLM3-6B 上表现最佳；</li>
+<li>即便是在中文任务上表现稍弱的 LLaMA2-7B，也优于许多基线模型；</li>
+<li>相比 MAG 和 CHFN 等 BERT-based 方法，参数更少（仅 ~2.6M），但性能更优。</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-4-消融实验与分析">1.4 消融实验与分析</h3>
+<ul>
+<li>移除 TGM 或 MSF 会显著降低性能，验证两者的重要性；</li>
+<li>移除文本模态对性能影响最大，说明语言在情绪识别中仍然是最关键的信息源；</li>
+<li>视觉和语音模态也有明显贡献，说明非文本信息对多模态情绪理解是必要的补充。</li>
+</ul>
+<h3 id="1-5-结论">1.5 结论</h3>
+<p>MSE-Adapter 是一个有效且高效的插件式方案，它在保留 LLM 原始能力的前提下，大幅提升其处理多模态情绪分析任务的能力，尤其适用于资源有限的部署场景（如移动设备）。</p>
+<p>论文的 <strong>Method（方法）</strong> 部分是整篇文章的核心，详细介绍了作者提出的 <strong>MSE-Adapter</strong> 结构，如何以轻量的方式赋予大型语言模型（LLMs）处理多模态情感分析（MSA）与情绪识别（ERC）任务的能力。</p>
+<hr>
+<h2 id="二、整体架构：MSE-Adapter-概览">二、整体架构：MSE-Adapter 概览</h2>
+<p>MSE-Adapter 作为一个“即插即用”的插件，位于多模态输入与冻结的 LLM 主体之间，核心结构如下三部分组成：</p>
+<p>模块结构总览：</p>
+<p><img src="/image/Deep_Learning/paper/MSE-Adapter/adapter.png" alt="MSE-Adapter结构"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[多模态输入: 文本 + 视觉 + 音频]</span><br><span class="line">        │</span><br><span class="line">     Text-Guide-Mixer (TGM)</span><br><span class="line">        │</span><br><span class="line">   Multi-Scale Fusion (MSF)</span><br><span class="line">        │</span><br><span class="line">       Projector</span><br><span class="line">        ↓</span><br><span class="line">     → 转换为伪 token →</span><br><span class="line">        ↓</span><br><span class="line">       LLM (冻结)</span><br><span class="line">        ↓</span><br><span class="line">  生成情感/情绪类别标签</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-Text-Guide-Mixer-TGM-：文本引导的模态对齐">2.1 Text-Guide-Mixer (TGM)：文本引导的模态对齐</h3>
+<p><strong>目的</strong>：通过文本引导，增强非文本模态（视觉、音频）的特征对齐效果，使其更容易被 LLM 理解。</p>
+<p><strong>实现方式</strong>：</p>
+<ul>
+<li>使用 <strong>Hadamard 乘积（逐元素乘法）</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>h</mi><mi>m</mi></msub><mo>=</mo><mi>L</mi><mi>N</mi><mo stretchy="false">(</mo><msub><mi>W</mi><mi>m</mi></msub><mo stretchy="false">(</mo><msub><mi>x</mi><mi>m</mi></msub><mo>⊙</mo><msub><mi>x</mi><mi>t</mi></msub><mo stretchy="false">)</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">h_m = LN(W_m(x_m \odot x_t))
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⊙</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">))</span></span></span></span></span></p>
+<ul>
+<li>$ x_m $：视觉或语音特征</li>
+<li>$ x_t $：文本特征</li>
+<li>$ W_m $：可学习参数</li>
+<li>$ LN $：LayerNorm</li>
+</ul>
+</li>
+</ul>
+<p>这种方式能够保留模态间的结构信息，同时强化文本在对齐过程中的引导作用。</p>
+<h3 id="2-2-Multi-Scale-Fusion-MSF-：多尺度融合非文本模态">2.2 Multi-Scale Fusion (MSF)：多尺度融合非文本模态</h3>
+<p><strong>目的</strong>：通过多个尺度的表示融合不同模态信息（如视觉和音频），提升 LLM 的上下文理解能力。</p>
+<p><strong>模块结构</strong>：</p>
+<ul>
+<li>首先使用多个 <strong>MLP</strong> 进行线性变换；</li>
+<li>然后串联多个 <strong>卷积层（Conv1D）</strong> 处理不同尺度的特征；</li>
+<li>最终输出一个统一表示，增强不同模态之间的信息交互。</li>
+</ul>
+<p><strong>核心思想</strong>：</p>
+<ul>
+<li><strong>Early Fusion</strong>：先在 Adapter 中融合视觉+音频，减轻 LLM 本身的负担；</li>
+<li><strong>多尺度处理</strong>：帮助捕捉不同粒度的模态信息，有利于对细微情绪线索的捕捉。</li>
+</ul>
+<h3 id="2-3-Projector：伪-token-映射器">2.3 Projector：伪 token 映射器</h3>
+<p><strong>目的</strong>：将融合后的特征序列映射成伪 token（伪词嵌入），插入到文本序列中，作为输入喂给 LLM。</p>
+<p><strong>做法</strong>：</p>
+<ul>
+<li>使用一层线性层：<br>
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>h</mi><mrow><mi>p</mi><mi>s</mi><mi>e</mi><mi>u</mi><mi>d</mi><mi>o</mi></mrow></msub><mo>=</mo><msub><mi>W</mi><mi>p</mi></msub><mo>⋅</mo><msub><mi>h</mi><mrow><mi>f</mi><mi>u</mi><mi>s</mi><mi>e</mi><mi>d</mi></mrow></msub></mrow><annotation encoding="application/x-tex">
+h_{pseudo} = W_p \cdot h_{fused}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">p</span><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">d</span><span class="mord mathnormal mtight">o</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9805em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10764em;">f</span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">se</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span></li>
+<li>生成的伪 token 会被拼接到原始文本 token 的前部或中部，作为额外输入；</li>
+<li>LLM 通过自回归方式生成最终的情感类别标签。</li>
+</ul>
+<h3 id="2-4-训练策略与任务格式">2.4 训练策略与任务格式</h3>
+<ul>
+<li>输入格式设计为 Prompt Completion：<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Input: “User: [TEXT] [AUDIO] [VIDEO]”</span><br><span class="line">Target: “System: [Emotion Label]”</span><br></pre></td></tr></table></figure>
+</li>
+<li>采用 <strong>交叉熵损失</strong>进行训练；</li>
+<li>所有实验中 LLM <strong>全部冻结</strong>，只训练 Adapter 部分（约 2.6M 参数）。</li>
+</ul>
+<h3 id="2-5-优点总结：">2.5 优点总结：</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>轻量化</strong></td>
+<td>只训练 Adapter（百万级参数），LLM 冻结</td>
+</tr>
+<tr>
+<td><strong>模块化</strong></td>
+<td>插件式设计，兼容任何 LLM</td>
+</tr>
+<tr>
+<td><strong>多模态适配</strong></td>
+<td>有效融合文本、视觉、语音</td>
+</tr>
+<tr>
+<td><strong>保留原始能力</strong></td>
+<td>不影响 LLM 的通用性，可扩展到其他任务</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="三、MSE-Adapter与prefix-tuning的对比">三、MSE-Adapter与prefix-tuning的对比</h2>
+<h3 id="3-1-类比说明：MSE-Adapter-vs-Prefix-Tuning">3.1 类比说明：MSE-Adapter vs. Prefix-Tuning</h3>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><strong>Prefix-Tuning</strong></th>
+<th><strong>MSE-Adapter</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🌱 基本思想</td>
+<td>插入一串“可训练 prefix 向量”到 LLM 的输入中，引导其完成特定任务</td>
+<td>把视觉/音频等非文本模态转成“伪 token”（pseudo tokens）插入到文本前面，引导 LLM 做多模态任务</td>
+</tr>
+<tr>
+<td>📦 输入内容</td>
+<td>全是纯文本 + 可学习前缀</td>
+<td>文本 + 非文本模态（图像、音频等）转换成伪 token 后一起输入</td>
+</tr>
+<tr>
+<td>🧠 LLM 权重</td>
+<td>冻结</td>
+<td>冻结</td>
+</tr>
+<tr>
+<td>🔧 可训练部分</td>
+<td>仅 prefix 向量（几百个 token）</td>
+<td>仅 Adapter（将模态特征 → token），参数量约为几百万</td>
+</tr>
+<tr>
+<td>🧩 插入方式</td>
+<td>直接在 prompt 前拼接 prefix（如 <code>[prefix] + prompt</code>）</td>
+<td>拼接生成的伪 token（如 <code>[P_audio, P_vision] + text + prompt</code>）</td>
+</tr>
+<tr>
+<td>🎯 应用领域</td>
+<td>文本分类、生成、QA 等</td>
+<td>多模态情感分析、图文问答、视频理解等</td>
+</tr>
+<tr>
+<td>💡 本质</td>
+<td>学习“上下文引导提示向量”</td>
+<td>学习“多模态→语言伪 token 映射器”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-2-相似之处">3.2 相似之处</h3>
+<ul>
+<li>都是 <strong>参数高效的微调（parameter-efficient tuning）</strong> 方法；</li>
+<li>都是 <strong>通过添加额外“提示”引导 LLM</strong> 完成特定任务；</li>
+<li>都 <strong>冻结 LLM 主体</strong>，降低训练成本、保留通用性；</li>
+<li>都适合任务迁移、模块化部署；</li>
+</ul>
+<h3 id="3-3-不同点-MSE-Adapter-的扩展性更强">3.3 不同点 &amp; MSE-Adapter 的扩展性更强</h3>
+<table>
+<thead>
+<tr>
+<th>不同点</th>
+<th>差异说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>模态支持</td>
+<td>Prefix-tuning 主要针对纯文本任务；MSE-Adapter 支持 <strong>跨模态输入</strong>（图像、音频、时间序列等）；</td>
+</tr>
+<tr>
+<td>模块结构</td>
+<td>Prefix-tuning 是直接优化一串向量；MSE-Adapter 是一个小网络，负责融合、变换不同模态后生成伪 token；</td>
+</tr>
+<tr>
+<td>表达能力</td>
+<td>MSE-Adapter 可集成模态对齐（如 TGM）、多尺度融合（如 MSF）等复杂操作，表达能力更强；</td>
+</tr>
+<tr>
+<td>通用性</td>
+<td>MSE-Adapter 通过不同“插件”支持多种多模态任务；Prefix-tuning 更偏文本任务的轻调优；</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-4-总结">3.4 总结</h3>
+<blockquote>
+<p>Prefix-tuning 像是在提示：“我现在是个 xxx 任务，请你用这个方式去思考”；</p>
+<p>MSE-Adapter 则像是在**“把图片/语音翻译成人话”，再请 LLM 去理解**。</p>
+</blockquote>
+<hr>
+<h2 id="四、MSF模块">四、MSF模块</h2>
+<p>在 MSF 中，为什么作者不直接用一个 MLP 处理融合特征 $ M $，而是用了 <strong>三个具有不同隐藏维度的 MLP</strong>，分别生成三个输出 $ m_1, m_2, m_3 $？</p>
+<p>这是为了引入 <strong>多尺度特征处理（multi-scale processing）</strong>，增强模型对不同粒度情感线索的理解能力。</p>
+<h3 id="4-1-三个-MLP-有什么区别？">4.1 三个 MLP 有什么区别？</h3>
+<p>这三个 MLP 的结构相同，但 <strong>隐藏层的维度不同（k ∈ {8, 16, 32}）</strong>，如下：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>m</mi><mi>i</mi></msub><mo>=</mo><msubsup><mi>W</mi><mn>2</mn><mi>i</mi></msubsup><mo>⋅</mo><mi>σ</mi><mo stretchy="false">(</mo><msubsup><mi>W</mi><mn>1</mn><mi>i</mi></msubsup><mo>⋅</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">m_i = W^i_2 \cdot \sigma(W^i_1 \cdot M)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1217em;vertical-align:-0.247em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8747em;"><span style="top:-2.453em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1247em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">σ</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8747em;"><span style="top:-2.453em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li>$ W^i_1 \in \mathbb{R}^{h/k \times h} $：压缩维度</li>
+<li>$ W^i_2 \in \mathbb{R}^{h \times h/k} $：再恢复维度</li>
+<li>$ \sigma $：GELU 激活函数</li>
+<li>$ i \in {1, 2, 3} $</li>
+</ul>
+<p><strong>三组 MLP 的隐藏层分别压缩到 1/8、1/16、1/32 的维度后再展开</strong>，就像从“粗 → 细”多个层次提取特征。</p>
+<h3 id="4-2-为什么要这样设计？">4.2 为什么要这样设计？</h3>
+<h4 id="4-2-1-多尺度捕捉不同粒度信息">4.2.1 多尺度捕捉不同粒度信息</h4>
+<p>现实中，情感线索有“大粒度”和“小粒度”：</p>
+<ul>
+<li>大粒度：说话人整体语调、音量、表情风格</li>
+<li>小粒度：微笑时嘴角细微动作、音调起伏</li>
+</ul>
+<p>多个 MLP 不同压缩尺度相当于：</p>
+<blockquote>
+<p>从大视角、粗视角、中视角不同角度去理解情绪。</p>
+</blockquote>
+<p>这类似于计算机视觉中的 <strong>多尺度感受野设计</strong>（如 FPN、ResNet block 中的不同 kernel），有助于识别不同层次的特征。</p>
+<h4 id="4-2-2-避免信息瓶颈">4.2.2 避免信息瓶颈</h4>
+<p>如果只用一个固定维度的 MLP，可能：</p>
+<ul>
+<li>太大 → 计算开销大</li>
+<li>太小 → 信息压缩过度，丢失细节</li>
+</ul>
+<p><strong>多个尺度并行处理 + 后融合</strong>，可以有效地取长补短、提升表达能力。</p>
+<h4 id="4-2-3-提升模型鲁棒性与泛化能力">4.2.3 提升模型鲁棒性与泛化能力</h4>
+<p>在不同语言、模态和任务中，不同尺度的情感特征重要性是不同的。</p>
+<ul>
+<li>有时语音节奏是关键</li>
+<li>有时面部细节更重要</li>
+</ul>
+<p>使用多个尺度同时建模，可增强适应性和鲁棒性。</p>
+<h3 id="4-3-最后一步：融合这三种尺度信息">4.3 最后一步：融合这三种尺度信息</h3>
+<p>论文中将三个 $ m_i $ 拼接成一个矩阵 $ M = [m_1; m_2; m_3] \in \mathbb{R}^{h \times 3} $，再用 <strong>1×1 卷积</strong>压缩维度，得到最终表示：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>M</mi><mo>~</mo></mover><mo>=</mo><mtext>Conv1D</mtext><mo stretchy="false">(</mo><mi>M</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\tilde{M} = \text{Conv1D}(M)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9202em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9202em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span><span style="top:-3.6023em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">Conv1D</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mclose">)</span></span></span></span></span></p>
+<p>这相当于在 token 维度上做一次自适应融合 —— 让模型学会从不同尺度中选出最有用的特征。</p>
+<h3 id="4-4-总结一句话">4.4 总结一句话</h3>
+<blockquote>
+<p><strong>三个 MLP 是在不同尺度上对融合特征进行建模，增强模型对多粒度、多模态情绪信息的理解和表达能力，是 MSF 的“多视角处理核心”。</strong></p>
+</blockquote>
+<hr>
+<h2 id="五、Projector模块">五、Projector模块</h2>
+<h3 id="5-1-Projector-的作用是什么？">5.1 Projector 的作用是什么？</h3>
+<p>简洁总结：</p>
+<blockquote>
+<p><strong>Projector 的作用是将多模态融合后的特征表示，映射成与 LLM 输入兼容的 “伪 token” 嵌入序列（pseudo tokens）</strong>，从而让 LLM 可以“看懂”视觉和音频模态信息。</p>
+</blockquote>
+<h3 id="5-2-Projector-具体做了什么？">5.2 Projector 具体做了什么？</h3>
+<p>在前面两个模块（TGM + MSF）完成对视觉/音频特征的融合之后，会得到一个统一的多模态表示向量：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mover accent="true"><mi>M</mi><mo>~</mo></mover><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>h</mi><mo>×</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\tilde{M} \in \mathbb{R}^{h \times 1}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9593em;vertical-align:-0.0391em;"></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9202em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span><span style="top:-3.6023em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">h</span><span class="mbin mtight">×</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>这是一个较短、浓缩的“信息摘要”，但还不是 LLM 可以直接吃进去的 token。</p>
+<p>于是，<strong>Projector 模块做了两个关键步骤</strong>：</p>
+<p><strong>步骤 1：调整维度（线性映射）</strong><br>
+先用一个线性变换将维度转到与 LLM token embedding 一致的维度：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><msub><mi>W</mi><mn>3</mn></msub><mover accent="true"><mi>M</mi><mo>~</mo></mover><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><msub><mi>d</mi><mi>t</mi></msub></msup></mrow><annotation encoding="application/x-tex">h&#x27; = W_3 \tilde{M} \in \mathbb{R}^{d_t}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0702em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9202em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span><span style="top:-3.6023em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2963em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li>$ W_3 \in \mathbb{R}^{d_t \times h} $</li>
+<li>$ d_t $ 是 LLM 的 token 嵌入维度（比如 768）</li>
+</ul>
+<p><strong>步骤 2：扩展为多个“伪 token”</strong></p>
+<p>接下来，为了生成多个伪 token，使用另一个线性层将单个向量扩展为多个 token（数量为 $ n $）：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><msub><mi>W</mi><mn>4</mn></msub><mo stretchy="false">(</mo><msup><mi>h</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><msup><mo stretchy="false">)</mo><mi>T</mi></msup><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>n</mi><mo>×</mo><msub><mi>d</mi><mi>t</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">P = W_4 (h&#x27;)^T \in \mathbb{R}^{n \times d_t}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1413em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">×</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2963em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li>$ W_4 \in \mathbb{R}^{n \times 1} $，控制输出 token 的数量</li>
+<li>最终输出 $ n $ 个伪 token，每个维度是 $ d_t $，可以直接拼接到文本 token 中</li>
+</ul>
+<h3 id="5-3-Projector-的核心价值：">5.3 Projector 的核心价值：</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎨 统一模态维度</td>
+<td>把非语言特征统一成 LLM token 能理解的表示形式</td>
+</tr>
+<tr>
+<td>🔧 可控 token 数量</td>
+<td>用户/任务可配置生成多少个伪 token</td>
+</tr>
+<tr>
+<td>🔄 可训练</td>
+<td>具有可学习参数，能适应不同模态、任务、语言模型</td>
+</tr>
+<tr>
+<td>📦 保持模块解耦</td>
+<td>不需要改动 LLM 内部结构，保持整个系统松耦合</td>
+</tr>
+</tbody>
+</table>
+<h3 id="5-4-对应论文中的公式：">5.4 对应论文中的公式：</h3>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><msub><mi>W</mi><mn>4</mn></msub><mo stretchy="false">(</mo><msub><mi>W</mi><mn>3</mn></msub><mover accent="true"><mi>M</mi><mo>~</mo></mover><msup><mo stretchy="false">)</mo><mi>T</mi></msup></mrow><annotation encoding="application/x-tex">P = W_4(W_3 \tilde{M})^T
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1702em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9202em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span><span style="top:-3.6023em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.1667em;"><span class="mord">~</span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<ul>
+<li>$ W_3 $：从融合特征 → token 向量</li>
+<li>$ W_4 $：将 token 向量扩展成多个 token</li>
+<li>$ P $：最终生成的伪 token 序列（可输入 LLM）</li>
+</ul>
+<h3 id="5-5-总结一句话：">5.5 总结一句话：</h3>
+<p><strong>Projector 是连接多模态世界与语言模型世界的“最后一跳桥梁”</strong> —— 它把融合后的视觉/语音信息，转成一串“LLM能读懂的token”。</p>
+<hr>
+<h2 id="六、pseudo-tokens-伪token">六、pseudo tokens(伪token)</h2>
+<p>这个问题问得非常深入！论文中之所以将多模态特征 <strong>扩展为多个“伪 token”（pseudo tokens）</strong>，而不是只生成一个，是出于以下几个 <strong>非常关键的考虑</strong></p>
+<p>多个伪 token 的作用与优势:</p>
+<h3 id="6-1-提供更丰富的信息容量">6.1 提供更丰富的信息容量</h3>
+<p>单个 token 能携带的信息是有限的。如果你把整个图像或音频都压缩成一个向量，就像让人用一个词总结一张图 —— 会丢失很多细节。</p>
+<blockquote>
+<p>多个伪 token 就相当于用“多个词”描述图像或声音的不同方面（如颜色、语气、动作、情绪等）。</p>
+</blockquote>
+<p>📌 举例：</p>
+<ul>
+<li>伪 token 1：人脸信息</li>
+<li>伪 token 2：音调特征</li>
+<li>伪 token 3：视觉情绪线索</li>
+<li>伪 token 4：上下文场景提示</li>
+</ul>
+<h3 id="6-2-方便-LLM-的-Transformer-编码器做“注意力交互”">6.2 方便 LLM 的 Transformer 编码器做“注意力交互”</h3>
+<p>LLM 是基于 Transformer 的，它依赖 token 之间的注意力（attention）机制来进行推理。如果只有一个 token，它就无法和其它 token 做交互（注意力矩阵退化为一维）。</p>
+<p>而多个伪 token 之间 <strong>可以互相计算注意力</strong>，再与文本 token 交互，这大大增强了：</p>
+<ul>
+<li>多模态信息之间的整合能力</li>
+<li>与语言上下文的耦合程度</li>
+</ul>
+<p>想象：伪 token 像几个“间谍”，分别打探了不同模态的情报，然后一起与 LLM 的“智囊团”（文本 token）商量对策。</p>
+<h3 id="6-3-提高模型的可扩展性和灵活性">6.3 提高模型的可扩展性和灵活性</h3>
+<p>每个任务或模态的复杂度不同，所需的伪 token 数量也不同。支持多个 token 可以让系统具备：</p>
+<ul>
+<li><strong>任务自适应能力</strong>：图像/语音越复杂 → 生成更多伪 token</li>
+<li><strong>统一接口设计</strong>：不同任务只是 token 数量不同，不影响整体框架</li>
+</ul>
+<h3 id="6-4-实验验证：多个-token-比单-token-性能更好">6.4 实验验证：多个 token 比单 token 性能更好</h3>
+<p>虽然论文没有单独对这个点做 ablation，但根据大量多模态工作（如 Flamingo, Frozen, BLIP-2, MiniGPT-4）的经验，<strong>单个 token 会严重压缩信息，多个 token 可以显著提升性能</strong>。</p>
+<h3 id="6-5-总结一句话">6.5 总结一句话</h3>
+<blockquote>
+<p><strong>将多模态特征扩展为多个伪 token，是为了最大化信息表达能力、提高注意力交互效率，并提升 LLM 对复杂感知任务的适应能力。</strong></p>
+</blockquote>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/paper/">paper</a><a class="post-meta__tags" href="/tags/ERC/">ERC</a></div><div class="post_share"><div class="social-share" data-image="/../image/Deep_Learning/paper/MSE-Adapter/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/04/17/Java/Leetcode/Day31_Leetcode538.%E6%8A%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E6%8D%A2%E4%B8%BA%E7%B4%AF%E5%8A%A0%E6%A0%91/" title="Leetcode 538.把二叉搜索树转换为累加树"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day31_Leetcode538.%E6%8A%8A%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91%E8%BD%AC%E6%8D%A2%E4%B8%BA%E7%B4%AF%E5%8A%A0%E6%A0%91/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 538.把二叉搜索树转换为累加树</div></div></a></div><div class="next-post pull-right"><a href="/2025/04/17/LLM/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/" title="Transformers实战之文本摘要任务"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Transformers实战之文本摘要任务</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/03/17/paper/BiosERC/" title="BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks"><img class="cover" src="/../image/Deep_Learning/paper/BiosERC/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="title">BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks</div></div></a></div><div><a href="/2025/03/19/paper/LaERC-S/" title="LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics"><img class="cover" src="/../image/Deep_Learning/paper/LaERC-S/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-19</div><div class="title">LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics</div></div></a></div><div><a href="/2025/04/02/paper/MERITS-L/" title="LLM supervised Pre-training for Multimodal Emotion Recognition in Conversations"><img class="cover" src="/../image/Deep_Learning/paper/MERITS-L/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-02</div><div class="title">LLM supervised Pre-training for Multimodal Emotion Recognition in Conversations</div></div></a></div><div><a href="/2025/03/06/paper/HMLLM/" title="Hypergraph Multi-modal Large Language Model:Exploiting EEG and  Eye-tracking Modalities to Evaluate Heterogeneous Responses for Video  Understanding"><img class="cover" src="/../image/Deep_Learning/paper/HMLLM/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-06</div><div class="title">Hypergraph Multi-modal Large Language Model:Exploiting EEG and  Eye-tracking Modalities to Evaluate Heterogeneous Responses for Video  Understanding</div></div></a></div><div><a href="/2025/04/09/paper/LLMasGNN/" title="LLM as GNN:Graph Vocabulary Learning for Text-Attributed Graph Foundation Models"><img class="cover" src="/../image/Deep_Learning/paper/LLMasGNN/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-09</div><div class="title">LLM as GNN:Graph Vocabulary Learning for Text-Attributed Graph Foundation Models</div></div></a></div><div><a href="/2025/03/26/paper/HyperBERT/" title="HyperBERT:Mixing Hypergraph-Aware Layers with Language Models for Node Classification on Text-Attributed Hypergraphs"><img class="cover" src="/../image/Deep_Learning/paper/HyperBERT/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-26</div><div class="title">HyperBERT:Mixing Hypergraph-Aware Layers with Language Models for Node Classification on Text-Attributed Hypergraphs</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E8%AE%BA%E6%96%87%E6%80%BB%E7%BB%93"><span class="toc-text">一、论文总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E8%83%8C%E6%99%AF%E4%B8%8E%E9%97%AE%E9%A2%98"><span class="toc-text">1.1 背景与问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%96%B9%E6%B3%95%E6%A6%82%E8%BF%B0%EF%BC%9AMSE-Adapter"><span class="toc-text">1.2 方法概述：MSE-Adapter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE%E4%B8%8E%E7%BB%93%E6%9E%9C"><span class="toc-text">1.3 实验设置与结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E6%B6%88%E8%9E%8D%E5%AE%9E%E9%AA%8C%E4%B8%8E%E5%88%86%E6%9E%90"><span class="toc-text">1.4 消融实验与分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E7%BB%93%E8%AE%BA"><span class="toc-text">1.5 结论</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%EF%BC%9AMSE-Adapter-%E6%A6%82%E8%A7%88"><span class="toc-text">二、整体架构：MSE-Adapter 概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-Text-Guide-Mixer-TGM-%EF%BC%9A%E6%96%87%E6%9C%AC%E5%BC%95%E5%AF%BC%E7%9A%84%E6%A8%A1%E6%80%81%E5%AF%B9%E9%BD%90"><span class="toc-text">2.1 Text-Guide-Mixer (TGM)：文本引导的模态对齐</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-Multi-Scale-Fusion-MSF-%EF%BC%9A%E5%A4%9A%E5%B0%BA%E5%BA%A6%E8%9E%8D%E5%90%88%E9%9D%9E%E6%96%87%E6%9C%AC%E6%A8%A1%E6%80%81"><span class="toc-text">2.2 Multi-Scale Fusion (MSF)：多尺度融合非文本模态</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Projector%EF%BC%9A%E4%BC%AA-token-%E6%98%A0%E5%B0%84%E5%99%A8"><span class="toc-text">2.3 Projector：伪 token 映射器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E8%AE%AD%E7%BB%83%E7%AD%96%E7%95%A5%E4%B8%8E%E4%BB%BB%E5%8A%A1%E6%A0%BC%E5%BC%8F"><span class="toc-text">2.4 训练策略与任务格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E4%BC%98%E7%82%B9%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-text">2.5 优点总结：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81MSE-Adapter%E4%B8%8Eprefix-tuning%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">三、MSE-Adapter与prefix-tuning的对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%B1%BB%E6%AF%94%E8%AF%B4%E6%98%8E%EF%BC%9AMSE-Adapter-vs-Prefix-Tuning"><span class="toc-text">3.1 类比说明：MSE-Adapter vs. Prefix-Tuning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E7%9B%B8%E4%BC%BC%E4%B9%8B%E5%A4%84"><span class="toc-text">3.2 相似之处</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%B8%8D%E5%90%8C%E7%82%B9-MSE-Adapter-%E7%9A%84%E6%89%A9%E5%B1%95%E6%80%A7%E6%9B%B4%E5%BC%BA"><span class="toc-text">3.3 不同点 &amp; MSE-Adapter 的扩展性更强</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%80%BB%E7%BB%93"><span class="toc-text">3.4 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81MSF%E6%A8%A1%E5%9D%97"><span class="toc-text">四、MSF模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E4%B8%89%E4%B8%AA-MLP-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">4.1 三个 MLP 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1%EF%BC%9F"><span class="toc-text">4.2 为什么要这样设计？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-1-%E5%A4%9A%E5%B0%BA%E5%BA%A6%E6%8D%95%E6%8D%89%E4%B8%8D%E5%90%8C%E7%B2%92%E5%BA%A6%E4%BF%A1%E6%81%AF"><span class="toc-text">4.2.1 多尺度捕捉不同粒度信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-2-%E9%81%BF%E5%85%8D%E4%BF%A1%E6%81%AF%E7%93%B6%E9%A2%88"><span class="toc-text">4.2.2 避免信息瓶颈</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-3-%E6%8F%90%E5%8D%87%E6%A8%A1%E5%9E%8B%E9%B2%81%E6%A3%92%E6%80%A7%E4%B8%8E%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B"><span class="toc-text">4.2.3 提升模型鲁棒性与泛化能力</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5%EF%BC%9A%E8%9E%8D%E5%90%88%E8%BF%99%E4%B8%89%E7%A7%8D%E5%B0%BA%E5%BA%A6%E4%BF%A1%E6%81%AF"><span class="toc-text">4.3 最后一步：融合这三种尺度信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-text">4.4 总结一句话</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Projector%E6%A8%A1%E5%9D%97"><span class="toc-text">五、Projector模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-Projector-%E7%9A%84%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">5.1 Projector 的作用是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-Projector-%E5%85%B7%E4%BD%93%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">5.2 Projector 具体做了什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-Projector-%E7%9A%84%E6%A0%B8%E5%BF%83%E4%BB%B7%E5%80%BC%EF%BC%9A"><span class="toc-text">5.3 Projector 的核心价值：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E5%AF%B9%E5%BA%94%E8%AE%BA%E6%96%87%E4%B8%AD%E7%9A%84%E5%85%AC%E5%BC%8F%EF%BC%9A"><span class="toc-text">5.4 对应论文中的公式：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D%EF%BC%9A"><span class="toc-text">5.5 总结一句话：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81pseudo-tokens-%E4%BC%AAtoken"><span class="toc-text">六、pseudo tokens(伪token)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%8F%90%E4%BE%9B%E6%9B%B4%E4%B8%B0%E5%AF%8C%E7%9A%84%E4%BF%A1%E6%81%AF%E5%AE%B9%E9%87%8F"><span class="toc-text">6.1 提供更丰富的信息容量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%96%B9%E4%BE%BF-LLM-%E7%9A%84-Transformer-%E7%BC%96%E7%A0%81%E5%99%A8%E5%81%9A%E2%80%9C%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%BA%A4%E4%BA%92%E2%80%9D"><span class="toc-text">6.2 方便 LLM 的 Transformer 编码器做“注意力交互”</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%8F%90%E9%AB%98%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%AF%E6%89%A9%E5%B1%95%E6%80%A7%E5%92%8C%E7%81%B5%E6%B4%BB%E6%80%A7"><span class="toc-text">6.3 提高模型的可扩展性和灵活性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E5%AE%9E%E9%AA%8C%E9%AA%8C%E8%AF%81%EF%BC%9A%E5%A4%9A%E4%B8%AA-token-%E6%AF%94%E5%8D%95-token-%E6%80%A7%E8%83%BD%E6%9B%B4%E5%A5%BD"><span class="toc-text">6.4 实验验证：多个 token 比单 token 性能更好</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-5-%E6%80%BB%E7%BB%93%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-text">6.5 总结一句话</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 90.子集II"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II">Leetcode 90.子集II</a><time datetime="2025-04-22T13:00:00.000Z" title="发表于 2025-04-22 21:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 78.子集"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集">Leetcode 78.子集</a><time datetime="2025-04-22T12:00:00.000Z" title="发表于 2025-04-22 20:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 93.复原IP地址"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址">Leetcode 93.复原IP地址</a><time datetime="2025-04-21T13:00:00.000Z" title="发表于 2025-04-21 21:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 131.分割回文数"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数">Leetcode 131.分割回文数</a><time datetime="2025-04-21T12:00:00.000Z" title="发表于 2025-04-21 20:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 39.组合总和"/></a><div class="content"><a class="title" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和">Leetcode 39.组合总和</a><time datetime="2025-04-20T13:00:00.000Z" title="发表于 2025-04-20 21:00:00">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

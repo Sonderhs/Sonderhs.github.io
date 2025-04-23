@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="paper阅读：LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics">
+<meta property="og:url" content="http://example.com/2025/03/19/paper/LaERC-S/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="paper阅读：LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Deep_Learning/paper/LaERC-S/cover.png">
+<meta property="article:published_time" content="2025-03-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T05:29:00.919Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="paper">
+<meta property="article:tag" content="ERC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Deep_Learning/paper/LaERC-S/cover.png"><link rel="shortcut icon" href="/../image/BlogCover/hansen.png"><link rel="canonical" href="http://example.com/2025/03/19/paper/LaERC-S/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-04-23 13:29:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/hansen.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-18T16:00:00.000Z" title="发表于 2025-03-19 00:00:00">2025-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-23T05:29:00.919Z" title="更新于 2025-04-23 13:29:00">2025-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/paper/">paper</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics</h1>
+
+
+	<div class="row">
+    <embed src="/image/Deep_Learning/paper/LaERC-S/LaERC-S.pdf" width="100%" height="550" type="application/pdf">
+	</div>
+
+
+
+<h2 id="LaERC-S-模型的具体流程如下：">LaERC-S 模型的具体流程如下：</h2>
+<h3 id="1-整体框架">1. <strong>整体框架</strong></h3>
+<p>LaERC-S 主要用于对话中的情感识别（Emotion Recognition in Conversation, ERC），核心思想是结合 <strong>大语言模型（LLMs）</strong> 和 <strong>说话人特征（Speaker Characteristics）</strong>，以更精准地预测对话中每个话语的情感状态。模型采用 <strong>两阶段学习（Two-Stage Learning）</strong>，分为：</p>
+<ul>
+<li><strong>第一阶段：说话人特征提取与注入</strong></li>
+<li><strong>第二阶段：情感识别</strong></li>
+</ul>
+<hr>
+<h3 id="2-模型流程">2. <strong>模型流程</strong></h3>
+<p>LaERC-S 由以下几个关键步骤组成：</p>
+<h4 id="1-Vanilla-ERC-Model（基础-ERC-任务）"><strong>(1) Vanilla ERC Model（基础 ERC 任务）</strong></h4>
+<ul>
+<li>输入：对话数据 $D = {(C_i, Y_i)}_{i=1}^{N} $，其中 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">C_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是第 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6595em;"></span><span class="mord mathnormal">i</span></span></span></span> 个对话，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>Y</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">Y_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">Y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.2222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是对应的情感标签。</li>
+<li>每个对话 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>C</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">C_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 由一系列话语 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>U</mi><mo>=</mo><msubsup><msub><mi>u</mi><mi>j</mi></msub><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>S</mi></msubsup></mrow><annotation encoding="application/x-tex">U = {u_j}_{j=1}^{S}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3132em;vertical-align:-0.4719em;"></span><span class="mord"><span class="mord"><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.3642em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05764em;">S</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4719em;"><span></span></span></span></span></span></span></span></span></span> 组成，每个话语 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">u_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> 具有一个真实情感标签 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">y_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>（如快乐、愤怒等）。</li>
+<li>目标：让 ERC 模型 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi></mrow><annotation encoding="application/x-tex">M</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span></span></span></span> 从 LLMs 进行学习，输出话语 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">u_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> 的情感类别 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>r</mi><mrow><mi>j</mi><mo separator="true">,</mo><mi>i</mi></mrow></msub></mrow><annotation encoding="application/x-tex">r_{j,i}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>r</mi><mrow><mi>j</mi><mo separator="true">,</mo><mi>i</mi></mrow></msub><mo>=</mo><mi>M</mi><mo stretchy="false">(</mo><msub><mi>u</mi><mrow><mo>&lt;</mo><mi>j</mi></mrow></msub><mo separator="true">,</mo><msub><mi>u</mi><mi>j</mi></msub><mo separator="true">,</mo><mi>E</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">r_{j,i} = M(u_{&lt;j}, u_j, E)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">i</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mrel mtight">&lt;</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span><span class="mclose">)</span></span></span></span></span></p>
+其中，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mrow><mo>&lt;</mo><mi>j</mi></mrow></msub></mrow><annotation encoding="application/x-tex">u_{&lt;j}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mrel mtight">&lt;</span><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> 表示当前话语 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>u</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">u_j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span></span> 之前的历史话语，<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi></mrow><annotation encoding="application/x-tex">E</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.05764em;">E</span></span></span></span> 为所有可能的情感类别集合。</li>
+</ul>
+<hr>
+<h4 id="2-说话人特征提取（Speaker-Characteristic-Extraction）"><strong>(2) 说话人特征提取（Speaker Characteristic Extraction）</strong></h4>
+<ul>
+<li><strong>核心思想</strong>：使用 <strong>提示学习（Prompt Engineering）</strong> 提取 LLMs 的世界知识，生成对话参与者的说话人特征。</li>
+<li><strong>说话人特征包含三个部分</strong>：
+<ul>
+<li><strong>心理状态（Mental State）</strong>：描述说话人的情感状态（如 xIntent, xReact, oReact）。</li>
+<li><strong>行为（Behavior）</strong>：描述对事件的行为反应（如 xWant, oWant, xEffect, oEffect, xNeed）。</li>
+<li><strong>个性（Persona）</strong>：描述说话人的属性（如 xAttr）。</li>
+</ul>
+</li>
+<li><strong>处理方式</strong>：
+<ol>
+<li>设计<strong>查询模板（Query Templates）</strong>，向 LLMs 提问获取说话人特征信息。</li>
+<li>通过手动验证提高信息质量（实验中选择了 “oReact” 作为最佳特征）。</li>
+<li>以结构化方式存储和使用这些特征信息。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h4 id="3-说话人特征注入（Speaker-Characteristic-Injection）"><strong>(3) 说话人特征注入（Speaker Characteristic Injection）</strong></h4>
+<ul>
+<li><strong>目的</strong>：将提取的说话人特征注入 LLMs，以增强模型对对话情感动态的理解能力。</li>
+<li><strong>方法</strong>：
+<ol>
+<li>设计 <strong>指令调优（Instruction Tuning）</strong> 模板，引导 LLMs 学习对话情感线索。</li>
+<li>模板包含：
+<ul>
+<li><strong>标题（Title）</strong>：设定 LLMs 在情感分析任务中的角色（如“你是一位擅长情感分析的专家”）。</li>
+<li><strong>特定标记（Specific Token）</strong>：区分不同部分的内容（如对话文本、任务目标）。</li>
+<li><strong>目标描述（Objective）</strong>：简要描述任务（如“请预测该话语的情感”）。</li>
+<li><strong>约束（Constraint）</strong>：限制输出范围（如情感标签集合）。</li>
+</ul>
+</li>
+<li>通过微调 LLMs，确保它能够感知这些情感特征，并在后续任务中使用。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h4 id="4-情感识别（Emotion-Recognition）"><strong>(4) 情感识别（Emotion Recognition）</strong></h4>
+<ul>
+<li><strong>目的</strong>：利用前述步骤中的信息，提高对话情感预测的准确性。</li>
+<li><strong>方法</strong>：
+<ol>
+<li><strong>再一次指令调优</strong>，让 LLMs 通过对话上下文推断最终的情感标签。</li>
+<li><strong>目标函数（Loss Function）</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>L</mi><mi>k</mi></msub><mo>=</mo><munder><mo>∑</mo><msup><mi>i</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></munder><mo>−</mo><mi>log</mi><mo>⁡</mo><mi>P</mi><mo stretchy="false">(</mo><mi>μ</mi><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><msup><mi>i</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo><mi mathvariant="normal">∣</mi><msub><mi>x</mi><mi>k</mi></msub><mo separator="true">,</mo><msub><mi>θ</mi><mi>k</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">L_k = \sum_{i&#x27;} -\log P(\mu(k,i&#x27;) | x_k, \theta_k)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.344em;vertical-align:-1.294em;"></span><span class="mop op-limits"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.05em;"><span style="top:-1.856em;margin-left:0em;"><span class="pstrut" style="height:3.05em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6828em;"><span style="top:-2.786em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.05em;"><span class="pstrut" style="height:3.05em;"></span><span><span class="mop op-symbol large-op">∑</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.294em;"><span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">μ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord">∣</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+其中：
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> 表示不同任务阶段（如特征注入、情感识别）。</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">x_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 代表不同阶段输入的指令模板，用于指导LLMs进行情感分析。</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>μ</mi><mo stretchy="false">(</mo><mi>k</mi><mo separator="true">,</mo><msup><mi>i</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mu(k, i&#x27;)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0019em;vertical-align:-0.25em;"></span><span class="mord mathnormal">μ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">i</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7519em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> 是生成的输出 token，即模型输出的情感类别。</li>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>θ</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\theta_k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> 是 LLMs 的可训练参数。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="3-实验结果">3. <strong>实验结果</strong></h3>
+<ul>
+<li><strong>数据集</strong>：
+<ul>
+<li>IEMOCAP（6 类情感）</li>
+<li>MELD（7 类情感）</li>
+<li>EmoryNLP（7 类情感）</li>
+</ul>
+</li>
+<li><strong>对比方法</strong>：
+<ul>
+<li>传统 ERC 方法（如 COSMIC、SKAIG）</li>
+<li>LLMs-based 方法（如 InstructERC、BiosERC）</li>
+</ul>
+</li>
+<li><strong>性能表现</strong>：
+<ul>
+<li>LaERC-S 在所有数据集上均取得最佳效果。</li>
+<li>在 IEMOCAP 数据集上，相较于 InstructERC 提升 1.01%。</li>
+<li>采用 “oReact” 作为特征，性能最佳。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="4-关键影响因素分析">4. <strong>关键影响因素分析</strong></h3>
+<ul>
+<li><strong>不同说话人特征的影响</strong>：
+<ul>
+<li>“oReact” 带来最佳性能提升，因为它描述了<strong>听众的情感反应</strong>，能更好地捕捉对话动态。</li>
+</ul>
+</li>
+<li><strong>不同 LLMs 影响</strong>：
+<ul>
+<li>LLaMA2-7B 提取的特征效果最佳。</li>
+</ul>
+</li>
+<li><strong>不同模板的影响</strong>：
+<ul>
+<li>经过实验选择了 “the reaction of potential listeners” 这一描述，能够最准确地提取特征。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="5-总结">5. <strong>总结</strong></h3>
+<p>LaERC-S 通过两阶段学习：</p>
+<ol>
+<li><strong>第一阶段</strong> 提取和注入说话人特征，使 LLMs 感知对话情感动态。</li>
+<li><strong>第二阶段</strong> 在此基础上进行情感识别，提高 ERC 任务的准确性。</li>
+</ol>
+<p>通过实验表明，LaERC-S 具有 <strong>更好的泛化能力、更高的情感识别精度</strong>，在多个数据集上实现 SOTA（State-of-the-Art）效果。</p>
+<h2 id="Pipline">Pipline</h2>
+<p><img src="/image/Deep_Learning/paper/LaERC-S/pipeline.png" alt=""></p>
+<h3 id="LaERC-S-Model-的作用"><strong>LaERC-S Model 的作用</strong></h3>
+<p>LaERC-S 是一个基于 <strong>大语言模型（LLMs）</strong> 的框架，旨在改进 <strong>对话情感识别（Emotion Recognition in Conversation, ERC）</strong> 的效果。<br>
+其 <strong>主要作用</strong> 是：</p>
+<ol>
+<li>
+<p><strong>增强 LLMs 识别情感的能力</strong>：</p>
+<ul>
+<li>通过<strong>提取和注入说话人特征（Speaker Characteristics）</strong>，如心理状态、行为、个性等，使 LLMs 能够更好地理解对话中的情感动态。</li>
+<li>采用 <strong>两阶段学习（Two-Stage Learning）</strong> 来提升情感识别的精准度。</li>
+</ul>
+</li>
+<li>
+<p><strong>利用 LLMs 提取知识，提高 ERC 任务的性能</strong>：</p>
+<ul>
+<li><strong>第一阶段</strong>（说话人特征提取与注入）：通过 LLMs 生成对话参与者的心理状态、行为等信息，并将其融入模型中。</li>
+<li><strong>第二阶段</strong>（情感识别）：基于增强的特征信息，使用 LLMs 进行情感预测。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="Figure-2-中-LaERC-S-Model-与-LLM-的作用"><strong>Figure 2 中 LaERC-S Model 与 LLM 的作用</strong></h3>
+<p>Figure 2 展示了 <strong>LaERC-S 的整体流程</strong>，主要包括三个部分：</p>
+<ol>
+<li><strong>说话人特征提取（Speaker Characteristics Extraction）</strong></li>
+<li><strong>说话人特征注入（Speaker Characteristics Injection）</strong></li>
+<li><strong>情感识别（Emotion Recognition）</strong></li>
+</ol>
+<p>在这个过程中：</p>
+<ul>
+<li>
+<p><strong>LLM 的作用</strong>：</p>
+<ul>
+<li>在 <strong>说话人特征提取（第一阶段）</strong> 中，LLM 被用来生成说话人特征（如 oReact、xIntent、xEffect 等）。</li>
+<li>这些特征反映了 <strong>对话中不同角色的情感状态、反应、行为</strong>，提供了更丰富的情感信息。</li>
+</ul>
+</li>
+<li>
+<p><strong>LaERC-S Model 的作用</strong>：</p>
+<ul>
+<li>负责 <strong>特征注入（第二阶段）</strong> 和 <strong>情感识别</strong>。</li>
+<li>通过 <strong>微调（fine-tuning）</strong> 使 LLMs 能够利用这些特征，提高情感分类的准确率。</li>
+<li>在情感识别阶段，LaERC-S 采用一个 <strong>指令调优（Instruction-Tuning）</strong> 过程，使 LLMs 预测每个话语的情感标签（如“Happy”、“Sad”）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>总结：</strong></p>
+<ul>
+<li><strong>LLM 主要用于知识提取（知识生成）</strong>，帮助获取说话人特征。</li>
+<li><strong>LaERC-S Model 主要用于模型训练和预测</strong>，结合 LLMs 提取的信息进行情感分类，提高对话情感识别的准确性。</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LLM/">LLM</a><a class="post-meta__tags" href="/tags/paper/">paper</a><a class="post-meta__tags" href="/tags/ERC/">ERC</a></div><div class="post_share"><div class="social-share" data-image="/../image/Deep_Learning/paper/LaERC-S/cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/19/Java/Leetcode/Day7_Leetcode%20203.%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/" title="Leetcode 203.移除链表元素"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day7_Leetcode203.%E7%A7%BB%E9%99%A4%E9%93%BE%E8%A1%A8%E5%85%83%E7%B4%A0/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 203.移除链表元素</div></div></a></div><div class="next-post pull-right"><a href="/2025/03/18/Java/Leetcode/Day6_Leetcode%2059.%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5II/" title="Leetcode 59.螺旋矩阵II"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day6_Leetcode59.%E8%9E%BA%E6%97%8B%E7%9F%A9%E9%98%B5II/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Leetcode 59.螺旋矩阵II</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/03/17/paper/BiosERC/" title="BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks"><img class="cover" src="/../image/Deep_Learning/paper/BiosERC/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-17</div><div class="title">BiosERC:Integrating Biography Speakers Supported by LLMs for ERC Tasks</div></div></a></div><div><a href="/2025/04/02/paper/MERITS-L/" title="LLM supervised Pre-training for Multimodal Emotion Recognition in Conversations"><img class="cover" src="/../image/Deep_Learning/paper/MERITS-L/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-02</div><div class="title">LLM supervised Pre-training for Multimodal Emotion Recognition in Conversations</div></div></a></div><div><a href="/2025/04/17/paper/MSE-Adapter/" title="MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition"><img class="cover" src="/../image/Deep_Learning/paper/MSE-Adapter/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="title">MSE-Adapter:A Lightweight Plugin Endowing LLMs with the Capability to Perform Multimodal Sentiment Analysis and Emotion Recognition</div></div></a></div><div><a href="/2025/03/06/paper/HMLLM/" title="Hypergraph Multi-modal Large Language Model:Exploiting EEG and  Eye-tracking Modalities to Evaluate Heterogeneous Responses for Video  Understanding"><img class="cover" src="/../image/Deep_Learning/paper/HMLLM/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-06</div><div class="title">Hypergraph Multi-modal Large Language Model:Exploiting EEG and  Eye-tracking Modalities to Evaluate Heterogeneous Responses for Video  Understanding</div></div></a></div><div><a href="/2025/04/09/paper/LLMasGNN/" title="LLM as GNN:Graph Vocabulary Learning for Text-Attributed Graph Foundation Models"><img class="cover" src="/../image/Deep_Learning/paper/LLMasGNN/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-09</div><div class="title">LLM as GNN:Graph Vocabulary Learning for Text-Attributed Graph Foundation Models</div></div></a></div><div><a href="/2025/03/26/paper/HyperBERT/" title="HyperBERT:Mixing Hypergraph-Aware Layers with Language Models for Node Classification on Text-Attributed Hypergraphs"><img class="cover" src="/../image/Deep_Learning/paper/HyperBERT/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-26</div><div class="title">HyperBERT:Mixing Hypergraph-Aware Layers with Language Models for Node Classification on Text-Attributed Hypergraphs</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">LaERC-S:Improving LLM-based Emotion Recognition in Conversation with Speaker Characteristics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#LaERC-S-%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%85%B7%E4%BD%93%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-text">LaERC-S 模型的具体流程如下：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%95%B4%E4%BD%93%E6%A1%86%E6%9E%B6"><span class="toc-text">1. 整体框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%A8%A1%E5%9E%8B%E6%B5%81%E7%A8%8B"><span class="toc-text">2. 模型流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Vanilla-ERC-Model%EF%BC%88%E5%9F%BA%E7%A1%80-ERC-%E4%BB%BB%E5%8A%A1%EF%BC%89"><span class="toc-text">(1) Vanilla ERC Model（基础 ERC 任务）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%AF%B4%E8%AF%9D%E4%BA%BA%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%EF%BC%88Speaker-Characteristic-Extraction%EF%BC%89"><span class="toc-text">(2) 说话人特征提取（Speaker Characteristic Extraction）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%AF%B4%E8%AF%9D%E4%BA%BA%E7%89%B9%E5%BE%81%E6%B3%A8%E5%85%A5%EF%BC%88Speaker-Characteristic-Injection%EF%BC%89"><span class="toc-text">(3) 说话人特征注入（Speaker Characteristic Injection）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%83%85%E6%84%9F%E8%AF%86%E5%88%AB%EF%BC%88Emotion-Recognition%EF%BC%89"><span class="toc-text">(4) 情感识别（Emotion Recognition）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="toc-text">3. 实验结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%85%B3%E9%94%AE%E5%BD%B1%E5%93%8D%E5%9B%A0%E7%B4%A0%E5%88%86%E6%9E%90"><span class="toc-text">4. 关键影响因素分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-text">5. 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pipline"><span class="toc-text">Pipline</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LaERC-S-Model-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">LaERC-S Model 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Figure-2-%E4%B8%AD-LaERC-S-Model-%E4%B8%8E-LLM-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">Figure 2 中 LaERC-S Model 与 LLM 的作用</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 90.子集II"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II">Leetcode 90.子集II</a><time datetime="2025-04-22T13:00:00.000Z" title="发表于 2025-04-22 21:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 78.子集"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集">Leetcode 78.子集</a><time datetime="2025-04-22T12:00:00.000Z" title="发表于 2025-04-22 20:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 93.复原IP地址"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址">Leetcode 93.复原IP地址</a><time datetime="2025-04-21T13:00:00.000Z" title="发表于 2025-04-21 21:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 131.分割回文数"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数">Leetcode 131.分割回文数</a><time datetime="2025-04-21T12:00:00.000Z" title="发表于 2025-04-21 20:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 39.组合总和"/></a><div class="content"><a class="title" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和">Leetcode 39.组合总和</a><time datetime="2025-04-20T13:00:00.000Z" title="发表于 2025-04-20 21:00:00">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

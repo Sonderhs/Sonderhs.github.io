@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Transformers实战之实战命名实体识别 | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要是关于Transformers的实战之命名实体识别">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transformers实战之实战命名实体识别">
+<meta property="og:url" content="http://example.com/2025/04/14/LLM/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="本文主要是关于Transformers的实战之命名实体识别">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/cover.jpg">
+<meta property="article:published_time" content="2025-04-14T04:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T05:29:00.908Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="transformer">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/cover.jpg"><link rel="shortcut icon" href="/../image/BlogCover/hansen.png"><link rel="canonical" href="http://example.com/2025/04/14/LLM/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Transformers实战之实战命名实体识别',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-04-23 13:29:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/hansen.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Transformers实战之实战命名实体识别</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-04-14T04:00:00.000Z" title="发表于 2025-04-14 12:00:00">2025-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-23T05:29:00.908Z" title="更新于 2025-04-23 13:29:00">2025-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/LLM/">LLM</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>实战命名实体识别任务</h1>
+<h2 id="一、命名实体识别简介">一、命名实体识别简介</h2>
+<ul>
+<li>
+<p>命名实体识别（Named Entity Recognition， 简称NER）是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。 通常包括两部分：① 实体边界识别 ② 确定实体类别（人名、地名、机构名或其他）。例：“小明在北京上班”：</p>
+<table>
+<thead>
+<tr>
+<th>实体类别</th>
+<th>实体</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地点</td>
+<td>北京</td>
+</tr>
+<tr>
+<td>人物</td>
+<td>小明</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>数据标注体系：IOB1、IOB2、IOE1、IOE2、IOBES、BILOU</p>
+</li>
+<li>
+<p>IOB2标注：</p>
+<ul>
+<li>I表示实体内部，O表示实体外部，B表示实体开始</li>
+<li>B/I-XXX，XXX表示具体的类别</li>
+<li>示例：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>标记</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B-Person</td>
+<td>人名开始</td>
+</tr>
+<tr>
+<td>I-Person</td>
+<td>人名中间</td>
+</tr>
+<tr>
+<td>B-Organization</td>
+<td>组织名开始</td>
+</tr>
+<tr>
+<td>I-Organization</td>
+<td>组织名中间</td>
+</tr>
+<tr>
+<td>O</td>
+<td>非命名实体</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>IOBES标注：</p>
+<ul>
+<li>I表示实体内部，O表示实体外部，B表示实体开始，E表示实体结束，S表示一个词单独形成一个命名实体</li>
+<li>有时也会用M代替I，但本质是同一含义</li>
+</ul>
+</li>
+<li>
+<p>简单示例<br>
+<img src="/image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB1.png" alt=""></p>
+</li>
+</ul>
+<h2 id="二、代码实战">二、代码实战</h2>
+<p>模型结构(ModelForTokenClassification)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">BertForTokenClassification</span>(<span class="title class_ inherited__">BertPreTrainedModel</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, config</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(config)</span><br><span class="line">        self.num_labels = config.num_labels</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 使用预训练模型BertModel作为基础模型</span></span><br><span class="line">        self.bert = BertModel(config, add_pooling_layer=<span class="literal">False</span>)</span><br><span class="line">        classifier_dropout = (</span><br><span class="line">            config.classifier_dropout <span class="keyword">if</span> config.classifier_dropout <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> config.hidden_dropout_prob</span><br><span class="line">        )</span><br><span class="line">        self.dropout = nn.Dropout(classifier_dropout)</span><br><span class="line">        self.classifier = nn.Linear(config.hidden_size, config.num_labels)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Initialize weights and apply final processing</span></span><br><span class="line">        self.post_init()</span><br><span class="line"></span><br><span class="line"><span class="meta">    @add_start_docstrings_to_model_forward(<span class="params">BERT_INPUTS_DOCSTRING.<span class="built_in">format</span>(<span class="params"><span class="string">&quot;batch_size, sequence_length&quot;</span></span>)</span>)</span></span><br><span class="line"><span class="meta">    @add_code_sample_docstrings(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="meta">        checkpoint=_CHECKPOINT_FOR_TOKEN_CLASSIFICATION,</span></span></span><br><span class="line"><span class="params"><span class="meta">        output_type=TokenClassifierOutput,</span></span></span><br><span class="line"><span class="params"><span class="meta">        config_class=_CONFIG_FOR_DOC,</span></span></span><br><span class="line"><span class="params"><span class="meta">        expected_output=_TOKEN_CLASS_EXPECTED_OUTPUT,</span></span></span><br><span class="line"><span class="params"><span class="meta">        expected_loss=_TOKEN_CLASS_EXPECTED_LOSS,</span></span></span><br><span class="line"><span class="params"><span class="meta">    </span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params"></span></span><br><span class="line"><span class="params">        self,</span></span><br><span class="line"><span class="params">        input_ids: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        attention_mask: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        token_type_ids: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        position_ids: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        head_mask: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        inputs_embeds: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        labels: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        output_attentions: <span class="type">Optional</span>[<span class="built_in">bool</span>] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        output_hidden_states: <span class="type">Optional</span>[<span class="built_in">bool</span>] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">        return_dict: <span class="type">Optional</span>[<span class="built_in">bool</span>] = <span class="literal">None</span>,</span></span><br><span class="line"><span class="params">    </span>) -&gt; <span class="type">Union</span>[<span class="type">Tuple</span>[torch.Tensor], TokenClassifierOutput]:</span><br><span class="line">        <span class="string">r&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        labels (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):</span></span><br><span class="line"><span class="string">            Labels for computing the token classification loss. Indices should be in `[0, ..., config.num_labels - 1]`.</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        return_dict = return_dict <span class="keyword">if</span> return_dict <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> self.config.use_return_dict</span><br><span class="line"></span><br><span class="line">        outputs = self.bert(</span><br><span class="line">            input_ids,</span><br><span class="line">            attention_mask=attention_mask,</span><br><span class="line">            token_type_ids=token_type_ids,</span><br><span class="line">            position_ids=position_ids,</span><br><span class="line">            head_mask=head_mask,</span><br><span class="line">            inputs_embeds=inputs_embeds,</span><br><span class="line">            output_attentions=output_attentions,</span><br><span class="line">            output_hidden_states=output_hidden_states,</span><br><span class="line">            return_dict=return_dict,</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        sequence_output = outputs[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">        sequence_output = self.dropout(sequence_output)</span><br><span class="line">        logits = self.classifier(sequence_output)</span><br><span class="line"></span><br><span class="line">        loss = <span class="literal">None</span></span><br><span class="line">        <span class="keyword">if</span> labels <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            loss_fct = CrossEntropyLoss()</span><br><span class="line">            loss = loss_fct(logits.view(-<span class="number">1</span>, self.num_labels), labels.view(-<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> return_dict:</span><br><span class="line">            output = (logits,) + outputs[<span class="number">2</span>:]</span><br><span class="line">            <span class="keyword">return</span> ((loss,) + output) <span class="keyword">if</span> loss <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span> <span class="keyword">else</span> output</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> TokenClassifierOutput(</span><br><span class="line">            loss=loss,</span><br><span class="line">            logits=logits,</span><br><span class="line">            hidden_states=outputs.hidden_states,</span><br><span class="line">            attentions=outputs.attentions,</span><br><span class="line">        )</span><br></pre></td></tr></table></figure>
+<h3 id="2-1-导入相关包">2.1 导入相关包</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer, AutoModelForTokenClassification, TrainingArguments, Trainer, DataCollatorForTokenClassification</span><br><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> load_dataset</span><br><span class="line"><span class="keyword">import</span> evaluate</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-加载数据集">2.2 加载数据集</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果可以联网，直接使用load_dataset进行加载</span></span><br><span class="line"><span class="comment">#ner_datasets = load_dataset(&quot;peoples_daily_ner&quot;, cache_dir=&quot;./data&quot;)</span></span><br><span class="line"><span class="comment"># 如果无法联网，则使用下面的方式加载数据集</span></span><br><span class="line"><span class="keyword">from</span> datasets <span class="keyword">import</span> DatasetDict</span><br><span class="line">ner_datasets = DatasetDict.load_from_disk(<span class="string">&quot;ner_data&quot;</span>)</span><br><span class="line"></span><br><span class="line">label_list = ner_datasets[<span class="string">&quot;train&quot;</span>].features[<span class="string">&quot;ner_tags&quot;</span>].feature.names  <span class="comment"># [&#x27;O&#x27;, &#x27;B-PER&#x27;, &#x27;I-PER&#x27;, &#x27;B-ORG&#x27;, &#x27;I-ORG&#x27;, &#x27;B-LOC&#x27;, &#x27;I-LOC&#x27;]</span></span><br></pre></td></tr></table></figure>
+<p>ner_datasets数据集格式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line"> <span class="string">&#x27;tokens&#x27;</span>: [<span class="string">&#x27;海&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;钓&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;比&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;赛&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;地&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;点&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;在&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;厦&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;门&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;与&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;金&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;门&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;之&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;间&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;的&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;海&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;域&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;。&#x27;</span>],</span><br><span class="line"> <span class="string">&#x27;ner_tags&#x27;</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]&#125;</span><br></pre></td></tr></table></figure>
+<p>其中的<strong>ner_tags</strong>表示标注的类别，0表示O，1表示B-PER，2表示I-PER，3表示B-ORG，4表示I-ORG，5表示B-LOC，6表示I-LOC(PER:人名，ORG:组织名，LOC:地点名)<br>
+可以通过<strong>ner_datasets[“train”].features</strong>查看数据集的具体格式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&#x27;id&#x27;</span>: Value(dtype=<span class="string">&#x27;string&#x27;</span>, <span class="built_in">id</span>=<span class="literal">None</span>),</span><br><span class="line"><span class="string">&#x27;tokens&#x27;</span>: <span class="type">Sequence</span>(feature=Value(dtype=<span class="string">&#x27;string&#x27;</span>, <span class="built_in">id</span>=<span class="literal">None</span>), length=-<span class="number">1</span>, <span class="built_in">id</span>=<span class="literal">None</span>),</span><br><span class="line"><span class="string">&#x27;ner_tags&#x27;</span>: <span class="type">Sequence</span>(feature=ClassLabel(names=[<span class="string">&#x27;O&#x27;</span>, <span class="string">&#x27;B-PER&#x27;</span>, <span class="string">&#x27;I-PER&#x27;</span>, <span class="string">&#x27;B-ORG&#x27;</span>, <span class="string">&#x27;I-ORG&#x27;</span>, <span class="string">&#x27;B-LOC&#x27;</span>, <span class="string">&#x27;I-LOC&#x27;</span>], <span class="built_in">id</span>=<span class="literal">None</span>), length=-<span class="number">1</span>, <span class="built_in">id</span>=<span class="literal">None</span>)&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-数据集预处理">2.3 数据集预处理</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;hfl/chinese-macbert-base&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对于已经做好tokenize的数据，tokenizer会把每一个字都当做一个token进行编码，所以需要指定is_split_into_words参数为True</span></span><br><span class="line"><span class="comment"># tokenizer(ner_datasets[&quot;train&quot;][0][&quot;tokens&quot;], is_split_into_words=True)   </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于tokenizer中使用的子词机制，可能会将一个字拆分成多个token，所以需要使用word_ids来进行映射</span></span><br><span class="line"><span class="comment"># 借助word_ids 实现标签映射</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">process_function</span>(<span class="params">examples</span>):</span><br><span class="line">    tokenized_exmaples = tokenizer(examples[<span class="string">&quot;tokens&quot;</span>], max_length=<span class="number">128</span>, truncation=<span class="literal">True</span>, is_split_into_words=<span class="literal">True</span>)</span><br><span class="line">    labels = []</span><br><span class="line">    <span class="keyword">for</span> i, label <span class="keyword">in</span> <span class="built_in">enumerate</span>(examples[<span class="string">&quot;ner_tags&quot;</span>]):</span><br><span class="line">        word_ids = tokenized_exmaples.word_ids(batch_index=i)</span><br><span class="line">        label_ids = []</span><br><span class="line">        <span class="keyword">for</span> word_id <span class="keyword">in</span> word_ids:</span><br><span class="line">            <span class="keyword">if</span> word_id <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">                label_ids.append(-<span class="number">100</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                label_ids.append(label[word_id])</span><br><span class="line">        labels.append(label_ids)</span><br><span class="line">    tokenized_exmaples[<span class="string">&quot;labels&quot;</span>] = labels</span><br><span class="line">    <span class="keyword">return</span> tokenized_exmaples</span><br><span class="line"></span><br><span class="line">tokenized_datasets = ner_datasets.<span class="built_in">map</span>(process_function, batched=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<p>划分好的数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DatasetDict(&#123;</span><br><span class="line">    train: Dataset(&#123;</span><br><span class="line">        features: [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;tokens&#x27;</span>, <span class="string">&#x27;ner_tags&#x27;</span>, <span class="string">&#x27;input_ids&#x27;</span>, <span class="string">&#x27;token_type_ids&#x27;</span>, <span class="string">&#x27;attention_mask&#x27;</span>, <span class="string">&#x27;labels&#x27;</span>],</span><br><span class="line">        num_rows: <span class="number">20865</span></span><br><span class="line">    &#125;)</span><br><span class="line">    validation: Dataset(&#123;</span><br><span class="line">        features: [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;tokens&#x27;</span>, <span class="string">&#x27;ner_tags&#x27;</span>, <span class="string">&#x27;input_ids&#x27;</span>, <span class="string">&#x27;token_type_ids&#x27;</span>, <span class="string">&#x27;attention_mask&#x27;</span>, <span class="string">&#x27;labels&#x27;</span>],</span><br><span class="line">        num_rows: <span class="number">2319</span></span><br><span class="line">    &#125;)</span><br><span class="line">    test: Dataset(&#123;</span><br><span class="line">        features: [<span class="string">&#x27;id&#x27;</span>, <span class="string">&#x27;tokens&#x27;</span>, <span class="string">&#x27;ner_tags&#x27;</span>, <span class="string">&#x27;input_ids&#x27;</span>, <span class="string">&#x27;token_type_ids&#x27;</span>, <span class="string">&#x27;attention_mask&#x27;</span>, <span class="string">&#x27;labels&#x27;</span>],</span><br><span class="line">        num_rows: <span class="number">4637</span></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>处理过后的第0条数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">&#x27;id&#x27;</span>: <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;tokens&#x27;</span>: [<span class="string">&#x27;海&#x27;</span>, <span class="string">&#x27;钓&#x27;</span>, <span class="string">&#x27;比&#x27;</span>, <span class="string">&#x27;赛&#x27;</span>, <span class="string">&#x27;地&#x27;</span>, <span class="string">&#x27;点&#x27;</span>, <span class="string">&#x27;在&#x27;</span>, <span class="string">&#x27;厦&#x27;</span>, <span class="string">&#x27;门&#x27;</span>, <span class="string">&#x27;与&#x27;</span>, <span class="string">&#x27;金&#x27;</span>, <span class="string">&#x27;门&#x27;</span>, <span class="string">&#x27;之&#x27;</span>, <span class="string">&#x27;间&#x27;</span>, <span class="string">&#x27;的&#x27;</span>, <span class="string">&#x27;海&#x27;</span>, <span class="string">&#x27;域&#x27;</span>, <span class="string">&#x27;。&#x27;</span>], <span class="string">&#x27;ner_tags&#x27;</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>], <span class="string">&#x27;input_ids&#x27;</span>: [<span class="number">101</span>, <span class="number">3862</span>, <span class="number">7157</span>, <span class="number">3683</span>, <span class="number">6612</span>, <span class="number">1765</span>, <span class="number">4157</span>, <span class="number">1762</span>, <span class="number">1336</span>, <span class="number">7305</span>, <span class="number">680</span>, <span class="number">7032</span>, <span class="number">7305</span>, <span class="number">722</span>, <span class="number">7313</span>, <span class="number">4638</span>, <span class="number">3862</span>, <span class="number">1818</span>, <span class="number">511</span>, <span class="number">102</span>], <span class="string">&#x27;token_type_ids&#x27;</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>], <span class="string">&#x27;attention_mask&#x27;</span>: [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>], <span class="string">&#x27;labels&#x27;</span>: [-<span class="number">100</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, -<span class="number">100</span>]&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-创建模型">2.4 创建模型</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对于所有的非二分类任务，切记要指定num_labels，否则就会device错误</span></span><br><span class="line">model = AutoModelForTokenClassification.from_pretrained(<span class="string">&quot;hfl/chinese-macbert-base&quot;</span>, num_labels=<span class="built_in">len</span>(label_list), max_seq_length=<span class="number">128</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-创建评估函数">2.5 创建评估函数</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">seqeval = evaluate.load(<span class="string">&quot;seqeval&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">eval_metric</span>(<span class="params">pred</span>):</span><br><span class="line">    predictions, labels = pred</span><br><span class="line">    predictions = np.argmax(predictions, axis=-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 将id转换为原始的字符串类型的标签</span></span><br><span class="line">    true_predictions = [</span><br><span class="line">        [label_list[p] <span class="keyword">for</span> (p, l) <span class="keyword">in</span> <span class="built_in">zip</span>(prediction, label) <span class="keyword">if</span> l != -<span class="number">100</span>] <span class="keyword">for</span> prediction, label <span class="keyword">in</span> <span class="built_in">zip</span>(predictions, labels)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    true_labels = [</span><br><span class="line">        [label_list[l] <span class="keyword">for</span> (p, l) <span class="keyword">in</span> <span class="built_in">zip</span>(prediction, label) <span class="keyword">if</span> l != -<span class="number">100</span>] <span class="keyword">for</span> prediction, label <span class="keyword">in</span> <span class="built_in">zip</span>(predictions, labels)</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line">    results = seqeval.compute(predictions=true_predictions, references=true_labels, mode=<span class="string">&quot;strict&quot;</span>, schema=<span class="string">&quot;IOB2&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="string">&quot;f1&quot;</span>: results[<span class="string">&quot;overall_f1&quot;</span>]</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-6-配置训练参数">2.6 配置训练参数</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">args = TrainingArguments(</span><br><span class="line">    output_dir=<span class="string">&quot;models_for_ner&quot;</span>,</span><br><span class="line">    per_device_train_batch_size=<span class="number">64</span>,</span><br><span class="line">    per_device_eval_batch_size=<span class="number">128</span>,</span><br><span class="line">    eval_strategy=<span class="string">&quot;epoch&quot;</span>,</span><br><span class="line">    save_strategy=<span class="string">&quot;epoch&quot;</span>,</span><br><span class="line">    load_best_model_at_end=<span class="literal">True</span>,</span><br><span class="line">    metric_for_best_model=<span class="string">&quot;f1&quot;</span>,</span><br><span class="line">    logging_steps=<span class="number">50</span>,</span><br><span class="line">    num_train_epochs=<span class="number">1</span>,</span><br><span class="line">    report_to=<span class="string">&quot;none&quot;</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="2-7-创建训练器">2.7 创建训练器</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">trainer = Trainer(</span><br><span class="line">    model=model,</span><br><span class="line">    args=args,</span><br><span class="line">    processing_class=tokenizer,</span><br><span class="line">    data_collator=DataCollatorForTokenClassification(tokenizer),</span><br><span class="line">    compute_metrics=eval_metric,</span><br><span class="line">    train_dataset=tokenized_datasets[<span class="string">&quot;train&quot;</span>],</span><br><span class="line">    eval_dataset=tokenized_datasets[<span class="string">&quot;validation&quot;</span>],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="2-8-模型训练">2.8 模型训练</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">trainer.train()</span><br><span class="line"></span><br><span class="line">trainer.evaluate(eval_dataset=tokenized_datasets[<span class="string">&quot;test&quot;</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="2-9-模型预测">2.9 模型预测</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> pipeline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用pipeline进行推理时要指定id2label</span></span><br><span class="line">model.config.id2label = &#123;index: label <span class="keyword">for</span> idx, label <span class="keyword">in</span> <span class="built_in">enumerate</span>(label_list)&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果模型是基于GPU训练的，那么推理时要指定device</span></span><br><span class="line"><span class="comment"># 对于NER任务，可以指定aggregation_strategy为simple，得到具体的实体的结果，而不是token的结果</span></span><br><span class="line">ner_pipe = pipeline(<span class="string">&quot;token-classification&quot;</span>, model=model, tokenizer=tokenizer, device=<span class="number">0</span>, aggregation_strategy=<span class="string">&quot;simple&quot;</span>)</span><br><span class="line"></span><br><span class="line">res = ner_pipe(<span class="string">&quot;小明在北京上班&quot;</span>)  </span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">res:</span></span><br><span class="line"><span class="string">[&#123;&#x27;entity_group&#x27;: &#x27;PER&#x27;,</span></span><br><span class="line"><span class="string">  &#x27;score&#x27;: 0.949744,</span></span><br><span class="line"><span class="string">  &#x27;word&#x27;: &#x27;小 明&#x27;,</span></span><br><span class="line"><span class="string">  &#x27;start&#x27;: 0,</span></span><br><span class="line"><span class="string">  &#x27;end&#x27;: 2&#125;,</span></span><br><span class="line"><span class="string"> &#123;&#x27;entity_group&#x27;: &#x27;LOC&#x27;,</span></span><br><span class="line"><span class="string">  &#x27;score&#x27;: 0.9895726,</span></span><br><span class="line"><span class="string">  &#x27;word&#x27;: &#x27;北 京&#x27;,</span></span><br><span class="line"><span class="string">  &#x27;start&#x27;: 3,</span></span><br><span class="line"><span class="string">  &#x27;end&#x27;: 5&#125;]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据start和end取实际的结果</span></span><br><span class="line"><span class="comment"># res中使用decode得到的结果中间还会有空格，所以还需要进一步处理</span></span><br><span class="line">ner_result = &#123;&#125;  </span><br><span class="line">x = <span class="string">&quot;小明在北京上班&quot;</span></span><br><span class="line"><span class="keyword">for</span> r <span class="keyword">in</span> res:</span><br><span class="line">    <span class="keyword">if</span> r[<span class="string">&quot;entity_group&quot;</span>] <span class="keyword">not</span> <span class="keyword">in</span> ner_result:</span><br><span class="line">        ner_result[r[<span class="string">&quot;entity_group&quot;</span>]] = []</span><br><span class="line">    ner_result[r[<span class="string">&quot;entity_group&quot;</span>]].append(x[r[<span class="string">&quot;start&quot;</span>]: r[<span class="string">&quot;end&quot;</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ner_result)  <span class="comment"># &#123;&#x27;PER&#x27;: [&#x27;小明&#x27;], &#x27;LOC&#x27;: [&#x27;北京&#x27;]&#125;</span></span><br></pre></td></tr></table></figure>
+<p>参考资料：<br>
+[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ma4y1g791">【手把手带你实战HuggingFace Transformers-入门篇】基础知识与环境安装</a><br>
+[2] <a target="_blank" rel="noopener" href="https://github.com/zyds/transformers-code">【Github项目地址】</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/transformer/">transformer</a><a class="post-meta__tags" href="/tags/LLM/">LLM</a></div><div class="post_share"><div class="social-share" data-image="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/04/14/Java/Leetcode/Day28_Leetcode654.%E6%9C%80%E5%A4%A7%E4%BA%8C%E5%8F%89%E6%A0%91/" title="Leetcode 654.最大二叉树"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day28_Leetcode654.%E6%9C%80%E5%A4%A7%E4%BA%8C%E5%8F%89%E6%A0%91/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 654.最大二叉树</div></div></a></div><div class="next-post pull-right"><a href="/2025/04/14/LLM/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="基于Transformers的NLP解决方案"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">基于Transformers的NLP解决方案</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/04/20/LLM/%E4%BD%8E%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83/" title="Transformers 低精度训练"><img class="cover" src="/../image/LLM/%E4%BD%8E%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="title">Transformers 低精度训练</div></div></a></div><div><a href="/2025/03/01/LLM/HuggingFace%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="HuggingFace Transformers基础入门篇"><img class="cover" src="/../image/LLM/HuggingFace%20Transformers%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-01</div><div class="title">HuggingFace Transformers基础入门篇</div></div></a></div><div><a href="/2025/04/14/LLM/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="基于Transformers的NLP解决方案"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-14</div><div class="title">基于Transformers的NLP解决方案</div></div></a></div><div><a href="/2025/03/30/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/" title="参数高效微调PEFT"><img class="cover" src="/../image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-30</div><div class="title">参数高效微调PEFT</div></div></a></div><div><a href="/2025/04/17/LLM/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/" title="Transformers实战之文本摘要任务"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="title">Transformers实战之文本摘要任务</div></div></a></div><div><a href="/2024/11/01/Deep%20Learning/Transformer/" title="Transformer原理及代码实现"><img class="cover" src="/../image/Deep_Learning/Transformer/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="title">Transformer原理及代码实现</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">实战命名实体识别任务</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB%E7%AE%80%E4%BB%8B"><span class="toc-text">一、命名实体识别简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E6%88%98"><span class="toc-text">二、代码实战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%AF%BC%E5%85%A5%E7%9B%B8%E5%85%B3%E5%8C%85"><span class="toc-text">2.1 导入相关包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-text">2.2 加载数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">2.3 数据集预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9E%8B"><span class="toc-text">2.4 创建模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%88%9B%E5%BB%BA%E8%AF%84%E4%BC%B0%E5%87%BD%E6%95%B0"><span class="toc-text">2.5 创建评估函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E9%85%8D%E7%BD%AE%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-text">2.6 配置训练参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E5%88%9B%E5%BB%BA%E8%AE%AD%E7%BB%83%E5%99%A8"><span class="toc-text">2.7 创建训练器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8-%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="toc-text">2.8 模型训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9-%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B"><span class="toc-text">2.9 模型预测</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 90.子集II"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II">Leetcode 90.子集II</a><time datetime="2025-04-22T13:00:00.000Z" title="发表于 2025-04-22 21:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 78.子集"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集">Leetcode 78.子集</a><time datetime="2025-04-22T12:00:00.000Z" title="发表于 2025-04-22 20:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 93.复原IP地址"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址">Leetcode 93.复原IP地址</a><time datetime="2025-04-21T13:00:00.000Z" title="发表于 2025-04-21 21:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 131.分割回文数"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数">Leetcode 131.分割回文数</a><time datetime="2025-04-21T12:00:00.000Z" title="发表于 2025-04-21 20:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 39.组合总和"/></a><div class="content"><a class="title" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和">Leetcode 39.组合总和</a><time datetime="2025-04-20T13:00:00.000Z" title="发表于 2025-04-20 21:00:00">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

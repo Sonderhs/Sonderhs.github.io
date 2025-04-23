@@ -1,0 +1,984 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>参数高效微调PEFT | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文介绍了参数高效微调PEFT的几种方法：BitFit,Prompt-Tuning,P-Tuning,Prefix-Tuning,Lora,IA3.PEFT进阶操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="参数高效微调PEFT">
+<meta property="og:url" content="http://example.com/2025/03/30/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="本文介绍了参数高效微调PEFT的几种方法：BitFit,Prompt-Tuning,P-Tuning,Prefix-Tuning,Lora,IA3.PEFT进阶操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/cover.jpg">
+<meta property="article:published_time" content="2025-03-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-23T05:29:00.907Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="transformer">
+<meta property="article:tag" content="LLM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/cover.jpg"><link rel="shortcut icon" href="/../image/BlogCover/hansen.png"><link rel="canonical" href="http://example.com/2025/03/30/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '参数高效微调PEFT',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-04-23 13:29:00'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/hansen.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">参数高效微调PEFT</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-29T16:00:00.000Z" title="发表于 2025-03-30 00:00:00">2025-03-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-04-23T05:29:00.907Z" title="更新于 2025-04-23 13:29:00">2025-04-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/LLM/">LLM</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">7.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>29分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>随着预训练语言模型的不断发展，模型的参数越来越多，更大的模型带来了更好的性能，但是也带来了一些问题，比如以传统微调的方式对模型进行全量参数更新会消耗巨大的计算与存储资源。<br>
+参数高效微调(Parameter-efficient fine-tuning, PEFT)的方法仅对模型的一小部分参数进行训练，这一小部分参数可能是模型自身的，也可能是外部引入的，通过这种训练方式，不仅能够极大地减少需要训练的参数量，一些场景下效果甚至不输于全量微调。<br>
+常见的参数高效微调方法见下图：<br>
+(图片来源：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2303.15647">Scaling Down to Scale Up:A Guide to Parameter-Efficient Fine-Tuning</a>)<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/%E5%8F%82%E6%95%B0%E5%BE%AE%E8%B0%83%E6%96%B9%E6%B3%95.png" alt="常见的参数高效微调方法"></p>
+<p>本文使用的基础模型为<strong>Langboat/bloom-1b4-zh</strong>，模型大小为1.4B<br>
+在实际使用时参数量大概为1.3B<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/model_size.png" alt="模型大小"></p>
+<blockquote>
+<p>所以我们可以大概进行计算<br>
+model size: 1.3B<br>
+由于LP32的一个参数差不多4字节，所以model: 1.3G * 4 = 5.2G<br>
+梯度gradient: 1.3G * 4 = 5.2G<br>
+优化optimizer: 1.3G * 4 * 2 =10.4G<br>
+所以一共需要的内存大约是20.8G</p>
+</blockquote>
+<p>实际运行时差不多：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/base.png" alt=""></p>
+<h1>一、BitFit</h1>
+<h2 id="1-1-BitFit原理">1.1 BitFit原理</h2>
+<p><strong>BitFit思想</strong>：在进行训练时只训练一部分参数，BitFit选择就是只训练模型参数里面的所有bias部分，也就是偏置值，而冻结所有其他参数，从而减少计算和存储成本，同时保持较好的下游任务性能<br>
+<strong>实现方法</strong>：只需要把所有非bias部分的是否需要计算梯度设置为fase即可</p>
+<h2 id="1-2-代码实现">1.2 代码实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># bitfit</span></span><br><span class="line"><span class="comment"># 选择模型参数里面的所有bias部分</span></span><br><span class="line"></span><br><span class="line">num_param = <span class="number">0</span></span><br><span class="line"><span class="comment"># 遍历模型中的所有参数</span></span><br><span class="line"><span class="keyword">for</span> name, param <span class="keyword">in</span> model.named_parameters():</span><br><span class="line">    <span class="comment"># 如果参数名不是bias，就将其梯度计算设置为false</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;bias&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> name:</span><br><span class="line">        param.requires_grad = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        num_param += param.numel()</span><br><span class="line"></span><br><span class="line">num_param</span><br></pre></td></tr></table></figure>
+<p>经过优化后的模型参数量约为544768个，相当于优化前的参数量1303111680的0.418%<br>
+显存占用率也明显下降<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/bitfit1.png" alt="BitFit可训练参数量"><br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/bitfit2.png" alt="BitFit显存占用"></p>
+<h2 id="1-3-BitFit的优缺点">1.3 BitFit的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>高效性：相比全参数微调，计算量和存储需求更低，适合资源受限环境（如移动端、嵌入式设备）。</li>
+<li>适配性强：能够适用于各种下游任务，而无需存储多个完整的微调模型。</li>
+<li>迁移性强：由于基础模型的权重未改变，可以快速在多个任务之间切换。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>性能可能略逊于全参数微调：虽然在许多任务上表现良好，但在某些复杂任务上，BitFit 可能比全参数微调略差。</li>
+<li>适用范围有限：适用于 NLP 任务，但在计算机视觉等领域的效果仍需更多研究。</li>
+</ul>
+<h1>二、Prompt-Tuning</h1>
+<h2 id="2-1-Prompt-Tuning原理">2.1 Prompt-Tuning原理</h2>
+<p><strong>Prompt-Tuning思想</strong>：冻结主模型全部参数，在训练数据前加入一小段Prompt，只训练Prompt的表示层，即一个Embedding模块。其中，Prompt又存在两种形式，一种是hard prompt，一种是soft prompt，prompt相当于是一种提示</p>
+<p><img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prompt-Tuning1.png" alt=""></p>
+<ul>
+<li>hard prompt：prompt内容使我们人为定义的</li>
+<li>soft prompt：不指定prompt，让模型自我学习得到</li>
+</ul>
+<p><strong>实现方法</strong>：可以直接使用peft库进行实现</p>
+<h2 id="2-2-代码实现">2.2 代码实现</h2>
+<p>我们需要先创建一个配置文件，根据配置文件在创建模型</p>
+<p>PromptTuningConfig参数说明：</p>
+<blockquote>
+<p><strong>task_type</strong>: Optional[TaskType]=field(default=None, metadata={“help”: “The type of task.”}),<br>
+<strong>peft_type</strong>: Optional[PeftType]=field(default=None, metadata={“help”: “The type of PEFT model.”}),<br>
+<strong>auto_mapping</strong>: Optional[dict]=field(default=None, metadata={“help”: “An auto mapping dict to help retrieve the base model class if needed.”}),<br>
+<strong>base_model_name_or_path</strong>: Optional[str]=field(default=None, metadata={“help”: “The name of the base model to use.”}),<br>
+<strong>revision</strong>: Optional[str]=field(default=None, metadata={“help”: “The specific base model version to use.”}),<br>
+<strong>inference_mode</strong>: bool=field(default=False, metadata={“help”: “Whether to use inference mode”}),<br>
+<strong>num_virtual_tokens</strong>: int=field(default=None, metadata={“help”: “Number of virtual tokens”}),<br>
+<strong>token_dim</strong>: int=field(default=None, metadata={“help”: “The hidden embedding dimension of the base transformer model”}),<br>
+<strong>num_transformer_submodules</strong>: Optional[int]=field(default=None, metadata={“help”: “Number of transformer submodules”}),<br>
+<strong>num_attention_heads</strong>: Optional[int]=field(default=None, metadata={“help”: “Number of attention heads”}),<br>
+<strong>num_layers</strong>: Optional[int]=field(default=None, metadata={“help”: “Number of transformer layers”}),<br>
+<strong>prompt_tuning_init</strong>: Union[PromptTuningInit, str]=field(default=PromptTuningInit.RANDOM,metadata={“help”: “How to initialize the prompt tuning parameters”},),<br>
+<strong>prompt_tuning_init_text</strong>: Optional[str]=field(default=None,metadata={“help”: “The text to use for prompt tuning initialization. Only used if prompt_tuning_init is <code>TEXT</code>”},),<br>
+<strong>tokenizer_name_or_path</strong>: Optional[str]=field(default=None,metadata={“help”: “The tokenizer to use for prompt tuning initialization. Only used if prompt_tuning_init is <code>TEXT</code>”},),<br>
+<strong>tokenizer_kwargs</strong>: Optional[dict]=field(default=None,metadata={“help”: (&quot;The keyword arguments to pass to <code>AutoTokenizer.from_pretrained</code>. Only used if prompt_tuning_init is &quot;“<code>TEXT</code>”),},)</p>
+</blockquote>
+<h3 id="2-2-1-Hard-Prompt">2.2.1 Hard Prompt</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数：</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.PROMPT_TUNING: &#x27;PROMPT_TUNING&#x27;&gt; </span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=None</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">num_virtual_tokens=8</span></span><br><span class="line"><span class="string">token_dim=None</span></span><br><span class="line"><span class="string">num_transformer_submodules=None</span></span><br><span class="line"><span class="string">num_attention_heads=None</span></span><br><span class="line"><span class="string">num_layers=None</span></span><br><span class="line"><span class="string">prompt_tuning_init=&lt;PromptTuningInit.TEXT: &#x27;TEXT&#x27;&gt;</span></span><br><span class="line"><span class="string">prompt_tuning_init_text=&#x27;下面是一段人与机器人的对话。&#x27;</span></span><br><span class="line"><span class="string">tokenizer_name_or_path=&#x27;Langboat/bloom-1b4-zh&#x27;</span></span><br><span class="line"><span class="string">tokenizer_kwargs=None</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PromptTuningConfig, get_peft_model, TaskType, PromptTuningInit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 首先创建配置文件，根据配置文件来配置PromptTuning</span></span><br><span class="line"><span class="comment"># Hard Prompt</span></span><br><span class="line">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM,</span><br><span class="line">                            prompt_tuning_init=PromptTuningInit.TEXT,</span><br><span class="line">                            prompt_tuning_init_text=<span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>,</span><br><span class="line">                            num_virtual_tokens=<span class="built_in">len</span>(tokenizer(<span class="string">&quot;下面是一段人与机器人的对话。&quot;</span>)[<span class="string">&quot;input_ids&quot;</span>]),</span><br><span class="line">                            tokenizer_name_or_path=<span class="string">&quot;Langboat/bloom-1b4-zh&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>经过优化后可训练参数只有16,384个，相当于原来参数1,303,128,064个的0.0013%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prompt-Tuning2.png" alt="Hard Prompt可训练参数量"><br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prompt-Tuning4.png" alt="Hard Prompt显存占用"></p>
+<h3 id="2-2-2-Soft-Prompt">2.2.2 Soft Prompt</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数：</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.PROMPT_TUNING: &#x27;PROMPT_TUNING&#x27;&gt;</span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=None</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">num_virtual_tokens=10</span></span><br><span class="line"><span class="string">token_dim=None</span></span><br><span class="line"><span class="string">num_transformer_submodules=None</span></span><br><span class="line"><span class="string">num_attention_heads=None</span></span><br><span class="line"><span class="string">num_layers=None</span></span><br><span class="line"><span class="string">prompt_tuning_init=&lt;PromptTuningInit.RANDOM: &#x27;RANDOM&#x27;&gt;</span></span><br><span class="line"><span class="string">prompt_tuning_init_text=None</span></span><br><span class="line"><span class="string">tokenizer_name_or_path=None</span></span><br><span class="line"><span class="string">tokenizer_kwargs=None</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PromptTuningConfig, get_peft_model, TaskType, PromptTuningInit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 首先创建配置文件，根据配置文件来配置PromptTuning</span></span><br><span class="line"><span class="comment"># Soft Prompt</span></span><br><span class="line">config = PromptTuningConfig(task_type=TaskType.CAUSAL_LM, num_virtual_tokens=<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>经过优化后可训练参数只有20,480个，相当于原来参数1,303,132,160个的0.0016%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prompt-Tuning3.png" alt="Soft Prompt可训练参数量"><br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prompt-Tuning5.png" alt="Soft Prompt显存占用"></p>
+<h3 id="2-2-3-加载PEFT训练好的模型">2.2.3 加载PEFT训练好的模型</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PeftModel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在一个jupyter文件中，如果前面已经加载了模型，并对模型做了一定修改，则需要重新加载原始模型</span></span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(<span class="string">&quot;Langboat/bloom-1b4-zh&quot;</span>)</span><br><span class="line">peft_model = PeftModel.from_pretrained(model=model, model_id=<span class="string">&quot;./chatbot/checkpoint-20/&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型推理</span></span><br><span class="line">peft_model = peft_model.cuda()</span><br><span class="line">ipt = tokenizer(<span class="string">&quot;Human: &#123;&#125;\n&#123;&#125;&quot;</span>.<span class="built_in">format</span>(<span class="string">&quot;考试有哪些技巧？&quot;</span>, <span class="string">&quot;&quot;</span>).strip() + <span class="string">&quot;\n\nAssistant: &quot;</span>, return_tensors=<span class="string">&quot;pt&quot;</span>).to(peft_model.device)</span><br><span class="line"><span class="built_in">print</span>(tokenizer.decode(peft_model.generate(**ipt, max_length=<span class="number">128</span>, do_sample=<span class="literal">True</span>)[<span class="number">0</span>], skip_special_tokens=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+<h2 id="2-3-Prompt-Tuning的优缺点">2.3 Prompt-Tuning的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>极少的训练参数：仅更新少量 Prompt 嵌入，适用于超大模型。</li>
+<li>低计算成本：比全参数微调和 Adapter 方式更节省资源。</li>
+<li>任务适配灵活：不同任务可使用不同的 Prompt，无需存储多个大模型。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>比全参数微调略逊色：Prompt 只能影响输入，可能不如 Adapter 调整 Transformer 结构来得强大。</li>
+<li>对小模型效果有限：在小型 Transformer（如 BERT-base）上可能不如全参数微调效果好。</li>
+</ul>
+<h1>三、P-Tuning</h1>
+<h2 id="3-1-P-Tuning原理">3.1 P-Tuning原理</h2>
+<p><strong>P-Tuning思想</strong>：在Prompt-Tuning的基础上，对Prompt部分进行一步的编码计算，加速收敛。具体来说，PEFT中支持两种编码方式，一种是LSTM，一种是MLP。与Prompt-Tuning不同的是，Prompt的形式只有Soft Prompt</p>
+<p><img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/P-Tuning1.png" alt=""></p>
+<p><strong>实现方法</strong>：可以直接使用peft库进行实现</p>
+<h2 id="3-2-代码实现">3.2 代码实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数：</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.P_TUNING: &#x27;P_TUNING&#x27;&gt;</span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=None</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">num_virtual_tokens=10</span></span><br><span class="line"><span class="string">token_dim=None</span></span><br><span class="line"><span class="string">num_transformer_submodules=None</span></span><br><span class="line"><span class="string">num_attention_heads=None</span></span><br><span class="line"><span class="string">num_layers=None</span></span><br><span class="line"><span class="string">encoder_reparameterization_type=&lt;PromptEncoderReparameterizationType.MLP: &#x27;MLP&#x27;&gt;</span></span><br><span class="line"><span class="string">encoder_hidden_size=1024</span></span><br><span class="line"><span class="string">encoder_num_layers=5</span></span><br><span class="line"><span class="string">encoder_dropout=0.1</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置配置文件</span></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PromptEncoderConfig, TaskType, get_peft_model, PromptEncoderReparameterizationType</span><br><span class="line"></span><br><span class="line">config = PromptEncoderConfig(task_type=TaskType.CAUSAL_LM, num_virtual_tokens=<span class="number">10</span>,</span><br><span class="line">                             encoder_reparameterization_type=PromptEncoderReparameterizationType.MLP,</span><br><span class="line">                             encoder_dropout=<span class="number">0.1</span>, encoder_num_layers=<span class="number">5</span>, encoder_hidden_size=<span class="number">1024</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>经过优化后可训练参数有5,267,456个，相当于原来参数1,308,379,136个的0.4026%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/P-Tuning2.png" alt="P-Tuning可训练参数量"></p>
+<h2 id="3-3-P-Tuning的优缺点">3.3 P-Tuning的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>参数高效（Parameter-Efficient）：只优化 Soft Prompt + MLP/LSTM，冻结 预训练模型的全部参数，训练成本远低于全参数微调（Full Fine-Tuning）。</li>
+<li>比 Prompt Tuning 更强大：相比于 Prompt Tuning（仅优化 Soft Prompt 嵌入），P-Tuning 采用 MLP/LSTM 生成 Prompt，具有更强的表示能力。在小样本学习（Few-Shot Learning）任务上表现更佳。</li>
+<li>适用于 Few-Shot / Zero-Shot 学习：适用于 低资源任务，在少量数据上能获得比全参数微调更优的效果。对 Prompt 设计敏感的任务（如文本分类、问答等）特别有效。</li>
+<li>灵活性强：由于使用 MLP/LSTM 生成 Prompt，P-Tuning 可以学习更复杂的 Prompt 表达，而不像手工 Prompt 那样受限于自然语言结构。</li>
+<li>计算效率高：只优化 Soft Prompt + MLP/LSTM，参数量远小于全参数微调，计算需求低，适合 资源受限环境（如云端 API 调用）。</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>比全参数微调（Fine-Tuning）略逊色：在大规模数据集上，全参数微调仍然是最优方案，P-Tuning 可能在某些任务上无法超越 Full Fine-Tuning 的性能。主要适用于 低资源任务 或 计算受限场景。</li>
+<li>依赖模型架构：Soft Prompt 只能影响输入部分，而 LoRA / Adapter 等方法 可以调整 Transformer 内部参数，因此在某些任务上，P-Tuning 可能不如 LoRA 等方法强大。适用于 NLP 任务，但在 计算机视觉（CV） 任务上不如 LoRA / Adapter 常见。</li>
+<li>训练收敛可能较慢：P-Tuning v1 使用 LSTM 生成 Prompt，可能导致训练不稳定。P-Tuning v2 改进为 MLP，但仍需要 更多的超参数调整 来找到最优的 Prompt 表达。</li>
+<li>对小模型效果有限：在 大规模 Transformer（如 GPT-3, T5-XXL） 上表现良好，但在 小型模型（如 BERT-base, GPT-2-small） 上，可能 不如全参数微调或 LoRA 。这是因为 Prompt 本质上是通过输入影响模型，而不是直接调整模型内部参数。</li>
+</ul>
+<h1>四、Prefix-Tuning</h1>
+<h2 id="4-1-Prefix-Tuning原理">4.1 Prefix-Tuning原理</h2>
+<p><strong>Prefix-Tuning思想</strong>：相较于Prompt-Tuning和P-Tuning，Prefix-Tuning不再将Prompt加在输入的Embedding层，而是将其作为可学习的前缀，放置在Transformer模型中的每一层中，具体表现形式为past_key_values</p>
+<p><img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning1.png" alt=""></p>
+<p><strong>实现方法</strong>：可以直接使用peft库进行实现</p>
+<p><strong>past_key_values</strong>：Transformer模型中解码器是根据之前的token来预测之后的token，这个过程中存在大量的重复计算，因此可以将key和value的计算结果缓存，作为past_key_values输入到下一次的计算中，这一技术被称之为kv_cache。Prefix-Tuning中就是通过past_key_values的形式讲可学习的部分放到了模型中的每一层，这部分内容又被称之为前缀<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning2.png" alt=""></p>
+<h2 id="4-2-Prefix-Tuning-在注意力机制计算中的矩阵形状变化">4.2 Prefix-Tuning 在注意力机制计算中的矩阵形状变化</h2>
+<p>Prefix-Tuning 的核心是在 Transformer 的多头自注意力（Self-Attention）机制中，为 Key（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi></mrow><annotation encoding="application/x-tex">K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span></span></span></span>）和 Value（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>V</mi></mrow><annotation encoding="application/x-tex">V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span>）添加可训练的前缀向量，而 Query（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi></mrow><annotation encoding="application/x-tex">Q</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span></span></span></span>）仍然基于输入序列计算。因此，矩阵的形状在计算过程中会发生变化。</p>
+<hr>
+<h3 id="4-2-1-设定符号与输入形状">4.2.1 设定符号与输入形状</h3>
+<p>假设：</p>
+<ul>
+<li><strong>批量大小</strong>：$ N $</li>
+<li><strong>序列长度</strong>（输入文本的 token 数量）：$ T $</li>
+<li><strong>隐藏层维度</strong>（Transformer 维度）：$ d_{\text{model}} $</li>
+<li><strong>注意力头数</strong>（multi-head attention 的 head 数量）：$ h $</li>
+<li><strong>每个注意力头的维度</strong>（即 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>k</mi></msub><mo>=</mo><msub><mi>d</mi><mi>v</mi></msub></mrow><annotation encoding="application/x-tex">d_k = d_v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>）：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mi>h</mi></msub><mo>=</mo><mfrac><msub><mi>d</mi><mtext>model</mtext></msub><mi>h</mi></mfrac></mrow><annotation encoding="application/x-tex">d_h = \frac{d_{\text{model}}}{h}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.247em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.902em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">model</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></li>
+<li><strong>前缀 token 数量</strong>：$ p $（通常 5~50）</li>
+<li><strong>Transformer 层数</strong>：$ L $</li>
+</ul>
+<p>输入到注意力机制的 Query、Key、Value 计算方式：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>Q</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>Q</mi></msub><mo separator="true">,</mo><mspace width="1em"/><mi>K</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>K</mi></msub><mo separator="true">,</mo><mspace width="1em"/><mi>V</mi><mo>=</mo><mi>X</mi><msub><mi>W</mi><mi>V</mi></msub></mrow><annotation encoding="application/x-tex">Q = X W_Q, \quad K = X W_K, \quad V = X W_V
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">Q</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li><strong>$ W_Q, W_K, W_V $ 是可训练的权重矩阵，形状为</strong> $ \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}} $。</li>
+<li><strong>$ X $ 是输入序列的嵌入，形状为</strong> $ (N, T, d_{\text{model}}) $。</li>
+<li>计算出的 <strong>$ Q, K, V $ 形状为</strong> $ (N, T, d_{\text{model}}) $。</li>
+</ul>
+<p>由于注意力机制是 <strong>多头</strong> 的，因此我们将 $ d_{\text{model}} $ 划分成 $ h $ 个头，每个头的维度是 $ d_h = \frac{d_{\text{model}}}{h} $：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>Q</mi><mo separator="true">,</mo><mi>K</mi><mo separator="true">,</mo><mi>V</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">Q, K, V \in \mathbb{R}^{N, T, h, d_h}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>通常会被 <strong>重塑（reshape）</strong> 为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>Q</mi><mo separator="true">,</mo><mi>K</mi><mo separator="true">,</mo><mi>V</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">Q, K, V \in \mathbb{R}^{N, h, T, d_h}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<hr>
+<h3 id="4-2-2-Prefix-Tuning-中-Key-和-Value-形状的变化">4.2.2 Prefix-Tuning 中 Key 和 Value 形状的变化</h3>
+<p>在 Prefix-Tuning 中，我们引入 <strong>可训练的前缀向量</strong>，分别作用于 Key 和 Value：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>P</mi><mi>K</mi></msub><mo separator="true">,</mo><msub><mi>P</mi><mi>V</mi></msub><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>L</mi><mo separator="true">,</mo><mi>p</mi><mo separator="true">,</mo><msub><mi>d</mi><mtext>model</mtext></msub></mrow></msup></mrow><annotation encoding="application/x-tex">P_K, P_V \in \mathbb{R}^{L, p, d_{\text{model}}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">p</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">model</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li><strong>$ p $ 是前缀 token 数量</strong>。</li>
+<li><strong>$ L $ 是 Transformer 层数</strong>（不同层的 Prefix 可能不同）。</li>
+<li><strong>每个 Prefix 向量的维度与 $ d_{\text{model}} $ 相同</strong>。</li>
+</ul>
+<p>同样，我们需要将 <strong>前缀向量划分为多个头</strong>：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>P</mi><mi>K</mi></msub><mo separator="true">,</mo><msub><mi>P</mi><mi>V</mi></msub><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>L</mi><mo separator="true">,</mo><mi>p</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">P_K, P_V \in \mathbb{R}^{L, p, h, d_h}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">p</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>然后重塑为：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msub><mi>P</mi><mi>K</mi></msub><mo separator="true">,</mo><msub><mi>P</mi><mi>V</mi></msub><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>L</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><mi>p</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">P_K, P_V \in \mathbb{R}^{L, h, p, d_h}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">p</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>在计算注意力时，每一层的 Key 和 Value <strong>拼接</strong> 额外的前缀向量：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>K</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mo stretchy="false">[</mo><msub><mi>P</mi><mi>K</mi></msub><mo separator="true">;</mo><mi>K</mi><mo stretchy="false">]</mo><mo separator="true">,</mo><mspace width="1em"/><msup><mi>V</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mo stretchy="false">[</mo><msub><mi>P</mi><mi>V</mi></msub><mo separator="true">;</mo><mi>V</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">K&#x27; = [P_K; K], \quad V&#x27; = [P_V; V]
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0519em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mclose">]</span><span class="mpunct">,</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="mclose">]</span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li><strong>原始 $ K $ 形状</strong>：$ (N, h, T, d_h) $。</li>
+<li><strong>前缀 $ P_K $ 形状</strong>：$ (L, h, p, d_h) $。</li>
+<li><strong>拼接后的 $ K’ $ 形状</strong>：$ (N, h, T + p, d_h) $。</li>
+</ul>
+<p>同理：</p>
+<ul>
+<li><strong>原始 $ V $ 形状</strong>：$ (N, h, T, d_h) $。</li>
+<li><strong>前缀 $ P_V $ 形状</strong>：$ (L, h, p, d_h) $。</li>
+<li><strong>拼接后的 $ V’ $ 形状</strong>：$ (N, h, T + p, d_h) $。</li>
+</ul>
+<hr>
+<h3 id="4-2-3-计算注意力分数">4.2.3 计算注意力分数</h3>
+<p>计算注意力权重：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>A</mi><mo>=</mo><mfrac><mrow><mi>Q</mi><msup><mi>K</mi><mrow><mo mathvariant="normal">′</mo><mi>T</mi></mrow></msup></mrow><msqrt><msub><mi>d</mi><mi>h</mi></msub></msqrt></mfrac></mrow><annotation encoding="application/x-tex">A = \frac{Q K&#x27;^T}{\sqrt{d_h}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.4483em;vertical-align:-0.93em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.5183em;"><span style="top:-2.2528em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8572em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.8172em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1828em;"><span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">Q</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.93em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li><strong>$ Q $ 形状</strong>：$ (N, h, T, d_h) $。</li>
+<li><strong>$ K’^T $ 形状</strong>：$ (N, h, d_h, T + p) $（转置后）。</li>
+<li><strong>矩阵乘法后的注意力权重 $ A $ 形状</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>A</mi><mo>=</mo><mi>Q</mi><msup><mi>K</mi><mrow><mo mathvariant="normal">′</mo><mi>T</mi></mrow></msup><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><mi>T</mi><mo>+</mo><mi>p</mi></mrow></msup></mrow><annotation encoding="application/x-tex">A = Q K&#x27;^T \in \mathbb{R}^{N, h, T, T + p}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">A</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0858em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">p</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+</li>
+</ul>
+<p>然后对注意力权重进行 <strong>Softmax 归一化</strong>：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Attention Weights</mtext><mo>=</mo><mtext>softmax</mtext><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\text{Attention Weights} = \text{softmax}(A)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Attention Weights</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">softmax</span></span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mclose">)</span></span></span></span></span></p>
+<p>其形状仍然是 $ (N, h, T, T + p) $。</p>
+<hr>
+<h3 id="4-2-4-计算注意力输出">4.2.4 计算注意力输出</h3>
+<p>计算最终的注意力输出：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo>=</mo><mi>A</mi><msup><mi>V</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup></mrow><annotation encoding="application/x-tex">O = A V&#x27;
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord mathnormal">A</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>其中：</p>
+<ul>
+<li><strong>$ A $ 形状</strong>：$ (N, h, T, T + p) $。</li>
+<li><strong>$ V’ $ 形状</strong>：$ (N, h, T + p, d_h) $。</li>
+<li><strong>矩阵乘法后的 $ O $ 形状</strong>：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup></mrow><annotation encoding="application/x-tex">O \in \mathbb{R}^{N, h, T, d_h}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+</li>
+</ul>
+<p>然后进行 <strong>多头合并</strong>：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>O</mi><mo>∈</mo><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><mi>h</mi><mo separator="true">,</mo><msub><mi>d</mi><mi>h</mi></msub></mrow></msup><mspace width="1em"/><mo>⇒</mo><mspace width="1em"/><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><msub><mi>d</mi><mtext>model</mtext></msub></mrow></msup></mrow><annotation encoding="application/x-tex">O \in \mathbb{R}^{N, T, h, d_h} \quad \Rightarrow \quad \mathbb{R}^{N, T, d_{\text{model}}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7224em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight">h</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">h</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">⇒</span><span class="mspace" style="margin-right:1em;"></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">model</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p>最终经过一个 <strong>线性变换</strong>（使用可训练矩阵 $ W_O \in \mathbb{R}^{d_{\text{model}} \times d_{\text{model}}} $），恢复到模型的原始输出维度：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Final Output</mtext><mo>=</mo><mi>O</mi><msub><mi>W</mi><mi>O</mi></msub></mrow><annotation encoding="application/x-tex">\text{Final Output} = O W_O
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Final Output</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">O</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+<p>最终输出形状：</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi mathvariant="double-struck">R</mi><mrow><mi>N</mi><mo separator="true">,</mo><mi>T</mi><mo separator="true">,</mo><msub><mi>d</mi><mtext>model</mtext></msub></mrow></msup></mrow><annotation encoding="application/x-tex">\mathbb{R}^{N, T, d_{\text{model}}}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8991em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8991em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.10903em;">N</span><span class="mpunct mtight">,</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="mpunct mtight">,</span><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">model</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<hr>
+<h3 id="4-2-5-总结">4.2.5 总结</h3>
+<p>在 Prefix-Tuning 中，矩阵形状变化如下：</p>
+<ol>
+<li>
+<p><strong>输入嵌入：</strong></p>
+<ul>
+<li>$ X \in \mathbb{R}^{N, T, d_{\text{model}}} $</li>
+</ul>
+</li>
+<li>
+<p><strong>计算 Query、Key、Value：</strong></p>
+<ul>
+<li>$ Q, K, V \in \mathbb{R}^{N, h, T, d_h} $</li>
+</ul>
+</li>
+<li>
+<p><strong>拼接前缀向量：</strong></p>
+<ul>
+<li>$ P_K, P_V \in \mathbb{R}^{L, h, p, d_h} $</li>
+<li>$ K’ = [P_K; K] \in \mathbb{R}^{N, h, T + p, d_h} $</li>
+<li>$ V’ = [P_V; V] \in \mathbb{R}^{N, h, T + p, d_h} $</li>
+</ul>
+</li>
+<li>
+<p><strong>计算注意力权重：</strong></p>
+<ul>
+<li>$ A = Q K’^T \in \mathbb{R}^{N, h, T, T + p} $</li>
+</ul>
+</li>
+<li>
+<p><strong>计算最终注意力输出：</strong></p>
+<ul>
+<li>$ O = A V’ \in \mathbb{R}^{N, h, T, d_h} $</li>
+<li>合并多头后恢复为 $ \mathbb{R}^{N, T, d_{\text{model}}} $</li>
+</ul>
+</li>
+</ol>
+<p>Prefix-Tuning 通过 <strong>仅调整 Key 和 Value</strong>（而不改变 Query），让前缀向量影响注意力分布，使模型适应特定任务，同时减少参数更新量。</p>
+<h2 id="4-3-代码实现">4.3 代码实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数：</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.PREFIX_TUNING: &#x27;PREFIX_TUNING&#x27;&gt;</span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=None</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">num_virtual_tokens=10</span></span><br><span class="line"><span class="string">token_dim=None</span></span><br><span class="line"><span class="string">num_transformer_submodules=None</span></span><br><span class="line"><span class="string">num_attention_heads=None</span></span><br><span class="line"><span class="string">num_layers=None</span></span><br><span class="line"><span class="string">encoder_hidden_size=None</span></span><br><span class="line"><span class="string">prefix_projection=False</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PrefixTuningConfig, get_peft_model, TaskType</span><br><span class="line"></span><br><span class="line">config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM, num_virtual_tokens=<span class="number">10</span>, prefix_projection=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>不使用prefix_projection的prompt_encoder：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning5.png" alt="不使用prefix_projection的prompt_encoder结构"><br>
+使用prefix_projection的prompt_encoder：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning7.png" alt="使用prefix_projection的prompt_encoder结构"><br>
+经过优化后可训练参数有983,040个，相当于原来参数1,304,094,720个的0.0754%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning3.png" alt="Prefix-Tuning可训练参数量"></p>
+<hr>
+<p>在 <strong>Prefix-Tuning</strong> 的实现（如 <code>transformers</code> 库中的 <code>PrefixTuningConfig</code>）中，<code>prefix_projection</code> 是一个 <strong>布尔参数</strong>，它决定了是否对前缀（prefix）进行 <strong>可学习的投影（projection）</strong>，从而引入 <strong>更复杂的前缀表示</strong>。</p>
+<p><strong><code>prefix_projection</code> 的作用</strong></p>
+<ul>
+<li>
+<p><strong>如果 <code>prefix_projection = False</code></strong>（默认情况）：</p>
+<ul>
+<li><strong>前缀向量 $ P_K $ 和 $ P_V $ 直接是可训练的参数</strong>，不经过额外的变换，形状为 $ (p, d_{\text{model}}) $（或者拆分成多头后 $ (p, h, d_h) $）。</li>
+<li>这种方式 <strong>参数量较少</strong>，训练 <strong>更稳定</strong>，适用于小规模任务。</li>
+</ul>
+</li>
+<li>
+<p><strong>如果 <code>prefix_projection = True</code></strong>：</p>
+<ul>
+<li><strong>前缀向量 $ P $ 先经过一个小型的前馈神经网络（MLP）投影</strong>，使其从一个 <strong>较小的隐含空间</strong> 投影到 <strong>更大的维度</strong>，从而增加表达能力：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>P</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><mtext>MLP</mtext><mo stretchy="false">(</mo><mi>P</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P&#x27; = \text{MLP}(P)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">MLP</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mclose">)</span></span></span></span></span></p>
+</li>
+<li>MLP <strong>通常是一个单隐藏层的前馈网络</strong>，可以用 <code>tanh</code> 或 <code>ReLU</code> 激活函数：<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><msup><mi>P</mi><mo mathvariant="normal" lspace="0em" rspace="0em">′</mo></msup><mo>=</mo><msub><mi>W</mi><mn>2</mn></msub><mo>⋅</mo><mtext>ReLU</mtext><mo stretchy="false">(</mo><msub><mi>W</mi><mn>1</mn></msub><mi>P</mi><mo>+</mo><msub><mi>b</mi><mn>1</mn></msub><mo stretchy="false">)</mo><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">P&#x27; = W_2 \cdot \text{ReLU}(W_1 P + b_1) + b_2
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8019em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8019em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">′</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">ReLU</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1389em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></span></p>
+</li>
+<li>这样，模型可以 <strong>学习到更复杂的前缀表示</strong>，适用于更复杂的任务（如对话、摘要生成等）。</li>
+<li>代价是 <strong>计算量略大</strong>，但仍比 Fine-Tuning 轻量。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>使用prefix_projection的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PrefixTuningConfig, get_peft_model, TaskType</span><br><span class="line"></span><br><span class="line">config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM, num_virtual_tokens=<span class="number">10</span>, prefix_projection=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>使用prefix_projection的prompt_encoder：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning6.png" alt="prompt_encoder结构"><br>
+经过优化后可训练参数有205,641,728个，相当于原来参数1,508,753,408个的13.6299%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/Prefix-Tuning4.png" alt="Prefix-Tuning可训练参数量"></p>
+<h2 id="4-4-Prefix-Tuning的优缺点">4.4 Prefix-Tuning的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>
+<p>低计算成本 &amp; 低存储需求</p>
+<ul>
+<li><strong>冻结原始模型</strong>，只训练 <strong>少量的前缀参数</strong>（通常占总参数的 <strong>不到 1%</strong>）。</li>
+<li><strong>减少存储成本</strong>：多个任务只需要存储不同的前缀，而不是整个模型。</li>
+<li>适用于 <strong>资源受限的设备</strong>（如边缘计算、移动端部署）。</li>
+</ul>
+</li>
+<li>
+<p>适用于大规模语言模型</p>
+<ul>
+<li>由于 <strong>不改变预训练模型的权重</strong>，Prefix-Tuning <strong>能很好地适用于大模型</strong>（如 GPT-3、T5 等）。</li>
+<li>在 <strong>超大规模参数（&gt;10B）的 Transformer 模型上，Prefix-Tuning 的效果通常比 Fine-Tuning 更好</strong>，因为它减少了过拟合的风险。</li>
+</ul>
+</li>
+<li>
+<p>训练稳定</p>
+<ul>
+<li>相比于 Prompt-Tuning（直接优化嵌入），Prefix-Tuning <strong>在优化时更稳定</strong>，梯度更容易传播。</li>
+<li><strong>减少了 Prompt-Tuning 中出现的梯度消失问题</strong>，从而在小数据集上也能有效训练。</li>
+</ul>
+</li>
+<li>
+<p>灵活性强</p>
+<ul>
+<li>Prefix-Tuning 适用于 <strong>多种 NLP 任务</strong>，包括 <strong>文本生成</strong>（摘要、翻译、对话）、<strong>分类任务</strong>（情感分析）、<strong>知识问答</strong> 等。</li>
+<li>由于前缀是独立的，可以用于 <strong>多任务学习</strong>，在不同任务之间共享基础模型，仅调整不同任务的前缀。</li>
+</ul>
+</li>
+<li>
+<p>更强的可解释性</p>
+<ul>
+<li><strong>相比于 Fine-Tuning，Prefix-Tuning 的参数量较少</strong>，研究者可以直接分析哪些前缀影响了模型的行为，有助于 <strong>理解模型的决策机制</strong>。</li>
+</ul>
+</li>
+</ul>
+<p><strong>缺点</strong></p>
+<ul>
+<li>
+<p>适用于生成任务，分类任务效果可能不如 Fine-Tuning</p>
+<ul>
+<li><strong>Prefix-Tuning 主要作用在 Key 和 Value 上，影响注意力分布</strong>，因此在 <strong>文本生成任务（如 GPT, T5）上效果较好</strong>。</li>
+<li><strong>对于分类任务（如 BERT 任务），Prefix-Tuning 可能不如 Fine-Tuning 有效</strong>，因为分类任务更依赖于最后一层的特征表示。</li>
+</ul>
+</li>
+<li>
+<p>需要更长的前缀（影响计算效率）</p>
+<ul>
+<li>Prefix-Tuning 通过 <strong>在 Key 和 Value 上增加前缀</strong> 来影响注意力计算，这意味着 <strong>前缀长度 ( p ) 会影响计算复杂度</strong>：
+<ul>
+<li><strong>更长的前缀</strong>（如 50~100 个 token）会导致更高的计算开销。</li>
+<li>但如果前缀 <strong>太短</strong>，可能不能充分影响模型行为。</li>
+</ul>
+</li>
+<li><strong>相比于 Fine-Tuning，Prefix-Tuning 可能会增加计算成本</strong>，尤其是在序列较长时。</li>
+</ul>
+</li>
+<li>
+<p>依赖于任务 &amp; 预训练模型</p>
+<ul>
+<li><strong>对于不同的任务，Prefix-Tuning 需要找到合适的前缀长度和初始化方式</strong>，否则效果可能不稳定。</li>
+<li><strong>在某些任务上，Fine-Tuning 仍然是最优的选择</strong>，特别是当任务需要改变模型的深层参数时。</li>
+</ul>
+</li>
+<li>
+<p>需要调试 <code>prefix_projection</code></p>
+<ul>
+<li><strong>是否使用 <code>prefix_projection</code>（MLP 投影）</strong> 需要调试：
+<ul>
+<li>不使用时，<strong>表达能力可能不足</strong>，尤其是复杂任务。</li>
+<li>使用时，<strong>计算复杂度增加</strong>，可能需要更多数据来稳定训练。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1>五、LoRA</h1>
+<h2 id="5-1-LoRA原理">5.1 LoRA原理</h2>
+<p><strong>LoRA思想</strong>：</p>
+<ul>
+<li>预训练模型中存在一个极小的内在维度，这个内在维度是发挥核心作用的地方</li>
+<li>在继续训练的过程中，权重的更新依然也有如此特点，即也存在一个内在维度(内在秩)</li>
+<li>权重更新：W = W + ΔW</li>
+<li>因此，可以通过矩阵分解的形式，将原本要更新的大矩阵变成两个小矩阵</li>
+<li>权重更新：W = W + ΔW = W + BA</li>
+</ul>
+<p><strong>具体做法</strong>：</p>
+<ul>
+<li>即在矩阵计算中增加一个旁系分支，旁系分支由两个低秩矩阵A和B组成</li>
+<li>训练时输入分别于原始权重和两个低秩矩阵进行计算，共同得到最终结果，优化则仅优化A和B</li>
+<li>训练完成后，可以将两个低秩矩阵与原始模型中的权重进行合并，合并后的模型与原始模型无异，避免了推理期间Prompt系列方法带来的额外计算量</li>
+</ul>
+<p><img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/LoRA1.png" alt=""></p>
+<p><strong>实现方法</strong>：可以直接使用peft库进行实现</p>
+<h2 id="5-2-代码实现">5.2 代码实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.LORA: &#x27;LORA&#x27;&gt;</span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=None</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">r=8</span></span><br><span class="line"><span class="string">target_modules=&#x27;.*\\.1.*query_key_value&#x27;  # 可以使用正则表达式进行参数传递</span></span><br><span class="line"><span class="string">exclude_modules=None</span></span><br><span class="line"><span class="string">lora_alpha=8</span></span><br><span class="line"><span class="string">lora_dropout=0.0</span></span><br><span class="line"><span class="string">fan_in_fan_out=False</span></span><br><span class="line"><span class="string">bias=&#x27;none&#x27;</span></span><br><span class="line"><span class="string">use_rslora=False</span></span><br><span class="line"><span class="string">modules_to_save=[&#x27;word_embeddings&#x27;]</span></span><br><span class="line"><span class="string">init_lora_weights=True</span></span><br><span class="line"><span class="string">layers_to_transform=None</span></span><br><span class="line"><span class="string">layers_pattern=None</span></span><br><span class="line"><span class="string">rank_pattern=&#123;&#125;</span></span><br><span class="line"><span class="string">alpha_pattern=&#123;&#125;</span></span><br><span class="line"><span class="string">megatron_config=None</span></span><br><span class="line"><span class="string">megatron_core=&#x27;megatron.core&#x27;</span></span><br><span class="line"><span class="string">loftq_config=&#123;&#125;</span></span><br><span class="line"><span class="string">eva_config=None</span></span><br><span class="line"><span class="string">use_dora=False</span></span><br><span class="line"><span class="string">layer_replication=None</span></span><br><span class="line"><span class="string">runtime_config=LoraRuntimeConfig(ephemeral_gpu_offload=False)</span></span><br><span class="line"><span class="string">lora_bias=False</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> LoraConfig, TaskType, get_peft_model</span><br><span class="line"></span><br><span class="line">config = LoraConfig(task_type=TaskType.CAUSAL_LM, target_modules=<span class="string">&quot;.*\.1.*query_key_value&quot;</span>, modules_to_save=[<span class="string">&quot;word_embeddings&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>再使用target_modules指定要使用LoRA的层后模型内部会发生变化：</p>
+<table>
+<thead>
+<tr>
+<th><img src="/image/LLM/参数高效微调PEFT/LoRA3.png" alt="原始模型" width="450"/></th>
+<th><img src="/image/LLM/参数高效微调PEFT/LoRA2.png" alt="使用LoRA后" width="350"/></th>
+</tr>
+</thead>
+</table>
+<p>经过优化后可训练参数有95,225,856个，相当于原来参数1,398,337,536个的6.8099%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/LoRA4.png" alt="LoRA可训练参数量"></p>
+<h2 id="5-3-LoRA训练模型与原模型合并">5.3 LoRA训练模型与原模型合并</h2>
+<p><strong>合并的影响</strong></p>
+<ul>
+<li>
+<p>优点：</p>
+<ul>
+<li>部署时不再需要额外的 LoRA 适配器权重，方便模型的独立使用。</li>
+</ul>
+</li>
+<li>
+<p>缺点：</p>
+<ul>
+<li>一旦合并，LoRA 的低秩适配器就会被计算到原模型权重中，无法再独立调节 LoRA 影响力（如不同 LoRA 适配器的组合）。</li>
+<li>合并后，模型存储大小会恢复到原始全参数微调的级别，失去 LoRA 低存储的优势。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForCausalLM, AutoTokenizer</span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> PeftModel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载基础模型</span></span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(<span class="string">&quot;Langboat/bloom-1b4-zh&quot;</span>)</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;Langboat/bloom-1b4-zh&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载LoRA模型</span></span><br><span class="line">p_model = PeftModel.from_pretrained(model, model_id=<span class="string">&quot;./chatbot/checkpoint-500/&quot;</span>)</span><br><span class="line">p_model</span><br><span class="line"></span><br><span class="line"><span class="comment"># 模型合并</span></span><br><span class="line">merge_model = p_model.merge_and_unload()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 完整模型保存</span></span><br><span class="line">merge_model.save_pretrained(<span class="string">&quot;./chatbot/merge_model&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="5-3-LoRA的优缺点">5.3 LoRA的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>
+<p>大幅减少可训练参数，节省计算资源</p>
+<ul>
+<li>传统全参数微调需要更新整个模型（如 LLaMA-7B 约 130 亿 参数），而 LoRA 仅添加 少量低秩矩阵（通常占 0.1% ~ 1% 参数）。</li>
+<li>训练时 仅更新 LoRA 适配器，而不改变原模型参数，减少显存占用和计算量。</li>
+</ul>
+</li>
+<li>
+<p>更低的存储需求</p>
+<ul>
+<li>由于原模型参数不变，只需存储 LoRA 适配器（通常是 MB 级别），而不是整个 GB 级别的模型。</li>
+<li>适用于 存储多个任务的 LoRA 适配器，而无需为每个任务存储独立模型。</li>
+</ul>
+</li>
+<li>
+<p>快速适配不同任务</p>
+<ul>
+<li>你可以 同时加载多个 LoRA 适配器，适配不同任务，而无需单独微调整个模型。</li>
+<li>例如，一个基础大模型可以在多个任务（文本摘要、情感分析、对话生成等）上分别训练 LoRA 适配器，并在推理时 动态加载不同的适配器。</li>
+</ul>
+</li>
+<li>
+<p>适用于多种模型（Transformer、CNN、GNN）</p>
+<ul>
+<li>LoRA 最初用于 Transformer 语言模型（如 LLaMA、GPT），但也适用于 CNN（计算机视觉）、GNN（图神经网络）、分子模拟等任务。</li>
+</ul>
+</li>
+<li>
+<p>训练更稳定，避免灾难性遗忘</p>
+<ul>
+<li>由于原模型参数保持不变，LoRA 不会像全参数微调那样导致模型遗忘原有能力。</li>
+<li>适用于 少量数据场景（如医学、金融领域的小样本微调）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>
+<p>推理时仍需加载 LoRA 适配器</p>
+<ul>
+<li>LoRA 训练的参数是额外的 适配器，推理时需要 同时加载原模型和 LoRA 参数，可能增加存储管理复杂度。</li>
+<li>如果需要一个独立的模型，可能需要 合并 LoRA 参数，但这样会失去 LoRA 低存储的优势。</li>
+</ul>
+</li>
+<li>
+<p>可能不适用于所有任务</p>
+<ul>
+<li>LoRA 主要对 Transformer 的 FFN 和 Self-Attention 层生效，但对于某些特定任务（如需要调整输入嵌入或大规模结构调整）可能不够灵活。</li>
+<li>在 小型模型上（参数少于 100M），LoRA 可能带来的节省不明显，甚至会影响性能。</li>
+</ul>
+</li>
+<li>
+<p>R 维度选择影响效果</p>
+<ul>
+<li>LoRA 的 秩 (Rank, R) 是一个超参数，决定了低秩矩阵的维度。</li>
+<li>过小 (R 太低)：模型调整能力不足，影响性能。</li>
+<li>过大 (R 太高)：会接近全参数微调，失去 LoRA 的存储和计算优势。</li>
+</ul>
+</li>
+</ul>
+<h1>六、IA3</h1>
+<h2 id="6-1-IA3原理">6.1 IA3原理</h2>
+<p><strong>IA3思想</strong>：</p>
+<ul>
+<li>IA3(Infused Adapter by Inhibiting and Amplifying Inner Activations)，IA3的思想就是抑制和放大内部的激活函数，通过可学习的向量对激活值进行抑制或放大。</li>
+</ul>
+<p><strong>具体做法</strong>：</p>
+<ul>
+<li>会对K、V、FFN三部分的值进行调整，训练过程中同样冻结原始模型的权重，只更新课学习的部分向量部分</li>
+<li>训练完成后，与LoRA类似，也可以将学习部分的参数与原始权重合并，没有额外的推理开销</li>
+</ul>
+<p><img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/IA31.png" alt="IA3可训练参数量"></p>
+<p><strong>实现方法</strong>：可以直接使用peft库进行实现</p>
+<h2 id="6-2-代码实现">6.2 代码实现</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">参数：</span></span><br><span class="line"><span class="string">task_type=&lt;TaskType.CAUSAL_LM: &#x27;CAUSAL_LM&#x27;&gt;</span></span><br><span class="line"><span class="string">peft_type=&lt;PeftType.IA3: &#x27;IA3&#x27;&gt;</span></span><br><span class="line"><span class="string">auto_mapping=None</span></span><br><span class="line"><span class="string">base_model_name_or_path=&#x27;Langboat/bloom-1b4-zh&#x27;</span></span><br><span class="line"><span class="string">revision=None</span></span><br><span class="line"><span class="string">inference_mode=False</span></span><br><span class="line"><span class="string">target_modules=&#123;&#x27;query_key_value&#x27;, &#x27;mlp.dense_4h_to_h&#x27;&#125;</span></span><br><span class="line"><span class="string">exclude_modules=None</span></span><br><span class="line"><span class="string">feedforward_modules=&#123;&#x27;mlp.dense_4h_to_h&#x27;&#125;</span></span><br><span class="line"><span class="string">fan_in_fan_out=False</span></span><br><span class="line"><span class="string">modules_to_save=None</span></span><br><span class="line"><span class="string">init_ia3_weights=True</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置文件</span></span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> IA3Config, TaskType, get_peft_model</span><br><span class="line"></span><br><span class="line">config = IA3Config(task_type=TaskType.CAUSAL_LM)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建模型</span></span><br><span class="line">model = get_peft_model(model, config)</span><br></pre></td></tr></table></figure>
+<p>在使用target_modules指定要使用IA3的层后模型内部会发生变化：</p>
+<table>
+<thead>
+<tr>
+<th><img src="/image/LLM/参数高效微调PEFT/IA32.png" alt="原始模型" width="450"/></th>
+<th><img src="/image/LLM/参数高效微调PEFT/IA33.png" alt="使用LoRA后" width="400"/></th>
+</tr>
+</thead>
+</table>
+<p>这里IA3在mlp层中的实现方式与图片中的位置不太一样：图片中是在两个dense层之间，但实际上是在第二个dense层中<br>
+原因：其实在源码中IA3的实现是在第二个dense层的前面部分，所以实际上IA3的实现还是在两个dense层之间<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/IA35.png" alt=""></p>
+<p>经过优化后可训练参数有344,064个，相当于原来参数1,303,455,744个的0.0264%<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/IA34.png" alt=""></p>
+<h2 id="6-3-IA3的优缺点">6.3 IA3的优缺点</h2>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>
+<p>参数高效</p>
+<ul>
+<li>只在注意力层和 MLP 层的输入处引入可训练的缩放参数，避免了对整个模型进行微调，从而减少了存储和计算开销。</li>
+</ul>
+</li>
+<li>
+<p>避免灾难性遗忘</p>
+<ul>
+<li>由于不会修改原始的模型权重，IA3 允许模型在不同任务之间共享一个基础模型，而不会影响原始知识。</li>
+</ul>
+</li>
+<li>
+<p>减少计算成本</p>
+<ul>
+<li>训练过程中仅调整少量参数，使得微调时计算资源占用远低于全参数微调（Full Fine-Tuning）。</li>
+</ul>
+</li>
+<li>
+<p>易于集成</p>
+<ul>
+<li>仅需在 Transformer 的关键层（注意力层和 MLP 层）增加少量额外参数，无需改动模型架构，适用于大多数 Transformer 变体。</li>
+</ul>
+</li>
+<li>
+<p>比 LoRA 更简单</p>
+<ul>
+<li>相比于 LoRA（Low-Rank Adaptation），IA3 只引入简单的缩放参数，而不是低秩矩阵，因此计算开销更小，并且不引入额外的矩阵乘法。</li>
+</ul>
+</li>
+</ul>
+<p><strong>缺点</strong> ：</p>
+<ul>
+<li>
+<p>可表达性受限</p>
+<ul>
+<li>IA3 仅通过缩放现有激活值来调整模型，而不像 LoRA 那样可以学习更复杂的变换，因此在某些任务上的适配能力可能不如 LoRA 或 Adapter 方法。</li>
+</ul>
+</li>
+<li>
+<p>对任务敏感</p>
+<ul>
+<li>由于 IA3 只是对注意力和 MLP 进行缩放，它可能无法适应所有类型的任务，特别是在需要复杂表示调整的任务中可能表现较弱。</li>
+</ul>
+</li>
+<li>
+<p>适应能力可能不如全参数微调</p>
+<ul>
+<li>由于 IA3 仅修改缩放因子，而不是学习新的参数，因此在某些需要大幅调整模型行为的任务上，它可能无法达到全参数微调的效果。</li>
+</ul>
+</li>
+<li>
+<p>在低数据任务上可能不稳定</p>
+<ul>
+<li>如果训练数据较少，IA3 可能无法有效学习适当的缩放参数，从而影响最终性能。</li>
+</ul>
+</li>
+</ul>
+<h1>七、PEFT进阶操作</h1>
+<h2 id="7-1-自定义模型适配">7.1 自定义模型适配</h2>
+<p>如何在自定义的模型中使用LoRA等方法呢？<br>
+其实就是传递在Config中配置相应的参数就可以了</p>
+<hr>
+<p><strong>首先我们创建自定义的模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> peft <span class="keyword">import</span> LoraConfig, get_peft_model, PeftModel</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建自定义模型</span></span><br><span class="line">net = nn.Squential(</span><br><span class="line">    nn.Linear(<span class="number">10</span>, <span class="number">10</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Linear(<span class="number">10</span>, <span class="number">2</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>模型结构为：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie1.png" alt=""></p>
+<hr>
+<p><strong>然后我们可以使用param查看可训练的层</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name, param <span class="keyword">in</span> net.named_parameters():</span><br><span class="line">    <span class="built_in">print</span>(name)</span><br></pre></td></tr></table></figure>
+<p>可训练的层有：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie2.png" alt=""></p>
+<hr>
+<p><strong>之后设置参数并创建模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">config = LoraConfig(target_modules=[<span class="string">&quot;0&quot;</span>])</span><br><span class="line"></span><br><span class="line">model = get_peft_model(net, config)</span><br></pre></td></tr></table></figure>
+<p>使用LoRA后的模型结构为：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie3.png" alt=""><br>
+这样就实现了对自定义模型的适配</p>
+<h2 id="7-2-多适配器加载与切换">7.2 多适配器加载与切换</h2>
+<hr>
+<p><strong>首先创建模型分别作不同的LoRA训练</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net = nn.Sequential(</span><br><span class="line">    nn.Linear(<span class="number">10</span>, <span class="number">10</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Linear(<span class="number">10</span>, <span class="number">2</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">config1 = LoraConfig(target_modules=[<span class="string">&quot;0&quot;</span>])</span><br><span class="line">model = get_peft_model(net, config1)</span><br><span class="line">model.save_pretrained(<span class="string">&quot;./LoraA&quot;</span>)  <span class="comment"># 保存训练好的权重</span></span><br><span class="line"></span><br><span class="line">config2 = LoraConfig(target_modules=[<span class="string">&quot;2&quot;</span>])</span><br><span class="line">model = get_peft_model(net, config2)</span><br><span class="line">model.save_pretrained(<span class="string">&quot;./LoraB&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>模型结构为：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie1.png" alt=""></p>
+<hr>
+<p><strong>加载训练好的模型</strong></p>
+<p>第一次加载时需要加载主模型<br>
+第二次加载时就不需要加载主模型了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加载LoraA</span></span><br><span class="line">model = PeftModel.from_pretrained(net, model_id=<span class="string">&quot;./LoraA/&quot;</span>, adapter_name=<span class="string">&quot;LoraA&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载LoraB</span></span><br><span class="line">model.load_adapter(<span class="string">&quot;./LoraB/&quot;</span>, adapter_name=<span class="string">&quot;LoraB&quot;</span>)</span><br></pre></td></tr></table></figure>
+<p>仅加载LoraA后模型结构为：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie4.png" alt="仅加载LoraA"><br>
+加载LoeaB后模型结构为：<br>
+<img src="/image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/jinjie5.png" alt="加载LoraA和LoraB"></p>
+<hr>
+<p><strong>查看当前使用的模型</strong><br>
+默认使用LoraA</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.active_adapter</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>切换模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model.set_adapter(<span class="string">&quot;LoraB&quot;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="7-3-禁用适配器">7.3 禁用适配器</h2>
+<p>禁用适配器，也就是使用原始模型进行输出任务</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> model.disable_adapter():</span><br><span class="line">  <span class="built_in">print</span>(model(torch.arange(<span class="number">0</span>, <span class="number">10</span>).view(<span class="number">1</span>, <span class="number">10</span>).<span class="built_in">float</span>()))</span><br></pre></td></tr></table></figure>
+<h1>八、总结</h1>
+<p>以下是 BitFit、Prompt-Tuning、P-Tuning、Prefix-Tuning、LoRA 和 IA3 的对比总结：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>主要思想</th>
+<th>调整的参数</th>
+<th>计算成本</th>
+<th>存储需求</th>
+<th>适用场景</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BitFit</strong></td>
+<td>只对偏置项进行微调</td>
+<td>仅调整模型的偏置项</td>
+<td>低</td>
+<td>低</td>
+<td>轻量级适配任务</td>
+<td>适用于资源受限场景</td>
+</tr>
+<tr>
+<td><strong>Prompt-Tuning</strong></td>
+<td>在输入中加入可训练的提示向量</td>
+<td>可训练的 prompt 向量</td>
+<td>低</td>
+<td>低</td>
+<td>小数据微调</td>
+<td>依赖手工设计的 prompt</td>
+</tr>
+<tr>
+<td><strong>P-Tuning</strong></td>
+<td>用可训练的连续向量替代离散文本提示</td>
+<td>可训练的 prompt 嵌入</td>
+<td>低</td>
+<td>低</td>
+<td>小样本学习</td>
+<td>适用于复杂 NLP 任务</td>
+</tr>
+<tr>
+<td><strong>Prefix-Tuning</strong></td>
+<td>对注意力层的 key 和 value 进行微调</td>
+<td>仅调整前缀向量 (prefix)</td>
+<td>低</td>
+<td>低</td>
+<td>生成任务</td>
+<td>避免影响原始模型权重</td>
+</tr>
+<tr>
+<td><strong>LoRA (Low-Rank Adaptation)</strong></td>
+<td>在特定层添加低秩适配矩阵</td>
+<td>低秩矩阵 (A、B)</td>
+<td>低</td>
+<td>低</td>
+<td>迁移学习</td>
+<td>适用于大模型，节省显存</td>
+</tr>
+<tr>
+<td><strong>IA3 (Intrinsic Attention Adapters)</strong></td>
+<td>仅调整注意力层的缩放因子</td>
+<td>仅调整注意力层缩放参数</td>
+<td>低</td>
+<td>低</td>
+<td>任务适配</td>
+<td>不影响模型原权重</td>
+</tr>
+</tbody>
+</table>
+<p>参考资料：<br>
+[1] <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ma4y1g791">【手把手带你实战HuggingFace Transformers-入门篇】基础知识与环境安装</a><br>
+[2] <a target="_blank" rel="noopener" href="https://github.com/zyds/transformers-code">项目地址</a></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/transformer/">transformer</a><a class="post-meta__tags" href="/tags/LLM/">LLM</a></div><div class="post_share"><div class="social-share" data-image="/../image/LLM/%E5%8F%82%E6%95%B0%E9%AB%98%E6%95%88%E5%BE%AE%E8%B0%83PEFT/cover.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/03/30/Java/Leetcode/Day16_Leetcode347.%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/" title="Leetcode 347.前K个高频元素"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day16_Leetcode347.%E5%89%8DK%E4%B8%AA%E9%AB%98%E9%A2%91%E5%85%83%E7%B4%A0/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 347.前K个高频元素</div></div></a></div><div class="next-post pull-right"><a href="/2025/03/29/Java/Leetcode/Day15_Leetcode239.%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/" title="Leetcode 239.滑动窗口最大值"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day15_Leetcode239.%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%9C%80%E5%A4%A7%E5%80%BC/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Leetcode 239.滑动窗口最大值</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/04/20/LLM/%E4%BD%8E%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83/" title="Transformers 低精度训练"><img class="cover" src="/../image/LLM/%E4%BD%8E%E7%B2%BE%E5%BA%A6%E8%AE%AD%E7%BB%83/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-20</div><div class="title">Transformers 低精度训练</div></div></a></div><div><a href="/2025/03/01/LLM/HuggingFace%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="HuggingFace Transformers基础入门篇"><img class="cover" src="/../image/LLM/HuggingFace%20Transformers%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E7%AF%87/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-01</div><div class="title">HuggingFace Transformers基础入门篇</div></div></a></div><div><a href="/2025/04/14/LLM/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/" title="Transformers实战之实战命名实体识别"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-14</div><div class="title">Transformers实战之实战命名实体识别</div></div></a></div><div><a href="/2025/04/14/LLM/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" title="基于Transformers的NLP解决方案"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E5%9F%BA%E4%BA%8ETransformers%E7%9A%84NLP%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-14</div><div class="title">基于Transformers的NLP解决方案</div></div></a></div><div><a href="/2025/04/17/LLM/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/" title="Transformers实战之文本摘要任务"><img class="cover" src="/../image/LLM/Transformers%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83/%E6%96%87%E6%9C%AC%E6%91%98%E8%A6%81/cover.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-17</div><div class="title">Transformers实战之文本摘要任务</div></div></a></div><div><a href="/2024/11/01/Deep%20Learning/Transformer/" title="Transformer原理及代码实现"><img class="cover" src="/../image/Deep_Learning/Transformer/cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-01</div><div class="title">Transformer原理及代码实现</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">一、BitFit</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-BitFit%E5%8E%9F%E7%90%86"><span class="toc-text">1.1 BitFit原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">1.2 代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-BitFit%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">1.3 BitFit的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">二、Prompt-Tuning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Prompt-Tuning%E5%8E%9F%E7%90%86"><span class="toc-text">2.1 Prompt-Tuning原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">2.2 代码实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-Hard-Prompt"><span class="toc-text">2.2.1 Hard Prompt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-Soft-Prompt"><span class="toc-text">2.2.2 Soft Prompt</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E5%8A%A0%E8%BD%BDPEFT%E8%AE%AD%E7%BB%83%E5%A5%BD%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="toc-text">2.2.3 加载PEFT训练好的模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Prompt-Tuning%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">2.3 Prompt-Tuning的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">三、P-Tuning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-P-Tuning%E5%8E%9F%E7%90%86"><span class="toc-text">3.1 P-Tuning原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">3.2 代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-P-Tuning%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">3.3 P-Tuning的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">四、Prefix-Tuning</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-Prefix-Tuning%E5%8E%9F%E7%90%86"><span class="toc-text">4.1 Prefix-Tuning原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-Prefix-Tuning-%E5%9C%A8%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E8%AE%A1%E7%AE%97%E4%B8%AD%E7%9A%84%E7%9F%A9%E9%98%B5%E5%BD%A2%E7%8A%B6%E5%8F%98%E5%8C%96"><span class="toc-text">4.2 Prefix-Tuning 在注意力机制计算中的矩阵形状变化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-1-%E8%AE%BE%E5%AE%9A%E7%AC%A6%E5%8F%B7%E4%B8%8E%E8%BE%93%E5%85%A5%E5%BD%A2%E7%8A%B6"><span class="toc-text">4.2.1 设定符号与输入形状</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-2-Prefix-Tuning-%E4%B8%AD-Key-%E5%92%8C-Value-%E5%BD%A2%E7%8A%B6%E7%9A%84%E5%8F%98%E5%8C%96"><span class="toc-text">4.2.2 Prefix-Tuning 中 Key 和 Value 形状的变化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-3-%E8%AE%A1%E7%AE%97%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%86%E6%95%B0"><span class="toc-text">4.2.3 计算注意力分数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-4-%E8%AE%A1%E7%AE%97%E6%B3%A8%E6%84%8F%E5%8A%9B%E8%BE%93%E5%87%BA"><span class="toc-text">4.2.4 计算注意力输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-5-%E6%80%BB%E7%BB%93"><span class="toc-text">4.2.5 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">4.3 代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-Prefix-Tuning%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">4.4 Prefix-Tuning的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">五、LoRA</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-LoRA%E5%8E%9F%E7%90%86"><span class="toc-text">5.1 LoRA原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">5.2 代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-LoRA%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%8E%9F%E6%A8%A1%E5%9E%8B%E5%90%88%E5%B9%B6"><span class="toc-text">5.3 LoRA训练模型与原模型合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-LoRA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">5.3 LoRA的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">六、IA3</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-IA3%E5%8E%9F%E7%90%86"><span class="toc-text">6.1 IA3原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">6.2 代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-IA3%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-text">6.3 IA3的优缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">七、PEFT进阶操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9E%8B%E9%80%82%E9%85%8D"><span class="toc-text">7.1 自定义模型适配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E5%A4%9A%E9%80%82%E9%85%8D%E5%99%A8%E5%8A%A0%E8%BD%BD%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="toc-text">7.2 多适配器加载与切换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E7%A6%81%E7%94%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-text">7.3 禁用适配器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">八、总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 90.子集II"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode90.%E5%AD%90%E9%9B%86II/" title="Leetcode 90.子集II">Leetcode 90.子集II</a><time datetime="2025-04-22T13:00:00.000Z" title="发表于 2025-04-22 21:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 78.子集"/></a><div class="content"><a class="title" href="/2025/04/22/Java/Leetcode/Day35_Leetcode78.%E5%AD%90%E9%9B%86/" title="Leetcode 78.子集">Leetcode 78.子集</a><time datetime="2025-04-22T12:00:00.000Z" title="发表于 2025-04-22 20:00:00">2025-04-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 93.复原IP地址"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode93.%E5%A4%8D%E5%8E%9FIP%E5%9C%B0%E5%9D%80/" title="Leetcode 93.复原IP地址">Leetcode 93.复原IP地址</a><time datetime="2025-04-21T13:00:00.000Z" title="发表于 2025-04-21 21:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 131.分割回文数"/></a><div class="content"><a class="title" href="/2025/04/21/Java/Leetcode/Day34_Leetcode131.%E5%88%86%E5%89%B2%E5%9B%9E%E6%96%87%E6%95%B0/" title="Leetcode 131.分割回文数">Leetcode 131.分割回文数</a><time datetime="2025-04-21T12:00:00.000Z" title="发表于 2025-04-21 20:00:00">2025-04-21</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 39.组合总和"/></a><div class="content"><a class="title" href="/2025/04/20/Java/Leetcode/Day33_Leetcode39.%E7%BB%84%E5%90%88%E6%80%BB%E5%92%8C/" title="Leetcode 39.组合总和">Leetcode 39.组合总和</a><time datetime="2025-04-20T13:00:00.000Z" title="发表于 2025-04-20 21:00:00">2025-04-20</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
