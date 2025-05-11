@@ -1,0 +1,1120 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>MySQL基础 | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="MySQL基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL基础">
+<meta property="og:url" content="http://example.com/2025/05/11/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="MySQL基础">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/1.JPG">
+<meta property="article:published_time" content="2025-05-11T07:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-11T10:52:32.322Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/1.JPG"><link rel="shortcut icon" href="/../image/BlogCover/blog.png"><link rel="canonical" href="http://example.com/2025/05/11/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'MySQL基础',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-05-11 18:52:32'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">131</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/blog.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">MySQL基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-05-11T07:00:00.000Z" title="发表于 2025-05-11 15:00:00">2025-05-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-05-11T10:52:32.322Z" title="更新于 2025-05-11 18:52:32">2025-05-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>2025.05.11</strong></p>
+<h1>MySQL基础</h1>
+<h2 id="一、MySQL概述">一、MySQL概述</h2>
+<h3 id="1-1-数据库相关概念">1.1 数据库相关概念</h3>
+<ul>
+<li>数据库：存储数据的仓库，数据是有组织的进行存储，简称DateBase(DB)</li>
+<li>数据库管理系统：操纵和管理数据库的大型软件，简称Datebase Management System(DBMS)</li>
+<li>SQL：操作关系型数据库的编程语言，定义了一套操作关系型数据库统一标准，简称Structured Query Language(SQL)</li>
+</ul>
+<h3 id="1-2-MySQL安装">1.2 MySQL安装</h3>
+<ul>
+<li>官网：<a target="_blank" rel="noopener" href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a></li>
+<li>启动与停止
+<ul>
+<li>启动：<code>net start mysql</code></li>
+<li>停止：<code>net stop mysql</code></li>
+</ul>
+</li>
+<li>客户端连接
+<ul>
+<li>命令行：<code>mysql -u root -p</code></li>
+<li>图形化工具：MySQL Workbench、Navicat等</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-3-数据模型">1.3 数据模型</h3>
+<ul>
+<li>关系型数据库（RDBMS）
+<ul>
+<li>概念：建立在关系模型基础上，由多张相互连接的二维表组成的数据库</li>
+<li>特点：
+<ul>
+<li>使用表存储数据，格式统一，便于维护</li>
+<li>使用SQL语言操作，标准统一，使用方便</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据模型<br>
+<img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B.png" alt="MySQL数据模型"></li>
+</ul>
+<h2 id="二、SQL">二、SQL</h2>
+<h3 id="2-1-SQL通用语法">2.1 SQL通用语法</h3>
+<ol>
+<li>SQL语句可以单行或多行书写,以分号结尾</li>
+<li>SQL语句可以使用空格/缩进来增强语句的可读性</li>
+<li>MySQL数据库的SQL语句不区分大小写, 关键字建议使用大写</li>
+<li>注释：
+<ul>
+<li>单行注释: – 注释内容或#注释内容(MySQL特有)</li>
+<li>多行注释: /<em>注释内容</em>/</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-2-SQL语句分类">2.2 SQL语句分类</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分类</th>
+<th>全称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DDL</td>
+<td>Data Definition Language</td>
+<td>数据定义语言，用来定义数据库对象（数据库，表，字段）</td>
+</tr>
+<tr>
+<td style="text-align:center">DML</td>
+<td>Data Manipulation Language</td>
+<td>数据操作语言，用来对数据库表中的数据进行增删改</td>
+</tr>
+<tr>
+<td style="text-align:center">DQL</td>
+<td>Data Query Language</td>
+<td>数据查询语言，用来查询数据库中表的记录</td>
+</tr>
+<tr>
+<td style="text-align:center">DCL</td>
+<td>Data Control Language</td>
+<td>数据控制语言，用来创建数据库用户、控制数据库的访问权限</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3-DDL语句">2.3 DDL语句</h3>
+<h4 id="2-3-1-数据库操作">2.3.1 数据库操作</h4>
+<ul>
+<li>DDL-数据库操作（不区分大小写）
+<ul>
+<li>查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> DATABASES;  <span class="comment">-- 查询所有数据库</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SHOW</span> DATABASE();  <span class="comment">-- 查询当前数据库</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE [IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] 数据库名 [<span class="keyword">DEFAULT</span> CHARSET 字符集] [<span class="keyword">COLLATE</span> 排序规则];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE [IF <span class="keyword">EXISTS</span>] 数据库名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE 数据库名;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-3-2-表操作-查询与创建">2.3.2 表操作-查询与创建</h4>
+<ul>
+<li>DDL-表操作-查询
+<ul>
+<li>查询
+<ul>
+<li>查询当前数据库所有表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> TABLES;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询表结构</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DESC</span> 表名;  <span class="comment">-- 或者DESCRIBE 表名;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询指定表的建表语句</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>DDL-表操作-创建
+<ul>
+<li>创建表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> 表名 (</span><br><span class="line">    字段<span class="number">1</span> 字段<span class="number">1</span>类型 [COMMENT 字段<span class="number">1</span>注释],</span><br><span class="line">    字段<span class="number">2</span> 字段<span class="number">2</span>类型 [COMMENT 字段<span class="number">2</span>注释],</span><br><span class="line">    ...</span><br><span class="line">    字段n 字段n类型 [COMMENT 字段n注释]</span><br><span class="line">) [COMMENT 表注释];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建表的约束条件
+<ul>
+<li>主键约束：PRIMARY KEY</li>
+<li>唯一约束：UNIQUE</li>
+<li>非空约束：NOT NULL</li>
+<li>默认值约束：DEFAULT</li>
+<li>外键约束：FOREIGN KEY</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>示例：<br>
+创建以下表结构：<img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DDL_%E8%A1%A8%E6%93%8D%E4%BD%9C1.png" alt=""></p>
+<p>创建表结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql<span class="operator">&gt;</span> use hansen</span><br><span class="line">Database changed</span><br><span class="line">mysql<span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">table</span> tb_user(</span><br><span class="line">    <span class="operator">-</span><span class="operator">&gt;</span> id <span class="type">int</span> comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    <span class="operator">-</span><span class="operator">&gt;</span> name <span class="type">varchar</span>(<span class="number">50</span>) comment <span class="string">&#x27;姓名&#x27;</span>,</span><br><span class="line">    <span class="operator">-</span><span class="operator">&gt;</span> age <span class="type">int</span> comment <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">    <span class="operator">-</span><span class="operator">&gt;</span> gender <span class="type">varchar</span>(<span class="number">1</span>) comment <span class="string">&#x27;性别&#x27;</span></span><br><span class="line">    <span class="operator">-</span><span class="operator">&gt;</span> ) comment <span class="string">&#x27;用户表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>查看表结构：<br>
+<img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DDL_%E8%A1%A8%E6%93%8D%E4%BD%9C2.png" alt=""></p>
+<h4 id="2-3-3-表操作-数据类型">2.3.3 表操作-数据类型</h4>
+<ul>
+<li>DDL-表操作-数据类型
+<ul>
+<li>MySQL中的数据类型有很多，主要分为三类：数值类型、字符串类型、日期时间类型</li>
+</ul>
+</li>
+</ul>
+<p><strong>数值类型</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">大小(byte)</th>
+<th>有符号(SIGNED)范围</th>
+<th>无符号(UNSIGNED)范围</th>
+<th>描述</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">tinyint</td>
+<td style="text-align:center">1</td>
+<td>(-128，127)</td>
+<td>(0，255)</td>
+<td>小整数值</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">smallint</td>
+<td style="text-align:center">2</td>
+<td>(-32768，32767)</td>
+<td>(0，65535)</td>
+<td>大整数值</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">mediumint</td>
+<td style="text-align:center">3</td>
+<td>(-8388608，8388607)</td>
+<td>(0，16777215)</td>
+<td>大整数值</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">4</td>
+<td>(-2147483648，2147483647)</td>
+<td>(0，4294967295)</td>
+<td>大整数值</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">bigint</td>
+<td style="text-align:center">8</td>
+<td>(-2^63，2^63-1)</td>
+<td>(0，2^64-1)</td>
+<td>极大整数值</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">4</td>
+<td>(-3.402823466 E+38，3.402823466351 E+38)</td>
+<td>0和(1.175494351 E-38，3.402823466 E+38)</td>
+<td>单精度浮点数值</td>
+<td>float(5,2)：5表示整个数字长度，2 表示小数位个数</td>
+</tr>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">8</td>
+<td>(-1.7976931348623157 E+308，1.7976931348623157 E+308)</td>
+<td>0和(2.2250738585072014 E-308，1.7976931348623157 E+308)</td>
+<td>双精度浮点数值</td>
+<td>double(5,2)：5表示整个数字长度，2 表示小数位个数</td>
+</tr>
+<tr>
+<td style="text-align:center">decimal</td>
+<td style="text-align:center"></td>
+<td></td>
+<td></td>
+<td>小数值(精度更高)</td>
+<td>decimal(5,2)：5表示整个数字长度，2 表示小数位个数</td>
+</tr>
+</tbody>
+</table>
+<p><strong>字符串类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>char</td>
+<td>0-255 bytes</td>
+<td>定长字符串</td>
+</tr>
+<tr>
+<td>varchar</td>
+<td>0-65535 bytes</td>
+<td>变长字符串</td>
+</tr>
+<tr>
+<td>tinyblob</td>
+<td>0-255 bytes</td>
+<td>不超过255个字符的二进制数据</td>
+</tr>
+<tr>
+<td>tinytext</td>
+<td>0-255 bytes</td>
+<td>短文本字符串</td>
+</tr>
+<tr>
+<td>blob</td>
+<td>0-65 535 bytes</td>
+<td>二进制形式的长文本数据</td>
+</tr>
+<tr>
+<td>text</td>
+<td>0-65 535 bytes</td>
+<td>长文本数据</td>
+</tr>
+<tr>
+<td>mediumblob</td>
+<td>0-16 777 215 bytes</td>
+<td>二进制形式的中等长度文本数据</td>
+</tr>
+<tr>
+<td>mediumtext</td>
+<td>0-16 777 215 bytes</td>
+<td>中等长度文本数据</td>
+</tr>
+<tr>
+<td>longblob</td>
+<td>0-4 294 967 295 bytes</td>
+<td>二进制形式的极大文本数据</td>
+</tr>
+<tr>
+<td>longtext</td>
+<td>0-4 294 967 295 bytes</td>
+<td>极大文本数据</td>
+</tr>
+</tbody>
+</table>
+<p><strong>日期时间类型</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小(byte)</th>
+<th>范围</th>
+<th>格式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date</td>
+<td>3</td>
+<td>1000-01-01 至 9999-12-31</td>
+<td>YYYY-MM-DD</td>
+<td>日期值</td>
+</tr>
+<tr>
+<td>time</td>
+<td>3</td>
+<td>-838:59:59 至 838:59:59</td>
+<td>HH:MM:SS</td>
+<td>时间值或持续时间</td>
+</tr>
+<tr>
+<td>year</td>
+<td>1</td>
+<td>1901 至 2155</td>
+<td>YYYY</td>
+<td>年份值</td>
+</tr>
+<tr>
+<td>datetime</td>
+<td>8</td>
+<td>1000-01-01 00:00:00 至 9999-12-31 23:59:59</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>混合日期和时间值</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>4</td>
+<td>1970-01-01 00:00:01 至 2038-01-19 03:14:07</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+<td>混合日期和时间值，时间戳</td>
+</tr>
+</tbody>
+</table>
+<p>示例：根据需求创建表<br>
+设计一张员工信息表，要求如下：</p>
+<ol>
+<li>编号（纯数字）</li>
+<li>员工工号（字符串类型，长度不超过10位）</li>
+<li>员工姓名（字符串类型，长度不超过10位）</li>
+<li>性别（男/女，存储一个汉字）</li>
+<li>年龄（正常人年龄）</li>
+<li>身份证号（二代身份证号均为18位）</li>
+<li>入职时间（取年月日即可）</li>
+</ol>
+<p>创建表结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> emp(</span><br><span class="line">    id <span class="type">int</span> comment <span class="string">&#x27;编号&#x27;</span>,</span><br><span class="line">    empno <span class="type">varchar</span>(<span class="number">10</span>) comment <span class="string">&#x27;员工工号&#x27;</span>,</span><br><span class="line">    empname <span class="type">varchar</span>(<span class="number">10</span>) comment <span class="string">&#x27;员工姓名&#x27;</span>,</span><br><span class="line">    gender <span class="type">varchar</span>(<span class="number">1</span>) comment <span class="string">&#x27;性别&#x27;</span>,</span><br><span class="line">    age tinyint unsigned comment <span class="string">&#x27;年龄&#x27;</span>,</span><br><span class="line">    idcard <span class="type">char</span>(<span class="number">18</span>) comment <span class="string">&#x27;身份证号&#x27;</span>,</span><br><span class="line">    entrydate <span class="type">date</span> comment <span class="string">&#x27;入职时间&#x27;</span></span><br><span class="line">) comment <span class="string">&#x27;员工信息表&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-4-表操作-修改与删除">2.3.4 表操作-修改与删除</h4>
+<ul>
+<li>DDL-表操作-修改
+<ul>
+<li>添加字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">ADD</span> 字段名 类型(长度) [COMMENT 注释] [约束];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改字段
+<ul>
+<li>修改数据类型</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 MODIFY 字段名 新数据类型(长度);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改字段名和字段类型</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 CHANGE 原字段名 新字段名 类型(长度) [COMMENT 注释] [约束];</span><br></pre></td></tr></table></figure>
+</li>
+<li>删除字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 表名 <span class="keyword">DROP</span> 字段名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改表名</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> 原表名 RENAME <span class="keyword">TO</span> 新表名;</span><br></pre></td></tr></table></figure>
+</li>
+<li>DDL-表操作-删除
+<ul>
+<li>删除表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> [IF <span class="keyword">EXISTS</span>] 表名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除指定表，并重新创建该表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> 表名;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>示例1：为emp表增加一个新的字段“昵称”为nickname，类型为varchar(20)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp <span class="keyword">add</span> nickname <span class="type">varchar</span>(<span class="number">20</span>) comment <span class="string">&#x27;昵称&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>示例2：将emp表的nickname字段修改为username，类型为varchar(30)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp change nickname username <span class="type">varchar</span>(<span class="number">30</span>) comment <span class="string">&#x27;用户名&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>示例3：将emp表的username字段删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp <span class="keyword">drop</span> username;</span><br></pre></td></tr></table></figure>
+<p>示例4：将emp表的表名修改为employee</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> emp rename <span class="keyword">to</span> employee;</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-5-DDL总结">2.3.5 DDL总结</h4>
+<p><img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DDL%E6%80%BB%E7%BB%93.png" alt="DDL总结"></p>
+<h3 id="2-4-DML语句">2.4 DML语句</h3>
+<ul>
+<li>DML介绍
+<ul>
+<li>DML（Data Manipulation Language）数据操作语言，用来对数据库表中的数据进行增删改</li>
+<li>添加数据(INSERT)</li>
+<li>修改数据(UPDATE)</li>
+<li>删除数据(DELETE)</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-1-添加数据">2.4.1 添加数据</h4>
+<ul>
+<li>DML-添加数据
+<ul>
+<li>给指定字段添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 (字段<span class="number">1</span>, 字段<span class="number">2</span>, ...) <span class="keyword">VALUES</span> (值<span class="number">1</span>, 值<span class="number">2</span>, ...);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给全部字段添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 <span class="keyword">VALUES</span> (值<span class="number">1</span>, 值<span class="number">2</span>, ...);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>批量添加数据</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 (字段<span class="number">1</span>, 字段<span class="number">2</span>, ...) <span class="keyword">VALUES</span> (值<span class="number">1</span>, 值<span class="number">2</span>, ...), (值<span class="number">1</span>, 值<span class="number">2</span>, ...), (值<span class="number">1</span>, 值<span class="number">2</span>, ...);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> 表名 <span class="keyword">VALUES</span> (值<span class="number">1</span>, 值<span class="number">2</span>, ...), (值<span class="number">1</span>, 值<span class="number">2</span>, ...), (值<span class="number">1</span>, 值<span class="number">2</span>, ...);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：
+<ul>
+<li>插入数据时，指定的字段顺序需要与值的顺序是一一对应的</li>
+<li>字符串和日期型数据应该包含在引号中</li>
+<li>插入的数据大小应该在字段的规定范围内</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-2-修改数据">2.4.2 修改数据</h4>
+<ul>
+<li>DML-修改数据
+<ul>
+<li>修改指定字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> 表名 <span class="keyword">SET</span> 字段<span class="number">1</span><span class="operator">=</span>值<span class="number">1</span>, 字段<span class="number">2</span><span class="operator">=</span>值<span class="number">2</span>, ... <span class="keyword">WHERE</span> 条件;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改全部字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> 表名 <span class="keyword">SET</span> 字段<span class="number">1</span><span class="operator">=</span>值<span class="number">1</span>, 字段<span class="number">2</span><span class="operator">=</span>值<span class="number">2</span>, ...;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：
+<ul>
+<li>如果不加条件，所有记录都会被修改</li>
+<li>如果加了条件，只有符合条件的记录会被修改</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-3-删除数据">2.4.3 删除数据</h4>
+<ul>
+<li>DML-删除数据
+<ul>
+<li>删除指定记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 条件;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除全部记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：
+<ul>
+<li>如果不加条件，所有记录都会被删除</li>
+<li>如果加了条件，只有符合条件的记录会被删除</li>
+<li>DELETE语句不能删除某一个字段的值（可以使用UODATE）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-4-4-DML总结">2.4.4 DML总结</h4>
+<p><img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DML%E6%80%BB%E7%BB%93.png" alt="DML总结"></p>
+<h3 id="2-5-DQL语句">2.5 DQL语句</h3>
+<ul>
+<li>DQL介绍
+<ul>
+<li>DQL（Data Query Language）数据查询语言，用来查询数据库中表的记录</li>
+<li>基本查询(SELECT)</li>
+<li>条件查询(WHERE)</li>
+<li>聚合函数(count、max、min、avg、sum)</li>
+<li>分组查询(GROUP BY)</li>
+<li>排序查询(ORDER BY)</li>
+<li>分页查询(LIMIT)</li>
+</ul>
+</li>
+<li>DQL-语法<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">      字段列表</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">      表名列表</span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">      条件列表</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span></span><br><span class="line">      分组字段列表</span><br><span class="line"><span class="keyword">HAVING</span></span><br><span class="line">      分组后条件列表</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">      排序字段列表</span><br><span class="line">LIMIT</span><br><span class="line">      分页参数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-5-1-基本查询">2.5.1 基本查询</h4>
+<ul>
+<li>DQL-基本查询
+<ul>
+<li>查询多个字段</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段<span class="number">1</span>, 字段<span class="number">2</span>, ... <span class="keyword">FROM</span> 表名;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> 表名;  <span class="comment">-- 查询所有字段</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>设置别名</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段<span class="number">1</span> [<span class="keyword">AS</span> 别名<span class="number">1</span>], 字段<span class="number">2</span> [<span class="keyword">AS</span> 别名<span class="number">2</span>], ... <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>去除重复记录</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> 字段列表 <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询指定字段name, workno, age</span></span><br><span class="line"><span class="keyword">select</span> name, workno, age <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 查询所有字段</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 查询所有员工的工作地址，起别名</span></span><br><span class="line"><span class="keyword">select</span> workaddress <span class="keyword">as</span> <span class="string">&#x27;工作地址&#x27;</span> <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 查询所有员工的工作地址，去除重复记录</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> workaddress <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-2-条件查询">2.5.2 条件查询</h4>
+<ul>
+<li>
+<p>DQL-条件查询</p>
+<ul>
+<li>WHERE条件</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 <span class="keyword">WHERE</span> 条件列表;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>条件</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>比较运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>=</td>
+<td>等于</td>
+</tr>
+<tr>
+<td>&lt;&gt;或!=</td>
+<td>不等于</td>
+</tr>
+<tr>
+<td>BETWEEN…AND…</td>
+<td>在某个范围内(含最小、最大值)</td>
+</tr>
+<tr>
+<td>IN(…)</td>
+<td>在in之后的列表中的值，多选一</td>
+</tr>
+<tr>
+<td>LIKE 占位符</td>
+<td>模糊匹配(…匹配单个字符，%匹配任意个字符)</td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td>是NULL</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>逻辑运算符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AND或&amp;&amp;</td>
+<td>并且(多个条件同时成立)</td>
+</tr>
+<tr>
+<td>OR或||</td>
+<td>或者(多个条件任意一个成立)</td>
+</tr>
+<tr>
+<td>NOT或!</td>
+<td>非、不是</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询年龄等于88的员工</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">=</span> <span class="number">88</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 查询年龄小于20的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 查询年龄小于等于20的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;=</span> <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 查询没有身份证号的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> idcard <span class="keyword">is</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5. 查询有身份证号的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> idcard <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 6. 查询年龄不等于88的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">!=</span> <span class="number">88</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;&gt;</span> <span class="number">88</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 7. 查询年龄在15（包含）到20（包含）之间的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">15</span> <span class="keyword">and</span> <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 8. 查询性别为女且年龄小于等于25的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> gender <span class="operator">=</span> <span class="string">&#x27;女&#x27;</span> <span class="keyword">and</span> age <span class="operator">&lt;=</span> <span class="number">25</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 9. 查询年龄等于18或20或40的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">=</span> <span class="number">18</span> <span class="keyword">or</span> age <span class="operator">=</span> <span class="number">20</span> <span class="keyword">or</span> age <span class="operator">=</span> <span class="number">40</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="keyword">in</span> (<span class="number">18</span>, <span class="number">20</span>, <span class="number">40</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 10. 查询姓名为两个字的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> name <span class="keyword">like</span> <span class="string">&#x27;__&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 11. 查询身份证号以X结尾的员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> idcard <span class="keyword">like</span> <span class="string">&#x27;%X&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### <span class="number">2.5</span><span class="number">.3</span> 聚合函数</span><br><span class="line"><span class="operator">*</span> DQL<span class="operator">-</span>聚合函数</span><br><span class="line">  <span class="operator">*</span> 将一列数据作为一个整体，进行纵向计算</span><br><span class="line">  <span class="operator">*</span> 语法</span><br><span class="line">  ```<span class="keyword">sql</span></span><br><span class="line">  <span class="keyword">SELECT</span> 聚合函数(字段列表) <span class="keyword">FROM</span> 表名;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>常见聚合函数</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count</td>
+<td>统计数量</td>
+</tr>
+<tr>
+<td>max</td>
+<td>最大值</td>
+</tr>
+<tr>
+<td>min</td>
+<td>最小值</td>
+</tr>
+<tr>
+<td>avg</td>
+<td>平均值</td>
+</tr>
+<tr>
+<td>sum</td>
+<td>求和</td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询员工表中所有员工的数量</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 查询员工表中所有员工的平均年龄</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">avg</span>(age) <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 查询员工表中所有员工的最大年龄</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">max</span>(age) <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 查询员工表中所有员工的最小年龄</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">min</span>(age) <span class="keyword">from</span> emp;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5. 统计西安地区员工的年龄之和</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">sum</span>(age) <span class="keyword">from</span> emp <span class="keyword">where</span> workaddress <span class="operator">=</span> <span class="string">&#x27;西安&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-4-分组查询">2.5.4 分组查询</h4>
+<ul>
+<li>DQL-分组查询
+<ul>
+<li>GROUP BY</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 [<span class="keyword">WHERE</span> 条件] <span class="keyword">GROUP</span> <span class="keyword">BY</span> 分组字段列表 [<span class="keyword">HAVING</span> 分组后过滤条件];</span><br></pre></td></tr></table></figure>
+<ul>
+<li>where和having的区别
+<ul>
+<li>执行时机不同：
+<ul>
+<li>where在分组之前执行，不满足where条件的不参与分组</li>
+<li>having在分组之后执行</li>
+</ul>
+</li>
+<li>判断条件不同：
+<ul>
+<li>where不能对聚合函数进行判断</li>
+<li>having可以判断聚合函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>分组之后，查询的字段一般为聚合函数和分组字段，查询其他字段无任何意义</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 根据性别分组，统计男性员工和女性员工的数量</span></span><br><span class="line"><span class="keyword">select</span> gender, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> gender;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 根据性别分组，统计男性员工和女性员工的平均年龄</span></span><br><span class="line"><span class="keyword">select</span> gender, <span class="built_in">avg</span>(age) <span class="keyword">from</span> emp <span class="keyword">group</span> <span class="keyword">by</span> gender;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 查询年龄小于45的员工，并根据工作地址分组，获取员工数量大于等于3的工作地址</span></span><br><span class="line"><span class="keyword">select</span> workaddress, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">45</span> <span class="keyword">group</span> <span class="keyword">by</span> workaddress <span class="keyword">having</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="operator">&gt;=</span> <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-5-排序查询">2.5.5 排序查询</h4>
+<ul>
+<li>DQL-排序查询
+<ul>
+<li>ORDER BY</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 <span class="keyword">ORDER</span> <span class="keyword">BY</span> 字段<span class="number">1</span> 排序方式<span class="number">1</span>, 字段<span class="number">2</span> 排序方式<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>排序方式
+<ul>
+<li>ASC：升序（默认）</li>
+<li>DESC：降序</li>
+<li>多个字段排序时，当第一个字段相同，则根据第二个字段排序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 根据年龄对员工进行升序排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 根据入职时间对员工进行降序排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> entrydate <span class="keyword">desc</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 根据年龄对员工进行升序排序，如果年龄相同，则根据入职时间进行降序排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>, entrydate <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-6-分页查询">2.5.6 分页查询</h4>
+<ul>
+<li>DQL-分页查询
+<ul>
+<li>LIMIT</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> 字段列表 <span class="keyword">FROM</span> 表名 LIMIT 起始位索引, 查询记录数;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：
+<ul>
+<li>起始索引从0开始，起始索引 = （查询页码 - 1）* 每页显示记录数</li>
+<li>分页查询是数据库的方言，不同的数据库有不同的实现，MySQL使用LIMIT</li>
+<li>如果查询的是第一页数据，起始索引可以省略，直接简写为limit 10</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询第一页数据，每页显示10条记录</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp limit <span class="number">0</span>, <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 查询第二页数据，每页显示10条记录</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp limit <span class="number">10</span>, <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-7-案例">2.5.7 案例</h4>
+<ul>
+<li>需求：按照需求完成如下DQL语句
+<ol>
+<li>查询年龄为20，21，22，23的女性员工信息</li>
+<li>查询性别为男，并且年龄在20-40岁(含)以内的姓名为三个字的员工</li>
+<li>统计员工表中,年龄小于60岁的,男性员工和女性员工的人数</li>
+<li>查询所有年龄小于等于35岁员工的姓名和年龄,并对查询结果按年龄升序排序,如果年龄相同按入职时间降序排序</li>
+<li>查询性别为男，且年龄在20-40岁(含)以内的前5个员工信息,对查询的结果按年龄升序排序,年龄相同按入职时间升序排序</li>
+</ol>
+</li>
+</ul>
+<p>代码实现：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询年龄为20，21，22，23的女性员工信息</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> gender <span class="operator">=</span> <span class="string">&#x27;女&#x27;</span> <span class="keyword">and</span> age <span class="keyword">in</span> (<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>, <span class="number">23</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 查询性别为男，并且年龄在20-40岁(含)以内的姓名为三个字的员工</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> gender <span class="operator">=</span> <span class="string">&#x27;男&#x27;</span> <span class="keyword">and</span> age <span class="keyword">between</span> <span class="number">20</span> <span class="keyword">and</span> <span class="number">40</span> <span class="keyword">and</span> name <span class="keyword">like</span> <span class="string">&#x27;___&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 统计员工表中,年龄小于60岁的,男性员工和女性员工的人数</span></span><br><span class="line"><span class="keyword">select</span> gender, <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;</span> <span class="number">60</span> <span class="keyword">group</span> <span class="keyword">by</span> gender;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 查询所有年龄小于等于35岁员工的姓名和年龄,并对查询结果按年龄升序排序,如果年龄相同按入职时间降序排序</span></span><br><span class="line"><span class="keyword">select</span> name, age <span class="keyword">from</span> emp <span class="keyword">where</span> age <span class="operator">&lt;=</span> <span class="number">35</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>, entrydate <span class="keyword">desc</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 5. 查询性别为男，且年龄在20-40岁(含)以内的前5个员工信息,对查询的结果按年龄升序排序,年龄相同按入职时间升序排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> emp <span class="keyword">where</span> gender <span class="operator">=</span> <span class="string">&#x27;男&#x27;</span> <span class="keyword">and</span> age <span class="keyword">between</span> <span class="number">20</span> <span class="keyword">and</span> <span class="number">40</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>, entrydate <span class="keyword">asc</span> limit <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-5-8-DQL执行顺序">2.5.8 DQL执行顺序</h4>
+<ul>
+<li>DQL-执行顺序
+<ul>
+<li>执行顺序：FROM -&gt; WHERE -&gt; GROUP BY -&gt; HAVING -&gt; SELECT -&gt; ORDER BY -&gt; LIMIT<br>
+<img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DQL%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png" alt="DQL执行顺序"></li>
+</ul>
+</li>
+</ul>
+<h4 id="2-5-9-DQL总结">2.5.9 DQL总结</h4>
+<p><img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DQL%E6%80%BB%E7%BB%93.png" alt="DQL总结"></p>
+<h3 id="2-6-DCL语句">2.6 DCL语句</h3>
+<ul>
+<li>DCL介绍
+<ul>
+<li>DCL（Data Control Language）数据控制语言，用来创建数据库用户、控制数据库的访问权限</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-6-1-管理用户">2.6.1 管理用户</h4>
+<ul>
+<li>DCL-管理用户
+<ul>
+<li>查询用户</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">USE mysql;</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>创建用户</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;密码&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改用户密码</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span> IDENTIFIED <span class="keyword">WITH</span> mysql_native_password <span class="keyword">BY</span> <span class="string">&#x27;新密码&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除用户</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">USER</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li>注意：
+<ul>
+<li>主机名可以使用%通配</li>
+<li>这类SQL开发人员操作的比较少，主要是DBA（Database Administrator 数据库管理员）使用</li>
+</ul>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 创建用户itcast，只能在当前主机localhost登录，密码为123456</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;itcast&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 创建用户heima，可以在任意主机登录，密码为123456</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;heima&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 修改用户heima的密码为1234</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">user</span> <span class="string">&#x27;heima&#x27;</span>@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">with</span> mysql_native_password <span class="keyword">by</span> <span class="string">&#x27;1234&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 4. 删除用户itcast@localhost</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">user</span> <span class="string">&#x27;itcast&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="2-6-2-权限控制">2.6.2 权限控制</h4>
+<ul>
+<li>
+<p>DCL-权限控制</p>
+<ul>
+<li>查询权限</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> GRANTS <span class="keyword">FOR</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>授予权限</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> 权限列表 <span class="keyword">ON</span> 数据库名.表名 <span class="keyword">TO</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>撤销权限</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REVOKE</span> 权限列表 <span class="keyword">ON</span> 数据库名.表名 <span class="keyword">FROM</span> <span class="string">&#x27;用户名&#x27;</span>@<span class="string">&#x27;主机名&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>注意：</p>
+<ul>
+<li>多个权限之间使用逗号分隔</li>
+<li>授权时，数据库名和表名可以使用*通配符代表所有</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>权限</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALL,ALL PRIVILEGES</td>
+<td>所有权限</td>
+</tr>
+<tr>
+<td>SELECT</td>
+<td>查询数据</td>
+</tr>
+<tr>
+<td>INSERT</td>
+<td>插入数据</td>
+</tr>
+<tr>
+<td>UPDATE</td>
+<td>修改数据</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>删除数据</td>
+</tr>
+<tr>
+<td>ALTER</td>
+<td>修改表</td>
+</tr>
+<tr>
+<td>DROP</td>
+<td>删除数据库/表/视图</td>
+</tr>
+<tr>
+<td>CREATE</td>
+<td>创建数据库/表</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 1. 查询用户heima的权限</span></span><br><span class="line"><span class="keyword">show</span> grants <span class="keyword">for</span> <span class="string">&#x27;heima&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2. 授予权限</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> <span class="keyword">on</span> itcast.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;heima&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;  <span class="comment">-- 授予heima用户对itcast数据库的所有权限</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 3. 撤销权限</span></span><br><span class="line"><span class="keyword">revoke</span> <span class="keyword">all</span> <span class="keyword">on</span> itcast.<span class="operator">*</span> <span class="keyword">from</span> <span class="string">&#x27;heima&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;  <span class="comment">-- 撤销heima用户对itcast数据库的所有权限</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-6-3-DCL总结">2.6.3 DCL总结</h4>
+<p><img src="/image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/DCL%E6%80%BB%E7%BB%93.png" alt="DCL总结"></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/1.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2025/05/11/Java/MySQL/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" title="MySQL安装文档"><img class="cover" src="/../image/Java/MySQL/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">MySQL安装文档</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/04/29/Java/JavaWeb/HTML/" title="JavaWeb HTML"><img class="cover" src="/../image/Java/JavaWeb/JavaWebHTML/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-29</div><div class="title">JavaWeb HTML</div></div></a></div><div><a href="/2025/05/07/Java/JavaWeb/Maven/" title="JavaWeb Maven"><img class="cover" src="/../image/Java/JavaWeb/JavaWebMaven/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-07</div><div class="title">JavaWeb Maven</div></div></a></div><div><a href="/2025/05/08/Java/JavaWeb/Web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" title="JavaWeb Web后端开发"><img class="cover" src="/../image/Java/JavaWeb/JavaWebWeb%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-08</div><div class="title">JavaWeb Web后端开发</div></div></a></div><div><a href="/2025/05/02/Java/JavaWeb/JS&Vue/" title="JavaWeb JS&amp;Vue"><img class="cover" src="/../image/Java/JavaWeb/JavaWebJS&Vue/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-02</div><div class="title">JavaWeb JS&amp;Vue</div></div></a></div><div><a href="/2025/04/24/Java/Java%E5%9F%BA%E7%A1%80/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B&JUC/" title="Java 多线程&amp;JUC"><img class="cover" src="/../image/Java/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B&JUC/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-24</div><div class="title">Java 多线程&amp;JUC</div></div></a></div><div><a href="/2025/04/09/Java/Java%E5%9F%BA%E7%A1%80/JavaStream%E6%B5%81/" title="Java Stream流"><img class="cover" src="/../image/Java/JavaStream%E6%B5%81/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-09</div><div class="title">Java Stream流</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">131</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">11</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">MySQL基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81MySQL%E6%A6%82%E8%BF%B0"><span class="toc-text">一、MySQL概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="toc-text">1.1 数据库相关概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-MySQL%E5%AE%89%E8%A3%85"><span class="toc-text">1.2 MySQL安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B"><span class="toc-text">1.3 数据模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81SQL"><span class="toc-text">二、SQL</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-SQL%E9%80%9A%E7%94%A8%E8%AF%AD%E6%B3%95"><span class="toc-text">2.1 SQL通用语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-SQL%E8%AF%AD%E5%8F%A5%E5%88%86%E7%B1%BB"><span class="toc-text">2.2 SQL语句分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-DDL%E8%AF%AD%E5%8F%A5"><span class="toc-text">2.3 DDL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">2.3.1 数据库操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E8%A1%A8%E6%93%8D%E4%BD%9C-%E6%9F%A5%E8%AF%A2%E4%B8%8E%E5%88%9B%E5%BB%BA"><span class="toc-text">2.3.2 表操作-查询与创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E8%A1%A8%E6%93%8D%E4%BD%9C-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">2.3.3 表操作-数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E8%A1%A8%E6%93%8D%E4%BD%9C-%E4%BF%AE%E6%94%B9%E4%B8%8E%E5%88%A0%E9%99%A4"><span class="toc-text">2.3.4 表操作-修改与删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-DDL%E6%80%BB%E7%BB%93"><span class="toc-text">2.3.5 DDL总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-DML%E8%AF%AD%E5%8F%A5"><span class="toc-text">2.4 DML语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-1-%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="toc-text">2.4.1 添加数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-2-%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE"><span class="toc-text">2.4.2 修改数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-3-%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE"><span class="toc-text">2.4.3 删除数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-4-DML%E6%80%BB%E7%BB%93"><span class="toc-text">2.4.4 DML总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-DQL%E8%AF%AD%E5%8F%A5"><span class="toc-text">2.5 DQL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-1-%E5%9F%BA%E6%9C%AC%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.5.1 基本查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-2-%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.5.2 条件查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-4-%E5%88%86%E7%BB%84%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.5.4 分组查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-5-%E6%8E%92%E5%BA%8F%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.5.5 排序查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-6-%E5%88%86%E9%A1%B5%E6%9F%A5%E8%AF%A2"><span class="toc-text">2.5.6 分页查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-7-%E6%A1%88%E4%BE%8B"><span class="toc-text">2.5.7 案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-8-DQL%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="toc-text">2.5.8 DQL执行顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-5-9-DQL%E6%80%BB%E7%BB%93"><span class="toc-text">2.5.9 DQL总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-DCL%E8%AF%AD%E5%8F%A5"><span class="toc-text">2.6 DCL语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-1-%E7%AE%A1%E7%90%86%E7%94%A8%E6%88%B7"><span class="toc-text">2.6.1 管理用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-2-%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6"><span class="toc-text">2.6.2 权限控制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-6-3-DCL%E6%80%BB%E7%BB%93"><span class="toc-text">2.6.3 DCL总结</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/05/11/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/" title="MySQL基础"><img src="/../image/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL基础"/></a><div class="content"><a class="title" href="/2025/05/11/Java/MySQL/MySQL%E5%9F%BA%E7%A1%80/" title="MySQL基础">MySQL基础</a><time datetime="2025-05-11T07:00:00.000Z" title="发表于 2025-05-11 15:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/11/Java/MySQL/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" title="MySQL安装文档"><img src="/../image/Java/MySQL/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="MySQL安装文档"/></a><div class="content"><a class="title" href="/2025/05/11/Java/MySQL/MySQL%E5%AE%89%E8%A3%85%E6%96%87%E6%A1%A3/" title="MySQL安装文档">MySQL安装文档</a><time datetime="2025-05-11T06:00:00.000Z" title="发表于 2025-05-11 14:00:00">2025-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/10/Java/Leetcode/Day47_Leetcode763.%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/" title="Leetcode 763.划分字母区间"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day47_Leetcode763.%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 763.划分字母区间"/></a><div class="content"><a class="title" href="/2025/05/10/Java/Leetcode/Day47_Leetcode763.%E5%88%92%E5%88%86%E5%AD%97%E6%AF%8D%E5%8C%BA%E9%97%B4/" title="Leetcode 763.划分字母区间">Leetcode 763.划分字母区间</a><time datetime="2025-05-10T12:00:00.000Z" title="发表于 2025-05-10 20:00:00">2025-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/08/Java/Leetcode/Day46_Leetcode435.%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4/" title="Leetcode 435.无重叠区间"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day46_Leetcode435.%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 435.无重叠区间"/></a><div class="content"><a class="title" href="/2025/05/08/Java/Leetcode/Day46_Leetcode435.%E6%97%A0%E9%87%8D%E5%8F%A0%E5%8C%BA%E9%97%B4/" title="Leetcode 435.无重叠区间">Leetcode 435.无重叠区间</a><time datetime="2025-05-08T12:00:00.000Z" title="发表于 2025-05-08 20:00:00">2025-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/08/Java/JavaWeb/Web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" title="JavaWeb Web后端开发"><img src="/../image/Java/JavaWeb/JavaWebWeb%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb Web后端开发"/></a><div class="content"><a class="title" href="/2025/05/08/Java/JavaWeb/Web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" title="JavaWeb Web后端开发">JavaWeb Web后端开发</a><time datetime="2025-05-08T09:00:00.000Z" title="发表于 2025-05-08 17:00:00">2025-05-08</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
