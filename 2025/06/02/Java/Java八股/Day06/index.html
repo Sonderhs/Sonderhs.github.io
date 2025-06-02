@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java八股文Day06 | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Java八股文Day06">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java八股文Day06">
+<meta property="og:url" content="http://example.com/2025/06/02/Java/Java%E5%85%AB%E8%82%A1/Day06/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="Java八股文Day06">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/06.JPG">
+<meta property="article:published_time" content="2025-06-02T11:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-02T14:47:01.846Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java八股">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/06.JPG"><link rel="shortcut icon" href="/../image/BlogCover/blog.png"><link rel="canonical" href="http://example.com/2025/06/02/Java/Java%E5%85%AB%E8%82%A1/Day06/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java八股文Day06',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-06-02 22:47:01'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/blog.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java八股文Day06</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-06-02T11:00:00.000Z" title="发表于 2025-06-02 19:00:00">2025-06-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-06-02T14:47:01.846Z" title="更新于 2025-06-02 22:47:01">2025-06-02</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%85%AB%E8%82%A1/">Java八股</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Java八股文Day06</h1>
+<h2 id="Day-6-八股文（Java-基础进阶）">Day 6 八股文（Java 基础进阶）</h2>
+<ol>
+<li>反射的基本原理是什么？如何通过反射创建对象和调用方法？</li>
+<li>反射有哪些典型应用场景？</li>
+<li>Java 中的泛型是如何实现的？什么是类型擦除？</li>
+<li>泛型中的 <code>&lt;? extends T&gt;</code> 和 <code>&lt;? super T&gt;</code> 有什么区别？</li>
+<li>自动装箱和拆箱的原理是什么？可能带来哪些问题？</li>
+<li>包装类型之间的 <code>==</code> 比较和 <code>.equals()</code> 有什么区别？</li>
+<li>什么是常量池？它包含哪些内容？</li>
+<li>String 为什么是不可变的？这样设计的好处是什么？</li>
+<li>new String(“abc”) 和 “abc” 在内存中的区别？</li>
+<li>枚举类的本质是什么？它有哪些常用功能？</li>
+</ol>
+<hr>
+<h2 id="Day-6-八股文详细答案（Java-基础进阶）">Day 6 八股文详细答案（Java 基础进阶）</h2>
+<h3 id="1-反射的基本原理是什么？如何通过反射创建对象和调用方法？">1. 反射的基本原理是什么？如何通过反射创建对象和调用方法？</h3>
+<p><strong>反射</strong>是指在运行时动态获取类的信息（属性、方法、构造器等）并操作它。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; clazz = Class.forName(<span class="string">&quot;com.example.MyClass&quot;</span>);</span><br><span class="line"><span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> clazz.getDeclaredConstructor().newInstance(); <span class="comment">// 创建对象</span></span><br><span class="line"><span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> clazz.getMethod(<span class="string">&quot;sayHello&quot;</span>);</span><br><span class="line">method.invoke(obj); <span class="comment">// 调用方法</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-反射有哪些典型应用场景？">2. 反射有哪些典型应用场景？</h3>
+<ul>
+<li>Spring 依赖注入（IOC）</li>
+<li>ORM 框架（MyBatis 反射注入属性）</li>
+<li>JUnit 测试框架（动态调用测试方法）</li>
+<li>工厂模式实现（通过类名实例化对象）</li>
+</ul>
+<h3 id="3-Java-中的泛型是如何实现的？什么是类型擦除？">3. Java 中的泛型是如何实现的？什么是类型擦除？</h3>
+<p>Java 泛型是 <strong>伪泛型</strong>，<strong>编译期存在，运行期被擦除（Type Erasure）</strong>，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; 和 List&lt;Integer&gt; 在运行期其实是同一个类：List</span><br></pre></td></tr></table></figure>
+<p>类型擦除会将泛型替换为其 <strong>上限（默认是 Object）</strong>，并插入强制类型转换。</p>
+<h3 id="4-泛型中的-extends-T-和-super-T-有什么区别？">4. 泛型中的 <code>&lt;? extends T&gt;</code> 和 <code>&lt;? super T&gt;</code> 有什么区别？</h3>
+<table>
+<thead>
+<tr>
+<th>通配符</th>
+<th>意义</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>? extends T</code></td>
+<td>上限通配符，T 或子类</td>
+<td>只读，不能写</td>
+</tr>
+<tr>
+<td><code>? super T</code></td>
+<td>下限通配符，T 或父类</td>
+<td>可写入 T 或子类，读取为 Object</td>
+</tr>
+</tbody>
+</table>
+<p>例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;? <span class="keyword">extends</span> <span class="title class_">Number</span>&gt; list1 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Integer&gt;(); <span class="comment">// 只读</span></span><br><span class="line">List&lt;? <span class="built_in">super</span> Integer&gt; list2 = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;Number&gt;();   <span class="comment">// 可写</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-自动装箱和拆箱的原理是什么？可能带来哪些问题？">5. 自动装箱和拆箱的原理是什么？可能带来哪些问题？</h3>
+<ul>
+<li><strong>自动装箱</strong>：基本类型 → 包装类型，如 <code>int -&gt; Integer</code></li>
+<li><strong>自动拆箱</strong>：包装类型 → 基本类型，如 <code>Integer -&gt; int</code></li>
+</ul>
+<p>可能的问题：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">a</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"><span class="type">int</span> <span class="variable">b</span> <span class="operator">=</span> a; <span class="comment">// 空指针异常（NullPointerException）</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-包装类型之间的-比较和-equals-有什么区别？">6. 包装类型之间的 <code>==</code> 比较和 <code>.equals()</code> 有什么区别？</h3>
+<ul>
+<li><code>==</code> 比较的是<strong>引用地址</strong>，除非是 [-128, 127] 之间的缓存 Integer。</li>
+<li><code>.equals()</code> 比较的是<strong>值是否相等</strong>。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">a</span> <span class="operator">=</span> <span class="number">100</span>, b = <span class="number">100</span>;</span><br><span class="line">System.out.println(a == b); <span class="comment">// true（缓存）</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">c</span> <span class="operator">=</span> <span class="number">200</span>, d = <span class="number">200</span>;</span><br><span class="line">System.out.println(c == d); <span class="comment">// false（超出缓存）</span></span><br><span class="line">System.out.println(c.equals(d)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<h3 id="7-什么是常量池？它包含哪些内容？">7. 什么是常量池？它包含哪些内容？</h3>
+<ul>
+<li>
+<p><strong>常量池</strong>是 JVM 用来存放编译期间确定的各种常量（字符串字面量、final 常量等）。</p>
+</li>
+<li>
+<p>包含：</p>
+<ul>
+<li>字符串常量池（String Pool）</li>
+<li>类、字段、方法的符号引用</li>
+<li>编译期常量表达式（如 <code>final int x = 5 + 3</code>）</li>
+</ul>
+</li>
+</ul>
+<h3 id="8-String-为什么是不可变的？这样设计的好处是什么？">8. String 为什么是不可变的？这样设计的好处是什么？</h3>
+<ul>
+<li>
+<p>字符串被声明为 <code>final</code>，内容存在字符数组中且不能修改。</p>
+</li>
+<li>
+<p>好处：</p>
+<ul>
+<li>安全（如用作网络参数、数据库 key）</li>
+<li>可缓存（常量池机制）</li>
+<li>线程安全</li>
+<li>实现 hashCode 缓存，提高性能</li>
+</ul>
+</li>
+</ul>
+<h3 id="9-new-String-abc-和-abc-在内存中的区别？">9. <code>new String(&quot;abc&quot;)</code> 和 <code>&quot;abc&quot;</code> 在内存中的区别？</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">s1</span> <span class="operator">=</span> <span class="string">&quot;abc&quot;</span>;           <span class="comment">// 常量池中创建</span></span><br><span class="line"><span class="type">String</span> <span class="variable">s2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;abc&quot;</span>); <span class="comment">// 堆中创建新对象</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&quot;abc&quot;</code>：放入字符串常量池中。</li>
+<li><code>new String(&quot;abc&quot;)</code>：在堆中创建一个新对象，常量池中的字符串作为构造参数。</li>
+</ul>
+<h3 id="10-枚举类的本质是什么？它有哪些常用功能？">10. 枚举类的本质是什么？它有哪些常用功能？</h3>
+<ul>
+<li>
+<p>枚举是继承 <code>java.lang.Enum</code> 的特殊类，<strong>本质是一个 final 的类，包含一组固定实例</strong>。</p>
+</li>
+<li>
+<p>特点：</p>
+<ul>
+<li>线程安全，单例</li>
+<li>可添加构造方法、字段、方法</li>
+<li>可用于 switch 语句</li>
+<li>内置方法：<code>name()</code>、<code>ordinal()</code>、<code>values()</code>、<code>valueOf(String name)</code></li>
+</ul>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Color</span> &#123;</span><br><span class="line">    RED, GREEN, BLUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%85%AB%E8%82%A1/">Java八股</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/Java%E5%85%AB%E8%82%A1/06.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/06/02/Java/Leetcode/Day51_Leetcode509.%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/" title="Leetcode 509.斐波那契数"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day51_Leetcode509.%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Leetcode 509.斐波那契数</div></div></a></div><div class="next-post pull-right"><a href="/2025/05/29/Java/JavaWeb/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&amp;AOP/" title="JavaWeb Web事务管理&amp;AOP"><img class="cover" src="/../image/Java/JavaWeb/JavaWeb%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&amp;AOP/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaWeb Web事务管理&amp;AOP</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/05/19/Java/Java%E5%85%AB%E8%82%A1/Day01/" title="Java八股文Day01"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/01.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-19</div><div class="title">Java八股文Day01</div></div></a></div><div><a href="/2025/05/21/Java/Java%E5%85%AB%E8%82%A1/Day03/" title="Java八股文Day03"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/03.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-21</div><div class="title">Java八股文Day03</div></div></a></div><div><a href="/2025/05/20/Java/Java%E5%85%AB%E8%82%A1/Day02/" title="Java八股文Day02"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/02.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-20</div><div class="title">Java八股文Day02</div></div></a></div><div><a href="/2025/05/22/Java/Java%E5%85%AB%E8%82%A1/Day04/" title="Java八股文Day04"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/04.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-22</div><div class="title">Java八股文Day04</div></div></a></div><div><a href="/2025/05/26/Java/Java%E5%85%AB%E8%82%A1/Day05/" title="Java八股文Day05"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/05.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-26</div><div class="title">Java八股文Day05</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Java八股文Day06</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-6-%E5%85%AB%E8%82%A1%E6%96%87%EF%BC%88Java-%E5%9F%BA%E7%A1%80%E8%BF%9B%E9%98%B6%EF%BC%89"><span class="toc-text">Day 6 八股文（Java 基础进阶）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Day-6-%E5%85%AB%E8%82%A1%E6%96%87%E8%AF%A6%E7%BB%86%E7%AD%94%E6%A1%88%EF%BC%88Java-%E5%9F%BA%E7%A1%80%E8%BF%9B%E9%98%B6%EF%BC%89"><span class="toc-text">Day 6 八股文详细答案（Java 基础进阶）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%8F%8D%E5%B0%84%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E5%92%8C%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">1. 反射的基本原理是什么？如何通过反射创建对象和调用方法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%8D%E5%B0%84%E6%9C%89%E5%93%AA%E4%BA%9B%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="toc-text">2. 反射有哪些典型应用场景？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-Java-%E4%B8%AD%E7%9A%84%E6%B3%9B%E5%9E%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E5%9E%8B%E6%93%A6%E9%99%A4%EF%BC%9F"><span class="toc-text">3. Java 中的泛型是如何实现的？什么是类型擦除？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%B3%9B%E5%9E%8B%E4%B8%AD%E7%9A%84-extends-T-%E5%92%8C-super-T-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">4. 泛型中的 &lt;? extends T&gt; 和 &lt;? super T&gt; 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E8%87%AA%E5%8A%A8%E8%A3%85%E7%AE%B1%E5%92%8C%E6%8B%86%E7%AE%B1%E7%9A%84%E5%8E%9F%E7%90%86%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%8F%AF%E8%83%BD%E5%B8%A6%E6%9D%A5%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">5. 自动装箱和拆箱的原理是什么？可能带来哪些问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84-%E6%AF%94%E8%BE%83%E5%92%8C-equals-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">6. 包装类型之间的 &#x3D;&#x3D; 比较和 .equals() 有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AF%E5%B8%B8%E9%87%8F%E6%B1%A0%EF%BC%9F%E5%AE%83%E5%8C%85%E5%90%AB%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%EF%BC%9F"><span class="toc-text">7. 什么是常量池？它包含哪些内容？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-String-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84%EF%BC%9F%E8%BF%99%E6%A0%B7%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%A5%BD%E5%A4%84%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-text">8. String 为什么是不可变的？这样设计的好处是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-new-String-abc-%E5%92%8C-abc-%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. new String(&quot;abc&quot;) 和 &quot;abc&quot; 在内存中的区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-%E6%9E%9A%E4%B8%BE%E7%B1%BB%E7%9A%84%E6%9C%AC%E8%B4%A8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E5%AE%83%E6%9C%89%E5%93%AA%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="toc-text">10. 枚举类的本质是什么？它有哪些常用功能？</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/06/02/Java/Leetcode/Day51_Leetcode70.%E7%88%AC%E6%A5%BC%E6%A2%AF/" title="Leetcode 70.爬楼梯"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day51_Leetcode70.%E7%88%AC%E6%A5%BC%E6%A2%AF/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 70.爬楼梯"/></a><div class="content"><a class="title" href="/2025/06/02/Java/Leetcode/Day51_Leetcode70.%E7%88%AC%E6%A5%BC%E6%A2%AF/" title="Leetcode 70.爬楼梯">Leetcode 70.爬楼梯</a><time datetime="2025-06-02T13:00:00.000Z" title="发表于 2025-06-02 21:00:00">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/02/Java/Leetcode/Day51_Leetcode509.%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/" title="Leetcode 509.斐波那契数"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Day51_Leetcode509.%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode 509.斐波那契数"/></a><div class="content"><a class="title" href="/2025/06/02/Java/Leetcode/Day51_Leetcode509.%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0/" title="Leetcode 509.斐波那契数">Leetcode 509.斐波那契数</a><time datetime="2025-06-02T12:00:00.000Z" title="发表于 2025-06-02 20:00:00">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/06/02/Java/Java%E5%85%AB%E8%82%A1/Day06/" title="Java八股文Day06"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/06.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java八股文Day06"/></a><div class="content"><a class="title" href="/2025/06/02/Java/Java%E5%85%AB%E8%82%A1/Day06/" title="Java八股文Day06">Java八股文Day06</a><time datetime="2025-06-02T11:00:00.000Z" title="发表于 2025-06-02 19:00:00">2025-06-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/29/Java/JavaWeb/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&amp;AOP/" title="JavaWeb Web事务管理&amp;AOP"><img src="/../image/Java/JavaWeb/JavaWeb%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&amp;AOP/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JavaWeb Web事务管理&amp;AOP"/></a><div class="content"><a class="title" href="/2025/05/29/Java/JavaWeb/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&amp;AOP/" title="JavaWeb Web事务管理&amp;AOP">JavaWeb Web事务管理&amp;AOP</a><time datetime="2025-05-29T02:00:00.000Z" title="发表于 2025-05-29 10:00:00">2025-05-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/05/26/Java/Java%E5%85%AB%E8%82%A1/Day05/" title="Java八股文Day05"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/05.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java八股文Day05"/></a><div class="content"><a class="title" href="/2025/05/26/Java/Java%E5%85%AB%E8%82%A1/Day05/" title="Java八股文Day05">Java八股文Day05</a><time datetime="2025-05-26T12:00:00.000Z" title="发表于 2025-05-26 20:00:00">2025-05-26</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
