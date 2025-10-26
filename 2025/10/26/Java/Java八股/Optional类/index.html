@@ -1,0 +1,320 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Optional类 | Hansen.cabin</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Optional类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Optional类">
+<meta property="og:url" content="http://example.com/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Hansen.cabin">
+<meta property="og:description" content="Optional类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB.JPG">
+<meta property="article:published_time" content="2025-10-26T12:40:00.000Z">
+<meta property="article:modified_time" content="2025-10-26T12:23:11.415Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java八股">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB.JPG"><link rel="shortcut icon" href="/../image/BlogCover/blog.png"><link rel="canonical" href="http://example.com/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+RO:wght@100..400&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Optional类',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2025-10-26 20:23:11'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/hansen1.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen.cabin"><img class="site-icon" src="/../image/BlogCover/blog.png"/><span class="site-name">Hansen.cabin</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Optional类</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-10-26T12:40:00.000Z" title="发表于 2025-10-26 20:40:00">2025-10-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-10-26T12:23:11.415Z" title="更新于 2025-10-26 20:23:11">2025-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%85%AB%E8%82%A1/">Java八股</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">832</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Optional类</h1>
+<h2 id="1-简要回答：">1. 简要回答：</h2>
+<ul>
+<li>Optional类的定义：
+<ul>
+<li><strong>包装类：</strong> 将可能为<code>null</code>的值封装成<code>Optional</code>对象（如<code>Optional&lt;String&gt;</code>）。</li>
+<li><strong>明确空值意图：</strong> 通过方法名（如<code>isPresent()</code>、<code>orElse()</code>）显式表达“值可能不存在”的逻辑。</li>
+</ul>
+</li>
+<li>Optional类的作用：
+<ul>
+<li><strong>避免<code>NullPointerException</code>：</strong> 强制开发者主动处理空值，减少运行时错误。</li>
+<li><strong>代码更简洁：</strong> 链式调用替代多层<code>if (obj != null)</code>判空。</li>
+<li><strong>API设计更清晰：</strong> 方法签名中明确表示返回值可能为空（如<code>Optional&lt;User&gt; findUser()</code>）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-为什么需要-Optional？">2. 为什么需要 <code>Optional</code>？</h2>
+<ol>
+<li>
+<p><strong>避免空指针异常</strong>：传统的代码中，null 值经常被用来表示某些字段、返回值等缺失的情况。如果不小心使用了这些值，就会抛出 <code>NullPointerException</code>。通过使用 <code>Optional</code>，你明确告诉调用者这个值可能是空的，从而降低了出错的概率。</p>
+</li>
+<li>
+<p><strong>增强代码可读性和表达性</strong>：<code>Optional</code> 显示地表明一个值可能不存在或为空，使得代码在处理缺失值时更加清晰、可读。传统的做法可能会用 null 值来表示，但这往往不够直观。</p>
+</li>
+<li>
+<p><strong>更好的链式操作</strong>：<code>Optional</code> 提供了很多方法来操作值，例如 <code>map()</code>, <code>flatMap()</code>, <code>filter()</code>, <code>ifPresent()</code>, <code>orElse()</code> 等，可以避免冗长的 null 检查并实现函数式编程风格的链式调用。</p>
+</li>
+</ol>
+<h2 id="3-Optional-的常见方法：">3. <code>Optional</code> 的常见方法：</h2>
+<ul>
+<li><code>Optional.of(T value)</code>：如果 <code>value</code> 是 <code>null</code>，会抛出 <code>NullPointerException</code>。用于包装非空值。</li>
+<li><code>Optional.ofNullable(T value)</code>：如果 <code>value</code> 是 <code>null</code>，返回一个空的 <code>Optional</code> 实例；否则，返回一个包含该值的 <code>Optional</code>。</li>
+<li><code>Optional.empty()</code>：返回一个空的 <code>Optional</code> 实例。</li>
+<li><code>Optional.isPresent()</code>：如果值存在，返回 <code>true</code>；否则，返回 <code>false</code>。</li>
+<li><code>Optional.ifPresent(Consumer&lt;? super T&gt; action)</code>：如果值存在，执行传入的 <code>Consumer</code> 操作。</li>
+<li><code>Optional.orElse(T other)</code>：如果值存在，返回值本身；如果值为空，返回 <code>other</code>。</li>
+<li><code>Optional.orElseGet(Supplier&lt;? extends T&gt; other)</code>：如果值存在，返回值本身；如果值为空，调用提供的 <code>Supplier</code> 来生成一个替代值。</li>
+<li><code>Optional.orElseThrow(Supplier&lt;? extends X&gt; exceptionSupplier)</code>：如果值存在，返回值本身；如果值为空，抛出由 <code>exceptionSupplier</code> 提供的异常。</li>
+</ul>
+<h2 id="4-示例：">4. 示例：</h2>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OptionalExample</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建一个Optional对象</span></span><br><span class="line">        Optional&lt;String&gt; optionalValue = Optional.ofNullable(value);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用ifPresent来执行操作</span></span><br><span class="line">        optionalValue.ifPresent(val -&gt; System.out.println(<span class="string">&quot;Value is: &quot;</span> + val));  <span class="comment">// 不会执行</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用orElse提供一个默认值</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">result</span> <span class="operator">=</span> optionalValue.orElse(<span class="string">&quot;Default Value&quot;</span>);</span><br><span class="line">        System.out.println(result);  <span class="comment">// 输出 &quot;Default Value&quot;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用orElseThrow抛出异常</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            optionalValue.orElseThrow(() -&gt; <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Value is absent&quot;</span>));</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.println(e.getMessage());  <span class="comment">// 输出 &quot;Value is absent&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-使用-Optional-的注意事项：">5. 使用 <code>Optional</code> 的注意事项：</h2>
+<ol>
+<li>
+<p><strong>避免过度使用</strong>：虽然 <code>Optional</code> 很有用，但它并不适合用于所有场景。比如，在集合中存储多个元素时，<code>Optional</code> 不是最佳选择。另外，<code>Optional</code> 主要用于返回值，而不应该用于方法的参数类型。</p>
+</li>
+<li>
+<p><strong>性能考虑</strong>：<code>Optional</code> 作为一个容器类会增加一些性能开销，特别是在涉及大量数据操作时。尽管如此，这种开销一般来说是微乎其微的。</p>
+</li>
+</ol>
+<p>总结来说，<code>Optional</code> 提供了一种更安全、易读的方式来处理可能为空的值，从而避免了空指针异常，并使得代码更具表达性。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%85%AB%E8%82%A1/">Java八股</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7/" title="JDK8新特性"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">JDK8新特性</div></div></a></div><div class="next-post pull-right"><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder/" title="String、StringBuffer和StringBuilder"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">String、StringBuffer和StringBuilder</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD%E5%92%8C%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99/" title="Java方法重载和方法重写"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD%E5%92%8C%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-26</div><div class="title">Java方法重载和方法重写</div></div></a></div><div><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7/" title="JDK8新特性"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-26</div><div class="title">JDK8新特性</div></div></a></div><div><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Java%E6%B3%9B%E5%9E%8B/" title="Java泛型"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/Java%E6%B3%9B%E5%9E%8B.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-26</div><div class="title">Java泛型</div></div></a></div><div><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder/" title="String、StringBuffer和StringBuilder"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-26</div><div class="title">String、StringBuffer和StringBuilder</div></div></a></div><div><a href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E7%B1%BB%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7/" title="String类的不可变性"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/String%E7%B1%BB%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-26</div><div class="title">String类的不可变性</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/hansen1.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">Just a ordinary coder</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">208</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">25</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">14</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Optional类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E8%A6%81%E5%9B%9E%E7%AD%94%EF%BC%9A"><span class="toc-text">1. 简要回答：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Optional%EF%BC%9F"><span class="toc-text">2. 为什么需要 Optional？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Optional-%E7%9A%84%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-text">3. Optional 的常见方法：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="toc-text">4. 示例：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%BD%BF%E7%94%A8-Optional-%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%9A"><span class="toc-text">5. 使用 Optional 的注意事项：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7/" title="JDK8新特性"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JDK8新特性"/></a><div class="content"><a class="title" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/JDK8%E6%96%B0%E7%89%B9%E6%80%A7/" title="JDK8新特性">JDK8新特性</a><time datetime="2025-10-26T12:50:00.000Z" title="发表于 2025-10-26 20:50:00">2025-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB/" title="Optional类"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Optional类"/></a><div class="content"><a class="title" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Optional%E7%B1%BB/" title="Optional类">Optional类</a><time datetime="2025-10-26T12:40:00.000Z" title="发表于 2025-10-26 20:40:00">2025-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder/" title="String、StringBuffer和StringBuilder"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="String、StringBuffer和StringBuilder"/></a><div class="content"><a class="title" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E3%80%81StringBuffer%E5%92%8CStringBuilder/" title="String、StringBuffer和StringBuilder">String、StringBuffer和StringBuilder</a><time datetime="2025-10-26T12:30:00.000Z" title="发表于 2025-10-26 20:30:00">2025-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E7%B1%BB%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7/" title="String类的不可变性"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/String%E7%B1%BB%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="String类的不可变性"/></a><div class="content"><a class="title" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/String%E7%B1%BB%E7%9A%84%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7/" title="String类的不可变性">String类的不可变性</a><time datetime="2025-10-26T12:20:00.000Z" title="发表于 2025-10-26 20:20:00">2025-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD%E5%92%8C%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99/" title="Java方法重载和方法重写"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD%E5%92%8C%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java方法重载和方法重写"/></a><div class="content"><a class="title" href="/2025/10/26/Java/Java%E5%85%AB%E8%82%A1/Java%E6%96%B9%E6%B3%95%E9%87%8D%E8%BD%BD%E5%92%8C%E6%96%B9%E6%B3%95%E9%87%8D%E5%86%99/" title="Java方法重载和方法重写">Java方法重载和方法重写</a><time datetime="2025-10-26T12:10:00.000Z" title="发表于 2025-10-26 20:10:00">2025-10-26</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
