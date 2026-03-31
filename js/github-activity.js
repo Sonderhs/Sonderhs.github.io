@@ -221,7 +221,7 @@
     return [
       '<div class="item-headline">',
       '  <i class="fa-solid fa-chart-simple"></i>',
-      '  <span>博客活跃度缩略图</span>',
+      '  <span>博客活跃度</span>',
       '</div>',
       '<a class="blog-activity-thumb-link" href="/archives/" title="前往归档页查看完整活跃度">',
       '  <div class="blog-activity-total">近半年发布 <strong>' + cells.total + '</strong> 篇，点击查看完整图</div>',
@@ -246,7 +246,7 @@
     wrapper.innerHTML = [
       '<div class="item-headline">',
       '  <i class="fa-solid fa-chart-simple"></i>',
-      '  <span>博客活跃度缩略图</span>',
+      '  <span>博客活跃度</span>',
       '</div>',
       '<div class="blog-activity-loading">正在统计博客活跃度...</div>'
     ].join('');

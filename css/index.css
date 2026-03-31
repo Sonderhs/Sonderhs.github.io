@@ -1600,7 +1600,7 @@ a:hover {
 .site-name,
 #aside-content .author-info__name,
 #aside-content .author-info__description {
-  font-family: Playwrite RO;
+  font-family: Rubik;
 }
 .is-center {
   text-align: center;
@@ -2101,7 +2101,7 @@ figure.highlight pre .javascript .function {
   height: 100%;
   vertical-align: top;
   text-align: center;
-  font-family: Playwrite RO;
+  font-family: Rubik;
 }
 @media screen and (max-width: 768px) {
   .error404 #error-wrap .error-content .error-info {
