@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java常见注解 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Java常见注解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java常见注解">
+<meta property="og:url" content="http://example.com/2026/03/31/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="Java常见注解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/1.JPG">
+<meta property="article:published_time" content="2026-03-31T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-03-31T10:19:46.996Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="JavaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/1.JPG"><link rel="shortcut icon" href="/../image/BlogCover/sakura.PNG"><link rel="canonical" href="http://example.com/2026/03/31/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java常见注解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-03-31 18:19:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">299</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/sakura.PNG"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java常见注解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-03-31T02:00:00.000Z" title="发表于 2026-03-31 10:00:00">2026-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-03-31T10:19:46.996Z" title="更新于 2026-03-31 18:19:46">2026-03-31</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/JavaWeb/">JavaWeb</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Java常见注解</h1>
+<p>注解（Annotation）是Java 5引入的一种元数据机制，用于在代码中添加额外的信息。注解可以被编译器、工具或运行时环境使用，以提供更丰富的功能和更好的代码质量。以下是一些Java中常见的注解：</p>
+<ul>
+<li>元注解（用来修饰注解的注解）</li>
+<li>Spring相关注解
+<ul>
+<li>SpringMVC注解</li>
+<li>IOC容器注解</li>
+<li>Bean注解</li>
+<li>Spring启动类注解</li>
+<li>请求Mapping注解</li>
+<li>动态赋值注解</li>
+<li>缓存注解</li>
+</ul>
+</li>
+<li>AOP切面注解</li>
+</ul>
+<hr>
+<h2 id="一、元注解">一、元注解</h2>
+<h3 id="1-1-元注解">1.1 元注解</h3>
+<p>元注解用来定义注解本身</p>
+<h4 id="Retention">@Retention</h4>
+<p><strong><code>@Retention</code></strong>：描述注解的生命周期，指定注解在哪个阶段可用。常用的取值有：</p>
+<ul>
+<li><code>SOURCE</code>: 注解只在源代码中存在，编译后就不存在了</li>
+<li><code>CLASS</code>: 注解在class文件中存在，但运行时不可</li>
+<li><code>RUNTIME</code>: 注解在运行时也存在，可以通过反射获取</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Retention(RetentionPolicy.RUNTIME)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Target">@Target</h4>
+<p><strong><code>@Target</code></strong>：描述注解使用范围，指定注解可以应用于哪些Java元素。常用的取值有：</p>
+<ul>
+<li><code>CONSTRUCTOR</code>: 用于描述构造器</li>
+<li><code>FIELD</code>: 用于描述域</li>
+<li><code>LOCAL_VARIABLE</code>: 用于描述局部变量</li>
+<li><code>METHOD</code>: 用于描述方法</li>
+<li><code>PACKAGE</code>: 用于描述包</li>
+<li><code>PARAMETER</code>: 用于描述参数</li>
+<li><code>TYPE</code>: 用于描述类、接口（包括注解类型）或enum声明</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Target(ElementType.METHOD)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Documented">@Documented</h4>
+<p><strong><code>@Documented</code></strong>：表示该注解会被javadoc工具提取成文档。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Documented</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Inherited">@Inherited</h4>
+<p><strong><code>@Inherited</code></strong>：表示子类可以继承父类的注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Inherited</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Repeatable">@Repeatable</h4>
+<p><strong><code>@Repeatable</code></strong>：表示注解可以重复使用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repeatable(MyAnnotations.class)</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> MyAnnotation &#123;</span><br><span class="line">    String <span class="title function_">value</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="二、Spring相关注解">二、Spring相关注解</h2>
+<h3 id="2-1-SpringMVC注解">2.1 SpringMVC注解</h3>
+<p>这些注解描述的类Spring会创建原生对象或代理对象并交给IOC容器管理，这些对象称之为bean。用时直接 <strong>@Autowired</strong> 注入即可。</p>
+<h4 id="Mapper">@Mapper</h4>
+<p><strong><code>@Mapper</code></strong>：描述数据层（Mapper），Mybatis的注解，表示该接口是一个Mybatis的Mapper接口，Spring会为其创建代理对象并交给IOC容器管理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Mapper</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserMapper</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Service">@Service</h4>
+<p><strong><code>@Service</code></strong>：描述业务层（Service），表示该类是一个业务逻辑组件，Spring会为其创建对象并交给IOC容器管理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Repository">@Repository</h4>
+<p><strong><code>@Repository</code></strong>：标识持久层/数据访问层组件（Dao），表示该类是一个数据访问组件，Spring会为其创建对象并交给IOC容器管理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserRepository</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Component">@Component</h4>
+<p><strong><code>@Component</code></strong>：描述组件类，表示该类是一个组件，Spring会为其创建对象并交给IOC容器管理。通常用于那些不属于Controller、Service、Repository等特定层次的组件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyComponent</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Controller">@Controller</h4>
+<p><strong><code>@Controller</code></strong>：描述控制层（Controller），表示该类是一个控制器组件，Spring会为其创建对象并交给IOC容器管理。通常用于处理用户请求，执行业务逻辑，并返回视图（HTML页面）给客户端。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="ResponseBody">@ResponseBody</h4>
+<p><strong><code>@ResponseBody</code></strong>：将Java对象转为JSON数据类型，表示该方法的返回值应该直接作为HTTP响应的内容，而不是被视图解析器处理。通常与<code>@Controller</code>一起使用，用于构建RESTful API。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Alice&quot;</span>, <span class="number">30</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="RestController">@RestController</h4>
+<p><strong><code>@RestController</code></strong>： = <code>@Controller</code> + <code>@ResponseBody</code>，表示该控制器中的所有方法都默认返回JSON数据类型。适用于构建RESTful API。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Alice&quot;</span>, <span class="number">30</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-IOC容器注解">2.2 IOC容器注解</h3>
+<p>IOC（Inversion of Control）是控制反转，也叫做依赖注入（Dependency Injection）。<br>
+它的核心理念是：对象的创建和依赖关系的管理不由对象自身控制，而由外部容器负责。</p>
+<p><strong>简单来说</strong>：IOC容器意味着将你设计好的对象(类)交给容器控制(管理)，需要的时候通过注解来注入(获取)，而不是传统的在你的对象内部直接控制(new 对象)。从而降低了程序的耦合性。</p>
+<h4 id="Bean">@Bean</h4>
+<p><strong><code>@Bean</code></strong>：描述在方法上，把方法的返回值交给容器管理，不需要再手动调用该方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="keyword">public</span> UserService <span class="title function_">userService</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">UserService</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Autowired">@Autowired</h4>
+<p><strong><code>@Autowired</code></strong>：按byType自动注入获取对应的bean对象。如果注入的类型有多个实现，则需要注入具体实现类的名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> UserService userService;</span><br></pre></td></tr></table></figure>
+<h4 id="Resource">@Resource</h4>
+<p><strong><code>@Resource</code></strong>：按byName自动注入获取对应的bean对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Resource(name = &quot;userService&quot;)</span></span><br><span class="line"><span class="keyword">private</span> UserService userService;</span><br></pre></td></tr></table></figure>
+<h4 id="Value">@Value</h4>
+<p><strong><code>@Value</code></strong>：注入普通类型属性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;app.name&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String appName;</span><br></pre></td></tr></table></figure>
+<h4 id="Qualifier">@Qualifier</h4>
+<p><strong><code>@Qualifier</code></strong>：在相同类型bean上命名后，可以按不同名注入，配合<code>@Autowired</code>使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="meta">@Qualifier(&quot;userServiceImpl&quot;)</span></span><br><span class="line"><span class="keyword">private</span> UserService userService;</span><br></pre></td></tr></table></figure>
+<h4 id="Primary">@Primary</h4>
+<p><strong><code>@Primary</code></strong>：当存在多个想用类型的bean时，首选被<code>@Primary</code>注解过的bean</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@Primary</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-Bean注解">2.3 Bean注解</h3>
+<p>Bean是由Spring IOC容器创建和管理的对象，其生命周期、依赖注入等都由容器统一控制。</p>
+<p>当你使用上面的SpringMVC注解时，Spring会把这些注解的类的实例化对象转化为一个个的bean，也称注册成一个个bean对象，交给IOC容器管理。</p>
+<h4 id="Scope">@Scope</h4>
+<p><strong><code>@Scope(value=&quot;&quot;)</code></strong>：描述bean的作用域，默认是单例（singleton）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="meta">@Scope(&quot;prototype&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserServiceImpl</span> <span class="keyword">implements</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PostConstruct">@PostConstruct</h4>
+<p><strong><code>@PostConstruct</code></strong>：在bean创建完成后执行的方法，通常用于初始化操作，相当于XML配置中的<code>init-method</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 初始化操作</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PreDestroy">@PreDestroy</h4>
+<p><strong><code>@PreDestroy</code></strong>：在bean销毁前执行的方法，通常用于清理资源，相当于XML配置中的<code>destroy-method</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PreDestroy</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 清理资源</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-Spring启动类注解">2.4 Spring启动类注解</h3>
+<h4 id="SpringBootApplication">@SpringBootApplication</h4>
+<p><strong><code>@SpringBootApplication</code></strong>：是一个组合注解，包含了<code>@Configuration</code>、<code>@EnableAutoConfiguration</code>和<code>@ComponentScan</code>三个注解的功能。表示这是一个Spring Boot应用的入口类。</p>
+<ul>
+<li><code>@SpringBootConfiguration</code>继承自<code>@Configuration</code>，标注当前类是配置类，将当前类的一个或多个以<code>@Bean</code>注解标记的方法的实例纳入到Spring容器中，并且实例名就是方法名。</li>
+<li><code>@EnableAutoConfiguration</code>自动化配置, 借助<code>@Import</code>的支持，收集和注册特定场景相关的bean定义。简单理解：借助<code>@Import</code>的帮助，将所有符合自动配置条件的bean定义加载到IOC容器中。该注解里面有<code>@AutoConfigurationPackage</code>自动配置的包扫描 <code>@Import</code>调用选择器去加载pom.xml文件中的启动项</li>
+<li><code>@ComponentScan</code>定义包扫描指定路径哪些包中的对象注册成bean交给IOC容器管理。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        SpringApplication.run(Application.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-请求Mapping注解">2.5 请求Mapping注解</h3>
+<h4 id="RequestMapping">@RequestMapping</h4>
+<p><strong><code>@RequestMapping</code></strong>：描述请求映射，表示该方法处理哪个URL的请求，可以指定请求方法（GET、POST等）、请求参数、请求头等信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Alice&quot;</span>, <span class="number">30</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="GetMapping">@GetMapping</h4>
+<p><strong><code>@GetMapping</code></strong>：查询方法。是<code>@RequestMapping(method = RequestMethod.GET)</code>的缩写，表示该方法处理GET请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Alice&quot;</span>, <span class="number">30</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PostMapping">@PostMapping</h4>
+<p><strong><code>@PostMapping</code></strong>：增添保存方法。是<code>@RequestMapping(method = RequestMethod.POST)</code>的缩写，表示该方法处理POST请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">createUser</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 创建用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PutMapping">@PutMapping</h4>
+<p><strong><code>@PutMapping</code></strong>：更新方法。是<code>@RequestMapping(method = RequestMethod.PUT)</code>的缩写，表示该方法处理PUT请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PutMapping(&quot;/user/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">updateUser</span><span class="params">(<span class="meta">@PathVariable</span> Long id, <span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 更新用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="DeleteMapping">@DeleteMapping</h4>
+<p><strong><code>@DeleteMapping</code></strong>：删除方法。是<code>@RequestMapping(method = RequestMethod.DELETE)</code>的缩写，表示该方法处理DELETE请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@DeleteMapping(&quot;/user/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteUser</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 删除用户逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PatchMapping">@PatchMapping</h4>
+<p><strong><code>@PatchMapping</code></strong>：更新局部方法。是<code>@RequestMapping(method = RequestMethod.PATCH)</code>的缩写，表示该方法处理PATCH请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PatchMapping(&quot;/user/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">partiallyUpdateUser</span><span class="params">(<span class="meta">@PathVariable</span> Long id, <span class="meta">@RequestBody</span> Map&lt;String, Object&gt; updates)</span> &#123;</span><br><span class="line">    <span class="comment">// 部分更新用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> updatedUser;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-6-动态赋值注解">2.6 动态赋值注解</h3>
+<h4 id="PathVariable">@PathVariable</h4>
+<p><strong><code>@PathVariable</code></strong>：描述路径变量，接收url动态传给备注接的参数，表示该参数的值来自URL路径中的占位符。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/user/&#123;id&#125;&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">(<span class="meta">@PathVariable</span> Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 根据id获取用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="RequestBody">@RequestBody</h4>
+<p><strong><code>@RequestBody</code></strong>：描述请求体，将接收的JSON格式数据转化为Java对象参数。适用于Post、Put、Patch等请求方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">createUser</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span> &#123;</span><br><span class="line">    <span class="comment">// 创建用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="RequestParam">@RequestParam</h4>
+<p><strong><code>@RequestParam(value=&quot;&quot;)</code></strong>：描述请求参数，将接收的参数值传给被注解的参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping(&quot;/user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">getUser</span><span class="params">(<span class="meta">@RequestParam(&quot;id&quot;)</span> Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 根据id获取用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-7-缓存注解">2.7 缓存注解</h3>
+<h4 id="EnableCaching">@EnableCaching</h4>
+<p><strong><code>@EnableCaching</code></strong>：启用Spring的缓存功能，表示该应用支持缓存。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableCaching</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Application</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Cacheable">@Cacheable</h4>
+<p><strong><code>@Cacheable(value=&quot;缓存值名&quot;)</code></strong>：描述可缓存的方法，表示该方法的结果可以被缓存起来，下次调用时直接从缓存中获取结果，而不需要执行方法体。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable(&quot;users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> User <span class="title function_">getUserById</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 从数据库获取用户逻辑</span></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="CacheEvict">@CacheEvict</h4>
+<p><strong><code>@CacheEvict(value=&quot;需要清空的缓存值名&quot;)</code></strong>：描述清除缓存的方法，表示该方法执行后会清除指定缓存中的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheEvict(&quot;users&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">deleteUserById</span><span class="params">(Long id)</span> &#123;</span><br><span class="line">    <span class="comment">// 删除用户逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="三、AOP切面注解">三、AOP切面注解</h2>
+<h3 id="3-1-AOP切面注解">3.1 AOP切面注解</h3>
+<p>AOP(Aspect Oriented Programming) 面向切面编程。</p>
+<p>Spring中的AOP代理还是离不开Spring的IOC容器，代理的生成，管理及其依赖关系都是由IOC容器负责，Spring默认使用JDK动态代理。</p>
+<h4 id="Aspect">@Aspect</h4>
+<p><strong><code>@Aspect</code></strong>：描述切面类，表示该类是一个切面，Spring会为其创建对象并交给IOC容器管理。切面类中可以定义切点和通知。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LoggingAspect</span> &#123;</span><br><span class="line">    <span class="comment">// 定义切点和通知</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Pointcut">@Pointcut</h4>
+<p><strong><code>@Pointcut(&quot;@annotation(被切入方法的地址)&quot;)</code></strong>：定义切点，表示一个切点表达式，指定在哪些方法上应用切面逻辑。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Pointcut(&quot;@annotation(com.example.annotation.LogExecutionTime)&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">Pointcut</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 切点方法体可以为空</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Before">@Before</h4>
+<p><strong><code>@Before(&quot;切点方法名()&quot;)</code></strong>：前置通知，表示在切点方法执行之前执行该方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Before(&quot;Pointcut()&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">beforeAdvice</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 前置通知逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="After">@After</h4>
+<p><strong><code>@After(&quot;切点方法名()&quot;)</code></strong>：后置通知，表示在切点方法执行之后执行该方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@After(&quot;Pointcut()&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterAdvice</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="comment">// 后置通知逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AfterReturning">@AfterReturning</h4>
+<p><strong><code>@AfterReturning(&quot;切点方法名()&quot;)</code></strong>：返回通知，表示在切点方法正常返回之后执行该方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AfterReturning(value = &quot;pointCut()&quot;, returning = &quot;result&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterReturning</span><span class="params">(Object result)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;返回值：&quot;</span> + result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="AfterThrowing">@AfterThrowing</h4>
+<p><strong><code>@AfterThrowing(&quot;切点方法名()&quot;)</code></strong>：异常通知，表示在切点方法抛出异常之后执行该方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@AfterThrowing(value = &quot;pointCut()&quot;, throwing = &quot;ex&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">afterThrowing</span><span class="params">(Exception ex)</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;异常：&quot;</span> + ex.getMessage());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Around">@Around</h4>
+<p><strong><code>@Around(&quot;切点方法名()&quot;)</code></strong>：环绕通知，表示在切点方法执行前后都执行该方法，可以控制切点方法的执行。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Around(&quot;pointCut()&quot;)</span></span><br><span class="line"><span class="keyword">public</span> Object <span class="title function_">around</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;前置&quot;</span>);</span><br><span class="line">    <span class="type">Object</span> <span class="variable">result</span> <span class="operator">=</span> pjp.proceed(); <span class="comment">// 执行目标方法</span></span><br><span class="line">    System.out.println(<span class="string">&quot;后置&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_53601359/article/details/114378460">Java常用注解(Annotation)详解汇总</a></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/JavaWeb/">JavaWeb</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/1.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" title="Redis持久化"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/Redis%E6%8C%81%E4%B9%85%E5%8C%96.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Redis持久化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2025/04/29/Java/JavaWeb/HTML/" title="JavaWeb HTML"><img class="cover" src="/../image/Java/JavaWeb/JavaWebHTML/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-04-29</div><div class="title">JavaWeb HTML</div></div></a></div><div><a href="/2025/05/02/Java/JavaWeb/JS&Vue/" title="JavaWeb JS&amp;Vue"><img class="cover" src="/../image/Java/JavaWeb/JavaWebJS&Vue/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-02</div><div class="title">JavaWeb JS&amp;Vue</div></div></a></div><div><a href="/2025/05/07/Java/JavaWeb/Maven/" title="JavaWeb Maven"><img class="cover" src="/../image/Java/JavaWeb/JavaWebMaven/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-07</div><div class="title">JavaWeb Maven</div></div></a></div><div><a href="/2025/05/17/Java/JavaWeb/Mybatis/" title="JavaWeb Mybatis"><img class="cover" src="/../image/Java/JavaWeb/JavaWebMybatis/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-17</div><div class="title">JavaWeb Mybatis</div></div></a></div><div><a href="/2025/05/08/Java/JavaWeb/Web%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/" title="JavaWeb Web后端开发"><img class="cover" src="/../image/Java/JavaWeb/JavaWebWeb%E5%90%8E%E7%AB%AF%E5%BC%80%E5%8F%91/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-08</div><div class="title">JavaWeb Web后端开发</div></div></a></div><div><a href="/2025/05/29/Java/JavaWeb/%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&AOP/" title="JavaWeb Web事务管理&amp;AOP"><img class="cover" src="/../image/Java/JavaWeb/JavaWeb%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86&AOP/1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-29</div><div class="title">JavaWeb Web事务管理&amp;AOP</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">299</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Java常见注解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-text">一、元注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E5%85%83%E6%B3%A8%E8%A7%A3"><span class="toc-text">1.1 元注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Retention"><span class="toc-text">@Retention</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Target"><span class="toc-text">@Target</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Documented"><span class="toc-text">@Documented</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Inherited"><span class="toc-text">@Inherited</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Repeatable"><span class="toc-text">@Repeatable</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Spring%E7%9B%B8%E5%85%B3%E6%B3%A8%E8%A7%A3"><span class="toc-text">二、Spring相关注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-SpringMVC%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.1 SpringMVC注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Mapper"><span class="toc-text">@Mapper</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Service"><span class="toc-text">@Service</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Repository"><span class="toc-text">@Repository</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Component"><span class="toc-text">@Component</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Controller"><span class="toc-text">@Controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ResponseBody"><span class="toc-text">@ResponseBody</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RestController"><span class="toc-text">@RestController</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-IOC%E5%AE%B9%E5%99%A8%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.2 IOC容器注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Bean"><span class="toc-text">@Bean</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Autowired"><span class="toc-text">@Autowired</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Resource"><span class="toc-text">@Resource</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Value"><span class="toc-text">@Value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Qualifier"><span class="toc-text">@Qualifier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Primary"><span class="toc-text">@Primary</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-Bean%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.3 Bean注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Scope"><span class="toc-text">@Scope</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PostConstruct"><span class="toc-text">@PostConstruct</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PreDestroy"><span class="toc-text">@PreDestroy</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-Spring%E5%90%AF%E5%8A%A8%E7%B1%BB%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.4 Spring启动类注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SpringBootApplication"><span class="toc-text">@SpringBootApplication</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E8%AF%B7%E6%B1%82Mapping%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.5 请求Mapping注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestMapping"><span class="toc-text">@RequestMapping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#GetMapping"><span class="toc-text">@GetMapping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PostMapping"><span class="toc-text">@PostMapping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PutMapping"><span class="toc-text">@PutMapping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DeleteMapping"><span class="toc-text">@DeleteMapping</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PatchMapping"><span class="toc-text">@PatchMapping</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E5%8A%A8%E6%80%81%E8%B5%8B%E5%80%BC%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.6 动态赋值注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PathVariable"><span class="toc-text">@PathVariable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestBody"><span class="toc-text">@RequestBody</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestParam"><span class="toc-text">@RequestParam</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-%E7%BC%93%E5%AD%98%E6%B3%A8%E8%A7%A3"><span class="toc-text">2.7 缓存注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#EnableCaching"><span class="toc-text">@EnableCaching</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cacheable"><span class="toc-text">@Cacheable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CacheEvict"><span class="toc-text">@CacheEvict</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81AOP%E5%88%87%E9%9D%A2%E6%B3%A8%E8%A7%A3"><span class="toc-text">三、AOP切面注解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-AOP%E5%88%87%E9%9D%A2%E6%B3%A8%E8%A7%A3"><span class="toc-text">3.1 AOP切面注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Aspect"><span class="toc-text">@Aspect</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pointcut"><span class="toc-text">@Pointcut</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Before"><span class="toc-text">@Before</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#After"><span class="toc-text">@After</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AfterReturning"><span class="toc-text">@AfterReturning</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AfterThrowing"><span class="toc-text">@AfterThrowing</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Around"><span class="toc-text">@Around</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/03/31/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" title="Java常见注解"><img src="/../image/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Java常见注解"/></a><div class="content"><a class="title" href="/2026/03/31/Java/JavaWeb/Java%E5%B8%B8%E8%A7%81%E6%B3%A8%E8%A7%A3/" title="Java常见注解">Java常见注解</a><time datetime="2026-03-31T02:00:00.000Z" title="发表于 2026-03-31 10:00:00">2026-03-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" title="Redis持久化"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Redis%E6%8C%81%E4%B9%85%E5%8C%96.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis持久化"/></a><div class="content"><a class="title" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E6%8C%81%E4%B9%85%E5%8C%96/" title="Redis持久化">Redis持久化</a><time datetime="2026-03-19T10:30:00.000Z" title="发表于 2026-03-19 18:30:00">2026-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E7%BC%93%E5%AD%98%E8%AF%BB%E5%86%99%E7%AD%96%E7%95%A5/" title="Redis缓存读写策略"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Redis%E7%BC%93%E5%AD%98%E8%AF%BB%E5%86%99%E7%AD%96%E7%95%A5.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis缓存读写策略"/></a><div class="content"><a class="title" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E7%BC%93%E5%AD%98%E8%AF%BB%E5%86%99%E7%AD%96%E7%95%A5/" title="Redis缓存读写策略">Redis缓存读写策略</a><time datetime="2026-03-19T10:10:00.000Z" title="发表于 2026-03-19 18:10:00">2026-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" title="Redis实现延时任务"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis实现延时任务"/></a><div class="content"><a class="title" href="/2026/03/19/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%AE%9E%E7%8E%B0%E5%BB%B6%E6%97%B6%E4%BB%BB%E5%8A%A1/" title="Redis实现延时任务">Redis实现延时任务</a><time datetime="2026-03-19T10:00:00.000Z" title="发表于 2026-03-19 18:00:00">2026-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/03/13/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Redis内存管理"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Redis内存管理"/></a><div class="content"><a class="title" href="/2026/03/13/Java/Java%E5%85%AB%E8%82%A1/Redis%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Redis内存管理">Redis内存管理</a><time datetime="2026-03-13T10:00:00.000Z" title="发表于 2026-03-13 18:00:00">2026-03-13</time></div></div></div></div></div></div></main><footer id="footer" style="background: transparent"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
