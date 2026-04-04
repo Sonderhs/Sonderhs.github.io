@@ -1,6 +1,6 @@
 #blog-ai-root {
   position: fixed;
-  right: 20px;
+  left: 20px;
   bottom: 90px;
   z-index: 9999;
   font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -20,7 +20,7 @@
 
 #blog-ai-panel {
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 66px;
   width: min(380px, calc(100vw - 24px));
   height: min(560px, calc(100vh - 150px));
@@ -129,12 +129,12 @@
 
 @media (max-width: 768px) {
   #blog-ai-root {
-    right: 12px;
+    left: 12px;
     bottom: 82px;
   }
 
   #blog-ai-panel {
-    right: 0;
+    left: 0;
     width: min(96vw, 380px);
     height: min(70vh, 540px);
   }
