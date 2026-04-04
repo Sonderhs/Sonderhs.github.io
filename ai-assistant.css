@@ -31,11 +31,33 @@
   box-shadow: 0 14px 42px rgba(0, 0, 0, 0.24);
   overflow: hidden;
   display: none;
+  z-index: 10000;
 }
 
 #blog-ai-panel.open {
   display: flex;
   flex-direction: column;
+}
+
+#blog-ai-root.live2d-trigger-mode #blog-ai-toggle {
+  display: none;
+}
+
+#blog-ai-root.strict-live2d-mode #blog-ai-toggle {
+  display: none;
+}
+
+#blog-ai-root.live2d-trigger-mode #blog-ai-panel {
+  bottom: 210px;
+}
+
+#blog-ai-root.live2d-anchor-mode #blog-ai-panel {
+  position: fixed;
+}
+
+#live2d-widget,
+#live2dcanvas {
+  z-index: 9000 !important;
 }
 
 #blog-ai-header {
@@ -137,5 +159,9 @@
     left: 0;
     width: min(96vw, 380px);
     height: min(70vh, 540px);
+  }
+
+  #blog-ai-root.live2d-trigger-mode #blog-ai-panel {
+    bottom: 160px;
   }
 }

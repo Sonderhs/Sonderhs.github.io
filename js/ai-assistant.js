@@ -81,6 +81,71 @@
     return base;
   }
 
+  function hasLive2DTrigger() {
+    return window.__BLOG_LIVE2D_CLICK_READY__ === true;
+  }
+
+  function syncTriggerMode(root) {
+    if (!root) return;
+    root.classList.add('strict-live2d-mode');
+    if (hasLive2DTrigger()) {
+      root.classList.add('live2d-trigger-mode');
+    } else {
+      root.classList.remove('live2d-trigger-mode');
+    }
+  }
+
+  function getLive2DRect() {
+    var host = document.getElementById('live2d-widget') || document.getElementById('live2dcanvas') || document.querySelector('#live2d-widget canvas');
+    if (!host) return null;
+    return host.getBoundingClientRect();
+  }
+
+  function placePanelNearLive2D() {
+    if (!hasLive2DTrigger()) return;
+
+    var root = document.getElementById('blog-ai-root');
+    var panel = document.getElementById('blog-ai-panel');
+    if (!root || !panel) return;
+
+    var rect = getLive2DRect();
+    if (!rect) return;
+
+    root.classList.add('live2d-anchor-mode');
+
+    var panelWidth = panel.offsetWidth || 380;
+    var panelHeight = panel.offsetHeight || 560;
+    var margin = 8;
+    var gap = 12;
+    var vw = window.innerWidth;
+    var vh = window.innerHeight;
+
+    var left = rect.right + gap;
+    if (left + panelWidth > vw - margin) {
+      left = rect.left - panelWidth - gap;
+    }
+    if (left < margin) {
+      left = Math.max(margin, vw - panelWidth - margin);
+    }
+
+    var top = rect.top - panelHeight - gap;
+    if (top < margin) {
+      top = rect.bottom + gap;
+    }
+    if (top + panelHeight > vh - margin) {
+      top = vh - panelHeight - margin;
+    }
+    if (top < margin) {
+      top = margin;
+    }
+
+    panel.style.position = 'fixed';
+    panel.style.left = Math.round(left) + 'px';
+    panel.style.top = Math.round(top) + 'px';
+    panel.style.right = 'auto';
+    panel.style.bottom = 'auto';
+  }
+
   async function requestAssistantReply(userText, onChunk) {
     var state = getState();
     var controller = new AbortController();
@@ -173,13 +238,47 @@
     if (toggleBtn) {
       toggleBtn.addEventListener('click', function () {
         state.open = !state.open;
+        if (state.open) {
+          document.dispatchEvent(new CustomEvent('blog-ai:opened'));
+        } else {
+          document.dispatchEvent(new CustomEvent('blog-ai:closed'));
+        }
         renderMessages();
       });
     }
 
+    document.addEventListener('blog-ai:open', function () {
+      state.open = true;
+      document.dispatchEvent(new CustomEvent('blog-ai:opened'));
+      placePanelNearLive2D();
+      renderMessages();
+    });
+
+    document.addEventListener('blog-ai:toggle', function () {
+      state.open = !state.open;
+      if (state.open) {
+        document.dispatchEvent(new CustomEvent('blog-ai:opened'));
+        placePanelNearLive2D();
+      } else {
+        document.dispatchEvent(new CustomEvent('blog-ai:closed'));
+      }
+      renderMessages();
+    });
+
+    document.addEventListener('blog-live2d-ready', function () {
+      syncTriggerMode(root);
+      placePanelNearLive2D();
+      renderMessages();
+    });
+
+    document.addEventListener('blog-live2d-moved', function () {
+      placePanelNearLive2D();
+    });
+
     if (closeBtn) {
       closeBtn.addEventListener('click', function () {
         state.open = false;
+        document.dispatchEvent(new CustomEvent('blog-ai:closed'));
         renderMessages();
       });
     }
@@ -231,11 +330,22 @@
       });
     }
 
+    syncTriggerMode(root);
+    placePanelNearLive2D();
+
+    if (window.MutationObserver) {
+      var observer = new MutationObserver(function () {
+        syncTriggerMode(root);
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
+
     root.dataset.bound = '1';
   }
 
   function init() {
     bindEventsOnce();
+    placePanelNearLive2D();
     renderMessages();
   }
 
