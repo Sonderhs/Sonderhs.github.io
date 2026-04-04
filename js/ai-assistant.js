@@ -81,7 +81,7 @@
     return base;
   }
 
-  async function requestAssistantReply(userText) {
+  async function requestAssistantReply(userText, onChunk) {
     var state = getState();
     var controller = new AbortController();
     var timeoutId = setTimeout(function () {
@@ -95,7 +95,8 @@
           url: window.location.href,
           title: document.title
         },
-        input: userText
+        input: userText,
+        stream: true
       };
 
       var response = await fetch(CONFIG.endpoint, {
@@ -119,9 +120,41 @@
         throw new Error(errorText);
       }
 
-      var data = await response.json();
-      if (data && data.reply) return data.reply;
-      throw new Error('返回格式异常');
+      if (!response.body) {
+        var fallback = await response.json();
+        if (fallback && fallback.reply) {
+          if (onChunk) onChunk(fallback.reply);
+          return fallback.reply;
+        }
+        throw new Error('返回格式异常');
+      }
+
+      var reader = response.body.getReader();
+      var decoder = new TextDecoder();
+      var fullText = '';
+
+      while (true) {
+        var part = await reader.read();
+        if (part.done) break;
+
+        var chunkText = decoder.decode(part.value, { stream: true });
+        if (!chunkText) continue;
+
+        fullText += chunkText;
+        if (onChunk) onChunk(chunkText);
+      }
+
+      var tail = decoder.decode();
+      if (tail) {
+        fullText += tail;
+        if (onChunk) onChunk(tail);
+      }
+
+      if (!fullText.trim()) {
+        throw new Error('模型返回为空');
+      }
+
+      return fullText;
     } finally {
       clearTimeout(timeoutId);
     }
@@ -172,12 +205,21 @@
         inputEl.value = '';
         state.sending = true;
         state.open = true;
+        var assistantMsg = { role: 'assistant', content: '' };
+        state.messages.push(assistantMsg);
         renderMessages();
 
         try {
-          var reply = await requestAssistantReply(text);
-          state.messages.push({ role: 'assistant', content: reply });
+          var reply = await requestAssistantReply(text, function (chunk) {
+            assistantMsg.content += chunk;
+            renderMessages();
+          });
+
+          if (!assistantMsg.content) {
+            assistantMsg.content = reply;
+          }
         } catch (err) {
+          state.messages.pop();
           state.messages.push({
             role: 'system',
             content: (err && err.message) ? ('AI 服务暂不可用：' + err.message) : 'AI 服务暂不可用，请稍后重试。'
