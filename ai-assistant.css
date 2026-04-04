@@ -1,0 +1,141 @@
+#blog-ai-root {
+  position: fixed;
+  right: 20px;
+  bottom: 90px;
+  z-index: 9999;
+  font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+#blog-ai-toggle {
+  width: 54px;
+  height: 54px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f766e, #0ea5e9);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgba(2, 132, 199, 0.35);
+  font-size: 24px;
+}
+
+#blog-ai-panel {
+  position: absolute;
+  right: 0;
+  bottom: 66px;
+  width: min(380px, calc(100vw - 24px));
+  height: min(560px, calc(100vh - 150px));
+  background: var(--card-bg);
+  color: var(--font-color);
+  border: 1px solid rgba(120, 120, 120, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.24);
+  overflow: hidden;
+  display: none;
+}
+
+#blog-ai-panel.open {
+  display: flex;
+  flex-direction: column;
+}
+
+#blog-ai-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(110deg, rgba(15, 118, 110, 0.12), rgba(14, 165, 233, 0.12));
+  border-bottom: 1px solid rgba(120, 120, 120, 0.22);
+  font-weight: 600;
+}
+
+#blog-ai-close {
+  border: 0;
+  background: transparent;
+  color: var(--font-color);
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+}
+
+#blog-ai-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.blog-ai-msg {
+  max-width: 92%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 14px;
+}
+
+.blog-ai-user {
+  align-self: flex-end;
+  background: rgba(14, 165, 233, 0.18);
+}
+
+.blog-ai-assistant {
+  align-self: flex-start;
+  background: rgba(15, 118, 110, 0.14);
+}
+
+.blog-ai-system {
+  align-self: center;
+  background: rgba(125, 125, 125, 0.15);
+  font-size: 13px;
+}
+
+#blog-ai-form {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid rgba(120, 120, 120, 0.2);
+}
+
+#blog-ai-input {
+  resize: none;
+  border: 1px solid rgba(120, 120, 120, 0.4);
+  border-radius: 10px;
+  min-height: 44px;
+  max-height: 120px;
+  padding: 8px 10px;
+  font-size: 14px;
+  background: var(--card-bg);
+  color: var(--font-color);
+}
+
+#blog-ai-send {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 14px;
+  background: #0ea5e9;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#blog-ai-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  #blog-ai-root {
+    right: 12px;
+    bottom: 82px;
+  }
+
+  #blog-ai-panel {
+    right: 0;
+    width: min(96vw, 380px);
+    height: min(70vh, 540px);
+  }
+}
