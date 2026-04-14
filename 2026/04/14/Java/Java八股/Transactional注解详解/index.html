@@ -1,0 +1,482 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Transactional注解详解 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="Transactional注解详解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transactional注解详解">
+<meta property="og:url" content="http://example.com/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="Transactional注解详解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3.JPG">
+<meta property="article:published_time" content="2026-04-14T07:20:00.000Z">
+<meta property="article:modified_time" content="2026-04-14T08:26:24.806Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java八股">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3.JPG"><link rel="shortcut icon" href="/../image/BlogCover/sakura.PNG"><link rel="canonical" href="http://example.com/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Transactional注解详解',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-04-14 16:26:24'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">327</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/sakura.PNG"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Transactional注解详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-14T07:20:00.000Z" title="发表于 2026-04-14 15:20:00">2026-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-14T08:26:24.806Z" title="更新于 2026-04-14 16:26:24">2026-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java%E5%85%AB%E8%82%A1/">Java八股</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">927</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Transactional注解详解</h1>
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#intro">一、什么是 <code>@Transaction(al)</code> 注解</a></li>
+<li><a href="#scope">二、作用范围</a></li>
+<li><a href="#principle">三、底层原理（面试重点）</a></li>
+<li><a href="#properties">四、核心属性（高频面试）🔥</a></li>
+<li><a href="#issues">五、常见坑（面试杀手）⚠️</a></li>
+<li><a href="#flow">六、执行流程总结（必背）</a></li>
+<li><a href="#summary">七、面试总结（高频八股）</a></li>
+</ul>
+<h2 id="a-id-intro-a-一、什么是-Transaction-al-注解"><a id="intro"></a>一、什么是 <code>@Transaction(al)</code> 注解</h2>
+<p>在 Spring Framework 中，<code>@Transactional</code> 是用于<strong>声明式事务管理</strong>的核心注解。</p>
+<p>👉 本质作用：</p>
+<blockquote>
+<p><strong>让方法在执行时自动具备事务能力（开启事务 → 执行 → 提交 / 回滚）</strong></p>
+</blockquote>
+<p><strong>一个直观例子</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Transactional</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">transfer</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="comment">// 1. 扣钱</span></span><br><span class="line">        <span class="comment">// 2. 加钱</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行逻辑：</p>
+<ol>
+<li>开启事务</li>
+<li>执行 <code>transfer()</code></li>
+<li>如果正常 → 提交事务 ✅</li>
+<li>如果抛异常 → 回滚事务 ❌</li>
+</ol>
+<hr>
+<h2 id="a-id-scope-a-二、作用范围"><a id="scope"></a>二、作用范围</h2>
+<p><code>@Transactional</code> 可以作用于：</p>
+<ul>
+<li>方法：推荐将注解使用于方法上，不过需要注意的是：该注解只能应用到public方法上，否则不生效</li>
+<li>类：作用于类上时，表示该类的所有 public 方法都具有事务功能</li>
+<li>接口：不推荐，接口上的注解不会被实现类继承</li>
+</ul>
+<hr>
+<h2 id="a-id-principle-a-三、底层原理（面试重点）"><a id="principle"></a>三、底层原理（面试重点）</h2>
+<h3 id="3-1-核心机制：AOP">3.1 核心机制：AOP</h3>
+<p><code>@Transactional</code> 是基于 <strong>Spring AOP</strong> 实现的。</p>
+<p>👉 执行流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">调用方法 → 进入代理对象 → 开启事务 → 调用目标方法 → 提交/回滚 → 返回</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-事务管理器（TransactionManager）">3.2 事务管理器（TransactionManager）</h3>
+<p>Spring 会根据配置选择不同实现：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DataSourceTransactionManager</code></td>
+<td>JDBC</td>
+</tr>
+<tr>
+<td><code>JpaTransactionManager</code></td>
+<td>JPA</td>
+</tr>
+<tr>
+<td><code>HibernateTransactionManager</code></td>
+<td>Hibernate</td>
+</tr>
+</tbody>
+</table>
+<p>👉 本质：</p>
+<blockquote>
+<p><strong>事务管理器 = 真正控制提交 / 回滚的人</strong></p>
+</blockquote>
+<h3 id="3-3-为什么必须是-public-方法？">3.3 为什么必须是 public 方法？</h3>
+<p>👉 因为 Spring AOP 默认使用 <strong>动态代理</strong></p>
+<ul>
+<li>JDK 动态代理 → 只代理接口方法</li>
+<li>CGLIB → 代理类，但仍有限制</li>
+</ul>
+<p>📌 结论：</p>
+<blockquote>
+<p><strong>非 public 方法不会被代理 → 事务失效</strong></p>
+</blockquote>
+<hr>
+<h2 id="a-id-properties-a-四、核心属性（高频面试）🔥"><a id="properties"></a>四、核心属性（高频面试）🔥</h2>
+<h3 id="4-1-propagation（传播行为）">4.1 propagation（传播行为）</h3>
+<p>控制<strong>事务如何传播</strong></p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>REQUIRED（默认）</td>
+<td>有就用，没有就新建</td>
+</tr>
+<tr>
+<td>REQUIRES_NEW</td>
+<td>新开事务，挂起旧事务</td>
+</tr>
+<tr>
+<td>SUPPORTS</td>
+<td>有就用，没有就不用</td>
+</tr>
+<tr>
+<td>NOT_SUPPORTED</td>
+<td>强制非事务执行</td>
+</tr>
+<tr>
+<td>MANDATORY</td>
+<td>必须有事务</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>必须没有事务</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-2-isolation（隔离级别）">4.2 isolation（隔离级别）</h3>
+<p>对应数据库事务隔离级别：</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>READ_UNCOMMITTED</td>
+<td>脏读</td>
+</tr>
+<tr>
+<td>READ_COMMITTED</td>
+<td>不可重复读</td>
+</tr>
+<tr>
+<td>REPEATABLE_READ</td>
+<td>幻读</td>
+</tr>
+<tr>
+<td>SERIALIZABLE</td>
+<td>最严格</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-3-rollbackFor（回滚规则）">4.3 rollbackFor（回滚规则）</h3>
+<p>默认：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">只对 RuntimeException 回滚</span><br></pre></td></tr></table></figure>
+<p>👉 自定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional(rollbackFor = Exception.class)</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-4-timeout-readOnly">4.4 timeout / readOnly</h3>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>timeout</td>
+<td>超时自动回滚</td>
+</tr>
+<tr>
+<td>readOnly</td>
+<td>只读优化（提高性能）</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="a-id-issues-a-五、常见坑（面试杀手）⚠️"><a id="issues"></a>五、常见坑（面试杀手）⚠️</h2>
+<h3 id="❌-1-同类方法调用失效">❌ 1. 同类方法调用失效</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">A</span><span class="params">()</span> &#123;</span><br><span class="line">    B(); <span class="comment">// ❌ 事务不会生效</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">B</span><span class="params">()</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>👉 原因：</p>
+<blockquote>
+<p>没走代理对象（this调用）</p>
+</blockquote>
+<h3 id="❌-2-捕获异常不抛出">❌ 2. 捕获异常不抛出</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span> / <span class="number">0</span>;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        <span class="comment">// ❌ 吞掉异常，不回滚</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>👉 解决：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">throw</span> e;</span><br></pre></td></tr></table></figure>
+<h3 id="❌-3-非-public-方法">❌ 3. 非 public 方法</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">test</span><span class="params">()</span> &#123;&#125; <span class="comment">// ❌ 无效</span></span><br></pre></td></tr></table></figure>
+<h3 id="❌-4-数据库不支持事务">❌ 4. 数据库不支持事务</h3>
+<p>比如：</p>
+<ul>
+<li>MyISAM ❌（不支持事务）</li>
+<li>InnoDB ✅</li>
+</ul>
+<hr>
+<h2 id="a-id-flow-a-六、执行流程总结（必背）"><a id="flow"></a>六、执行流程总结（必背）</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Transactional 方法调用</span><br><span class="line">        ↓</span><br><span class="line">进入 AOP 代理</span><br><span class="line">        ↓</span><br><span class="line">事务管理器开启事务</span><br><span class="line">        ↓</span><br><span class="line">执行目标方法</span><br><span class="line">        ↓</span><br><span class="line">是否异常？</span><br><span class="line">   ↓         ↓</span><br><span class="line">正常      异常</span><br><span class="line"> ↓          ↓</span><br><span class="line">提交事务   回滚事务</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="a-id-summary-a-七、面试总结（高频八股）"><a id="summary"></a>七、面试总结（高频八股）</h2>
+<h3 id="⭐-核心一句话">⭐ 核心一句话</h3>
+<blockquote>
+<p><code>@Transactional</code> 是 Spring 基于 AOP 实现的声明式事务管理，通过事务管理器控制事务的开启、提交和回滚。</p>
+</blockquote>
+<h3 id="⭐-高频面试问题">⭐ 高频面试问题</h3>
+<h4 id="Transactional-为什么会失效？">@Transactional 为什么会失效？</h4>
+<ul>
+<li>方法不是 public</li>
+<li>同类调用（未走代理）</li>
+<li>异常被吞</li>
+<li>数据库不支持事务</li>
+</ul>
+<h4 id="Spring-事务是如何实现的？">Spring 事务是如何实现的？</h4>
+<p>👉 回答模板：</p>
+<blockquote>
+<p>Spring 通过 AOP 为目标方法创建代理，在方法执行前开启事务，执行后根据是否发生异常决定提交或回滚。</p>
+</blockquote>
+<h4 id="事务传播行为最常用的是哪个？">事务传播行为最常用的是哪个？</h4>
+<p>👉 REQUIRED（默认）</p>
+<h4 id="rollbackFor-为什么重要？">rollbackFor 为什么重要？</h4>
+<p>👉 因为默认只回滚 RuntimeException</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%85%AB%E8%82%A1/">Java八股</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Spring%E4%BA%8B%E5%8A%A1/" title="Spring事务"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/Spring%E4%BA%8B%E5%8A%A1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Spring事务</div></div></a></div><div class="next-post pull-right"><a href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/@Autowored%20vs%20@Resource/" title="注解 @Autowored vs @Resource"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E6%B3%A8%E8%A7%A3%20@Autowored%20vs%20@Resource.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">注解 @Autowored vs @Resource</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"><img class="cover" src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent三大范式详解：ReAct、Plan-and-Execute、Reflection</div></div></a></div><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解"><img class="cover" src="/../image/Java/Agent/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent架构详解</div></div></a></div><div><a href="/2025/11/26/Java/Java%E5%85%AB%E8%82%A1/AQS%E8%AF%A6%E8%A7%A3/" title="AQS（AbstractQueuedSynchronizer）详解"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/AQS%EF%BC%88AbstractQueuedSynchronizer%EF%BC%89%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-26</div><div class="title">AQS（AbstractQueuedSynchronizer）详解</div></div></a></div><div><a href="/2025/10/27/Java/Java%E5%85%AB%E8%82%A1/Array%E3%80%81ArrayList%E5%92%8CLinkedList/" title="Array、ArrayList和LinkedList"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/Array%E3%80%81ArrayList%E5%92%8CLinkedList.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-27</div><div class="title">Array、ArrayList和LinkedList</div></div></a></div><div><a href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/@Autowored%20vs%20@Resource/" title="注解 @Autowored vs @Resource"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E6%B3%A8%E8%A7%A3%20@Autowored%20vs%20@Resource.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">注解 @Autowored vs @Resource</div></div></a></div><div><a href="/2026/02/10/Java/Java%E5%85%AB%E8%82%A1/BigDecimal/" title="BigDecimal"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/BigDecimal.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-02-10</div><div class="title">BigDecimal</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">327</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">15</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Transactional注解详解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-intro-a-%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-Transaction-al-%E6%B3%A8%E8%A7%A3"><span class="toc-text">一、什么是 @Transaction(al) 注解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-scope-a-%E4%BA%8C%E3%80%81%E4%BD%9C%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="toc-text">二、作用范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-principle-a-%E4%B8%89%E3%80%81%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%88%E9%9D%A2%E8%AF%95%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">三、底层原理（面试重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%EF%BC%9AAOP"><span class="toc-text">3.1 核心机制：AOP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88TransactionManager%EF%BC%89"><span class="toc-text">3.2 事务管理器（TransactionManager）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%85%E9%A1%BB%E6%98%AF-public-%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="toc-text">3.3 为什么必须是 public 方法？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-properties-a-%E5%9B%9B%E3%80%81%E6%A0%B8%E5%BF%83%E5%B1%9E%E6%80%A7%EF%BC%88%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%EF%BC%89%F0%9F%94%A5"><span class="toc-text">四、核心属性（高频面试）🔥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-propagation%EF%BC%88%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA%EF%BC%89"><span class="toc-text">4.1 propagation（传播行为）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-isolation%EF%BC%88%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%EF%BC%89"><span class="toc-text">4.2 isolation（隔离级别）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-rollbackFor%EF%BC%88%E5%9B%9E%E6%BB%9A%E8%A7%84%E5%88%99%EF%BC%89"><span class="toc-text">4.3 rollbackFor（回滚规则）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-timeout-readOnly"><span class="toc-text">4.4 timeout &#x2F; readOnly</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-issues-a-%E4%BA%94%E3%80%81%E5%B8%B8%E8%A7%81%E5%9D%91%EF%BC%88%E9%9D%A2%E8%AF%95%E6%9D%80%E6%89%8B%EF%BC%89%E2%9A%A0%EF%B8%8F"><span class="toc-text">五、常见坑（面试杀手）⚠️</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-1-%E5%90%8C%E7%B1%BB%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%A4%B1%E6%95%88"><span class="toc-text">❌ 1. 同类方法调用失效</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-2-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8%E4%B8%8D%E6%8A%9B%E5%87%BA"><span class="toc-text">❌ 2. 捕获异常不抛出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-3-%E9%9D%9E-public-%E6%96%B9%E6%B3%95"><span class="toc-text">❌ 3. 非 public 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%9D%8C-4-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8D%E6%94%AF%E6%8C%81%E4%BA%8B%E5%8A%A1"><span class="toc-text">❌ 4. 数据库不支持事务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-flow-a-%E5%85%AD%E3%80%81%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93%EF%BC%88%E5%BF%85%E8%83%8C%EF%BC%89"><span class="toc-text">六、执行流程总结（必背）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-summary-a-%E4%B8%83%E3%80%81%E9%9D%A2%E8%AF%95%E6%80%BB%E7%BB%93%EF%BC%88%E9%AB%98%E9%A2%91%E5%85%AB%E8%82%A1%EF%BC%89"><span class="toc-text">七、面试总结（高频八股）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%90-%E6%A0%B8%E5%BF%83%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="toc-text">⭐ 核心一句话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%AD%90-%E9%AB%98%E9%A2%91%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98"><span class="toc-text">⭐ 高频面试问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Transactional-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%A4%B1%E6%95%88%EF%BC%9F"><span class="toc-text">@Transactional 为什么会失效？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Spring-%E4%BA%8B%E5%8A%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="toc-text">Spring 事务是如何实现的？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E8%A1%8C%E4%B8%BA%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%E6%98%AF%E5%93%AA%E4%B8%AA%EF%BC%9F"><span class="toc-text">事务传播行为最常用的是哪个？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rollbackFor-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%EF%BC%9F"><span class="toc-text">rollbackFor 为什么重要？</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解"><img src="/../image/Java/Agent/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent架构详解"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解">Agent架构详解</a><time datetime="2026-04-14T11:20:00.000Z" title="发表于 2026-04-14 19:20:00">2026-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"><img src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection">Agent三大范式详解：ReAct、Plan-and-Execute、Reflection</a><time datetime="2026-04-14T10:20:00.000Z" title="发表于 2026-04-14 18:20:00">2026-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Spring%E4%BA%8B%E5%8A%A1/" title="Spring事务"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Spring%E4%BA%8B%E5%8A%A1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Spring事务"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Spring%E4%BA%8B%E5%8A%A1/" title="Spring事务">Spring事务</a><time datetime="2026-04-14T07:20:00.000Z" title="发表于 2026-04-14 15:20:00">2026-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/" title="Transactional注解详解"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Transactional注解详解"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/Transactional%E6%B3%A8%E8%A7%A3%E8%AF%A6%E8%A7%A3/" title="Transactional注解详解">Transactional注解详解</a><time datetime="2026-04-14T07:20:00.000Z" title="发表于 2026-04-14 15:20:00">2026-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/@Autowored%20vs%20@Resource/" title="注解 @Autowored vs @Resource"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E6%B3%A8%E8%A7%A3%20@Autowored%20vs%20@Resource.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="注解 @Autowored vs @Resource"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Java%E5%85%AB%E8%82%A1/@Autowored%20vs%20@Resource/" title="注解 @Autowored vs @Resource">注解 @Autowored vs @Resource</a><time datetime="2026-04-14T04:15:00.000Z" title="发表于 2026-04-14 12:15:00">2026-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
