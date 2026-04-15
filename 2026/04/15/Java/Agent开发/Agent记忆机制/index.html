@@ -1,0 +1,676 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Agent记忆机制 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要介绍了Agent的记忆机制，包括感知记忆、短期记忆、长期记忆和实体记忆四大类，以及它们在不同Agent范式中的作用和工程实现中的设计要点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Agent记忆机制">
+<meta property="og:url" content="http://example.com/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="本文主要介绍了Agent的记忆机制，包括感知记忆、短期记忆、长期记忆和实体记忆四大类，以及它们在不同Agent范式中的作用和工程实现中的设计要点。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6.JPG">
+<meta property="article:published_time" content="2026-04-15T05:59:00.000Z">
+<meta property="article:modified_time" content="2026-04-15T15:44:20.556Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="Java八股">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6.JPG"><link rel="shortcut icon" href="/../image/BlogCover/sakura.PNG"><link rel="canonical" href="http://example.com/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Agent记忆机制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-04-15 23:44:20'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">330</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/sakura.PNG"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Agent记忆机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-15T05:59:00.000Z" title="发表于 2026-04-15 13:59:00">2026-04-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-15T15:44:20.556Z" title="更新于 2026-04-15 23:44:20">2026-04-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Agent/">Agent</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.9k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Agent记忆机制</h1>
+<h2 id="目录">目录</h2>
+<ul>
+<li><a href="#intro">一、Agent 为什么需要记忆？</a></li>
+<li><a href="#memory-types">二、Agent 记忆的核心分类</a></li>
+<li><a href="#memory-process">三、Agent 记忆的核心流程（重点）</a></li>
+<li><a href="#memory-paradig">四、不同 Agent 范式中的记忆作用</a></li>
+<li><a href="#memory-implementation">五、工程实现常见方案</a></li>
+<li><a href="#memory-design">六、实际设计记忆模块的三个核心问题</a></li>
+<li><a href="#interview-answer">七、面试标准回答</a></li>
+</ul>
+<hr>
+<h2 id="a-id-intro-a-一、Agent-为什么需要记忆？"><a id="intro"></a>一、Agent 为什么需要记忆？</h2>
+<p>普通 LLM：</p>
+<ul>
+<li>❌ 无状态（stateless）</li>
+<li>❌ 每次请求都是“失忆”的</li>
+</ul>
+<p>Agent：</p>
+<ul>
+<li>✅ 能持续执行任务</li>
+<li>✅ 能基于历史做决策</li>
+<li>✅ 能个性化响应</li>
+</ul>
+<p>👉 本质问题：</p>
+<blockquote>
+<p>如何跨多轮推理保存和利用信息？</p>
+</blockquote>
+<hr>
+<h2 id="a-id-memory-types-a-二、Agent-记忆的核心分类"><a id="memory-types"></a>二、Agent 记忆的核心分类</h2>
+<h3 id="2-1-感知记忆（Sensory-Memory）">2.1 感知记忆（Sensory Memory）</h3>
+<p><strong>本质：存储Agent从环境中感知到的原始信息</strong></p>
+<p><strong>存什么</strong></p>
+<ul>
+<li>用户输入文本</li>
+<li>图片内容（多模态）</li>
+<li>工具返回结果</li>
+<li>当前环境状态</li>
+</ul>
+<p><strong>特点</strong></p>
+<ul>
+<li>✅ 原始数据（未抽象）</li>
+<li>✅ 时间敏感（很快过期）</li>
+<li>❌ 不结构化</li>
+</ul>
+<h3 id="2-2-短期记忆（Short-Term-Memory）">2.2 短期记忆（Short-Term Memory）</h3>
+<p><strong>本质：上下文窗口（Context Window）</strong></p>
+<ul>
+<li>存储在 Prompt 中</li>
+<li>通常是最近几轮对话</li>
+<li>直接参与当前推理</li>
+</ul>
+<p><strong>特点</strong></p>
+<ul>
+<li>✅ 访问速度快</li>
+<li>❌ 容量有限（token 限制）</li>
+<li>❌ 会被截断</li>
+</ul>
+<p><strong>示例</strong></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">User: 帮我写一个Java接口</span><br><span class="line">Agent: ...</span><br><span class="line">User: 再加一个异常处理</span><br></pre></td></tr></table></figure>
+<p>👉 第二句话依赖第一句话 → 短期记忆</p>
+<h3 id="2-3-长期记忆（Long-Term-Memory）">2.3 长期记忆（Long-Term Memory）</h3>
+<p><strong>本质：外部存储 + 检索机制（RAG）</strong></p>
+<p><strong>常见实现：</strong></p>
+<ol>
+<li>向量数据库（最主流）</li>
+</ol>
+<ul>
+<li>存储：embedding</li>
+<li>检索：相似度搜索</li>
+</ul>
+<p>常见组件：</p>
+<ul>
+<li>FAISS</li>
+<li>Milvus</li>
+<li>Pinecone</li>
+</ul>
+<ol start="2">
+<li>结构化存储</li>
+</ol>
+<ul>
+<li>Redis / MySQL</li>
+<li>Key-Value 形式</li>
+</ul>
+<p><strong>特点</strong></p>
+<ul>
+<li>✅ 可扩展</li>
+<li>✅ 持久化</li>
+<li>❌ 需要检索步骤（有延迟）</li>
+</ul>
+<p>长期记忆还可以细分为：</p>
+<ul>
+<li>情节记忆：存的是具体的事件经历</li>
+<li>语义记忆：存的是从多次经历中提炼出来的通用知识和规律</li>
+<li>程序记忆：存的是怎么做某件事的操作流程</li>
+</ul>
+<h3 id="2-4-实体记忆（Entity-Memory）">2.4 实体记忆（Entity Memory）</h3>
+<p><strong>本质：从感知信息中抽取出的对象及其属性</strong></p>
+<p><strong>存什么</strong><br>
+例如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;user&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;张三&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;weather&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;location&quot;</span><span class="punctuation">:</span> <span class="string">&quot;北京&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;temperature&quot;</span><span class="punctuation">:</span> <span class="string">&quot;25°C&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><strong>特点</strong></p>
+<ul>
+<li>✅ 结构化（JSON/Graph）</li>
+<li>✅ 可长期保存</li>
+<li>✅ 可更新</li>
+<li>✅ 可推理</li>
+</ul>
+<h3 id="2-5-四种记忆对比">2.5 四种记忆对比</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>载体</th>
+<th>容量</th>
+<th>生命周期</th>
+<th>访问方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>感知记忆</td>
+<td>当次输入</td>
+<td>极小</td>
+<td>单次调用</td>
+<td>即时访问</td>
+</tr>
+<tr>
+<td>短期记忆</td>
+<td>context window</td>
+<td>受token限制</td>
+<td>当前对话</td>
+<td>直接访问</td>
+</tr>
+<tr>
+<td>长期记忆</td>
+<td>向量/关系数据库</td>
+<td>无限</td>
+<td>持久</td>
+<td>语义检索</td>
+</tr>
+<tr>
+<td>实体记忆</td>
+<td>结构化数据</td>
+<td>无限</td>
+<td>持久</td>
+<td>精确查询</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="a-id-memory-process-a-三、Agent-记忆的核心流程（重点）"><a id="memory-process"></a>三、Agent 记忆的核心流程（重点）</h2>
+<p>标准流程：</p>
+<h3 id="3-1-写入（Write）">3.1 写入（Write）</h3>
+<ul>
+<li>用户输入</li>
+<li>Agent 输出</li>
+<li>关键信息抽取</li>
+</ul>
+<h3 id="3-2-存储（Store）">3.2 存储（Store）</h3>
+<ul>
+<li>向量化（embedding）</li>
+<li>存入 DB</li>
+</ul>
+<h3 id="3-3-检索（Retrieve）">3.3 检索（Retrieve）</h3>
+<ul>
+<li>当前 query → embedding</li>
+<li>相似度匹配历史信息</li>
+</ul>
+<h3 id="3-4-注入（Inject）">3.4 注入（Inject）</h3>
+<ul>
+<li>拼接到 prompt 中</li>
+</ul>
+<h3 id="3-5-推理（Reason）">3.5 推理（Reason）</h3>
+<ul>
+<li>LLM 基于“记忆 + 当前输入”生成结果</li>
+</ul>
+<p>👉 可以总结为一句话：</p>
+<blockquote>
+<p><strong>Memory = 存 + 找 + 用</strong></p>
+</blockquote>
+<hr>
+<h2 id="a-id-memory-paradig-a-四、不同-Agent-范式中的记忆作用"><a id="memory-paradig"></a>四、不同 Agent 范式中的记忆作用</h2>
+<h3 id="4-1-ReAct">4.1 ReAct</h3>
+<ul>
+<li>
+<p>记忆内容：</p>
+<ul>
+<li>Thought / Action / Observation</li>
+</ul>
+</li>
+<li>
+<p>用途：</p>
+<ul>
+<li>形成推理链（chain of thought）</li>
+</ul>
+</li>
+</ul>
+<p>👉 更像“工作记忆”</p>
+<h3 id="4-2-Plan-and-Execute">4.2 Plan-and-Execute</h3>
+<ul>
+<li>
+<p>记忆内容：</p>
+<ul>
+<li>任务计划（Plan）</li>
+<li>子任务状态</li>
+</ul>
+</li>
+</ul>
+<p>👉 类似“任务状态机”</p>
+<h3 id="4-3-Reflection-Reflexion">4.3 Reflection / Reflexion</h3>
+<ul>
+<li>
+<p>记忆内容：</p>
+<ul>
+<li>错误记录</li>
+<li>自我反馈</li>
+</ul>
+</li>
+</ul>
+<p>👉 关键能力：</p>
+<blockquote>
+<p><strong>从失败中学习</strong></p>
+</blockquote>
+<hr>
+<h2 id="a-id-memory-implementation-a-五、工程实现常见方案"><a id="memory-implementation"></a>五、工程实现常见方案</h2>
+<h3 id="5-1-LangChain-Memory（经典）">5.1 LangChain Memory（经典）</h3>
+<ul>
+<li>ConversationBufferMemory</li>
+<li>ConversationSummaryMemory</li>
+<li>VectorStoreRetrieverMemory</li>
+</ul>
+<h3 id="5-2-RAG-Memory-融合">5.2 RAG + Memory 融合</h3>
+<p>结构：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">User Query</span><br><span class="line">   ↓</span><br><span class="line">Memory Retrieval</span><br><span class="line">   ↓</span><br><span class="line">RAG Retrieval</span><br><span class="line">   ↓</span><br><span class="line">Prompt 拼接</span><br><span class="line">   ↓</span><br><span class="line">LLM</span><br></pre></td></tr></table></figure>
+<h3 id="5-3-Memory-压缩（很重要）">5.3 Memory 压缩（很重要）</h3>
+<p>因为上下文有限，需要：</p>
+<ul>
+<li>Summarization（摘要）</li>
+<li>Sliding Window（滑动窗口）</li>
+<li>重要性筛选（importance scoring）</li>
+</ul>
+<hr>
+<h2 id="a-id-memory-design-a-六、实际设计记忆模块的三个核心问题"><a id="memory-design"></a>六、实际设计记忆模块的三个核心问题</h2>
+<h3 id="6-1-记什么（What-to-store）——信息筛选问题">6.1 记什么（What to store）——信息筛选问题</h3>
+<h4 id="本质">本质</h4>
+<blockquote>
+<p><strong>不是所有信息都值得记</strong></p>
+</blockquote>
+<h4 id="为什么是问题？">为什么是问题？</h4>
+<ul>
+<li>Token 和存储资源有限</li>
+<li>噪声会干扰推理</li>
+<li>无关信息降低检索质量</li>
+</ul>
+<h4 id="需要做的决策">需要做的决策</h4>
+<ol>
+<li>哪些信息重要？</li>
+</ol>
+<ul>
+<li>用户偏好（长期）</li>
+<li>任务关键信息</li>
+<li>错误 / 反馈（Reflection）</li>
+</ul>
+<ol start="2">
+<li>哪些可以丢？</li>
+</ol>
+<ul>
+<li>闲聊</li>
+<li>重复信息</li>
+<li>无关上下文</li>
+</ul>
+<h4 id="常见策略">常见策略</h4>
+<ul>
+<li>规则过滤（Rule-based）</li>
+<li>LLM 判断（importance scoring）</li>
+<li>摘要压缩（Summarization）</li>
+</ul>
+<h4 id="总结">总结</h4>
+<blockquote>
+<p>值得存的有三种：用户偏好和习惯、任务执行中产生的关键结论和决策、以及外部知识</p>
+<p>不值得存的：中间推理过程、工具返回的原始数据、闲聊内容</p>
+</blockquote>
+<h3 id="6-2-怎么存（How-to-store）——数据结构问题">6.2 怎么存（How to store）——数据结构问题</h3>
+<h4 id="本质-2">本质</h4>
+<blockquote>
+<p><strong>用什么结构存，决定了你能不能高效用</strong></p>
+</blockquote>
+<h4 id="常见方案">常见方案</h4>
+<ol>
+<li>向量存储（最主流）</li>
+</ol>
+<ul>
+<li>embedding + 相似度检索</li>
+<li>适合语义匹配</li>
+</ul>
+<ol start="2">
+<li>KV 存储</li>
+</ol>
+<ul>
+<li>key: 用户ID / 任务ID</li>
+<li>value: JSON</li>
+</ul>
+<p>👉 适合：</p>
+<ul>
+<li>用户信息</li>
+<li>状态信息</li>
+</ul>
+<ol start="3">
+<li>图结构（高级玩法）</li>
+</ol>
+<ul>
+<li>Knowledge Graph</li>
+<li>Entity Memory</li>
+</ul>
+<p>👉 适合：</p>
+<ul>
+<li>多实体关系</li>
+<li>复杂推理</li>
+</ul>
+<h4 id="设计权衡">设计权衡</h4>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>向量</td>
+<td>灵活</td>
+<td>不精确</td>
+</tr>
+<tr>
+<td>KV</td>
+<td>精确</td>
+<td>不智能</td>
+</tr>
+<tr>
+<td>图</td>
+<td>可推理</td>
+<td>复杂</td>
+</tr>
+</tbody>
+</table>
+<h4 id="总结-2">总结</h4>
+<blockquote>
+<p>需要语义检索的非结构化文本适合存进向量数据库；结构化的用户偏好和状态字段这些可以精确查询的内容适合用关系数据库或KV存储。整段文档或知识库适合存进向量数据库配合RAG流程做召回。</p>
+<p>混合存储是主流做法：结构化信息用关系数据库，非结构化信息用向量数据库。</p>
+</blockquote>
+<h3 id="6-3-怎么用（How-to-retrieve-use）——检索与注入问题-⭐">6.3 怎么用（How to retrieve &amp; use）——检索与注入问题 ⭐</h3>
+<h4 id="本质-3">本质</h4>
+<blockquote>
+<p><strong>存得再好，用不好也没意义</strong></p>
+</blockquote>
+<h4 id="关键问题">关键问题</h4>
+<ol>
+<li>什么时候检索？</li>
+</ol>
+<ul>
+<li>每轮都检索？</li>
+<li>还是按需触发？</li>
+</ul>
+<ol start="2">
+<li>检索多少？</li>
+</ol>
+<ul>
+<li>Top-K？</li>
+<li>动态数量？</li>
+</ul>
+<ol start="3">
+<li>怎么注入？</li>
+</ol>
+<ul>
+<li>直接拼接？</li>
+<li>分块插入？</li>
+<li>结构化输入？</li>
+</ul>
+<h4 id="常见策略-2">常见策略</h4>
+<ul>
+<li>Top-K 相似度检索</li>
+<li>Re-ranking（重排序）</li>
+<li>Prompt 模板控制</li>
+</ul>
+<h4 id="常见坑">常见坑</h4>
+<ul>
+<li>❌ 检索过多 → 上下文爆炸</li>
+<li>❌ 检索不准 → 干扰推理</li>
+<li>❌ 注入混乱 → 模型理解错误</li>
+</ul>
+<h4 id="总结-3">总结</h4>
+<blockquote>
+<p>检索一般分为两种：<br>
+一种是主动检索，在任务开始前用当前任务的描述去检索相关记忆，把结果注入system prompt作为背景知识。<br>
+另一种是被动检索，Agent在推理过程中判断当前步骤需要某类特定知识时主动发起检索。</p>
+</blockquote>
+<hr>
+<h2 id="a-id-interview-answer-a-七、面试标准回答"><a id="interview-answer"></a>七、面试标准回答</h2>
+<p>👉 这段你可以直接用：</p>
+<blockquote>
+<p>Agent 的记忆机制主要分为感知记忆、短期记忆、长期记忆和实体记忆四大类。感知记忆存储原始输入，短期记忆是上下文窗口，长期记忆通过外部数据库实现持久化，实体记忆则是结构化的对象信息。</p>
+<p>在实际流程中，记忆机制包括写入、存储、检索和注入四个步骤，即先将交互信息结构化并存储，再在新任务中检索相关内容并拼接到 prompt 中，从而增强模型的上下文理解能力。</p>
+<p>此外，在不同 Agent 范式中，记忆的作用也不同，比如 ReAct 中用于推理链记录，Plan-and-Execute 中用于任务状态管理，Reflection 中用于错误反馈和自我优化。</p>
+<p>在设计 Agent 的记忆模块时，主要有三个核心问题：首先是记什么，即需要对输入信息进行筛选，保留对任务有价值的内容；其次是怎么存，需要选择合适的数据结构，比如向量数据库、KV 存储或知识图谱，以支持不同类型的信息；最后是怎么用，即在推理时如何高效检索相关记忆并注入到上下文中，这直接影响模型的输出质量。</p>
+</blockquote>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Agent/">Agent</a><a class="post-meta__tags" href="/tags/Java%E5%85%AB%E8%82%A1/">Java八股</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95/" title="Agent记忆压缩方法"><img class="cover" src="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Agent记忆压缩方法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解"><img class="cover" src="/../image/Java/Agent/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent架构详解</div></div></a></div><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"><img class="cover" src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent三大范式详解：ReAct、Plan-and-Execute、Reflection</div></div></a></div><div><a href="/2026/01/31/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D/" title="Agent开发常见名词"><img class="cover" src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-31</div><div class="title">Agent开发常见名词</div></div></a></div><div><a href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95/" title="Agent记忆压缩方法"><img class="cover" src="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-15</div><div class="title">Agent记忆压缩方法</div></div></a></div><div><a href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Single-Agent%E4%B8%8EMulti-Agent/" title="Single-Agent与Multi-Agent"><img class="cover" src="/../image/Java/Agent/Single-Agent%E4%B8%8EMulti-Agent.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-15</div><div class="title">Single-Agent与Multi-Agent</div></div></a></div><div><a href="/2025/11/26/Java/Java%E5%85%AB%E8%82%A1/AQS%E8%AF%A6%E8%A7%A3/" title="AQS（AbstractQueuedSynchronizer）详解"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/AQS%EF%BC%88AbstractQueuedSynchronizer%EF%BC%89%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-26</div><div class="title">AQS（AbstractQueuedSynchronizer）详解</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">330</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">26</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Agent记忆机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-intro-a-%E4%B8%80%E3%80%81Agent-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%AE%B0%E5%BF%86%EF%BC%9F"><span class="toc-text">一、Agent 为什么需要记忆？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-memory-types-a-%E4%BA%8C%E3%80%81Agent-%E8%AE%B0%E5%BF%86%E7%9A%84%E6%A0%B8%E5%BF%83%E5%88%86%E7%B1%BB"><span class="toc-text">二、Agent 记忆的核心分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%84%9F%E7%9F%A5%E8%AE%B0%E5%BF%86%EF%BC%88Sensory-Memory%EF%BC%89"><span class="toc-text">2.1 感知记忆（Sensory Memory）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86%EF%BC%88Short-Term-Memory%EF%BC%89"><span class="toc-text">2.2 短期记忆（Short-Term Memory）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E9%95%BF%E6%9C%9F%E8%AE%B0%E5%BF%86%EF%BC%88Long-Term-Memory%EF%BC%89"><span class="toc-text">2.3 长期记忆（Long-Term Memory）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%AE%9E%E4%BD%93%E8%AE%B0%E5%BF%86%EF%BC%88Entity-Memory%EF%BC%89"><span class="toc-text">2.4 实体记忆（Entity Memory）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E5%9B%9B%E7%A7%8D%E8%AE%B0%E5%BF%86%E5%AF%B9%E6%AF%94"><span class="toc-text">2.5 四种记忆对比</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-memory-process-a-%E4%B8%89%E3%80%81Agent-%E8%AE%B0%E5%BF%86%E7%9A%84%E6%A0%B8%E5%BF%83%E6%B5%81%E7%A8%8B%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="toc-text">三、Agent 记忆的核心流程（重点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%86%99%E5%85%A5%EF%BC%88Write%EF%BC%89"><span class="toc-text">3.1 写入（Write）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%AD%98%E5%82%A8%EF%BC%88Store%EF%BC%89"><span class="toc-text">3.2 存储（Store）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%A3%80%E7%B4%A2%EF%BC%88Retrieve%EF%BC%89"><span class="toc-text">3.3 检索（Retrieve）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E6%B3%A8%E5%85%A5%EF%BC%88Inject%EF%BC%89"><span class="toc-text">3.4 注入（Inject）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A8%E7%90%86%EF%BC%88Reason%EF%BC%89"><span class="toc-text">3.5 推理（Reason）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-memory-paradig-a-%E5%9B%9B%E3%80%81%E4%B8%8D%E5%90%8C-Agent-%E8%8C%83%E5%BC%8F%E4%B8%AD%E7%9A%84%E8%AE%B0%E5%BF%86%E4%BD%9C%E7%94%A8"><span class="toc-text">四、不同 Agent 范式中的记忆作用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-ReAct"><span class="toc-text">4.1 ReAct</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-Plan-and-Execute"><span class="toc-text">4.2 Plan-and-Execute</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-Reflection-Reflexion"><span class="toc-text">4.3 Reflection &#x2F; Reflexion</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-memory-implementation-a-%E4%BA%94%E3%80%81%E5%B7%A5%E7%A8%8B%E5%AE%9E%E7%8E%B0%E5%B8%B8%E8%A7%81%E6%96%B9%E6%A1%88"><span class="toc-text">五、工程实现常见方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-LangChain-Memory%EF%BC%88%E7%BB%8F%E5%85%B8%EF%BC%89"><span class="toc-text">5.1 LangChain Memory（经典）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-RAG-Memory-%E8%9E%8D%E5%90%88"><span class="toc-text">5.2 RAG + Memory 融合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-Memory-%E5%8E%8B%E7%BC%A9%EF%BC%88%E5%BE%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-text">5.3 Memory 压缩（很重要）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-memory-design-a-%E5%85%AD%E3%80%81%E5%AE%9E%E9%99%85%E8%AE%BE%E8%AE%A1%E8%AE%B0%E5%BF%86%E6%A8%A1%E5%9D%97%E7%9A%84%E4%B8%89%E4%B8%AA%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98"><span class="toc-text">六、实际设计记忆模块的三个核心问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E8%AE%B0%E4%BB%80%E4%B9%88%EF%BC%88What-to-store%EF%BC%89%E2%80%94%E2%80%94%E4%BF%A1%E6%81%AF%E7%AD%9B%E9%80%89%E9%97%AE%E9%A2%98"><span class="toc-text">6.1 记什么（What to store）——信息筛选问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8"><span class="toc-text">本质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">为什么是问题？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9C%80%E8%A6%81%E5%81%9A%E7%9A%84%E5%86%B3%E7%AD%96"><span class="toc-text">需要做的决策</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AD%96%E7%95%A5"><span class="toc-text">常见策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%80%8E%E4%B9%88%E5%AD%98%EF%BC%88How-to-store%EF%BC%89%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%97%AE%E9%A2%98"><span class="toc-text">6.2 怎么存（How to store）——数据结构问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8-2"><span class="toc-text">本质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%A1%88"><span class="toc-text">常见方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E6%9D%83%E8%A1%A1"><span class="toc-text">设计权衡</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-2"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%80%8E%E4%B9%88%E7%94%A8%EF%BC%88How-to-retrieve-use%EF%BC%89%E2%80%94%E2%80%94%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%B3%A8%E5%85%A5%E9%97%AE%E9%A2%98-%E2%AD%90"><span class="toc-text">6.3 怎么用（How to retrieve &amp; use）——检索与注入问题 ⭐</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E8%B4%A8-3"><span class="toc-text">本质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%98"><span class="toc-text">关键问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%AD%96%E7%95%A5-2"><span class="toc-text">常见策略</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E5%9D%91"><span class="toc-text">常见坑</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93-3"><span class="toc-text">总结</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#a-id-interview-answer-a-%E4%B8%83%E3%80%81%E9%9D%A2%E8%AF%95%E6%A0%87%E5%87%86%E5%9B%9E%E7%AD%94"><span class="toc-text">七、面试标准回答</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6/" title="Agent记忆机制"><img src="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent记忆机制"/></a><div class="content"><a class="title" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E6%9C%BA%E5%88%B6/" title="Agent记忆机制">Agent记忆机制</a><time datetime="2026-04-15T05:59:00.000Z" title="发表于 2026-04-15 13:59:00">2026-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95/" title="Agent记忆压缩方法"><img src="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent记忆压缩方法"/></a><div class="content"><a class="title" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95/" title="Agent记忆压缩方法">Agent记忆压缩方法</a><time datetime="2026-04-15T05:59:00.000Z" title="发表于 2026-04-15 13:59:00">2026-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Single-Agent%E4%B8%8EMulti-Agent/" title="Single-Agent与Multi-Agent"><img src="/../image/Java/Agent/Single-Agent%E4%B8%8EMulti-Agent.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Single-Agent与Multi-Agent"/></a><div class="content"><a class="title" href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Single-Agent%E4%B8%8EMulti-Agent/" title="Single-Agent与Multi-Agent">Single-Agent与Multi-Agent</a><time datetime="2026-04-15T05:59:00.000Z" title="发表于 2026-04-15 13:59:00">2026-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解"><img src="/../image/Java/Agent/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent架构详解"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解">Agent架构详解</a><time datetime="2026-04-14T11:20:00.000Z" title="发表于 2026-04-14 19:20:00">2026-04-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"><img src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"/></a><div class="content"><a class="title" href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection">Agent三大范式详解：ReAct、Plan-and-Execute、Reflection</a><time datetime="2026-04-14T10:20:00.000Z" title="发表于 2026-04-14 18:20:00">2026-04-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
