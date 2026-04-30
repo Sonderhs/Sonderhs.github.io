@@ -1,0 +1,709 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Go 数据类型 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要介绍了 Go 语言的数据类型，包括基本数据类型（整数、浮点数、字符、字符串、布尔值等）和复合数据类型（数组、切片、映射等）。通过示例代码，帮助读者理解和使用 Go 语言中的各种数据类型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 数据类型">
+<meta property="og:url" content="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="本文主要介绍了 Go 语言的数据类型，包括基本数据类型（整数、浮点数、字符、字符串、布尔值等）和复合数据类型（数组、切片、映射等）。通过示例代码，帮助读者理解和使用 Go 语言中的各种数据类型。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG">
+<meta property="article:published_time" content="2026-04-30T03:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-30T16:27:54.532Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="go-basics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG"><link rel="shortcut icon" href="/../image/BlogCover/output-removebg-preview.png"><link rel="canonical" href="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go 数据类型',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-05-01 00:27:54'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">358</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/output-removebg-preview.png"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Go 数据类型</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-30T03:00:00.000Z" title="发表于 2026-04-30 11:00:00">2026-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-30T16:27:54.532Z" title="更新于 2026-05-01 00:27:54">2026-05-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Go/">Go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Go 数据类型</h1>
+<p>Go 语言提供了丰富的数据类型，主要分为基本数据类型和复合数据类型两大类。</p>
+<p>基本数据类型包括整数、浮点数、字符、字符串、布尔值等</p>
+<p>复合数据类型包括数组、切片、映射（Map）等。</p>
+<p>理解这些数据类型的特性和用法是学习 Go 语言的基础。</p>
+<hr>
+<h2 id="一、基本数据类型">一、基本数据类型</h2>
+<p>Go 语言提供了多种基本数据类型，主要包括</p>
+<ul>
+<li>整型</li>
+<li>浮点型</li>
+<li>字符型</li>
+<li>字符串型</li>
+<li>布尔型</li>
+</ul>
+<h3 id="1-1-整型">1.1 整型</h3>
+<p>Go 语言提供了多种整数类型，分为有符号和无符号两大类：</p>
+<ul>
+<li><code>int8</code>、<code>int16</code>、<code>int32</code>、<code>int64</code>（有符号整数）</li>
+<li><code>uint8</code>、<code>uint16</code>、<code>uint32</code>、<code>uint64</code>（无符号整数）</li>
+<li><code>int</code> 和 <code>uint</code> 的大小取决于平台（32 位系统通常为 32 位，64 位系统通常为 64 位）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小（位）</th>
+<th>范围（有符号）</th>
+<th>范围（无符号）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int8</code></td>
+<td>8</td>
+<td>-128 到 127</td>
+<td>0 到 255</td>
+</tr>
+<tr>
+<td><code>int16</code></td>
+<td>16</td>
+<td>-32768 到 32767</td>
+<td>0 到 65535</td>
+</tr>
+<tr>
+<td><code>int32</code></td>
+<td>32</td>
+<td>-2147483648 到 2147483647</td>
+<td>0 到 4294967295</td>
+</tr>
+<tr>
+<td><code>int64</code></td>
+<td>64</td>
+<td>-9223372036854775808 到 9223372036854775807</td>
+<td>0 到 18446744073709551615</td>
+</tr>
+<tr>
+<td><code>int</code></td>
+<td>32 或 64</td>
+<td>与平台相关，通常为 -2^31 到 2^31-1 或 -2^63 到 2^63-1</td>
+<td>与平台相关，通常为 0 到 2^32-1 或 0 到 2^64-1</td>
+</tr>
+<tr>
+<td><code>uint8</code></td>
+<td>8</td>
+<td>N/A</td>
+<td>0 到 255</td>
+</tr>
+<tr>
+<td><code>uint16</code></td>
+<td>16</td>
+<td>N/A</td>
+<td>0 到 65535</td>
+</tr>
+<tr>
+<td><code>uint32</code></td>
+<td>32</td>
+<td>N/A</td>
+<td>0 到 4294967295</td>
+</tr>
+<tr>
+<td><code>uint64</code></td>
+<td>64</td>
+<td>N/A</td>
+<td>0 到 18446744073709551615</td>
+</tr>
+<tr>
+<td><code>uint</code></td>
+<td>32 或 64</td>
+<td>N/A</td>
+<td>与平台相关，通常为 0 到 2^32-1 或 0 到 2^64-1</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>int</code> 和 <code>uint</code> 的大小取决于平台（32 位系统通常为 32 位，64 位系统通常为 64 位），因此在需要明确大小的场景下，建议使用 <code>int32</code>、<code>int64</code> 等具体类型。</li>
+</ul>
+<h3 id="1-2-浮点型">1.2 浮点型</h3>
+<p>Go 语言提供了两种浮点类型：</p>
+<ul>
+<li><code>float32</code></li>
+<li><code>float64</code>（默认浮点类型）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小（位）</th>
+<th>精度（有效数字位数）</th>
+<th>范围（近似值）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>float32</code></td>
+<td>32</td>
+<td>6-9</td>
+<td>±1.18e-38 到 ±3.4e+38</td>
+</tr>
+<tr>
+<td><code>float64</code></td>
+<td>64</td>
+<td>15-17</td>
+<td>±2.22e-308 到 ±1.8e+308</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>最大值和最小值可以通过 <code>math</code> 包中的常量获取，如 <code>math.MaxFloat32</code>、<code>math.SmallestNonzeroFloat64</code> 等。</li>
+</ul>
+<h3 id="1-3-字符型">1.3 字符型</h3>
+<p>Go 语言没有专门的字符类型，但可以使用 <code>rune</code>（int32 的别名）来表示 Unicode 码点，或使用 <code>byte</code>（uint8 的别名）来表示 ASCII 字符。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小（位）</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>byte</code></td>
+<td>8</td>
+<td>uint8 的别名，表示单字节字符</td>
+<td><code>'a'</code></td>
+</tr>
+<tr>
+<td><code>rune</code></td>
+<td>32</td>
+<td>int32 的别名，表示 Unicode 码点</td>
+<td><code>'中'</code></td>
+</tr>
+</tbody>
+</table>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> b <span class="type">byte</span> = <span class="string">&#x27;A&#x27;</span></span><br><span class="line">    <span class="keyword">var</span> r <span class="type">rune</span> = <span class="string">&#x27;中&#x27;</span></span><br><span class="line">    fmt.Printf(<span class="string">&quot;byte: %d, rune: %c\n&quot;</span>, b, r) <span class="comment">// 输出 byte: 65, rune: 中</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-字符串型">1.4 字符串型</h3>
+<p>Go 语言中的字符串是不可变的 UTF-8 编码的字节序列，可以使用双引号 <code>&quot;&quot;</code> 来定义字符串。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line">    fmt.Println(str) <span class="comment">// 输出 Hello,世界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-1-字符串长度">1.4.1 字符串长度</h4>
+<p><strong>长度</strong></p>
+<ul>
+<li><code>len()</code> 返回的是字符串包含的字节数，而不是字符数<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line">fmt.Println(<span class="built_in">len</span>(str)) <span class="comment">// 输出 12（Hello, 占 6 字节，世界占 6 字节）</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>字符数</strong></p>
+<ul>
+<li><code>utf8.RuneCountInString()</code> 获取字符串中的字符数<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&quot;unicode/utf8&quot;</span></span><br><span class="line"></span><br><span class="line">str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line">fmt.Println(utf8.RuneCountInString(str)) <span class="comment">// 输出 8（Hello, 占 6 字符，世界占 2 字符）</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><code>len([]rune(str))</code> 也可以获取字符数，但会先将字符串转换为 <code>[]rune</code>，效率较低，若后续本来就要按 rune 切片处理，可以一举两得<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line">fmt.Println(<span class="built_in">len</span>([]<span class="type">rune</span>(str))) <span class="comment">// 输出 8</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1-4-2-字符串遍历">1.4.2 字符串遍历</h4>
+<p><strong>按字节遍历</strong></p>
+<ul>
+<li>使用索引或普通 <code>for</code> 循环遍历字符串，获取的是原始字符</li>
+<li>中文等多字节字符会被拆分成多个字节，输出可能是乱码<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(str); i++ &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%c &quot;</span>, str[i]) <span class="comment">// 输出 h e l l o , ä ¸  ç </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>按字符遍历</strong></p>
+<ul>
+<li>使用 <code>for range</code> 循环遍历字符串，Go 会自动按 UTF-8 字符解码，每次迭代返回的是一个 rune 类型的字符和一个字符起始位置的索引<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">str := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line"><span class="keyword">for</span> index, char := <span class="keyword">range</span> str &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;index: %d, char: %c\n&quot;</span>, index, char)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// index: 0, char: H</span></span><br><span class="line"><span class="comment">// index: 1, char: e    </span></span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="1-4-3-字符串的修改">1.4.3 字符串的修改</h4>
+<p>字符串是不可变的，不能直接修改其中的字符，但可以通过转换为 <code>[]rune</code> 或 <code>[]byte</code> 来修改后再转换回字符串。</p>
+<ul>
+<li><code>[]byte</code> 适合修改 ASCII 字符，修改多字节字符可能会导致乱码</li>
+<li><code>[]rune</code> 适合修改 Unicode 字符，能正确处理多字节字符</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    str1 := <span class="string">&quot;Hello&quot;</span></span><br><span class="line">    str2 := <span class="string">&quot;Hello,世界&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转换为 []byte 修改字节</span></span><br><span class="line">    bytes := []<span class="type">byte</span>(str1)</span><br><span class="line">    bytes[<span class="number">0</span>] = <span class="string">&#x27;h&#x27;</span> <span class="comment">// 修改第一个字节</span></span><br><span class="line">    modifiedStr2 := <span class="type">string</span>(bytes)</span><br><span class="line">    fmt.Println(modifiedStr2) <span class="comment">// 输出 hello</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 转换为 []rune 修改字符</span></span><br><span class="line">    runes := []<span class="type">rune</span>(str2)</span><br><span class="line">    runes[<span class="number">0</span>] = <span class="string">&#x27;h&#x27;</span> <span class="comment">// 修改第一个字符</span></span><br><span class="line">    modifiedStr := <span class="type">string</span>(runes)</span><br><span class="line">    fmt.Println(modifiedStr) <span class="comment">// 输出 hello,世界</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-4-字符串的类型转换">1.4.4 字符串的类型转换</h4>
+<p><strong>数值转字符串</strong></p>
+<ul>
+<li><code>strconv.Itoa(i int)</code> ：将整数转换为字符串</li>
+<li><code>strconv.FormatInt(i, base)</code> ：将整型数转换为指定进制的字符串</li>
+<li><code>strconv.FormatFloat(f, fmt, prec, bitSize)</code> ：将浮点数转换为字符串
+<ul>
+<li><code>fmt</code> 参数指定格式（‘f’、‘e’、‘g’ 等）</li>
+<li><code>prec</code> 指定小数点后精度</li>
+<li><code>bitSize</code> 指定 float32 还是 float64</li>
+</ul>
+</li>
+</ul>
+<p><strong>字符串转数值</strong></p>
+<ul>
+<li><code>strconv.Atoi(s string)</code> ：将字符串转换为整数</li>
+<li><code>strconv.ParseInt(s, base, bitSize)</code> ：将字符串转换为指定进制的整数</li>
+<li><code>strconv.ParseFloat(s, bitSize)</code> ：将字符串转换为浮点数</li>
+</ul>
+<h4 id="1-4-5-字符串常用操作">1.4.5 字符串常用操作</h4>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>len(s)</code></td>
+<td>返回字符串的字节长度</td>
+<td>len(“go”) -&gt; 2</td>
+</tr>
+<tr>
+<td><code>s1 + s2</code></td>
+<td>拼接字符串</td>
+<td>“go” + “lang” -&gt; “golang”</td>
+</tr>
+<tr>
+<td><code>strings.Split(s, sep)</code></td>
+<td>分割字符串，返回切片</td>
+<td>strings.Split(“a,b,c”, “,”) -&gt; [“a”, “b”, “c”]</td>
+</tr>
+<tr>
+<td><code>strings.Join(s, sep)</code></td>
+<td>连接切片元素，返回字符串</td>
+<td>strings.Join([]string{“a”,“b”}, “-”) -&gt; “a-b”</td>
+</tr>
+<tr>
+<td><code>strings.Contains(s, substr)</code></td>
+<td>判断是否包含子串</td>
+<td>strings.Contains(“golang”, “go”) -&gt; true</td>
+</tr>
+<tr>
+<td><code>strings.HasPrefix(s, prefix)</code></td>
+<td>判断是否以前缀开头</td>
+<td>strings.HasPrefix(“hello”, “he”) -&gt; true</td>
+</tr>
+<tr>
+<td><code>strings.Index(s, substr)</code></td>
+<td>查找子串第一次出现的位置（字节索引）</td>
+<td>strings.Index(“golang”, “a”) -&gt; 3</td>
+</tr>
+<tr>
+<td><code>fmt.Sprintf</code></td>
+<td>格式化拼接字符串（常用于复杂拼接）</td>
+<td>fmt.Sprintf(“%s版本%d”, “Go”, 1) -&gt; “Go版本1”</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-5-布尔型">1.5 布尔型</h3>
+<p>Go 语言中的布尔类型是 <code>bool</code>，只能取值 <code>true</code> 或 <code>false</code>。默认值为 <code>false</code>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 方式一：默认零值初始化 (false)</span></span><br><span class="line">    <span class="keyword">var</span> isRaining <span class="type">bool</span> </span><br><span class="line">    fmt.Println(<span class="string">&quot;默认值:&quot;</span>, isRaining) <span class="comment">// 输出: 默认值: false</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方式二：声明时赋值</span></span><br><span class="line">    <span class="keyword">var</span> isSunny <span class="type">bool</span> = <span class="literal">true</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;赋值:&quot;</span>, isSunny) <span class="comment">// 输出: 赋值: true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方式三：短变量声明（推荐）</span></span><br><span class="line">    isLoggedIn := <span class="literal">false</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;短变量声明:&quot;</span>, isLoggedIn) <span class="comment">// 输出: 短变量声明: false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-6-复数">1.6 复数</h3>
+<p>Go 语言内置了复数类型，分别是 <code>complex64</code> 和 <code>complex128</code>，分别对应于使用 <code>float32</code> 和 <code>float64</code> 作为实部和虚部的复数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x <span class="type">complex128</span> = <span class="built_in">complex</span>(<span class="number">1</span>, <span class="number">2</span>) <span class="comment">// 1+2i</span></span><br><span class="line"><span class="keyword">var</span> y <span class="type">complex128</span> = <span class="built_in">complex</span>(<span class="number">3</span>, <span class="number">4</span>) <span class="comment">// 3+4i</span></span><br><span class="line">fmt.Println(x*y)                 <span class="comment">// &quot;(-5+10i)&quot;</span></span><br><span class="line">fmt.Println(<span class="built_in">real</span>(x*y))           <span class="comment">// &quot;-5&quot;</span></span><br><span class="line">fmt.Println(<span class="built_in">imag</span>(x*y))           <span class="comment">// &quot;10&quot;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="二、复合数据类型">二、复合数据类型</h2>
+<p>Go 语言提供了多种复合数据类型，主要包括：</p>
+<ul>
+<li>数组（Array）</li>
+<li>切片（Slice）</li>
+<li>映射（Map）</li>
+</ul>
+<h3 id="2-1-数组">2.1 数组</h3>
+<p>数组是长度固定的同类型元素的集合，声明时必须指定长度。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr [<span class="number">3</span>]<span class="type">int</span> = [<span class="number">3</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; <span class="comment">// 声明一个长度为3的整数数组</span></span><br><span class="line"></span><br><span class="line">arr2 := [...]<span class="type">int</span>&#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;  <span class="comment">// 编译器推导长度</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-1-1-初始化">2.1.1 初始化</h4>
+<p>Go 语言支持多种方式初始化数组，其中一种特殊的方式是按索引号初始化，可以指定某些元素的值，而其他元素会使用默认值（零值）进行填充。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">months := [...]<span class="type">string</span>&#123;<span class="number">1</span>: <span class="string">&quot;January&quot;</span>, <span class="string">&quot;February&quot;</span>, <span class="string">&quot;March&quot;</span>, <span class="string">&quot;April&quot;</span>, <span class="string">&quot;May&quot;</span>, <span class="string">&quot;June&quot;</span>, <span class="string">&quot;July&quot;</span>, <span class="string">&quot;August&quot;</span>, <span class="string">&quot;September&quot;</span>, <span class="string">&quot;October&quot;</span>, <span class="string">&quot;November&quot;</span>, <span class="string">&quot;December&quot;</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 索引 0: </span></span><br><span class="line"><span class="comment">// 索引 1: January</span></span><br><span class="line"><span class="comment">// 索引 2: February</span></span><br><span class="line"><span class="comment">// 索引 3: March</span></span><br><span class="line"><span class="comment">// 索引 4: April</span></span><br><span class="line"><span class="comment">// 索引 5: May</span></span><br><span class="line"><span class="comment">// 索引 6: June</span></span><br><span class="line"><span class="comment">// 索引 7: July</span></span><br><span class="line"><span class="comment">// 索引 8: August</span></span><br><span class="line"><span class="comment">// 索引 9: September</span></span><br><span class="line"><span class="comment">// 索引 10: October</span></span><br><span class="line"><span class="comment">// 索引 11: November</span></span><br><span class="line"><span class="comment">// 索引 12: December</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-1-2-数组的遍历">2.1.2 数组的遍历</h4>
+<p><strong>传统 for 循环遍历（基于索引）</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(arr); i++ &#123;</span><br><span class="line">    fmt.Println(arr[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>for range 循环遍历（基于元素）</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index, value := <span class="keyword">range</span> arr &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;索引 %d: 值 %d\n&quot;</span>, index, value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-切片">2.2 切片</h3>
+<p>切片是动态数组，长度可变，更常用。切片是对数组的一个视图，底层依赖于数组。</p>
+<h4 id="2-2-1-切片的创建">2.2.1 切片的创建</h4>
+<p><strong>通过数组进行切片</strong></p>
+<ul>
+<li><code>array[low:high]</code>：左闭右开 <code>[low, high]</code><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arr := [<span class="number">5</span>]<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s := arr[<span class="number">1</span>:<span class="number">4</span>] <span class="comment">// 包含索引 1、2、3 的元素，即 [2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>使用 <code>make()</code> 构造</strong></p>
+<ul>
+<li>格式：<code>make([]T, len, cap)</code>
+<ul>
+<li><code>T</code> 是切片元素的类型</li>
+<li><code>len</code> 是切片的长度</li>
+<li><code>cap</code> 是切片的容量（底层数组的长度）</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="number">5</span>, <span class="number">10</span>) <span class="comment">// 创建一个长度为5的切片，底层数组容量也为5</span></span><br><span class="line"><span class="comment">// s: [0 0 0 0 0] len=5 cap=10</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>直接声明和初始化</strong></p>
+<ul>
+<li>直接使用字面量创建切片<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125; </span><br><span class="line"><span class="keyword">var</span> s2 []<span class="type">int</span> <span class="comment">// nil 切片，长度和容量都为 0</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-2-2-切片的遍历">2.2.2 切片的遍历</h4>
+<p><strong>按下标循环</strong></p>
+<ul>
+<li>使用 <code>len(s)</code> 控制上界：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="built_in">len</span>(s); i++ &#123;</span><br><span class="line">    fmt.Println(s[i])</span><br><span class="line">&#125; <span class="comment">// 输出 1 2 3</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>for range 循环</strong></p>
+<ul>
+<li>每次迭代返回元素的索引和对应的值：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">string</span>&#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i := <span class="keyword">range</span> s &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;索引 %d\n&quot;</span>, i)</span><br><span class="line">&#125; <span class="comment">// 输出 索引 0 索引 1 索引 2</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> _, value := <span class="keyword">range</span> s &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;值 %s\n&quot;</span>, value)</span><br><span class="line">&#125; <span class="comment">// 输出 值 a 值 b 值 c</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-2-3-切片常用操作">2.2.3 切片常用操作</h4>
+<p><strong>追加元素</strong></p>
+<ul>
+<li>使用 <code>append()</code> 函数向切片追加元素，返回新的切片<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">4</span>) <span class="comment">// s: [1 2 3 4]</span></span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">5</span>, <span class="number">6</span>) <span class="comment">// s: [1 2 3 4 5 6]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>插入元素</strong></p>
+<ul>
+<li>通过切片分割后再拼接实现插入<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s = <span class="built_in">append</span>(s[:<span class="number">2</span>], <span class="built_in">append</span>([]<span class="type">int</span>&#123;<span class="number">3</span>&#125;, s[<span class="number">2</span>:]...)...)</span><br><span class="line"><span class="comment">// s: [1 2 3 4 5]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>删除元素</strong></p>
+<ul>
+<li>通过切片分割后再拼接实现删除<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;</span><br><span class="line">s = <span class="built_in">append</span>(s[:<span class="number">2</span>], s[<span class="number">3</span>:]...) <span class="comment">// 删除索引为2的元素，即值3</span></span><br><span class="line"><span class="comment">// s: [1 2 4 5]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>切片复制</strong></p>
+<ul>
+<li>使用 <code>copy(dst, src)</code> 函数将 src 的内容复制到 dst 中
+<ul>
+<li><code>dst</code> 需已分配长度，<code>copy</code> 不会自动扩容</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">src := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">dst := <span class="built_in">make</span>([]<span class="type">int</span>, <span class="built_in">len</span>(src))</span><br><span class="line"><span class="built_in">copy</span>(dst, src) <span class="comment">// dst: [1 2 3]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-2-4-切片与数组总结">2.2.4 切片与数组总结</h4>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>数组 (Array)</th>
+<th>切片 (Slice)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>长度</td>
+<td>固定不变。长度是类型的一部分</td>
+<td>动态可变，长度不是类型的一部分 ([]int)</td>
+</tr>
+<tr>
+<td>类型</td>
+<td>值类型 (Value Type)</td>
+<td>引用类型 (Reference Type)</td>
+</tr>
+<tr>
+<td>赋值/传参</td>
+<td>复制整个数组内容（全量复制）</td>
+<td>复制切片头（指针、长度、容量），底层数组共享</td>
+</tr>
+<tr>
+<td>操作</td>
+<td>长度固定，不支持 append 等动态操作</td>
+<td>支持 append、copy 等操作，可动态增长</td>
+</tr>
+<tr>
+<td>零值</td>
+<td>元素的零值</td>
+<td>nil</td>
+</tr>
+<tr>
+<td>使用场景</td>
+<td>长度已知且固定，性能要求高的底层结构</td>
+<td>所有需要序列容器的场景，更灵活、常用</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3-映射（Map）">2.3 映射（Map）</h3>
+<p>Go 语言中的映射（Map）是一种无序的键值对集合，提供了快速的键值查找功能。Map 的键必须是可比较的类型（如字符串、整数等），值可以是任意类型。</p>
+<h4 id="2-3-1-Map-的定义">2.3.1 Map 的定义</h4>
+<p>Map 的定义语法：<code>map[KeyType]ValueType</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span> <span class="comment">// 声明一个键为 string，值为 int 的 Map</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-3-2-Map-的创建">2.3.2 Map 的创建</h4>
+<p><strong>使用 <code>make()</code> 创建 Map</strong></p>
+<ul>
+<li><code>make(map[KeyType]ValueType, [cap])</code> 创建一个容量为 cap 的 Map<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">emptyM := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>) <span class="comment">// 创建一个空 Map</span></span><br><span class="line">m := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>, <span class="number">10</span>) <span class="comment">// 创建一个容量为 10 的 Map</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>使用字面量创建 Map</strong></p>
+<ul>
+<li>直接使用字面量初始化 Map<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">emptyM := <span class="keyword">map</span>[<span class="type">int</span>]<span class="type">string</span>&#123;&#125; <span class="comment">// 创建一个空 Map</span></span><br><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;</span><br><span class="line">    <span class="string">&quot;a&quot;</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;b&quot;</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="string">&quot;c&quot;</span>: <span class="number">3</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-3-3-Map-的遍历">2.3.3 Map 的遍历</h4>
+<p><strong>使用 for range 循环遍历 Map</strong></p>
+<ul>
+<li>每次迭代返回一个键值对，顺序不固定<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>, <span class="string">&quot;c&quot;</span>: <span class="number">3</span>&#125;</span><br><span class="line"><span class="keyword">for</span> key, value := <span class="keyword">range</span> m &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;键: %s, 值: %d\n&quot;</span>, key, value)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出的键值对顺序可能不同</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>按照指定顺序遍历 Map</strong></p>
+<ul>
+<li>先将 Map 的键提取到切片中，对切片排序后再遍历<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;b&quot;</span>: <span class="number">2</span>, <span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;c&quot;</span>: <span class="number">3</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 提取键到切片</span></span><br><span class="line">keys := <span class="built_in">make</span>([]<span class="type">string</span>, <span class="number">0</span>, <span class="built_in">len</span>(m))</span><br><span class="line"><span class="keyword">for</span> key := <span class="keyword">range</span> m &#123;</span><br><span class="line">    keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 对键进行排序</span></span><br><span class="line">sort.Strings(keys)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 按照排序后的键遍历 Map</span></span><br><span class="line"><span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;键: %s, 值: %d\n&quot;</span>, key, m[key])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出:</span></span><br><span class="line"><span class="comment">// 键: a, 值: 1</span></span><br><span class="line"><span class="comment">// 键: b, 值: 2</span></span><br><span class="line"><span class="comment">// 键: c, 值: 3</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-3-4-Map-的基本操作">2.3.4 Map 的基本操作</h4>
+<p><strong>存取键值对</strong></p>
+<ul>
+<li>通过 <code>m[key]</code> 获取值，若键不存在返回值类型的零值</li>
+<li>通过 <code>m[key] = value</code> 设置键值对<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line">fmt.Println(m[<span class="string">&quot;a&quot;</span>]) <span class="comment">// 输出 1</span></span><br><span class="line">m[<span class="string">&quot;c&quot;</span>] = <span class="number">3</span>          <span class="comment">// 添加新键值对</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>判断键是否存在</strong></p>
+<ul>
+<li>使用 <code>value, ok := m[key]</code> 判断键是否存在
+<ul>
+<li><code>value</code> 是对应键的值，如果键不存在则为值类型的零值</li>
+<li><code>ok</code> 为 <code>true</code> 表示键存在，<code>false</code> 表示键不存在</li>
+</ul>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line">value, ok := m[<span class="string">&quot;c&quot;</span>]</span><br><span class="line"><span class="keyword">if</span> ok &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;键存在，值为:&quot;</span>, value)</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;键不存在&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出 键不存在</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>删除键值对</strong></p>
+<ul>
+<li>使用 <code>delete(m, key)</code> 删除指定键的键值对<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line"><span class="built_in">delete</span>(m, <span class="string">&quot;a&quot;</span>) <span class="comment">// 删除键 &quot;a&quot;</span></span><br><span class="line">fmt.Println(m) <span class="comment">// 输出 map[b:2]</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/go-basics/">go-basics</a></div><div class="post_share"><div class="social-share" data-image="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Go 流程控制</div></div></a></div><div class="next-post pull-right"><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Go 基础语法</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 基础语法</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 异常处理机制</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 流程控制</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">358</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Go 数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">一、基本数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-%E6%95%B4%E5%9E%8B"><span class="toc-text">1.1 整型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E6%B5%AE%E7%82%B9%E5%9E%8B"><span class="toc-text">1.2 浮点型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E5%AD%97%E7%AC%A6%E5%9E%8B"><span class="toc-text">1.3 字符型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%9E%8B"><span class="toc-text">1.4 字符串型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6"><span class="toc-text">1.4.1 字符串长度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-2-%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%81%8D%E5%8E%86"><span class="toc-text">1.4.2 字符串遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="toc-text">1.4.3 字符串的修改</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-4-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-text">1.4.4 字符串的类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-5-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-text">1.4.5 字符串常用操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-5-%E5%B8%83%E5%B0%94%E5%9E%8B"><span class="toc-text">1.5 布尔型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-%E5%A4%8D%E6%95%B0"><span class="toc-text">1.6 复数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%A4%8D%E5%90%88%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">二、复合数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E7%BB%84"><span class="toc-text">2.1 数组</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">2.1.1 初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-%E6%95%B0%E7%BB%84%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">2.1.2 数组的遍历</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E5%88%87%E7%89%87"><span class="toc-text">2.2 切片</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1-%E5%88%87%E7%89%87%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">2.2.1 切片的创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2-%E5%88%87%E7%89%87%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">2.2.2 切片的遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3-%E5%88%87%E7%89%87%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="toc-text">2.2.3 切片常用操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-4-%E5%88%87%E7%89%87%E4%B8%8E%E6%95%B0%E7%BB%84%E6%80%BB%E7%BB%93"><span class="toc-text">2.2.4 切片与数组总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%98%A0%E5%B0%84%EF%BC%88Map%EF%BC%89"><span class="toc-text">2.3 映射（Map）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-Map-%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="toc-text">2.3.1 Map 的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-Map-%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="toc-text">2.3.2 Map 的创建</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-Map-%E7%9A%84%E9%81%8D%E5%8E%86"><span class="toc-text">2.3.3 Map 的遍历</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-Map-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">2.3.4 Map 的基本操作</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 异常处理机制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制">Go 异常处理机制</a><time datetime="2026-04-30T05:00:00.000Z" title="发表于 2026-04-30 13:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 流程控制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制">Go 流程控制</a><time datetime="2026-04-30T04:00:00.000Z" title="发表于 2026-04-30 12:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 数据类型"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型">Go 数据类型</a><time datetime="2026-04-30T03:00:00.000Z" title="发表于 2026-04-30 11:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 基础语法"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法">Go 基础语法</a><time datetime="2026-04-30T02:00:00.000Z" title="发表于 2026-04-30 10:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/26/Java/Leetcode/Leetcode%E7%83%AD%E9%A2%98100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="Leetcode_hot100_25.K个一组翻转链表"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Leetcode_hot100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode_hot100_25.K个一组翻转链表"/></a><div class="content"><a class="title" href="/2026/04/26/Java/Leetcode/Leetcode%E7%83%AD%E9%A2%98100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="Leetcode_hot100_25.K个一组翻转链表">Leetcode_hot100_25.K个一组翻转链表</a><time datetime="2026-04-26T14:00:00.000Z" title="发表于 2026-04-26 22:00:00">2026-04-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

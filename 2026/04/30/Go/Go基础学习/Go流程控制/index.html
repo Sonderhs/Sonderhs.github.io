@@ -1,0 +1,369 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Go 流程控制 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文主要介绍了 Go 语言的流程控制结构，包括条件语句、选择语句、循环语句、跳转语句、延迟语句以及异常处理机制等内容。通过示例代码，帮助读者理解和掌握 Go 语言中的各种流程控制结构。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 流程控制">
+<meta property="og:url" content="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="本文主要介绍了 Go 语言的流程控制结构，包括条件语句、选择语句、循环语句、跳转语句、延迟语句以及异常处理机制等内容。通过示例代码，帮助读者理解和掌握 Go 语言中的各种流程控制结构。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG">
+<meta property="article:published_time" content="2026-04-30T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-04-30T16:28:46.615Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="go-basics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG"><link rel="shortcut icon" href="/../image/BlogCover/output-removebg-preview.png"><link rel="canonical" href="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go 流程控制',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-05-01 00:28:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">358</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/output-removebg-preview.png"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Go 流程控制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-30T04:00:00.000Z" title="发表于 2026-04-30 12:00:00">2026-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-30T16:28:46.615Z" title="更新于 2026-05-01 00:28:46">2026-05-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Go/">Go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Go 流程控制</h1>
+<p>Go 语言提供了多种流程控制结构，用于控制程序的执行流程。主要包括：</p>
+<ul>
+<li>条件语句：<code>if-else</code></li>
+<li>选择语句：<code>switch-case</code></li>
+<li>循环语句：<code>for</code></li>
+<li>跳转语句：
+<ul>
+<li>无条件跳转：<code>goto</code></li>
+<li>条件跳转：<code>break</code> 和 <code>continue</code></li>
+</ul>
+</li>
+<li>延迟语句：<code>defer</code></li>
+<li>异常处理：<code>panic</code> 和 <code>recover</code></li>
+</ul>
+<hr>
+<h2 id="一、if-else-条件语句">一、if-else 条件语句</h2>
+<p>语法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> 条件 <span class="number">1</span> &#123;</span><br><span class="line">    分支 <span class="number">1</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> 条件 <span class="number">2</span> &#123;</span><br><span class="line">    分支 <span class="number">2</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    分支 <span class="keyword">else</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    age := <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> age &lt; <span class="number">18</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;未成年人&quot;</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> age &gt;= <span class="number">18</span> &amp;&amp; age &lt; <span class="number">65</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;成年人&quot;</span>)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;老年人&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="二、switch-case-选择语句">二、switch-case 选择语句</h2>
+<p>语法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> 表达式 &#123;</span><br><span class="line"><span class="keyword">case</span> 值 <span class="number">1</span>:</span><br><span class="line">    分支 <span class="number">1</span></span><br><span class="line"><span class="keyword">case</span> 值 <span class="number">2</span>:</span><br><span class="line">    分支 <span class="number">2</span></span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    分支 <span class="keyword">default</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    day := <span class="number">6</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> day &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;周一&quot;</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;周二&quot;</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;周三&quot;</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;周四&quot;</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;周五&quot;</span>)</span><br><span class="line">        <span class="keyword">case</span> <span class="number">6</span>, <span class="number">7</span>: <span class="comment">// case 可以同时匹配多个值</span></span><br><span class="line">            fmt.Println(<span class="string">&quot;周末&quot;</span>)</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            fmt.Println(<span class="string">&quot;未知&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 case 使用关键字 <code>fallthrough</code> 开启穿透能力的时候，case 匹配成功后会继续执行下一个 case 的代码（fallthrough 只能穿一层），而不进行条件判断，直到遇到 break 或 switch 结束为止。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">s := <span class="string">&quot;hello&quot;</span></span><br><span class="line"><span class="keyword">switch</span> &#123;</span><br><span class="line"><span class="keyword">case</span> s == <span class="string">&quot;hello&quot;</span>:</span><br><span class="line">    fmt.Println(<span class="string">&quot;hello&quot;</span>)</span><br><span class="line">    <span class="keyword">fallthrough</span></span><br><span class="line"><span class="keyword">case</span> s != <span class="string">&quot;world&quot;</span>:</span><br><span class="line">    fmt.Println(<span class="string">&quot;world&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// hello</span></span><br><span class="line"><span class="comment">// world</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="三、for-循环语句">三、for 循环语句</h2>
+<p>Go 语言只有 <code>for</code> 关键字，没有 <code>while</code> 或 <code>do-while</code>。</p>
+<p>语法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> [condition | (init; condition; increment) | Range] &#123;</span><br><span class="line">    循环体</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>可以看到 for 后面可以接三种表达式：
+<ul>
+<li>接一个条件表达式，类似 while 循环</li>
+<li>接三个表达式，类似传统的 for 循环</li>
+<li>接 range 关键字，遍历数组、切片、字符串、Map 等</li>
+</ul>
+</li>
+<li>如果不接表达式，等价于无限循环</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 方式一：条件表达式</span></span><br><span class="line">    i := <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i &lt; <span class="number">5</span> &#123;</span><br><span class="line">        fmt.Println(i)</span><br><span class="line">        i++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方式二：传统 for 循环</span></span><br><span class="line">    <span class="keyword">for</span> j := <span class="number">0</span>; j &lt; <span class="number">5</span>; j++ &#123;</span><br><span class="line">        fmt.Println(j)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 方式三：for range 循环</span></span><br><span class="line">    arr := []<span class="type">string</span>&#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;b&quot;</span>, <span class="string">&quot;c&quot;</span>&#125;</span><br><span class="line">    <span class="keyword">for</span> index, value := <span class="keyword">range</span> arr &#123;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;索引 %d: 值 %s\n&quot;</span>, index, value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="四、跳转语句">四、跳转语句</h2>
+<h3 id="4-1-goto-无条件跳转语句">4.1 goto 无条件跳转语句</h3>
+<p><code>goto</code> 语句用于无条件跳转到函数内的某个标签位置，标签由一个标识符和冒号 <code>:</code> 组成。<br>
+<code>goto</code> 可以跳转到同一函数内的任何位置，但不能跳转到其他函数。</p>
+<p>语法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">goto</span> 标签</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">标签: 表达式</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">goto</span> flag</span><br><span class="line">	fmt.Println(<span class="string">&quot;B&quot;</span>)</span><br><span class="line">flag:</span><br><span class="line">	fmt.Println(<span class="string">&quot;A&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// A</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-2-break-跳转语句">4.2 break 跳转语句</h3>
+<p><code>break</code> 语句用于跳出当前循环或 switch 语句块，结束当前循环或 switch 的执行。</p>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">3</span> &#123;</span><br><span class="line">        <span class="keyword">break</span> <span class="comment">// 跳出循环</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h3 id="4-3-continue-跳转语句">4.3 continue 跳转语句</h3>
+<p><code>continue</code> 语句用于跳过当前循环的剩余代码，直接进入下一次循环的判断。</p>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">5</span>; i++ &#123;</span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">3</span> &#123;</span><br><span class="line">        <span class="keyword">continue</span> <span class="comment">// 跳过当前循环</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// 0</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="comment">// 4 被跳过</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="五、defer-延迟语句">五、defer 延迟语句</h2>
+<p><code>defer</code> 语句用于注册一个函数调用，这个调用会在包含它的函数执行结束后被自动执行，无论函数是正常返回还是因为 panic 而终止。</p>
+<p>语法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">defer</span> 函数调用</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;开始执行 main 函数&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;这是 defer 语句 1&quot;</span>) <span class="comment">// 延迟执行</span></span><br><span class="line">    <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;这是 defer 语句 2&quot;</span>) <span class="comment">// 延迟执行</span></span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;main 函数即将结束&quot;</span>)</span><br><span class="line">    <span class="comment">// defer 语句在 main 函数 return 之前执行</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出顺序：</span></span><br><span class="line"><span class="comment">// 1. 开始执行 main 函数</span></span><br><span class="line"><span class="comment">// 2. main 函数即将结束</span></span><br><span class="line"><span class="comment">// 3. 这是 defer 语句 2  &lt;-- 注意顺序是 LIFO</span></span><br><span class="line"><span class="comment">// 4. 这是 defer 语句 1</span></span><br></pre></td></tr></table></figure>
+<p><strong>defer 核心用途</strong>：</p>
+<ul>
+<li>文件操作：确保文件句柄被关闭：<code>defer file.Close()</code></li>
+<li>数据库连接：确保数据库连接被释放：<code>defer db.Close()</code></li>
+<li>锁机制：确保锁被释放：<code>defer mutex.Unlock()</code></li>
+</ul>
+<p><strong>注意</strong></p>
+<ul>
+<li>defer 语句的参数是在 defer 语句被定义时立即求值的，而不是在它被执行时<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    i := <span class="number">1</span></span><br><span class="line">     </span><br><span class="line">    <span class="comment">// defer 语句被定义时，i 的值是 1，所以参数 i 立即被求值并固定为 1。</span></span><br><span class="line">    <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;defer 结果:&quot;</span>, i) </span><br><span class="line">    i++ <span class="comment">// i 的值现在是 2，但这不影响 defer 语句的参数 i。</span></span><br><span class="line">      </span><br><span class="line">    fmt.Println(<span class="string">&quot;main 结束前 i:&quot;</span>, i) </span><br><span class="line">      </span><br><span class="line">    <span class="comment">// 输出顺序：</span></span><br><span class="line">    <span class="comment">// 1. main 结束前 i: 2</span></span><br><span class="line">    <span class="comment">// 2. defer 结果: 1  &lt;-- 打印的是 i 声明时的值 1</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="六、panic-和-recover-异常处理">六、panic 和 recover 异常处理</h2>
+<h3 id="6-1-panic-抛出异常">6.1 panic 抛出异常</h3>
+<p><code>panic</code> 是一个内置函数，用于中断正常的流程控制</p>
+<ul>
+<li>当函数 <code>func</code> 中执行 <code>panic</code> 时，<code>func</code> 之后的代码将不再执行</li>
+<li><code>panic</code> 会沿着调用栈向上传播，执行当前 Goroutine 中所有已注册的 <code>defer</code> 函数</li>
+<li>如果调用栈上的所有 <code>defer</code> 函数都执行完毕，但 <code>panic</code> 仍未被捕获，程序将打印堆栈信息并崩溃退出。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;这是 main 函数的 defer&quot;</span>) <span class="comment">// 会在 panic 发生后执行</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;开始执行&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 手动触发 panic</span></span><br><span class="line">    <span class="built_in">panic</span>(<span class="string">&quot;发生了一个严重错误！&quot;</span>) </span><br><span class="line">    </span><br><span class="line">    fmt.Println(<span class="string">&quot;这行代码不会被执行&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出: </span></span><br><span class="line"><span class="comment">// 开始执行</span></span><br><span class="line"><span class="comment">// 这是 main 函数的 defer</span></span><br><span class="line"><span class="comment">// panic: 发生了一个严重错误！</span></span><br><span class="line"><span class="comment">// ... (堆栈信息)</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-2-recover-捕获异常">6.2 recover 捕获异常</h3>
+<p><code>recover</code> 是一个内置函数，必须在 <code>defer</code> 函数中调用，才能捕获到 <code>panic</code> 抛出的错误，并阻止程序崩溃。</p>
+<ul>
+<li>有效调用： 在 <code>defer</code> 函数内直接调用 <code>recover()</code></li>
+<li>作用： 如果一个 <code>panic</code> 正在进行，<code>recover</code> 会捕获到 <code>panic</code> 的参数（即 <code>panic()</code> 函数的参数），并终止 <code>panic</code> 过程，让程序恢复正常执行流程</li>
+<li>恢复位置：捕获 <code>panic</code> 后，程序不会回到 <code>panic</code> 发生的点，而是继续执行 <code>defer</code> 之后的代码</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">safeDivide</span><span class="params">(a, b <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 必须在 defer 匿名函数中调用 recover</span></span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> r := <span class="built_in">recover</span>(); r != <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="comment">// r 就是 panic() 传递的参数</span></span><br><span class="line">            fmt.Printf(<span class="string">&quot;程序恢复！捕获到 panic 错误: %v\n&quot;</span>, r)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;尝试进行除法计算...&quot;</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 故意制造一个会导致 panic 的操作</span></span><br><span class="line">    z := a / b <span class="comment">// 如果 b=0，会触发 runtime panic: integer divide by zero</span></span><br><span class="line">    </span><br><span class="line">    fmt.Printf(<span class="string">&quot;%d / %d = %d\n&quot;</span>, a, b, z)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    safeDivide(<span class="number">10</span>, <span class="number">2</span>) <span class="comment">// 正常执行</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;--------------------&quot;</span>)</span><br><span class="line">    safeDivide(<span class="number">10</span>, <span class="number">0</span>) <span class="comment">// 发生 panic，但被 recover 捕获并恢复</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 由于 panic 被捕获，程序可以继续执行后续代码</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;--------------------&quot;</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;main 函数继续执行，程序没有崩溃。&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出：</span></span><br><span class="line"><span class="comment">// 尝试进行除法计算...</span></span><br><span class="line"><span class="comment">// 10 / 2 = 5</span></span><br><span class="line"><span class="comment">// --------------------</span></span><br><span class="line"><span class="comment">// 尝试进行除法计算...</span></span><br><span class="line"><span class="comment">// 程序恢复！捕获到 panic 错误: runtime error: integer divide by zero</span></span><br><span class="line"><span class="comment">// --------------------</span></span><br><span class="line"><span class="comment">// main 函数继续执行，程序没有崩溃。</span></span><br></pre></td></tr></table></figure></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/go-basics/">go-basics</a></div><div class="post_share"><div class="social-share" data-image="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Go 异常处理机制</div></div></a></div><div class="next-post pull-right"><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Go 数据类型</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 基础语法</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 数据类型</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 异常处理机制</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">358</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Go 流程控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81if-else-%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-text">一、if-else 条件语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81switch-case-%E9%80%89%E6%8B%A9%E8%AF%AD%E5%8F%A5"><span class="toc-text">二、switch-case 选择语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81for-%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">三、for 循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5"><span class="toc-text">四、跳转语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-goto-%E6%97%A0%E6%9D%A1%E4%BB%B6%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5"><span class="toc-text">4.1 goto 无条件跳转语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-break-%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5"><span class="toc-text">4.2 break 跳转语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-continue-%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5"><span class="toc-text">4.3 continue 跳转语句</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81defer-%E5%BB%B6%E8%BF%9F%E8%AF%AD%E5%8F%A5"><span class="toc-text">五、defer 延迟语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81panic-%E5%92%8C-recover-%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">六、panic 和 recover 异常处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-panic-%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="toc-text">6.1 panic 抛出异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-recover-%E6%8D%95%E8%8E%B7%E5%BC%82%E5%B8%B8"><span class="toc-text">6.2 recover 捕获异常</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 异常处理机制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制">Go 异常处理机制</a><time datetime="2026-04-30T05:00:00.000Z" title="发表于 2026-04-30 13:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 流程控制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制">Go 流程控制</a><time datetime="2026-04-30T04:00:00.000Z" title="发表于 2026-04-30 12:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 数据类型"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型">Go 数据类型</a><time datetime="2026-04-30T03:00:00.000Z" title="发表于 2026-04-30 11:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 基础语法"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/" title="Go 基础语法">Go 基础语法</a><time datetime="2026-04-30T02:00:00.000Z" title="发表于 2026-04-30 10:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/26/Java/Leetcode/Leetcode%E7%83%AD%E9%A2%98100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="Leetcode_hot100_25.K个一组翻转链表"><img src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Leetcode_hot100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Leetcode_hot100_25.K个一组翻转链表"/></a><div class="content"><a class="title" href="/2026/04/26/Java/Leetcode/Leetcode%E7%83%AD%E9%A2%98100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="Leetcode_hot100_25.K个一组翻转链表">Leetcode_hot100_25.K个一组翻转链表</a><time datetime="2026-04-26T14:00:00.000Z" title="发表于 2026-04-26 22:00:00">2026-04-26</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
