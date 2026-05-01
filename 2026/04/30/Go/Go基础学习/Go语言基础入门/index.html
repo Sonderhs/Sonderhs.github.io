@@ -1,0 +1,391 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Go 语言基础入门 | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="本文是 Go 语言基础入门教程，涵盖了 Go 的基本语法、数据类型、控制流、函数、错误处理、结构体与接口等核心概念。通过丰富的代码示例，帮助初学者快速掌握 Go 语言的基础知识，为后续深入学习和实战项目打下坚实基础。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 语言基础入门">
+<meta property="og:url" content="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="本文是 Go 语言基础入门教程，涵盖了 Go 的基本语法、数据类型、控制流、函数、错误处理、结构体与接口等核心概念。通过丰富的代码示例，帮助初学者快速掌握 Go 语言的基础知识，为后续深入学习和实战项目打下坚实基础。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8.JPG">
+<meta property="article:published_time" content="2026-04-30T02:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-01T07:48:10.890Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="go-basics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8.JPG"><link rel="shortcut icon" href="/../image/BlogCover/output-removebg-preview.png"><link rel="canonical" href="http://example.com/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Go 语言基础入门',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-05-01 15:48:10'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">359</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/output-removebg-preview.png"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Go 语言基础入门</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-30T02:00:00.000Z" title="发表于 2026-04-30 10:00:00">2026-04-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-01T07:48:10.890Z" title="更新于 2026-05-01 15:48:10">2026-05-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Go/">Go</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>Go语言基础入门：从零开始掌握云原生时代的第一语言</h1>
+<blockquote>
+<p>你是否想过，为什么 Docker、Kubernetes、Prometheus 这些改变世界的云原生项目都选择用同一种语言编写？为什么字节跳动、Uber、Dropbox 纷纷将核心后端迁移到这门语言？答案就是 —— <strong>Go</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="一、为什么是-Go？">一、为什么是 Go？</h2>
+<p>如果你是一名编程初学者，或者想拓展技术栈的开发者，Go 语言绝对值得你的关注。这门由 Google 在 2009 年开源的语言，只用 25 个关键字就构建出了简洁而强大的编程世界。</p>
+<p>让我们看看 Go 的几组关键数据：</p>
+<ul>
+<li>全球约 <strong>220 万专业开发者</strong> 将 Go 作为主要语言</li>
+<li>超过 <strong>75% 的 CNCF 云原生项目</strong> 由 Go 编写</li>
+<li>在 TIOBE 编程语言排行榜上稳居前 10</li>
+</ul>
+<p>Go 的设计哲学可以用一句话概括：<strong>“Less is more”（少即是多）</strong>。它砍掉了类继承、异常机制、泛型（1.18 前版本）、三元运算符等复杂特性，却用组合、接口和 goroutine 构建出了更优雅的解决方案。</p>
+<hr>
+<h2 id="二、快速开始：你的第一个-Go-程序">二、快速开始：你的第一个 Go 程序</h2>
+<p>在开始讲解语法之前，先让你感受一下 Go 的魅力：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello, Go 语言！&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行方式同样简单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go mod init hello   <span class="comment"># 初始化模块</span></span><br><span class="line">go run main.go      <span class="comment"># 直接运行</span></span><br><span class="line">go build -o hello   <span class="comment"># 编译为可执行文件</span></span><br></pre></td></tr></table></figure>
+<p>编译后会生成一个单一的可执行文件，没有任何外部依赖 —— 这就是 Go 备受青睐的原因之一。</p>
+<hr>
+<h2 id="三、基础语法：简洁到令人上瘾">三、基础语法：简洁到令人上瘾</h2>
+<h3 id="3-1-变量声明">3.1 变量声明</h3>
+<p>Go 提供了多种声明变量的方式，但最常用的是短变量声明 <code>:=</code>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name <span class="type">string</span>          <span class="comment">// 声明（默认零值 &quot;&quot;）</span></span><br><span class="line"><span class="keyword">var</span> age <span class="type">int</span> = <span class="number">18</span>         <span class="comment">// 声明并初始化</span></span><br><span class="line">country := <span class="string">&quot;China&quot;</span>       <span class="comment">// 类型推导（最常用）</span></span><br><span class="line"><span class="keyword">const</span> Pi = <span class="number">3.14159</span>       <span class="comment">// 常量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 注意：声明了但未使用的变量会导致编译错误！</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-2-数据类型">3.2 数据类型</h3>
+<p>Go 是静态类型语言，这意味着每个变量都有明确的类型：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> isActive <span class="type">bool</span>       <span class="comment">// 布尔</span></span><br><span class="line"><span class="keyword">var</span> message <span class="type">string</span>      <span class="comment">// 字符串</span></span><br><span class="line"><span class="keyword">var</span> count <span class="type">int</span>           <span class="comment">// 整数（还有 int8, int16, int32, int64）</span></span><br><span class="line"><span class="keyword">var</span> price <span class="type">float64</span>       <span class="comment">// 浮点数</span></span><br><span class="line"><span class="keyword">var</span> b <span class="type">byte</span>              <span class="comment">// byte = uint8</span></span><br><span class="line"><span class="keyword">var</span> r <span class="type">rune</span>              <span class="comment">// rune = int32，表示 Unicode 码点</span></span><br></pre></td></tr></table></figure>
+<p><strong>关键点</strong>：Go 不支持隐式类型转换，必须显式转换：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i <span class="type">int</span> = <span class="number">42</span></span><br><span class="line"><span class="keyword">var</span> f <span class="type">float64</span> = <span class="type">float64</span>(i)  <span class="comment">// 必须显式转换</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-3-控制流">3.3 控制流</h3>
+<p>Go 的控制流去掉了多余的语法糖，让你专注于逻辑本身：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// if 语句 -- 无需括号！</span></span><br><span class="line"><span class="keyword">if</span> score &gt;= <span class="number">90</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;优秀&quot;</span>)</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> score &gt;= <span class="number">60</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;及格&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// if 支持初始化语句（变量仅在块内有效）</span></span><br><span class="line"><span class="keyword">if</span> num := rand.Intn(<span class="number">100</span>); num &gt; <span class="number">50</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;大于 50&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// switch -- 默认自动 break，无需手动写！</span></span><br><span class="line"><span class="keyword">switch</span> day &#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    fmt.Println(<span class="string">&quot;周一&quot;</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>:  <span class="comment">// 多值匹配</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;工作日中间&quot;</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    fmt.Println(<span class="string">&quot;其他&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// for -- Go 只有这一个循环关键字</span></span><br><span class="line"><span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">10</span>; i++ &#123;</span><br><span class="line">    fmt.Println(i)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 相当于 while</span></span><br><span class="line">sum := <span class="number">1</span></span><br><span class="line"><span class="keyword">for</span> sum &lt; <span class="number">100</span> &#123;</span><br><span class="line">    sum += sum</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// for-range 遍历</span></span><br><span class="line">nums := []<span class="type">int</span>&#123;<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>&#125;</span><br><span class="line"><span class="keyword">for</span> i, v := <span class="keyword">range</span> nums &#123;</span><br><span class="line">    fmt.Printf(<span class="string">&quot;索引:%d 值:%d\n&quot;</span>, i, v)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-4-复合类型">3.4 复合类型</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 数组（固定长度）</span></span><br><span class="line"><span class="keyword">var</span> arr [<span class="number">5</span>]<span class="type">int</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 切片（动态长度，比数组更常用）</span></span><br><span class="line">s := []<span class="type">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;</span><br><span class="line">s = <span class="built_in">append</span>(s, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 映射（键值对）</span></span><br><span class="line">m := <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span>&#123;<span class="string">&quot;a&quot;</span>: <span class="number">1</span>, <span class="string">&quot;b&quot;</span>: <span class="number">2</span>&#125;</span><br><span class="line">v, exists := m[<span class="string">&quot;a&quot;</span>]  <span class="comment">// 安全取值</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="四、函数与错误处理：Go-的核心设计哲学">四、函数与错误处理：Go 的核心设计哲学</h2>
+<h3 id="4-1-多返回值">4.1 多返回值</h3>
+<p>Go 没有传统的异常（try-catch）机制，而是通过<strong>多返回值</strong>来优雅地处理错误：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">divide</span><span class="params">(a, b <span class="type">int</span>)</span></span> (<span class="type">int</span>, <span class="type">error</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> b == <span class="number">0</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>, fmt.Errorf(<span class="string">&quot;除数不能为零&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> a / b, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用时必须处理错误</span></span><br><span class="line">result, err := divide(<span class="number">10</span>, <span class="number">0</span>)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;出错了:&quot;</span>, err)</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种设计看起来很&quot;啰嗦&quot;，但它的好处是：<strong>错误处理变得显式且不可忽略</strong>。你不会像在其他语言中那样意外地吞掉异常。</p>
+<h3 id="4-2-defer-–-资源管理的优雅方案">4.2 defer – 资源管理的优雅方案</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">readFile</span><span class="params">(filename <span class="type">string</span>)</span></span> <span class="type">error</span> &#123;</span><br><span class="line">    f, err := os.Open(filename)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> f.Close()  <span class="comment">// 函数返回前一定会执行</span></span><br><span class="line">    <span class="comment">// 处理文件...</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>defer</code> 会在函数返回前执行，是 Go 中最优雅的特性之一。多个 defer 按后进先出（LIFO）顺序执行。</p>
+<h3 id="4-3-函数是一等公民">4.3 函数是一等公民</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数可赋值给变量</span></span><br><span class="line">double := <span class="function"><span class="keyword">func</span><span class="params">(x <span class="type">int</span>)</span></span> <span class="type">int</span> &#123; <span class="keyword">return</span> x * <span class="number">2</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数可作为参数</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">apply</span><span class="params">(f <span class="keyword">func</span>(<span class="type">int</span>)</span></span> <span class="type">int</span>, v <span class="type">int</span>) <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> f(v)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数可作为返回值</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createAdder</span><span class="params">(x <span class="type">int</span>)</span></span> <span class="function"><span class="keyword">func</span><span class="params">(<span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">func</span><span class="params">(y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="五、结构体与接口：Go-的-面向对象">五、结构体与接口：Go 的&quot;面向对象&quot;</h2>
+<p>Go 不是传统的面向对象语言，但通过 <strong>struct</strong> 和 <strong>interface</strong> 实现了 OOP 的核心概念。</p>
+<h3 id="5-1-结构体">5.1 结构体</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Person <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name <span class="type">string</span></span><br><span class="line">    Age  <span class="type">int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 值接收器</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p Person)</span></span> Greet() <span class="type">string</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;你好，我是&quot;</span> + p.Name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针接收器（可以修改原始值）</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *Person)</span></span> Birthday() &#123;</span><br><span class="line">    p.Age++</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-组合替代继承">5.2 组合替代继承</h3>
+<p>Go 使用组合而非继承来复用代码：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Address <span class="keyword">struct</span> &#123;</span><br><span class="line">    City    <span class="type">string</span></span><br><span class="line">    Country <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Employee <span class="keyword">struct</span> &#123;</span><br><span class="line">    Name    <span class="type">string</span></span><br><span class="line">    Age     <span class="type">int</span></span><br><span class="line">    Address  <span class="comment">// 匿名字段，字段提升</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">e := Employee&#123;Name: <span class="string">&quot;小红&quot;</span>, Age: <span class="number">25</span>, Address: Address&#123;City: <span class="string">&quot;北京&quot;</span>&#125;&#125;</span><br><span class="line">fmt.Println(e.City)  <span class="comment">// 直接访问，等同于 e.Address.City</span></span><br></pre></td></tr></table></figure>
+<h3 id="5-3-接口-–-鸭子类型">5.3 接口 – 鸭子类型</h3>
+<p>Go 的接口是隐式实现的 —— 只要一个类型拥有接口中定义的所有方法，它就自动实现了该接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Speaker <span class="keyword">interface</span> &#123;</span><br><span class="line">    Speak() <span class="type">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Dog <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"><span class="keyword">type</span> Cat <span class="keyword">struct</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(d Dog)</span></span> Speak() <span class="type">string</span> &#123; <span class="keyword">return</span> <span class="string">&quot;汪汪！&quot;</span> &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(c Cat)</span></span> Speak() <span class="type">string</span> &#123; <span class="keyword">return</span> <span class="string">&quot;喵喵！&quot;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多态</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">LetItSpeak</span><span class="params">(s Speaker)</span></span> &#123;</span><br><span class="line">    fmt.Println(s.Speak())</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">LetItSpeak(Dog&#123;&#125;)  <span class="comment">// 汪汪！</span></span><br><span class="line">LetItSpeak(Cat&#123;&#125;)  <span class="comment">// 喵喵！</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="六、并发编程：Go-的杀手锏">六、并发编程：Go 的杀手锏</h2>
+<p>这是 Go 最闪耀的地方。<strong>Goroutine</strong> 和 <strong>Channel</strong> 让并发编程变得前所未有地简单。</p>
+<h3 id="6-1-Goroutine">6.1 Goroutine</h3>
+<p>Goroutine 是 Go 运行时管理的轻量级协程，启动一个 goroutine 只需要一个关键字 <code>go</code>：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Hello from goroutine!&quot;</span>)</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>对比系统线程：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Goroutine</th>
+<th>系统线程</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始栈大小</td>
+<td>~2 KB</td>
+<td>1~8 MB</td>
+</tr>
+<tr>
+<td>创建10万个</td>
+<td>~2 GB 内存</td>
+<td>TB级内存</td>
+</tr>
+<tr>
+<td>调度</td>
+<td>用户态（Go 运行时）</td>
+<td>内核态</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-2-Channel-–-通信管道">6.2 Channel – 通信管道</h3>
+<p>Go 的并发哲学：<strong>“不要通过共享内存来通信，而要通过通信来共享内存”</strong>。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ch := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>)         <span class="comment">// 无缓冲 channel</span></span><br><span class="line">bufCh := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">string</span>, <span class="number">3</span>) <span class="comment">// 有缓冲 channel</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 发送和接收</span></span><br><span class="line"><span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    ch &lt;- <span class="number">42</span>  <span class="comment">// 发送</span></span><br><span class="line">&#125;()</span><br><span class="line">value := &lt;-ch  <span class="comment">// 接收（阻塞直到收到消息）</span></span><br></pre></td></tr></table></figure>
+<h3 id="6-3-select-–-多路复用">6.3 select – 多路复用</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> &#123;</span><br><span class="line"><span class="keyword">case</span> msg1 := &lt;-ch1:</span><br><span class="line">    fmt.Println(<span class="string">&quot;收到:&quot;</span>, msg1)</span><br><span class="line"><span class="keyword">case</span> msg2 := &lt;-ch2:</span><br><span class="line">    fmt.Println(<span class="string">&quot;收到:&quot;</span>, msg2)</span><br><span class="line"><span class="keyword">case</span> &lt;-time.After(<span class="number">3</span> * time.Second):</span><br><span class="line">    fmt.Println(<span class="string">&quot;超时&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="七、Go-的主要应用场景">七、Go 的主要应用场景</h2>
+<p>理解了 Go 的特性后，让我们看看它实际用在哪些地方：</p>
+<ul>
+<li><strong>云原生基础设施</strong>: Docker、Kubernetes、etcd、Prometheus、Istio</li>
+<li><strong>微服务后端</strong>: RESTful API、gRPC 服务</li>
+<li><strong>CLI 工具</strong>: kubectl、helm、hugo</li>
+<li><strong>网络编程</strong>: 反向代理、负载均衡器</li>
+<li><strong>实时数据处理</strong>: 物联网管道、金融交易系统</li>
+</ul>
+<hr>
+<h2 id="八、推荐免费资源">八、推荐免费资源</h2>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://go.dev/tour/">A Tour of Go</a> - 官方交互式教程，有中文版</li>
+<li><a target="_blank" rel="noopener" href="https://gobyexample.com/">Go by Example</a> - 通过代码示例学习</li>
+<li><a target="_blank" rel="noopener" href="https://go.dev/doc/effective_go">Effective Go</a> - 编写高质量 Go 代码的指南</li>
+</ul>
+<hr>
+<h2 id="九、总结">九、总结</h2>
+<p>Go 语言凭借三大优势，成为 2025 年最有学习价值的编程语言之一：</p>
+<ul>
+<li><strong>极低的学习门槛</strong> – 25 个关键字，几天即可上手</li>
+<li><strong>强大的并发模型</strong> – goroutine + channel 让并发编程变得简单</li>
+<li><strong>云原生生态的主导地位</strong> – Docker、Kubernetes 等核心项目都用 Go</li>
+</ul>
+<p>无论你是想进入后端开发、云原生领域，还是 DevOps 方向，Go 都是你的绝佳选择。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Go/">Go</a><a class="post-meta__tags" href="/tags/go-basics/">go-basics</a></div><div class="post_share"><div class="social-share" data-image="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Go 数据类型</div></div></a></div><div class="next-post pull-right"><a href="/2026/04/26/Java/Leetcode/Leetcode%E7%83%AD%E9%A2%98100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/" title="Leetcode_hot100_25.K个一组翻转链表"><img class="cover" src="/../image/Java/%E7%AE%97%E6%B3%95Leetcode/Leetcode_hot100_25.K%E4%B8%AA%E4%B8%80%E7%BB%84%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Leetcode_hot100_25.K个一组翻转链表</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 异常处理机制</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 数据类型</div></div></a></div><div><a href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-30</div><div class="title">Go 流程控制</div></div></a></div><div><a href="/2026/05/01/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="Go 语言的面向对象"><img class="cover" src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-01</div><div class="title">Go 语言的面向对象</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">359</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">Go语言基础入门：从零开始掌握云原生时代的第一语言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-Go%EF%BC%9F"><span class="toc-text">一、为什么是 Go？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B%EF%BC%9A%E4%BD%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-Go-%E7%A8%8B%E5%BA%8F"><span class="toc-text">二、快速开始：你的第一个 Go 程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%EF%BC%9A%E7%AE%80%E6%B4%81%E5%88%B0%E4%BB%A4%E4%BA%BA%E4%B8%8A%E7%98%BE"><span class="toc-text">三、基础语法：简洁到令人上瘾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-text">3.1 变量声明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.3 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.4 复合类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%87%BD%E6%95%B0%E4%B8%8E%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%EF%BC%9AGo-%E7%9A%84%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E5%93%B2%E5%AD%A6"><span class="toc-text">四、函数与错误处理：Go 的核心设计哲学</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">4.1 多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-defer-%E2%80%93-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%9A%84%E4%BC%98%E9%9B%85%E6%96%B9%E6%A1%88"><span class="toc-text">4.2 defer – 资源管理的优雅方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%87%BD%E6%95%B0%E6%98%AF%E4%B8%80%E7%AD%89%E5%85%AC%E6%B0%91"><span class="toc-text">4.3 函数是一等公民</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%8E%A5%E5%8F%A3%EF%BC%9AGo-%E7%9A%84-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="toc-text">五、结构体与接口：Go 的&quot;面向对象&quot;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="toc-text">5.1 结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-%E7%BB%84%E5%90%88%E6%9B%BF%E4%BB%A3%E7%BB%A7%E6%89%BF"><span class="toc-text">5.2 组合替代继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E6%8E%A5%E5%8F%A3-%E2%80%93-%E9%B8%AD%E5%AD%90%E7%B1%BB%E5%9E%8B"><span class="toc-text">5.3 接口 – 鸭子类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%EF%BC%9AGo-%E7%9A%84%E6%9D%80%E6%89%8B%E9%94%8F"><span class="toc-text">六、并发编程：Go 的杀手锏</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-Goroutine"><span class="toc-text">6.1 Goroutine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-Channel-%E2%80%93-%E9%80%9A%E4%BF%A1%E7%AE%A1%E9%81%93"><span class="toc-text">6.2 Channel – 通信管道</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-select-%E2%80%93-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="toc-text">6.3 select – 多路复用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81Go-%E7%9A%84%E4%B8%BB%E8%A6%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">七、Go 的主要应用场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%8E%A8%E8%8D%90%E5%85%8D%E8%B4%B9%E8%B5%84%E6%BA%90"><span class="toc-text">八、推荐免费资源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-text">九、总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/05/01/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="Go 语言的面向对象"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E7%9A%84%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 语言的面向对象"/></a><div class="content"><a class="title" href="/2026/05/01/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" title="Go 语言的面向对象">Go 语言的面向对象</a><time datetime="2026-05-01T05:00:00.000Z" title="发表于 2026-05-01 13:00:00">2026-05-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 异常处理机制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E6%9C%BA%E5%88%B6/" title="Go 异常处理机制">Go 异常处理机制</a><time datetime="2026-04-30T05:00:00.000Z" title="发表于 2026-04-30 13:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 流程控制"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="Go 流程控制">Go 流程控制</a><time datetime="2026-04-30T04:00:00.000Z" title="发表于 2026-04-30 12:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 数据类型"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/" title="Go 数据类型">Go 数据类型</a><time datetime="2026-04-30T03:00:00.000Z" title="发表于 2026-04-30 11:00:00">2026-04-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Go 语言基础入门"><img src="/../image/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Go 语言基础入门"/></a><div class="content"><a class="title" href="/2026/04/30/Go/Go%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8/" title="Go 语言基础入门">Go 语言基础入门</a><time datetime="2026-04-30T02:00:00.000Z" title="发表于 2026-04-30 10:00:00">2026-04-30</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
