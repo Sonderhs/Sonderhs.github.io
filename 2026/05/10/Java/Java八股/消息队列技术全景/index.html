@@ -1,0 +1,680 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？ | Hansen</title><meta name="author" content="Hansen"><meta name="copyright" content="Hansen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="消息队列是现代分布式架构的基石。本文将系统梳理消息队列的核心概念、投递语义与幂等性设计，并深入对比 Redis Stream、RocketMQ、Kafka 与 RabbitMQ 四大主流方案，帮助你根据实际业务场景做出正确的技术选型。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？">
+<meta property="og:url" content="http://example.com/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF/index.html">
+<meta property="og:site_name" content="Hansen">
+<meta property="og:description" content="消息队列是现代分布式架构的基石。本文将系统梳理消息队列的核心概念、投递语义与幂等性设计，并深入对比 Redis Stream、RocketMQ、Kafka 与 RabbitMQ 四大主流方案，帮助你根据实际业务场景做出正确的技术选型。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF.JPG">
+<meta property="article:published_time" content="2026-05-10T15:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-11T05:39:30.666Z">
+<meta property="article:author" content="Hansen">
+<meta property="article:tag" content="Java八股">
+<meta property="article:tag" content="MQ">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF.JPG"><link rel="shortcut icon" href="/../image/BlogCover/output-removebg-preview.png"><link rel="canonical" href="http://example.com/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2026-05-11 13:39:30'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><style>#article-container.post-content h1:before, h2:before, h3:before, h4:before, h5:before, h6:before { -webkit-animation: avatar_turn_around 1s linear infinite; -moz-animation: avatar_turn_around 1s linear infinite; -o-animation: avatar_turn_around 1s linear infinite; -ms-animation: avatar_turn_around 1s linear infinite; animation: avatar_turn_around 1s linear infinite; }</style><link rel="stylesheet" href="/transpancy.css"><style>#blog-activity-home-card{overflow:hidden}.blog-activity-archive-card{margin-bottom:1rem}.blog-activity-total{font-size:.85rem;color:var(--font-color);opacity:.85;margin:.3rem 0 .5rem}.blog-activity-months{display:grid;grid-template-columns:repeat(53,1fr);gap:3px;margin-bottom:4px;font-size:.68rem;color:var(--font-color);opacity:.55}.blog-activity-months span{display:block;text-align:left;min-height:12px}.blog-activity-heatmap{display:grid;grid-template-columns:repeat(53,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}.blog-activity-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-thumb{display:grid;grid-template-columns:repeat(26,1fr);grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:2px}.blog-activity-thumb-cell{display:block;width:100%;aspect-ratio:1/1;border-radius:2px;background:#ebedf0}.blog-activity-cell.lv-1,.blog-activity-thumb-cell.lv-1{background:#c6e48b}.blog-activity-cell.lv-2,.blog-activity-thumb-cell.lv-2{background:#7bc96f}.blog-activity-cell.lv-3,.blog-activity-thumb-cell.lv-3{background:#239a3b}.blog-activity-cell.lv-4,.blog-activity-thumb-cell.lv-4{background:#196127}.blog-activity-thumb-link{display:block;text-decoration:none}.blog-activity-thumb-link:hover{opacity:.9}.blog-activity-legend{display:flex;justify-content:flex-end;align-items:center;gap:4px;margin-top:6px;font-size:.75rem;color:var(--font-color);opacity:.65}.blog-activity-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;background:#ebedf0}.blog-activity-legend i.lv-1{background:#c6e48b}.blog-activity-legend i.lv-2{background:#7bc96f}.blog-activity-legend i.lv-3{background:#239a3b}.blog-activity-legend i.lv-4{background:#196127}.blog-activity-loading{font-size:.85rem;opacity:.8}.read-mode .blog-activity-total,.read-mode .blog-activity-months,.read-mode .blog-activity-legend,.read-mode .blog-activity-loading{color:var(--font-color)}@media (max-width:900px){.blog-activity-months{font-size:.62rem;gap:2px}.blog-activity-heatmap{gap:2px}}</style><style>.blog-activity-year-switch{display:flex;gap:8px;flex-wrap:wrap;margin:.2rem 0 .4rem}.blog-activity-year-btn{border:1px solid var(--btn-bg);background:transparent;color:var(--font-color);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:.78rem;line-height:1.5}.blog-activity-year-btn.active{background:var(--btn-bg);color:var(--btn-color)}.blog-activity-cell.out-year{background:transparent;opacity:.3}</style><meta name="generator" content="Hexo 7.0.0"></head><body><script>window.paceOptions = {
+  restartOnPushState: false
+}
+
+document.addEventListener('pjax:send', () => {
+  Pace.restart()
+})
+</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/blue/pace-theme-minimal.min.css"/><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background: transparent"><nav id="nav"><span id="blog-info"><a href="/" title="Hansen"><img class="site-icon" src="/../image/BlogCover/output-removebg-preview.png"/><span class="site-name">Hansen</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 链接</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-05-10T15:00:00.000Z" title="发表于 2026-05-10 23:00:00">2026-05-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-05-11T05:39:30.666Z" title="更新于 2026-05-11 13:39:30">2026-05-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>13分钟</span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？</h1>
+<h2 id="一、当系统开始-说话-，你准备好了吗？">一、当系统开始&quot;说话&quot;，你准备好了吗？</h2>
+<p>假设你正在开发一个电商下单接口。用户点击&quot;立即购买&quot;后，系统至少需要做这些事：扣库存、生成订单、发短信通知、记录用户行为日志、触发推荐模型更新。</p>
+<p>你会怎么写？把所有逻辑串在一个接口里，让用户等 3 秒？还是每个操作都开一个线程去异步执行？</p>
+<p>再想象双十一零点：每秒 50 万笔订单同时涌入。你的数据库能扛住吗？下游服务崩溃了，消息会丢吗？</p>
+<p>这些问题的答案，都指向同一类中间件——<strong>消息队列（Message Queue）</strong>。</p>
+<p><img src="/image/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%80%BB%E7%BB%93.png" alt="消息队列技术全景"></p>
+<hr>
+<h2 id="二、消息队列：分布式系统的-中枢神经">二、消息队列：分布式系统的&quot;中枢神经&quot;</h2>
+<h3 id="2-1-消息队列解决什么问题？">2.1 消息队列解决什么问题？</h3>
+<p>消息队列本质上是一种<strong>异步通信中间件</strong>，我们可以把消息队列看作是一个存放消息的容器，当我们需要使用消息的时候，直接从容器中取出消息供自己使用即可。</p>
+<p>它让服务之间不需要直接调用，而是通过一个共享的&quot;消息通道&quot;来传递数据。这带来了三个核心收益：</p>
+<ul>
+<li><strong>解耦（Decoupling）</strong>：订单服务不需要知道短信服务的存在，它只负责把消息扔进队列。短信服务挂了？订单服务照样正常运行。</li>
+<li><strong>削峰（Peak Shaving）</strong>：瞬时流量洪峰不用硬扛，消息在队列中排队，下游按自己的节奏慢慢消费。</li>
+<li><strong>异步（Async Processing）</strong>：非核心链路异步化，接口响应时间从秒级降到毫秒级。</li>
+</ul>
+<p>用餐厅来类比：服务员把订单写在小票上（生产消息），厨师按顺序做菜（消费消息），高峰期小票会积压但厨房不会直接崩溃（削峰）。</p>
+<h3 id="2-2-核心概念速览">2.2 核心概念速览</h3>
+<p>不管哪种消息队列，都绕不开这几个基本概念：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>一句话解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Producer</strong></td>
+<td>发消息的</td>
+</tr>
+<tr>
+<td><strong>Consumer</strong></td>
+<td>收消息、处理消息的</td>
+</tr>
+<tr>
+<td><strong>Broker</strong></td>
+<td>消息中转站，负责存储和投递</td>
+</tr>
+<tr>
+<td><strong>Topic / Queue</strong></td>
+<td>消息的类别，类似快递的&quot;目的地&quot;</td>
+</tr>
+<tr>
+<td><strong>Partition</strong></td>
+<td>一个 Topic 分成多个分区，实现并行处理</td>
+</tr>
+<tr>
+<td><strong>Consumer Group</strong></td>
+<td>一组消费者协同消费，一条消息只被组内一个消费者处理</td>
+</tr>
+<tr>
+<td><strong>Offset</strong></td>
+<td>消息在分区中的&quot;位置编号&quot;，类似书签</td>
+</tr>
+<tr>
+<td><strong>ACK</strong></td>
+<td>消费者确认&quot;我处理完了&quot;，Broker 才会标记消息已消费</td>
+</tr>
+</tbody>
+</table>
+<h3 id="2-3-消息投递的三重保障：At-Most-Once-At-Least-Once-Exactly-Once">2.3 消息投递的三重保障：At-Most-Once / At-Least-Once / Exactly-Once</h3>
+<p>这是消息队列中最重要也最容易混淆的概念：</p>
+<table>
+<thead>
+<tr>
+<th>语义</th>
+<th>一句话</th>
+<th>丢消息？</th>
+<th>重复消息？</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>At-Most-Once</strong></td>
+<td>最多一次，丢了不重发</td>
+<td>可能</td>
+<td>不会</td>
+<td>日志采集、IoT 传感器</td>
+</tr>
+<tr>
+<td><strong>At-Least-Once</strong></td>
+<td>至少一次，丢了就重发</td>
+<td>不会</td>
+<td>可能</td>
+<td><strong>绝大多数业务系统</strong></td>
+</tr>
+<tr>
+<td><strong>Exactly-Once</strong></td>
+<td>精确一次，不丢不重</td>
+<td>不会</td>
+<td>不会</td>
+<td>金融交易、计费</td>
+</tr>
+</tbody>
+</table>
+<p><strong>一个重要真相</strong>：没有任何系统能在所有场景下真正做到 Exactly-Once。业界最务实的做法是 <strong>At-Least-Once + 业务幂等性</strong>——消息可能重复投递，但你的消费逻辑能识别并去重。</p>
+<p>常见的幂等性实现方案：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方案一：数据库唯一索引</span></span><br><span class="line"><span class="comment">// 给订单号建唯一索引，重复 INSERT 直接失败</span></span><br><span class="line">INSERT INTO <span class="title function_">orders</span> <span class="params">(order_id, amount)</span> VALUES (?, ?);</span><br><span class="line"><span class="comment">// 如果 order_id 已存在，会抛出 DuplicateKeyException，直接忽略即可</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 方案二：Redis 分布式锁</span></span><br><span class="line"><span class="comment">// 用消息 ID 做 key，SETNX 保证只消费一次</span></span><br><span class="line"><span class="type">String</span> <span class="variable">lockKey</span> <span class="operator">=</span> <span class="string">&quot;msg:consumed:&quot;</span> + messageId;</span><br><span class="line"><span class="type">boolean</span> <span class="variable">consumed</span> <span class="operator">=</span> redis.setnx(lockKey, <span class="string">&quot;1&quot;</span>);</span><br><span class="line"><span class="keyword">if</span> (!consumed) <span class="keyword">return</span>; <span class="comment">// 已经处理过，跳过</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-4-消息队列的可靠性与顺序性保证">2.4 消息队列的可靠性与顺序性保证</h3>
+<p><strong>可靠性保证</strong>可以通过下面这些方式来保证：</p>
+<ul>
+<li><strong>消息持久化</strong>：将消息持久化到磁盘，防止 Broker 崩溃导致消息丢失。</li>
+<li><strong>ACK 机制</strong>：消费者处理完消息后发送 ACK，Broker 才会标记消息已消费。</li>
+<li><strong>重试机制</strong>：消费者处理失败时，消息会重新投递，直到成功或达到最大重试次数。</li>
+</ul>
+<p><strong>顺序性保证</strong>可以通过以下方式来实现：</p>
+<ul>
+<li><strong>有序消息处理场景识别</strong>：首先需要明确业务场景中那些消息是需要保证顺序的。</li>
+<li><strong>消息队列对顺序性的支持</strong>：部分消息队列本身提供了顺序性保证的功能。</li>
+<li><strong>消费者顺序处理策略</strong>：消费者在处理顺序消息时应避免并发处理可能导致顺序打乱的情况。</li>
+</ul>
+<h3 id="2-5-消息队列的幂等性设计">2.5 消息队列的幂等性设计</h3>
+<p><strong>幂等性</strong>是指同一操作执行多次，结果与执行一次相同。在消息队列中，幂等性设计是为了应对 At-Least-Once 语义下可能出现的重复消息。</p>
+<p>常见的幂等性设计方案包括：</p>
+<ul>
+<li><strong>唯一标识</strong>：客户端为每个请求生成全局唯一 ID，服务端根据这个 ID 来判断是否已经处理过该请求。</li>
+<li><strong>数据库事务+乐观锁</strong>：通过版本号或状态字段控制并发更新，确保多次更新等同于单次操作。</li>
+<li><strong>数据库唯一约束</strong>：利用数据库唯一索引防止重复数据写入，适用数据插入场景。</li>
+<li><strong>分布式锁</strong>：在处理消息时获取分布式锁，确保同一时间只有一个消费者处理特定消息。</li>
+<li><strong>消息去重</strong>：消息队列生产者为每条消息生成唯一的消息 ID，消费者在处理消息时检查这个 ID 是否已经处理过，如果处理过则跳过。</li>
+</ul>
+<h3 id="2-6-消息队列会带来的问题">2.6 消息队列会带来的问题</h3>
+<ul>
+<li><strong>系统可用性降低</strong>：引入了新的依赖，MQ 挂了可能导致核心业务链路受影响。</li>
+<li><strong>系统复杂度增加</strong>：需要处理消息积压、重复消费、消息顺序等问题。</li>
+<li><strong>数据一致性问题</strong>：分布式系统中，消息投递和数据库更新的原子性难以保证，需要设计幂等性或使用事务消息。</li>
+</ul>
+<hr>
+<h2 id="三、四大主流消息队列深度解读">三、四大主流消息队列深度解读</h2>
+<h3 id="3-1-Redis-Stream-——-轻量级利器">3.1 Redis Stream —— 轻量级利器</h3>
+<p><strong>一句话定位</strong>：如果你已经有 Redis，这就是成本最低的消息队列。</p>
+<p>Redis Stream 是 Redis 5.0 引入的数据结构，它弥补了之前 List（不支持 ACK）和 Pub/Sub（消息不持久化）的短板，提供了消费者组、消息确认、消息持久化等企业级特性。</p>
+<p><strong>核心机制</strong>：</p>
+<ul>
+<li><strong>PEL（Pending Entry List）</strong>：消息投递给消费者后进入 PEL，只有收到 <code>XACK</code> 才会移除。消费者崩溃了？PEL 中的消息会被 <code>XAUTOCLAIM</code> 重新分配给其他消费者。</li>
+<li><strong>消息 ID</strong>：格式为 <code>&lt;毫秒时间戳&gt;-&lt;序列号&gt;</code>，天然支持按时间范围查询。</li>
+<li><strong>阻塞读取</strong>：<code>BLOCK</code> 参数让消费者在没有消息时阻塞等待，避免空轮询浪费 CPU。</li>
+</ul>
+<p>来看一段 Python 示例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"></span><br><span class="line">r = redis.Redis(host=<span class="string">&#x27;localhost&#x27;</span>, port=<span class="number">6379</span>, decode_responses=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生产者：发送一条订单消息</span></span><br><span class="line">msg_id = r.xadd(<span class="string">&#x27;orders&#x27;</span>, &#123;</span><br><span class="line">    <span class="string">&#x27;user_id&#x27;</span>: <span class="string">&#x27;123&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;amount&#x27;</span>: <span class="string">&#x27;49.99&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;status&#x27;</span>: <span class="string">&#x27;pending&#x27;</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;消息已发送，ID: <span class="subst">&#123;msg_id&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建消费组（从头开始消费）</span></span><br><span class="line">r.xgroup_create(<span class="string">&#x27;orders&#x27;</span>, <span class="string">&#x27;order-processors&#x27;</span>, <span class="built_in">id</span>=<span class="string">&#x27;0&#x27;</span>, mkstream=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 消费者：批量拉取并处理</span></span><br><span class="line">messages = r.xreadgroup(</span><br><span class="line">    <span class="string">&#x27;order-processors&#x27;</span>,   <span class="comment"># 消费组名</span></span><br><span class="line">    <span class="string">&#x27;worker-1&#x27;</span>,           <span class="comment"># 消费者名</span></span><br><span class="line">    &#123;<span class="string">&#x27;orders&#x27;</span>: <span class="string">&#x27;&gt;&#x27;</span>&#125;,      <span class="comment"># &#x27;&gt;&#x27; 表示只拉取未投递的新消息</span></span><br><span class="line">    count=<span class="number">10</span>,             <span class="comment"># 每次最多拉 10 条</span></span><br><span class="line">    block=<span class="number">2000</span>            <span class="comment"># 没有消息时阻塞 2 秒</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> stream_name, entries <span class="keyword">in</span> messages:</span><br><span class="line">    <span class="keyword">for</span> entry_id, data <span class="keyword">in</span> entries:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;处理消息 <span class="subst">&#123;entry_id&#125;</span>: <span class="subst">&#123;data&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="comment"># 处理成功后 ACK</span></span><br><span class="line">        r.xack(<span class="string">&#x27;orders&#x27;</span>, <span class="string">&#x27;order-processors&#x27;</span>, entry_id)</span><br></pre></td></tr></table></figure>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>已有 Redis 的中小项目，不想引入新的中间件</li>
+<li>轻量级的异步任务队列（发短信、发邮件）</li>
+<li>实时性要求极高的场景（端到端延迟 &lt; 0.2ms）</li>
+</ul>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>消息堆积受限于内存，大量积压可能导致 OOM</li>
+<li>不原生支持事务消息、延迟消息</li>
+<li>可靠性依赖 AOF/RDB 配置，极端情况下可能丢数据</li>
+</ul>
+<hr>
+<h3 id="3-2-RocketMQ-——-金融级的可靠战士">3.2 RocketMQ —— 金融级的可靠战士</h3>
+<p><strong>一句话定位</strong>：如果需要事务消息，RocketMQ 是唯一的选择。</p>
+<p>Apache RocketMQ 源自阿里巴巴内部，是对 Kafka 在电商场景下不足之处的&quot;定向改进&quot;。它经历了阿里双十一万亿级消息规模的考验，是中国互联网公司在核心交易链路上的首选。</p>
+<p><strong>杀手级特性：事务消息</strong></p>
+<p>这是 RocketMQ 最独特的武器。它通过<strong>两阶段提交 + 补偿回查</strong>机制，实现了消息与本地事务的原子性：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">┌──────────┐        send half msg        ┌──────────┐</span><br><span class="line">│ Producer │ --------------------------&gt; │  Broker  │</span><br><span class="line">│          │                             │          │</span><br><span class="line">│          │   execute local tx          │          │</span><br><span class="line">│          │   (update order paid)       │          │</span><br><span class="line">│          │                             │          │</span><br><span class="line">│          │   commit / rollback         │          │</span><br><span class="line">│          │ --------------------------&gt; │          │</span><br><span class="line">│          │                             │          │</span><br><span class="line">│          │ &lt;--- broker checkback       │          │</span><br><span class="line">└──────────┘                             └──────────┘</span><br></pre></td></tr></table></figure>
+<p>代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">OrderTransactionListener</span> <span class="keyword">implements</span> <span class="title class_">TransactionListener</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LocalTransactionState <span class="title function_">executeLocalTransaction</span><span class="params">(Message msg, Object arg)</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 执行本地事务</span></span><br><span class="line">            orderService.updateOrderStatus(msg.getKeys(), OrderStatus.PAID);</span><br><span class="line">            <span class="keyword">return</span> LocalTransactionState.COMMIT_MESSAGE; <span class="comment">// 成功，提交消息</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            <span class="keyword">return</span> LocalTransactionState.ROLLBACK_MESSAGE; <span class="comment">// 失败，回滚消息</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> LocalTransactionState <span class="title function_">checkLocalTransaction</span><span class="params">(MessageExt msg)</span> &#123;</span><br><span class="line">        <span class="comment">// Broker 回查：检查本地事务的最终状态</span></span><br><span class="line">        <span class="type">OrderStatus</span> <span class="variable">status</span> <span class="operator">=</span> orderService.getOrderStatus(msg.getKeys());</span><br><span class="line">        <span class="keyword">return</span> status == OrderStatus.PAID</span><br><span class="line">            ? LocalTransactionState.COMMIT_MESSAGE</span><br><span class="line">            : LocalTransactionState.ROLLBACK_MESSAGE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个设计解决了一个经典难题：<strong>&quot;数据库更新成功 + 消息发送成功&quot;如何同时保证？</strong> 没有事务消息时，要么先更新数据库再发消息（发消息失败怎么办？），要么先发消息再更新数据库（数据库更新失败怎么办？）。事务消息把两者绑定为一个原子操作。</p>
+<p><strong>5.x 时代的架构进化</strong>：</p>
+<p>RocketMQ 5.0 引入了<strong>存算分离架构</strong>，将系统拆为四层：SDK 层（多协议）→ NameServer（服务发现）→ Proxy（无状态计算层，可独立弹性伸缩）→ Store（存储层，支持对象存储扩展）。这使得 Broker 数、队列数、消费者实例数完全解耦，真正适配了云原生时代的弹性需求。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>电商交易核心链路（订单、支付、库存）</li>
+<li>分布式事务的最终一致性方案</li>
+<li>需要定时/延迟消息的业务（如 30 分钟未支付取消订单）</li>
+</ul>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>社区生态弱于 Kafka，国际普及度偏低</li>
+<li>商业版（阿里云 RocketMQ）收费</li>
+</ul>
+<hr>
+<h3 id="3-3-Kafka-——-大数据管道的吞吐之王">3.3 Kafka —— 大数据管道的吞吐之王</h3>
+<p><strong>一句话定位</strong>：如果你处理的是海量数据流，Kafka 是事实上的行业标准。</p>
+<p>Apache Kafka 由 LinkedIn 于 2011 年开源，至今已演变为完整的<strong>事件流平台</strong>。它的核心竞争力在于<strong>极致吞吐</strong>——三节点集群可达 605 MB/s，百万级消息每秒。</p>
+<p><strong>Kafka 为什么这么快？</strong></p>
+<ul>
+<li><strong>顺序写磁盘</strong>：Kafka 采用日志结构的追加写入，避免了随机 I/O。现代磁盘顺序写性能完全不输内存随机写。</li>
+<li><strong>零拷贝（Zero-Copy）</strong>：利用操作系统的 <code>sendfile</code> 系统调用，数据直接从磁盘 Page Cache 传输到网卡，不经过用户态。</li>
+<li><strong>分区并行</strong>：一个 Topic 分成多个 Partition，生产者和消费者可以并行操作不同分区。</li>
+</ul>
+<p><strong>2025 年的里程碑：Kafka 4.0 告别 ZooKeeper</strong></p>
+<p>过去，Kafka 强依赖 ZooKeeper 做集群元数据管理，这意味着你不仅要运维 Kafka 集群，还要维护一套 ZooKeeper。Kafka 4.0 引入了 <strong>KRaft（Kafka Raft）</strong> 共识协议，彻底移除了 ZooKeeper 依赖：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ZooKeeper 时代</th>
+<th>KRaft 时代</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大分区数</td>
+<td>~20 万</td>
+<td><strong>200 万+</strong></td>
+</tr>
+<tr>
+<td>Controller 故障恢复</td>
+<td>分钟级</td>
+<td><strong>秒级</strong></td>
+</tr>
+<tr>
+<td>运维依赖</td>
+<td>Kafka + ZooKeeper</td>
+<td><strong>仅 Kafka</strong></td>
+</tr>
+<tr>
+<td>消费者重平衡延迟</td>
+<td>60 秒（万级消费组）</td>
+<td><strong>&lt; 1 秒</strong></td>
+</tr>
+</tbody>
+</table>
+<p>这一变化让 Kafka 的运维复杂度大幅降低，对于计划新上 Kafka 的团队来说，直接上 4.0 是最佳时机。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>日志聚合、用户行为埋点</li>
+<li>实时数据管道（Flink / Spark Streaming 数据源）</li>
+<li>事件溯源（Event Sourcing）架构</li>
+<li>大数据量、高吞吐优先的场景</li>
+</ul>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>不原生支持延迟消息和事务消息</li>
+<li>P99 延迟约 5ms，不适合亚毫秒级实时场景</li>
+<li>分区数和 Topic 设计需要提前规划，调整成本较高</li>
+</ul>
+<hr>
+<h3 id="3-4-RabbitMQ-——-最灵活的通用型选手">3.4 RabbitMQ —— 最灵活的通用型选手</h3>
+<p><strong>一句话定位</strong>：如果你想要开箱即用、功能均衡的消息队列，RabbitMQ 是最友好的选择。</p>
+<p>RabbitMQ 基于 AMQP（高级消息队列协议）构建，使用 Erlang 语言开发。它的核心竞争力在于<strong>灵活的路由能力</strong>——消息不是直接发到队列，而是发给 Exchange（交换机），由 Exchange 根据路由规则分发到对应的队列。</p>
+<p><strong>四种 Exchange 类型覆盖所有路由场景</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">                  ┌─────────────┐</span><br><span class="line">                  │  Exchange   │</span><br><span class="line">                  │             │</span><br><span class="line">Producer ────────→│  Direct     │──→ Queue A  (routing key 精确匹配)</span><br><span class="line">                  │  Topic      │──→ Queue B  (通配符匹配：&quot;order.*&quot;)</span><br><span class="line">                  │  Fanout     │──→ Queue C  (广播给所有绑定的队列)</span><br><span class="line">                  │  Headers    │──→ Queue D  (按消息 Header 属性匹配)</span><br><span class="line">                  └─────────────┘</span><br></pre></td></tr></table></figure>
+<p><strong>TLL + DLX 组合实现延迟队列</strong>：</p>
+<p>虽然 RabbitMQ 有官方延迟插件，但经典的 TTL + DLX 方案仍然值得了解：</p>
+<ol>
+<li>消息发送到 Queue A（设置了 TTL = 30 分钟，且没有消费者）</li>
+<li>30 分钟后消息过期，自动转发到指定的 Dead Letter Exchange</li>
+<li>DLX 将消息路由到 Queue B（有消费者处理）</li>
+<li>消费者从 Queue B 拿到&quot;延迟 30 分钟&quot;的消息</li>
+</ol>
+<p>这种模式广泛应用于&quot;下单 30 分钟未支付自动取消&quot;等场景。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li>微服务间的异步通信</li>
+<li>需要复杂路由逻辑的企业应用</li>
+<li>中小规模业务，开箱即用</li>
+<li>低延迟实时交互（延迟可低至微秒级）</li>
+</ul>
+<p><strong>局限性</strong>：</p>
+<ul>
+<li>吞吐量有限（万级 msg/s），不适合大数据场景</li>
+<li>Erlang 语言小众，排查底层问题的门槛较高</li>
+<li>消息大量堆积时会显著影响性能</li>
+</ul>
+<hr>
+<h2 id="四、一图看懂：选型决策指南">四、一图看懂：选型决策指南</h2>
+<p>围绕最核心的差异，来一张全景对比：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th><strong>Kafka</strong></th>
+<th><strong>RocketMQ</strong></th>
+<th><strong>RabbitMQ</strong></th>
+<th><strong>Redis Stream</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>吞吐量</td>
+<td>⭐⭐⭐⭐⭐ 百万级</td>
+<td>⭐⭐⭐⭐ 十万级</td>
+<td>⭐⭐⭐ 万级</td>
+<td>⭐⭐⭐ 八万级</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>~5ms</td>
+<td>&lt; 3ms</td>
+<td>&lt; 1ms</td>
+<td>&lt; 0.2ms</td>
+</tr>
+<tr>
+<td>可靠性</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+</tr>
+<tr>
+<td>事务消息</td>
+<td>❌</td>
+<td>✅ 原生</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>延迟消息</td>
+<td>❌</td>
+<td>✅ 18级</td>
+<td>⚠️ 插件</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>死信队列</td>
+<td>⚠️ 手动</td>
+<td>✅ 原生</td>
+<td>✅ 原生</td>
+<td>⚠️ 手动</td>
+</tr>
+<tr>
+<td>消息堆积</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐</td>
+</tr>
+<tr>
+<td>运维难度</td>
+<td>中</td>
+<td>中</td>
+<td>低</td>
+<td>极低</td>
+</tr>
+<tr>
+<td>生态丰富度</td>
+<td>⭐⭐⭐⭐⭐</td>
+<td>⭐⭐⭐</td>
+<td>⭐⭐⭐⭐</td>
+<td>⭐⭐</td>
+</tr>
+</tbody>
+</table>
+<p><strong>按场景速查</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>你的场景</th>
+<th>首选</th>
+<th>一句话理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大数据管道 / 日志收集</td>
+<td><strong>Kafka</strong></td>
+<td>吞吐之王，Flink/Spark 无缝集成</td>
+</tr>
+<tr>
+<td>电商交易核心链路</td>
+<td><strong>RocketMQ</strong></td>
+<td>唯一支持事务消息，阿里双 11 验证</td>
+</tr>
+<tr>
+<td>微服务任务队列</td>
+<td><strong>RabbitMQ</strong></td>
+<td>灵活路由，开箱即用</td>
+</tr>
+<tr>
+<td>已有 Redis 的中小项目</td>
+<td><strong>Redis Stream</strong></td>
+<td>零额外成本，够用就好</td>
+</tr>
+<tr>
+<td>分布式事务一致性</td>
+<td><strong>RocketMQ</strong></td>
+<td>事务消息是杀手锏</td>
+</tr>
+<tr>
+<td>低延迟实时交互</td>
+<td><strong>RabbitMQ / Redis Stream</strong></td>
+<td>微秒级延迟</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="五、结语">五、结语</h2>
+<p>消息队列技术发展到今天，已经没有&quot;银弹&quot;可言。每种方案都有它最适合的战场：</p>
+<ul>
+<li><strong>Kafka</strong> 是大数据管道的王者，吞吐量无人能敌；</li>
+<li><strong>RocketMQ</strong> 是金融级的可靠战士，事务消息一骑绝尘；</li>
+<li><strong>RabbitMQ</strong> 是最均衡的全能选手，灵活路由开箱即用；</li>
+<li><strong>Redis Stream</strong> 是轻量级的巧妙选择，让已有的 Redis 发挥余热。</li>
+</ul>
+<p>选型的核心不是&quot;哪个最好&quot;，而是**“哪个最适合你当前的场景、团队和技术栈”**。</p>
+<p>如果你正在做技术选型，不妨问自己三个问题：</p>
+<ol>
+<li>消息量有多大？（万级 → RabbitMQ/Redis Stream，百万级 → Kafka/RocketMQ）</li>
+<li>需要事务消息吗？（需要 → RocketMQ，不需要 → 继续往下筛）</li>
+<li>团队有没有现成的运维经验？（有 Redis → Redis Stream 成本最低，有 Kafka 经验 → 优先 Kafka）</li>
+</ol>
+<p>搞清楚了这三个问题，答案自然就出来了。</p>
+<hr>
+<blockquote>
+<p><strong>延伸阅读</strong>：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://kafka.apache.org/downloads">Apache Kafka 4.0 Release Notes</a></li>
+<li><a target="_blank" rel="noopener" href="https://rocketmq.apache.org/docs/">RocketMQ 5.x 架构文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.rabbitmq.com/docs/4.0/migration">RabbitMQ 4.0 Migration Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://redis.io/docs/latest/develop/data-types/streams/">Redis Streams Introduction</a></li>
+</ul>
+</blockquote>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java%E5%85%AB%E8%82%A1/">Java八股</a><a class="post-meta__tags" href="/tags/MQ/">MQ</a></div><div class="post_share"><div class="social-share" data-image="/../image/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF.JPG" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2026/05/11/Java/Java%E5%85%AB%E8%82%A1/%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="掌握七种常见设计模式：从入门到实践"><img class="cover" src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">掌握七种常见设计模式：从入门到实践</div></div></a></div><div class="next-post pull-right"><a href="/2026/05/10/Java/Linux/Docker%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" title="Docker 入门指南：从「我电脑上能跑」到「处处能跑」"><img class="cover" src="/../image/Java/Linux/Docker%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/1.JPG" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Docker 入门指南：从「我电脑上能跑」到「处处能跑」</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2026/04/20/Java/Agent%E5%BC%80%E5%8F%91/A2A%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3%EF%BC%9A%E5%A4%9A%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E4%B8%8E%E5%8D%8F%E4%BD%9C%E6%9C%BA%E5%88%B6/" title="A2A协议详解：多智能体通信与协作机制"><img class="cover" src="/../image/Java/Agent/A2A%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-20</div><div class="title">A2A协议详解：多智能体通信与协作机制</div></div></a></div><div><a href="/2026/01/31/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D/" title="Agent开发常见名词"><img class="cover" src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E5%90%8D%E8%AF%8D.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-01-31</div><div class="title">Agent开发常见名词</div></div></a></div><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/" title="Agent三大范式详解：ReAct、Plan-and-Execute、Reflection"><img class="cover" src="/../image/Java/Agent/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F/Agent%E5%BC%80%E5%8F%91%E5%B8%B8%E8%A7%81%E8%8C%83%E5%BC%8F.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent三大范式详解：ReAct、Plan-and-Execute、Reflection</div></div></a></div><div><a href="/2026/04/14/Java/Agent%E5%BC%80%E5%8F%91/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/" title="Agent架构详解"><img class="cover" src="/../image/Java/Agent/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/Agent%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-14</div><div class="title">Agent架构详解</div></div></a></div><div><a href="/2026/04/16/Java/Agent%E5%BC%80%E5%8F%91/CoT%E3%80%81ToT%20%E4%B8%8E%20GoT%EF%BC%9A%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86%E8%8C%83%E5%BC%8F%E8%BF%9B%E5%8C%96%E8%AF%A6%E8%A7%A3/" title="CoT、ToT 与 GoT：大模型推理范式进化详解"><img class="cover" src="/../image/Java/Agent/CoT%E3%80%81ToT%E4%B8%8EGoT.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-16</div><div class="title">CoT、ToT 与 GoT：大模型推理范式进化详解</div></div></a></div><div><a href="/2026/04/15/Java/Agent%E5%BC%80%E5%8F%91/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95/" title="Agent记忆压缩方法"><img class="cover" src="/../image/Java/Agent/Agent%E8%AE%B0%E5%BF%86%E5%8E%8B%E7%BC%A9%E6%96%B9%E6%B3%95.JPG" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-15</div><div class="title">Agent记忆压缩方法</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/../image/BlogCover/IMG_6022.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Hansen</div><div class="author-info__description">立志成为Agent高手</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">369</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">40</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">13</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sonderhs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Sonderhs" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="mailto:1756788233@qq.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a><a class="social-icon" href="https://space.bilibili.com/361660022" target="_blank" title="Bilibili"><i class="fa-brands fa-bilibili"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BD%93%E7%B3%BB%E7%BB%9F%E5%BC%80%E5%A7%8B-%E8%AF%B4%E8%AF%9D-%EF%BC%8C%E4%BD%A0%E5%87%86%E5%A4%87%E5%A5%BD%E4%BA%86%E5%90%97%EF%BC%9F"><span class="toc-text">一、当系统开始&quot;说话&quot;，你准备好了吗？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84-%E4%B8%AD%E6%9E%A2%E7%A5%9E%E7%BB%8F"><span class="toc-text">二、消息队列：分布式系统的&quot;中枢神经&quot;</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="toc-text">2.1 消息队列解决什么问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E9%80%9F%E8%A7%88"><span class="toc-text">2.2 核心概念速览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E6%B6%88%E6%81%AF%E6%8A%95%E9%80%92%E7%9A%84%E4%B8%89%E9%87%8D%E4%BF%9D%E9%9A%9C%EF%BC%9AAt-Most-Once-At-Least-Once-Exactly-Once"><span class="toc-text">2.3 消息投递的三重保障：At-Most-Once &#x2F; At-Least-Once &#x2F; Exactly-Once</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7%E4%B8%8E%E9%A1%BA%E5%BA%8F%E6%80%A7%E4%BF%9D%E8%AF%81"><span class="toc-text">2.4 消息队列的可靠性与顺序性保证</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%E8%AE%BE%E8%AE%A1"><span class="toc-text">2.5 消息队列的幂等性设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E4%BC%9A%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">2.6 消息队列会带来的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%9B%9B%E5%A4%A7%E4%B8%BB%E6%B5%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%B7%B1%E5%BA%A6%E8%A7%A3%E8%AF%BB"><span class="toc-text">三、四大主流消息队列深度解读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Redis-Stream-%E2%80%94%E2%80%94-%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%88%A9%E5%99%A8"><span class="toc-text">3.1 Redis Stream —— 轻量级利器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-RocketMQ-%E2%80%94%E2%80%94-%E9%87%91%E8%9E%8D%E7%BA%A7%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%88%98%E5%A3%AB"><span class="toc-text">3.2 RocketMQ —— 金融级的可靠战士</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Kafka-%E2%80%94%E2%80%94-%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93%E7%9A%84%E5%90%9E%E5%90%90%E4%B9%8B%E7%8E%8B"><span class="toc-text">3.3 Kafka —— 大数据管道的吞吐之王</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-RabbitMQ-%E2%80%94%E2%80%94-%E6%9C%80%E7%81%B5%E6%B4%BB%E7%9A%84%E9%80%9A%E7%94%A8%E5%9E%8B%E9%80%89%E6%89%8B"><span class="toc-text">3.4 RabbitMQ —— 最灵活的通用型选手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E4%B8%80%E5%9B%BE%E7%9C%8B%E6%87%82%EF%BC%9A%E9%80%89%E5%9E%8B%E5%86%B3%E7%AD%96%E6%8C%87%E5%8D%97"><span class="toc-text">四、一图看懂：选型决策指南</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E7%BB%93%E8%AF%AD"><span class="toc-text">五、结语</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/05/11/Java/Java%E5%85%AB%E8%82%A1/%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="掌握七种常见设计模式：从入门到实践"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="掌握七种常见设计模式：从入门到实践"/></a><div class="content"><a class="title" href="/2026/05/11/Java/Java%E5%85%AB%E8%82%A1/%E5%B8%B8%E8%A7%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="掌握七种常见设计模式：从入门到实践">掌握七种常见设计模式：从入门到实践</a><time datetime="2026-05-11T10:00:00.000Z" title="发表于 2026-05-11 18:00:00">2026-05-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF/" title="消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？"/></a><div class="content"><a class="title" href="/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%8A%80%E6%9C%AF%E5%85%A8%E6%99%AF/" title="消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？">消息队列技术全景：从 Redis Stream 到 Kafka，四大主流 MQ 该怎么选？</a><time datetime="2026-05-10T15:00:00.000Z" title="发表于 2026-05-10 23:00:00">2026-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/10/Java/Linux/Docker%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" title="Docker 入门指南：从「我电脑上能跑」到「处处能跑」"><img src="/../image/Java/Linux/Docker%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/1.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Docker 入门指南：从「我电脑上能跑」到「处处能跑」"/></a><div class="content"><a class="title" href="/2026/05/10/Java/Linux/Docker%E5%85%A5%E9%97%A8%E6%8C%87%E5%8D%97/" title="Docker 入门指南：从「我电脑上能跑」到「处处能跑」">Docker 入门指南：从「我电脑上能跑」到「处处能跑」</a><time datetime="2026-05-10T10:00:00.000Z" title="发表于 2026-05-10 18:00:00">2026-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/Session%E3%80%81Cookie%E3%80%81Token%E4%B8%89%E7%A7%8D%E8%AE%A4%E8%AF%81%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="Session、Cookie、Token 三种认证方式详解"><img src="/../image/Java/Java%E5%85%AB%E8%82%A1/Session%E3%80%81Cookie%E3%80%81Token%E4%B8%89%E7%A7%8D%E8%AE%A4%E8%AF%81%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Session、Cookie、Token 三种认证方式详解"/></a><div class="content"><a class="title" href="/2026/05/10/Java/Java%E5%85%AB%E8%82%A1/Session%E3%80%81Cookie%E3%80%81Token%E4%B8%89%E7%A7%8D%E8%AE%A4%E8%AF%81%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3/" title="Session、Cookie、Token 三种认证方式详解">Session、Cookie、Token 三种认证方式详解</a><time datetime="2026-05-10T08:00:00.000Z" title="发表于 2026-05-10 16:00:00">2026-05-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2026/05/09/Java/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/AutoOncall/RAG%E5%AE%9E%E6%88%98/" title="RAG 实战"><img src="/../image/Java/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/AutoOncall/RAG%E5%AE%9E%E6%88%98/RAG%E5%AE%9E%E6%88%98.JPG" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="RAG 实战"/></a><div class="content"><a class="title" href="/2026/05/09/Java/%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/AutoOncall/RAG%E5%AE%9E%E6%88%98/" title="RAG 实战">RAG 实战</a><time datetime="2026-05-09T11:00:00.000Z" title="发表于 2026-05-09 19:00:00">2026-05-09</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2026 By Hansen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><div class="aplayer no-destroy" data-id="9102507386" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true"> </div><script src="/js/github-activity.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
