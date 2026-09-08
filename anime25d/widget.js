@@ -3,7 +3,6 @@
   if (window.__hansenAvatar) return;
   window.__hansenAvatar = true;
   const assetRoot = new URL('./', document.currentScript.src);
-  const compact = matchMedia('(max-width: 767px)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let widget, frame, timer, drag, position, pointer, moveFrame = 0;
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
@@ -142,7 +141,7 @@
     }
     widget.hidden = false;
     restorePosition();
-    if (compact.matches || reduced.matches || document.hidden) {
+    if (reduced.matches || document.hidden) {
       stop();
       return;
     }
@@ -178,7 +177,6 @@
   document.addEventListener('pjax:complete', sync);
   document.addEventListener('pjax:send', stop);
   document.addEventListener('visibilitychange', () => { if (document.hidden) clearPointer(); sync(); });
-  compact.addEventListener('change', sync);
   reduced.addEventListener('change', sync);
   window.addEventListener('pageshow', sync);
   window.addEventListener('pagehide', stop);
