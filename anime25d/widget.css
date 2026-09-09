@@ -1,6 +1,6 @@
 #hansen-avatar {
   position: fixed;
-  left: 12px;
+  right: 12px;
   bottom: 76px;
   width: clamp(200px, 22vw, 300px);
   aspect-ratio: 1;
@@ -24,7 +24,7 @@
 #hansen-avatar.is-ready iframe { opacity: 1; }
 #hansen-avatar.is-ready img { visibility: hidden; }
 @media (max-width: 767px) {
-  #hansen-avatar { left: 2px; bottom: 72px; width: 150px; }
+  #hansen-avatar { right: 2px; bottom: 72px; width: 150px; }
 }
 @media print { #hansen-avatar { display: none !important; } }
 

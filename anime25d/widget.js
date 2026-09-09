@@ -14,7 +14,7 @@
   } catch (_) {}
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = new URL('widget.css', assetRoot).href;
+  style.href = new URL('widget.css?v=20260909-bottom-right', assetRoot).href;
   document.head.appendChild(style);
 
   function movementBounds() {
@@ -32,6 +32,7 @@
     const { minX, maxX, maxY } = movementBounds();
     x = clamp(x, minX, maxX);
     y = clamp(y, 0, maxY);
+    widget.style.right = 'auto';
     widget.style.left = x + 'px';
     widget.style.top = y + 'px';
     widget.style.bottom = 'auto';
@@ -107,7 +108,7 @@
       const resetPosition = () => {
         finishDrag();
         position = null;
-        widget.style.left = widget.style.top = widget.style.bottom = '';
+        widget.style.left = widget.style.right = widget.style.top = widget.style.bottom = '';
         try { sessionStorage.removeItem('hansen-avatar-position'); } catch (_) {}
         queuePointer();
       };
