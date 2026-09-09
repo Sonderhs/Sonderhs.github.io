@@ -100,6 +100,36 @@
 #cabin-chat .cabin-chat-status { color: var(--chat-muted); font-size: 9px; min-height: 15px; margin: 7px 0 0; }
 #cabin-chat .cabin-chat-error { font-size: 11px; color: #b05f42; }
 #cabin-chat .cabin-chat-challenge:not(:empty) { margin-top: 8px; }
+#cabin-chat .assistant .cabin-chat-text { white-space: normal; min-width: 0; }
+#cabin-chat .assistant .cabin-chat-text:empty::before { content: "正在整理…"; color: var(--chat-muted); }
+#cabin-chat .cabin-chat-text > :first-child { margin-top: 0; }
+#cabin-chat .cabin-chat-text > :last-child { margin-bottom: 0; }
+#cabin-chat .cabin-chat-text p { margin: 0 0 10px; }
+#cabin-chat .cabin-chat-text h1, #cabin-chat .cabin-chat-text h2, #cabin-chat .cabin-chat-text h3,
+#cabin-chat .cabin-chat-text h4, #cabin-chat .cabin-chat-text h5, #cabin-chat .cabin-chat-text h6 {
+  margin: 16px 0 8px; padding: 0; color: var(--chat-ink); line-height: 1.5; font-size: 15px; font-weight: 650;
+}
+#cabin-chat .cabin-chat-text h1 { font-size: 18px; }
+#cabin-chat .cabin-chat-text h2 { font-size: 16px; }
+#cabin-chat .cabin-chat-text strong { font-weight: 700; }
+#cabin-chat .cabin-chat-text ul, #cabin-chat .cabin-chat-text ol { padding-left: 22px; margin: 8px 0; }
+#cabin-chat .cabin-chat-text ul { list-style: disc outside; }
+#cabin-chat .cabin-chat-text ol { list-style: decimal outside; }
+#cabin-chat .cabin-chat-text li { margin: 4px 0; }
+#cabin-chat .cabin-chat-text li > p { margin: 4px 0; }
+#cabin-chat .cabin-chat-text blockquote { margin: 10px 0; padding: 7px 10px; border-left: 3px solid var(--chat-accent); background: var(--chat-soft); color: var(--chat-muted); }
+#cabin-chat .cabin-chat-text blockquote p:last-child { margin-bottom: 0; }
+#cabin-chat .cabin-chat-text hr { margin: 14px 0; border: 0; border-top: 1px solid var(--chat-line); }
+#cabin-chat .cabin-chat-text hr::before { display: none; }
+#cabin-chat .cabin-chat-text :not(pre) > code { padding: 2px 4px; border-radius: 4px; background: var(--chat-soft); font-size: .92em; white-space: break-spaces; }
+#cabin-chat .cabin-chat-text pre { overflow-wrap: normal; word-break: normal; line-height: 1.6; }
+#cabin-chat .cabin-chat-text code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+#cabin-chat .cabin-chat-table { max-width: 100%; margin: 10px 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: thin; }
+#cabin-chat .cabin-chat-table table { display: table; width: 100%; margin: 0; border-collapse: collapse; font-size: 12px; }
+#cabin-chat .cabin-chat-table th, #cabin-chat .cabin-chat-table td { border: 1px solid var(--chat-line); padding: 7px 9px; min-width: 72px; max-width: 240px; vertical-align: top; }
+#cabin-chat .cabin-chat-table th { background: var(--chat-soft); font-weight: 600; }
+#cabin-chat .cabin-chat-table tr { background: transparent; }
+#cabin-chat .cabin-chat-log { scroll-behavior: auto; overflow-anchor: none; }
 @keyframes cabin-chat-pulse { 50% { opacity: .25; } }
 @media (max-width: 767px) {
   #cabin-chat-launcher { right: 14px; bottom: max(22px, env(safe-area-inset-bottom)); padding: 9px 14px; font-size: 12px; }

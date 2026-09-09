@@ -12,7 +12,7 @@
   launcher.className = 'no-destroy';
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = new URL('css/cabin-chat.css?v=20260909-1', root).href;
+  style.href = new URL('css/cabin-chat.css?v=20260909-markdown-stream-2', root).href;
   document.head.append(style);
   document.body.append(launcher);
   let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
@@ -45,33 +45,6 @@
     log.append(node);
     scroll();
     return { node, content };
-  }
-  function renderText(node, text, sources) {
-    node.replaceChildren();
-    const blocks = text.split('```');
-    blocks.forEach((block, i) => {
-      if (i % 2) {
-        const pre = element('pre');
-        pre.append(element('code', '', block.replace(/^[\w+-]*\n/, '')));
-        node.append(pre);
-        return;
-      }
-      const span = element('span');
-      for (const piece of block.split(/(\[(?:B|W)\d+\])/g)) {
-        const source = sources.find(item => `[${item.id}]` === piece);
-        if (source) {
-          try {
-            const url = new URL(source.url);
-            if (!['https:', 'http:'].includes(url.protocol)) throw new Error();
-            const link = element('a', 'cabin-chat-citation', piece);
-            link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
-            link.title = source.title;
-            span.append(link);
-          } catch { span.append(document.createTextNode(piece)); }
-        } else span.append(document.createTextNode(piece));
-      }
-      node.append(span);
-    });
   }
   function renderSources(answer, sources, webStatus, blogAvailable) {
     answer.node.querySelector('.cabin-chat-sources')?.remove();
@@ -140,6 +113,7 @@
   }
   async function loadConfig() {
     try {
+      if (!window.CabinChatView || !window.markdownit) throw new Error('聊天渲染组件加载失败');
       const response = await fetch(new URL('assistant/config.json', root), { cache: 'no-cache' });
       if (!response.ok) throw new Error();
       config = await response.json();
@@ -227,6 +201,8 @@
     else { message('user', payload.message); input.value = ''; }
     const answer = message('assistant', ''); lastAnswer = answer;
     let text = '', sources = [], completed = false, truncated = false, failure = '';
+    const view = window.CabinChatView.stream(answer.content, log, () => sources);
+    controller.signal.addEventListener('abort', view.flush, { once: true });
     availability(); setStatus('正在敲小栖的门…');
     const timeout = setTimeout(() => controller.abort(), 75000);
     let reader;
@@ -256,11 +232,11 @@
         if (type === 'sources') {
           sources = value.sources || [];
           renderSources(answer, sources, value.webStatus, value.blogAvailable);
+          view.refresh();
         }
         if (type === 'delta') {
-          const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 100;
-          text += value.text; renderText(answer.content, text, sources);
-          if (nearBottom) scroll();
+          if (typeof value.text !== 'string') throw new Error('聊天数据格式不正确。');
+          text += value.text; view.append(value.text);
         }
         if (type === 'error') throw new Error(value.message);
         if (type === 'done') { completed = true; truncated = value.truncated; }
@@ -276,12 +252,16 @@
         if (done) { if (buffer.trim()) receive(buffer); break; }
       }
       if (!completed) throw new Error('连接中断，答案可能不完整，请重试。');
+      await view.finish();
+      if (controller.signal.aborted) throw new Error('ABORTED');
       history.push({ role: 'user', content: payload.message }, { role: 'assistant', content: text.slice(0, 3000) });
       history = history.slice(-6); lastPayload = null;
     } catch (error) {
       failure = controller.signal.aborted ? '回答已停止或超时，已有片段可能不完整。' : error.message;
       answer.node.append(element('p', 'cabin-chat-error', failure));
     } finally {
+      view.flush();
+      controller.signal.removeEventListener('abort', view.flush);
       clearTimeout(timeout);
       if (reader) { await reader.cancel().catch(() => {}); reader.releaseLock(); }
       pending = null; token = '';
