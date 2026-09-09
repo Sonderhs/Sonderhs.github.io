@@ -1,0 +1,302 @@
+(() => {
+  'use strict';
+  if (window.__cabinChat) return;
+  window.__cabinChat = true;
+  const root = new URL('../', document.currentScript.src);
+  const launcher = document.createElement('button');
+  launcher.id = 'cabin-chat-launcher';
+  launcher.type = 'button';
+  launcher.textContent = '和小栖聊聊';
+  launcher.setAttribute('aria-expanded', 'false');
+  launcher.setAttribute('aria-controls', 'cabin-chat');
+  launcher.className = 'no-destroy';
+  const style = document.createElement('link');
+  style.rel = 'stylesheet';
+  style.href = new URL('css/cabin-chat.css?v=20260909-1', root).href;
+  document.head.append(style);
+  document.body.append(launcher);
+  let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
+  let history = [], pending = null, lastPayload = null, lastAnswer = null, token = '', challengeId = null;
+
+  function element(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text) node.textContent = text;
+    return node;
+  }
+  function button(text, handler, className = '') {
+    const node = element('button', className, text);
+    node.type = 'button';
+    node.addEventListener('click', handler);
+    return node;
+  }
+  function setStatus(text) {
+    status.textContent = text;
+    launcher.dataset.state = pending ? 'busy' : 'idle';
+    const avatar = document.getElementById('hansen-avatar');
+    if (avatar) avatar.dataset.chatState = pending ? 'thinking' : 'idle';
+  }
+  function scroll() { log.scrollTop = log.scrollHeight; }
+  function message(role, text) {
+    const node = element('section', `cabin-chat-message ${role}`);
+    node.append(element('span', 'cabin-chat-speaker', role === 'user' ? '你' : '小栖 · AI'));
+    const content = element('div', 'cabin-chat-text', text);
+    node.append(content);
+    log.append(node);
+    scroll();
+    return { node, content };
+  }
+  function renderText(node, text, sources) {
+    node.replaceChildren();
+    const blocks = text.split('```');
+    blocks.forEach((block, i) => {
+      if (i % 2) {
+        const pre = element('pre');
+        pre.append(element('code', '', block.replace(/^[\w+-]*\n/, '')));
+        node.append(pre);
+        return;
+      }
+      const span = element('span');
+      for (const piece of block.split(/(\[(?:B|W)\d+\])/g)) {
+        const source = sources.find(item => `[${item.id}]` === piece);
+        if (source) {
+          try {
+            const url = new URL(source.url);
+            if (!['https:', 'http:'].includes(url.protocol)) throw new Error();
+            const link = element('a', 'cabin-chat-citation', piece);
+            link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+            link.title = source.title;
+            span.append(link);
+          } catch { span.append(document.createTextNode(piece)); }
+        } else span.append(document.createTextNode(piece));
+      }
+      node.append(span);
+    });
+  }
+  function renderSources(answer, sources, webStatus, blogAvailable) {
+    answer.node.querySelector('.cabin-chat-sources')?.remove();
+    const container = element('details', 'cabin-chat-sources');
+    container.append(element('summary', '', `检索参考 · 博客 ${sources.filter(s => s.kind === 'blog').length} / 网络 ${sources.filter(s => s.kind === 'web').length}`));
+    container.append(element('p', '', '这些是提供给模型的参考片段；正文编号表示实际引用，请核对原文。'));
+    if (!blogAvailable) container.append(element('p', '', '博客索引暂不可用。'));
+    const notes = { failed: '联网检索失败，回答不能当作最新资料。', empty: '联网检索未找到有效结果。', disabled: '本次已关闭联网补充。', 'not-needed': '本次未调用网络检索。', searched: '本次已检索网络资料。' };
+    container.append(element('p', '', notes[webStatus] || ''));
+    for (const source of sources) {
+      try {
+        const url = new URL(source.url);
+        if (!['https:', 'http:'].includes(url.protocol)) continue;
+        const link = element('a', '', `[${source.id}] ${source.title}`);
+        link.href = url.href; link.target = '_blank'; link.rel = 'noopener noreferrer';
+        container.append(link);
+      } catch {}
+    }
+    answer.node.append(container);
+  }
+  function currentArticle() {
+    const post = document.querySelector('#post #article-container');
+    return post ? location.pathname : '';
+  }
+  function updateArticle() {
+    if (article) {
+      article.hidden = !currentArticle();
+      article.disabled = !!pending;
+      article.title = document.querySelector('.post-title')?.textContent || '解释当前文章';
+    }
+  }
+  function availability() {
+    const busy = !!pending;
+    send.disabled = busy || !config?.endpoint || !consent.checked || (!!config?.turnstileSiteKey && !token);
+    stop.hidden = !busy;
+    clear.disabled = busy;
+    web.disabled = busy;
+    consent.disabled = busy;
+    input.disabled = busy;
+    retry.hidden = busy || !lastPayload;
+    retry.disabled = !config?.endpoint || !consent.checked || (!!config?.turnstileSiteKey && !token);
+    updateArticle();
+  }
+  function close() {
+    panel.hidden = true;
+    launcher.setAttribute('aria-expanded', 'false');
+    launcher.focus();
+  }
+  async function setupChallenge() {
+    if (!config.turnstileSiteKey) return;
+    setStatus('请完成人机验证。');
+    if (!window.turnstile) {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true; script.onload = resolve; script.onerror = reject;
+        document.head.append(script);
+      });
+    }
+    challengeId = window.turnstile.render(challenge, {
+      sitekey: config.turnstileSiteKey, action: 'cabin-chat', theme: 'auto',
+      callback: value => { token = value; availability(); setStatus('验证通过，可以开始提问。'); },
+      'expired-callback': () => { token = ''; availability(); },
+      'error-callback': () => { token = ''; availability(); setStatus('人机验证失败，请刷新页面重试。'); }
+    });
+  }
+  async function loadConfig() {
+    try {
+      const response = await fetch(new URL('assistant/config.json', root), { cache: 'no-cache' });
+      if (!response.ok) throw new Error();
+      config = await response.json();
+      if (config.endpoint) {
+        const url = new URL(config.endpoint);
+        if (url.protocol !== 'https:' && !(url.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(url.hostname) && ['localhost', '127.0.0.1'].includes(location.hostname))) throw new Error();
+        setStatus('先从笔记找线索，不够再去网络查证。');
+        await setupChallenge();
+      } else setStatus('小栖的聊天后端尚未接通。站长配置接口后即可启用。');
+    } catch {
+      config = null;
+      setStatus('聊天配置或验证组件加载失败，请刷新后重试。');
+    }
+    availability();
+  }
+  function buildPanel() {
+    panel = element('section', 'no-destroy'); panel.id = 'cabin-chat'; panel.hidden = true;
+    panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-labelledby', 'cabin-chat-title');
+    const header = element('header', 'cabin-chat-header');
+    const identity = element('div');
+    const eyebrow = element('span', 'cabin-chat-eyebrow', 'HANSEN.CABIN / KNOWLEDGE COMPANION');
+    const title = element('h2', '', '小栖的知识角'); title.id = 'cabin-chat-title';
+    identity.append(eyebrow, title, element('p', '', '有据可查，也保留一点好奇心。'));
+    const closeButton = button('×', close, 'cabin-chat-close'); closeButton.setAttribute('aria-label', '关闭聊天');
+    header.append(identity, closeButton);
+    log = element('div', 'cabin-chat-log'); log.setAttribute('role', 'log'); log.setAttribute('aria-label', '对话记录');
+    const suggestions = element('div', 'cabin-chat-suggestions');
+    for (const text of ['有哪些 Kafka 相关文章？', '介绍一下这座博客']) {
+      suggestions.append(button(text, () => { input.value = text; input.focus(); }));
+    }
+    article = button('解释当前文章', () => { input.value = '请解释当前文章的核心思路、关键概念和适用场景。'; input.focus(); });
+    suggestions.append(article);
+    form = element('form', 'cabin-chat-form');
+    const label = element('label', 'cabin-chat-input-label', '想了解什么？');
+    input = element('textarea'); input.id = 'cabin-chat-input'; input.rows = 2; input.maxLength = 1500;
+    input.placeholder = '问文章、问技术，或者一起找答案…'; label.htmlFor = input.id;
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+        event.preventDefault(); if (!send.disabled) form.requestSubmit();
+      }
+    });
+    const controls = element('div', 'cabin-chat-controls');
+    const webLabel = element('label', '', '资料范围 ');
+    web = element('select'); web.setAttribute('aria-label', '联网检索策略');
+    [['auto', '博客优先 · 自动联网'], ['always', '同时检索网络'], ['off', '关闭联网补充']].forEach(([value, text]) => {
+      const option = element('option', '', text); option.value = value; web.append(option);
+    });
+    webLabel.append(web);
+    clear = button('清空', () => {
+      history = []; lastPayload = null; lastAnswer = null; log.replaceChildren(); welcome(); availability();
+    });
+    controls.append(webLabel, clear);
+    const privacy = element('label', 'cabin-chat-privacy');
+    consent = element('input'); consent.type = 'checkbox'; consent.addEventListener('change', availability);
+    privacy.append(consent, document.createTextNode('同意将问题、少量对话历史及公开文章片段发送给模型服务；启用联网时，检索词会发送给搜索服务。请勿输入敏感信息。'));
+    challenge = element('div', 'cabin-chat-challenge');
+    const actions = element('div', 'cabin-chat-actions');
+    const note = element('span', '', 'AI 回答可能出错，请核对来源。');
+    retry = button('重试', () => submit(lastPayload, true)); retry.hidden = true;
+    stop = button('停止', () => pending?.abort()); stop.hidden = true;
+    send = element('button', 'cabin-chat-send', '发送'); send.type = 'submit'; send.disabled = true;
+    actions.append(note, retry, stop, send);
+    status = element('p', 'cabin-chat-status', '正在连接知识角…'); status.setAttribute('role', 'status');
+    form.append(label, input, controls, privacy, challenge, actions, status);
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (send.disabled || !input.value.trim()) return;
+      submit({ message: input.value.trim(), history: history.slice(-6), currentPath: currentArticle(), web: web.value !== 'off', forceWeb: web.value === 'always' });
+    });
+    panel.append(header, log, suggestions, form);
+    panel.addEventListener('keydown', event => { if (event.key === 'Escape') { event.stopPropagation(); close(); } });
+    document.body.append(panel);
+    welcome(); updateArticle();
+    configPromise = loadConfig();
+  }
+  function welcome() {
+    message('assistant', '我是小栖，住在 Hansen.cabin 的 AI 笔记搭子，不是 Hansen 本人。\n想翻哪篇笔记？博客里没写到的，我可以去网络找线索；拿不准的地方，也会老实告诉你。');
+  }
+  async function submit(payload, isRetry = false) {
+    if (pending || !payload || !config?.endpoint || !consent.checked) return;
+    if (config.turnstileSiteKey && !token) return;
+    const controller = new AbortController(); pending = controller;
+    lastPayload = payload;
+    if (isRetry) lastAnswer?.node.remove();
+    else { message('user', payload.message); input.value = ''; }
+    const answer = message('assistant', ''); lastAnswer = answer;
+    let text = '', sources = [], completed = false, truncated = false, failure = '';
+    availability(); setStatus('正在敲小栖的门…');
+    const timeout = setTimeout(() => controller.abort(), 75000);
+    let reader;
+    try {
+      const response = await fetch(config.endpoint, {
+        method: 'POST', signal: controller.signal, credentials: 'omit',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...payload, turnstileToken: token })
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.error || `请求失败（${response.status}），请稍后重试。`);
+      }
+      if (!response.headers.get('Content-Type')?.includes('text/event-stream') || !response.body) throw new Error('聊天接口返回格式不正确。');
+      reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      const receive = raw => {
+        let type = '', data = '';
+        for (const line of raw.split('\n')) {
+          if (line.startsWith('event:')) type = line.slice(6).trim();
+          if (line.startsWith('data:')) data += line.slice(5).trim();
+        }
+        if (!data) return;
+        const value = JSON.parse(data);
+        if (type === 'status') setStatus(value.message);
+        if (type === 'sources') {
+          sources = value.sources || [];
+          renderSources(answer, sources, value.webStatus, value.blogAvailable);
+        }
+        if (type === 'delta') {
+          const nearBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 100;
+          text += value.text; renderText(answer.content, text, sources);
+          if (nearBottom) scroll();
+        }
+        if (type === 'error') throw new Error(value.message);
+        if (type === 'done') { completed = true; truncated = value.truncated; }
+      };
+      for (;;) {
+        const { value, done } = await reader.read();
+        buffer += done ? decoder.decode() : decoder.decode(value, { stream: true });
+        buffer = buffer.replace(/\r\n/g, '\n');
+        let end;
+        while ((end = buffer.indexOf('\n\n')) >= 0) {
+          receive(buffer.slice(0, end)); buffer = buffer.slice(end + 2);
+        }
+        if (done) { if (buffer.trim()) receive(buffer); break; }
+      }
+      if (!completed) throw new Error('连接中断，答案可能不完整，请重试。');
+      history.push({ role: 'user', content: payload.message }, { role: 'assistant', content: text.slice(0, 3000) });
+      history = history.slice(-6); lastPayload = null;
+    } catch (error) {
+      failure = controller.signal.aborted ? '回答已停止或超时，已有片段可能不完整。' : error.message;
+      answer.node.append(element('p', 'cabin-chat-error', failure));
+    } finally {
+      clearTimeout(timeout);
+      if (reader) { await reader.cancel().catch(() => {}); reader.releaseLock(); }
+      pending = null; token = '';
+      if (challengeId !== null) window.turnstile?.reset(challengeId);
+      availability();
+      setStatus(failure || (truncated ? '本次达到回答长度上限，可以继续追问。' : '回答完成。你还想沿着哪条线索看看？'));
+      if (!panel.hidden) input.focus();
+    }
+  }
+  launcher.addEventListener('click', () => {
+    if (!panel) buildPanel();
+    if (!panel.hidden) { close(); return; }
+    panel.hidden = false; launcher.setAttribute('aria-expanded', 'true');
+    input.focus(); scroll();
+    configPromise?.catch(() => {});
+  });
+  document.addEventListener('pjax:complete', updateArticle);
+})();
