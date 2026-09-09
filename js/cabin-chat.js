@@ -12,7 +12,7 @@
   launcher.className = 'no-destroy';
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = new URL('css/cabin-chat.css?v=20260909-markdown-stream-2', root).href;
+  style.href = new URL('css/cabin-chat.css?v=20260910-compact-header', root).href;
   document.head.append(style);
   document.body.append(launcher);
   let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
@@ -156,8 +156,8 @@
       }
     });
     const controls = element('div', 'cabin-chat-controls');
-    const webLabel = element('label', '', '资料范围 ');
-    web = element('select'); web.setAttribute('aria-label', '联网检索策略');
+    const webLabel = element('label', 'cabin-chat-range');
+    web = element('select'); web.setAttribute('aria-label', '资料范围与联网检索策略');
     [['auto', '博客优先 · 自动联网'], ['always', '同时检索网络'], ['off', '关闭联网补充']].forEach(([value, text]) => {
       const option = element('option', '', text); option.value = value; web.append(option);
     });
@@ -165,19 +165,27 @@
     clear = button('清空', () => {
       history = []; lastPayload = null; lastAnswer = null; log.replaceChildren(); welcome(); availability();
     });
-    controls.append(webLabel, clear);
     const privacy = element('label', 'cabin-chat-privacy');
-    consent = element('input'); consent.type = 'checkbox'; consent.addEventListener('change', availability);
-    privacy.append(consent, document.createTextNode('同意将问题、少量对话历史及公开文章片段发送给模型服务；启用联网时，检索词会发送给搜索服务。请勿输入敏感信息。'));
+    consent = element('input'); consent.type = 'checkbox'; consent.checked = true;
+    consent.setAttribute('aria-describedby', 'cabin-chat-privacy-detail');
+    consent.addEventListener('change', availability);
+    privacy.append(consent, document.createTextNode('同意发送必要内容'));
+    const disclosure = element('details', 'cabin-chat-disclosure');
+    disclosure.append(element('summary', '', '隐私说明'));
+    const detail = element('p', '', '同意将问题、少量对话历史及公开文章片段发送给模型服务；启用联网时，检索词会发送给搜索服务。请勿输入敏感信息。');
+    detail.id = 'cabin-chat-privacy-detail';
+    disclosure.append(detail);
+    const footer = element('div', 'cabin-chat-footer');
+    footer.append(privacy, disclosure, element('span', 'cabin-chat-note', 'AI 回答请核对来源'));
     challenge = element('div', 'cabin-chat-challenge');
     const actions = element('div', 'cabin-chat-actions');
-    const note = element('span', '', 'AI 回答可能出错，请核对来源。');
     retry = button('重试', () => submit(lastPayload, true)); retry.hidden = true;
     stop = button('停止', () => pending?.abort()); stop.hidden = true;
     send = element('button', 'cabin-chat-send', '发送'); send.type = 'submit'; send.disabled = true;
-    actions.append(note, retry, stop, send);
+    actions.append(clear, retry, stop, send);
+    controls.append(webLabel, actions);
     status = element('p', 'cabin-chat-status', '正在连接知识角…'); status.setAttribute('role', 'status');
-    form.append(label, input, controls, privacy, challenge, actions, status);
+    form.append(label, input, controls, footer, challenge, status);
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (send.disabled || !input.value.trim()) return;
