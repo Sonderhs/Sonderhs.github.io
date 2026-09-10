@@ -10,13 +10,34 @@
   box-sizing: border-box;
 }
 [data-theme="dark"] #cabin-chat, [data-theme="dark"] #cabin-chat-launcher {
-  --chat-bg: #212824;
-  --chat-ink: #e4eadd;
-  --chat-muted: #adb6a8;
-  --chat-line: #39433b;
-  --chat-accent: #a8c6a4;
-  --chat-soft: #2d382f;
+  color-scheme: dark;
+  --chat-bg: #202938;
+  --chat-ink: #e2e8f4;
+  --chat-muted: #adb9cc;
+  --chat-line: #43516a;
+  --chat-accent: #b4c9f5;
+  --chat-soft: #2a3448;
+  --chat-log-bg: #171d2a;
+  --chat-user-bg: #303f59;
+  --chat-code-bg: #151c29;
 }
+[data-theme="dark"] #cabin-chat { box-shadow: 0 16px 64px #00000059; }
+[data-theme="dark"] #cabin-chat .cabin-chat-log { background: var(--chat-log-bg); scrollbar-color: var(--chat-line) var(--chat-log-bg); }
+[data-theme="dark"] #cabin-chat .cabin-chat-text { color: var(--chat-ink); background: var(--chat-bg); }
+[data-theme="dark"] #cabin-chat .user .cabin-chat-text { background: var(--chat-user-bg); border-color: #536889; }
+[data-theme="dark"] #cabin-chat textarea { background: var(--chat-log-bg); caret-color: var(--chat-accent); }
+[data-theme="dark"] #cabin-chat textarea::placeholder { color: var(--chat-muted); opacity: 1; }
+[data-theme="dark"] #cabin-chat .cabin-chat-text pre,
+[data-theme="dark"] #cabin-chat .cabin-chat-text :not(pre) > code { background: var(--chat-code-bg); color: var(--chat-ink); }
+[data-theme="dark"] #cabin-chat .cabin-chat-text strong { color: var(--chat-ink); }
+[data-theme="dark"] #cabin-chat .cabin-chat-table td { background: var(--chat-bg); color: var(--chat-ink); }
+[data-theme="dark"] #cabin-chat .cabin-chat-table th { color: var(--chat-ink); }
+[data-theme="dark"] #cabin-chat button:not(:disabled):hover { background: var(--chat-user-bg); border-color: var(--chat-accent); }
+[data-theme="dark"] #cabin-chat .cabin-chat-controls .cabin-chat-send { color: #171d2a; }
+[data-theme="dark"] #cabin-chat .cabin-chat-controls .cabin-chat-send:not(:disabled):hover { background: #c8d7fa; }
+[data-theme="dark"] #cabin-chat a:hover { color: #d5e2ff; }
+[data-theme="dark"] #cabin-chat .cabin-chat-error { color: #ffb49e; }
+[data-theme="dark"] #cabin-chat ::selection { background: #405579; color: #ffffff; }
 #cabin-chat-launcher {
   position: fixed;
   right: 28px;

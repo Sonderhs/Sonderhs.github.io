@@ -12,7 +12,7 @@
   launcher.className = 'no-destroy';
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = new URL('css/cabin-chat.css?v=20260910-avatar-layout', root).href;
+  style.href = new URL('css/cabin-chat.css?v=20260910-dark-blue', root).href;
   document.head.append(style);
   document.body.append(launcher);
   let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
