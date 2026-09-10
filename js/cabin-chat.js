@@ -6,7 +6,7 @@
   const launcher = document.createElement('button');
   launcher.id = 'cabin-chat-launcher';
   launcher.type = 'button';
-  launcher.textContent = '和小栖聊聊';
+  launcher.textContent = '和Neko聊聊';
   launcher.setAttribute('aria-expanded', 'false');
   launcher.setAttribute('aria-controls', 'cabin-chat');
   launcher.className = 'no-destroy';
@@ -39,7 +39,7 @@
   function scroll() { log.scrollTop = log.scrollHeight; }
   function message(role, text) {
     const node = element('section', `cabin-chat-message ${role}`);
-    node.append(element('span', 'cabin-chat-speaker', role === 'user' ? '你' : '小栖 · AI'));
+    node.append(element('span', 'cabin-chat-speaker', role === 'user' ? '你' : 'Neko · AI'));
     const content = element('div', 'cabin-chat-text', text);
     node.append(content);
     log.append(node);
@@ -161,8 +161,8 @@
       handle.setAttribute('aria-controls', 'cabin-chat');
       handle.setAttribute('aria-haspopup', 'dialog');
       handle.setAttribute('aria-expanded', expanded);
-      handle.setAttribute('aria-label', '和小栖聊聊；拖动或方向键移动，双击或 Home 键复位');
-      handle.title = '点击和小栖聊聊；拖动移动，双击复位';
+      handle.setAttribute('aria-label', '和Neko聊聊；拖动或方向键移动，双击或 Home 键复位');
+      handle.title = '点击和Neko聊聊；拖动移动，双击复位';
     }
     queueLayout();
   }
@@ -211,7 +211,7 @@
         if (url.protocol !== 'https:' && !(url.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(url.hostname) && ['localhost', '127.0.0.1'].includes(location.hostname))) throw new Error();
         setStatus('先从笔记找线索，不够再去网络查证。');
         await setupChallenge();
-      } else setStatus('小栖的聊天后端尚未接通。站长配置接口后即可启用。');
+      } else setStatus('Neko的聊天后端尚未接通。站长配置接口后即可启用。');
     } catch {
       config = null;
       setStatus('聊天配置或验证组件加载失败，请刷新后重试。');
@@ -224,7 +224,7 @@
     const header = element('header', 'cabin-chat-header');
     const identity = element('div');
     const eyebrow = element('span', 'cabin-chat-eyebrow', 'HANSEN.CABIN / KNOWLEDGE COMPANION');
-    const title = element('h2', '', '小栖的知识角'); title.id = 'cabin-chat-title';
+    const title = element('h2', '', 'Neko的知识角'); title.id = 'cabin-chat-title';
     identity.append(eyebrow, title, element('p', '', '有据可查，也保留一点好奇心。'));
     const closeButton = button('×', close, 'cabin-chat-close'); closeButton.setAttribute('aria-label', '关闭聊天');
     header.append(identity, closeButton);
@@ -287,7 +287,7 @@
     configPromise = loadConfig();
   }
   function welcome() {
-    message('assistant', '我是小栖，住在 Hansen.cabin 的 AI 笔记搭子，不是 Hansen 本人。\n想翻哪篇笔记？博客里没写到的，我可以去网络找线索；拿不准的地方，也会老实告诉你。');
+    message('assistant', '我是Neko，\n想看哪篇笔记？博客里没写到的，我可以去网络找线索；拿不准的地方，也会老实告诉你。');
   }
   async function submit(payload, isRetry = false) {
     if (pending || !payload || !config?.endpoint || !consent.checked) return;
@@ -300,7 +300,7 @@
     let text = '', sources = [], completed = false, truncated = false, failure = '';
     const view = window.CabinChatView.stream(answer.content, log, () => sources);
     controller.signal.addEventListener('abort', view.flush, { once: true });
-    availability(); setStatus('正在敲小栖的门…');
+    availability(); setStatus('正在敲Neko的门…');
     const timeout = setTimeout(() => controller.abort(), 75000);
     let reader;
     try {
