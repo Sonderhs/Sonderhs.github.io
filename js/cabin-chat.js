@@ -12,7 +12,7 @@
   launcher.className = 'no-destroy';
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = new URL('css/cabin-chat.css?v=20260910-compact-header', root).href;
+  style.href = new URL('css/cabin-chat.css?v=20260910-avatar-layout', root).href;
   document.head.append(style);
   document.body.append(launcher);
   let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
@@ -88,14 +88,66 @@
     retry.disabled = !config?.endpoint || !consent.checked || (!!config?.turnstileSiteKey && !token);
     updateArticle();
   }
-  let avatarWidget, avatarHandle;
+  let avatarWidget, avatarHandle, layoutFrame = 0;
   const avatarObserver = new MutationObserver(syncAvatar);
+  const avatarSizeObserver = new ResizeObserver(queueLayout);
+  function queueLayout() {
+    if (!layoutFrame) layoutFrame = requestAnimationFrame(() => { layoutFrame = 0; layoutPanel(); });
+  }
+  function layoutPanel() {
+    if (!panel || panel.hidden) return;
+    if (!avatarHandle) {
+      for (const property of ['left', 'top', 'right', 'bottom', 'width', 'height']) panel.style.removeProperty(property);
+      panel.classList.remove('cabin-chat-short');
+      delete panel.dataset.placement;
+      return;
+    }
+    const viewport = window.visualViewport;
+    const margin = 8, gap = 12;
+    const left = (viewport?.offsetLeft || 0) + margin;
+    const top = (viewport?.offsetTop || 0) + margin;
+    const width = (viewport?.width || document.documentElement.clientWidth) - margin * 2;
+    const height = (viewport?.height || innerHeight) - margin * 2;
+    const right = left + width, bottom = top + height;
+    const mobile = width < 752;
+    const desiredWidth = Math.min(mobile ? width : 410, width);
+    const desiredHeight = Math.min(mobile ? 780 : 680, height);
+    const avatar = avatarHandle && avatarWidget.getBoundingClientRect();
+    let region = { x: left, y: top, width, height, side: 'free' };
+    if (avatar && avatar.right > left && avatar.left < right && avatar.bottom > top && avatar.top < bottom) {
+      const candidates = [
+        { x: left, y: top, width: Math.max(0, avatar.left - gap - left), height, side: 'left' },
+        { x: avatar.right + gap, y: top, width: Math.max(0, right - avatar.right - gap), height, side: 'right' },
+        { x: left, y: top, width, height: Math.max(0, avatar.top - gap - top), side: 'above' },
+        { x: left, y: avatar.bottom + gap, width, height: Math.max(0, bottom - avatar.bottom - gap), side: 'below' }
+      ];
+      const usable = candidates.filter(r => r.width >= Math.min(300, width) && r.height > 0);
+      const comfortable = usable.find(r => r.width >= desiredWidth && r.height >= Math.min(380, desiredHeight));
+      region = comfortable || usable.sort((a, b) =>
+        Math.min(b.width, desiredWidth) * Math.min(b.height, desiredHeight) -
+        Math.min(a.width, desiredWidth) * Math.min(a.height, desiredHeight))[0] || region;
+    }
+    const w = Math.min(desiredWidth, region.width), h = Math.min(desiredHeight, region.height);
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+    const side = region.side === 'left' || region.side === 'right';
+    const x = side ? (region.side === 'left' ? region.x + region.width - w : region.x) :
+      clamp(avatar ? avatar.right - w : right - w, region.x, region.x + region.width - w);
+    const y = side ? clamp(avatar.bottom - h, region.y, region.y + region.height - h) :
+      region.side === 'below' ? region.y : region.y + region.height - h;
+    Object.assign(panel.style, { left: x + 'px', top: y + 'px', right: 'auto', bottom: 'auto', width: w + 'px', height: h + 'px' });
+    panel.dataset.placement = region.side;
+    panel.classList.toggle('cabin-chat-short', h < 380);
+  }
   function syncAvatar() {
     const widget = document.getElementById('hansen-avatar');
     if (widget !== avatarWidget) {
       avatarObserver.disconnect();
+      avatarSizeObserver.disconnect();
       avatarWidget = widget;
-      if (widget) avatarObserver.observe(widget, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+      if (widget) {
+        avatarObserver.observe(widget, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+        avatarSizeObserver.observe(widget);
+      }
     }
     const handle = widget?.querySelector('.avatar-drag');
     const visible = widget && !widget.hidden && handle && handle.getClientRects().length > 0 &&
@@ -112,12 +164,14 @@
       handle.setAttribute('aria-label', '和小栖聊聊；拖动或方向键移动，双击或 Home 键复位');
       handle.title = '点击和小栖聊聊；拖动移动，双击复位';
     }
+    queueLayout();
   }
   function open() {
     if (!panel) buildPanel();
     const wasHidden = panel.hidden;
     panel.hidden = false;
     syncAvatar();
+    layoutPanel();
     if (input.disabled) panel.querySelector('.cabin-chat-close').focus();
     else input.focus();
     if (wasHidden) scroll();
@@ -321,7 +375,10 @@
   document.addEventListener('hansen-avatar-chat', open);
   document.addEventListener('hansen-avatar-ready', syncAvatar);
   document.addEventListener('pjax:complete', () => { updateArticle(); syncAvatar(); });
-  window.addEventListener('resize', syncAvatar);
+  window.addEventListener('resize', () => { syncAvatar(); layoutPanel(); });
+  window.visualViewport?.addEventListener('resize', layoutPanel);
+  window.visualViewport?.addEventListener('scroll', queueLayout);
+  style.addEventListener('load', queueLayout);
   new MutationObserver(syncAvatar).observe(document.body, { childList: true });
   syncAvatar();
 })();
