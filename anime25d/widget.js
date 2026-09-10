@@ -4,7 +4,7 @@
   window.__hansenAvatar = true;
   const assetRoot = new URL('./', document.currentScript.src);
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let widget, frame, timer, drag, position, pointer, moveFrame = 0;
+  let widget, frame, timer, drag, position, pointer, moveFrame = 0, activationTimer = 0, suppressClick = false;
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   try {
     const saved = JSON.parse(sessionStorage.getItem('hansen-avatar-position'));
@@ -54,6 +54,7 @@
     if (!drag || (event && event.pointerId !== drag.id)) return;
     const handle = widget.querySelector('.avatar-drag');
     const id = drag.id;
+    if (drag.moved || !event || event.type !== 'pointerup') suppressClick = true;
     drag = null;
     widget.classList.remove('is-dragging');
     if (handle.hasPointerCapture(id)) handle.releasePointerCapture(id);
@@ -77,6 +78,7 @@
   }
   function clearPointer() { pointer = null; queuePointer(); }
   function stop() {
+    clearTimeout(activationTimer);
     finishDrag();
     clearTimeout(timer);
     cancelAnimationFrame(moveFrame);
@@ -93,6 +95,7 @@
     if (!widget) {
       widget = document.createElement('aside');
       widget.id = 'hansen-avatar';
+      widget.className = 'no-destroy';
       widget.setAttribute('aria-label', '博客看板娘');
       const image = document.createElement('img');
       image.src = new URL('preview.png', assetRoot).href;
@@ -106,6 +109,7 @@
       handle.setAttribute('aria-label', '拖动看板娘；方向键移动，Home键恢复默认位置');
       handle.title = '拖动角色移动位置，双击恢复默认位置';
       const resetPosition = () => {
+        clearTimeout(activationTimer);
         finishDrag();
         position = null;
         widget.style.left = widget.style.right = widget.style.top = widget.style.bottom = '';
@@ -113,16 +117,30 @@
         queuePointer();
       };
       handle.addEventListener('dblclick', resetPosition);
+      handle.addEventListener('click', event => {
+        if (event.detail > 0 && suppressClick) return;
+        clearTimeout(activationTimer);
+        const activate = () => document.dispatchEvent(new CustomEvent('hansen-avatar-chat'));
+        if (event.detail === 0) activate();
+        else activationTimer = setTimeout(activate, 280);
+      });
       handle.addEventListener('pointerdown', event => {
         if (!event.isPrimary || event.button !== 0 || drag) return;
+        clearTimeout(activationTimer);
+        suppressClick = false;
         const r = widget.getBoundingClientRect();
-        drag = { id: event.pointerId, dx: event.clientX - r.left, dy: event.clientY - r.top };
+        drag = { id: event.pointerId, dx: event.clientX - r.left, dy: event.clientY - r.top,
+          startX: event.clientX, startY: event.clientY, moved: false };
+        handle.focus({ preventScroll: true });
         handle.setPointerCapture(event.pointerId);
-        widget.classList.add('is-dragging');
         event.preventDefault();
       });
       handle.addEventListener('pointermove', event => {
         if (!drag || event.pointerId !== drag.id) return;
+        if (!drag.moved && Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) < 7) return;
+        drag.moved = true;
+        suppressClick = true;
+        widget.classList.add('is-dragging');
         savePosition(place(event.clientX - drag.dx, event.clientY - drag.dy));
         queuePointer();
       });
@@ -139,6 +157,7 @@
       });
       widget.append(image, handle);
       document.body.appendChild(widget);
+      document.dispatchEvent(new CustomEvent('hansen-avatar-ready'));
     }
     widget.hidden = false;
     restorePosition();
@@ -174,7 +193,10 @@
   document.documentElement.addEventListener('pointerleave', clearPointer);
   window.addEventListener('blur', () => { finishDrag(); clearPointer(); });
   window.addEventListener('resize', () => { finishDrag(); restorePosition(); queuePointer(); });
-  style.addEventListener('load', restorePosition);
+  style.addEventListener('load', () => {
+    restorePosition();
+    document.dispatchEvent(new CustomEvent('hansen-avatar-ready'));
+  });
   document.addEventListener('pjax:complete', sync);
   document.addEventListener('pjax:send', stop);
   document.addEventListener('visibilitychange', () => { if (document.hidden) clearPointer(); sync(); });

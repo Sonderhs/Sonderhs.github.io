@@ -88,10 +88,45 @@
     retry.disabled = !config?.endpoint || !consent.checked || (!!config?.turnstileSiteKey && !token);
     updateArticle();
   }
+  let avatarWidget, avatarHandle;
+  const avatarObserver = new MutationObserver(syncAvatar);
+  function syncAvatar() {
+    const widget = document.getElementById('hansen-avatar');
+    if (widget !== avatarWidget) {
+      avatarObserver.disconnect();
+      avatarWidget = widget;
+      if (widget) avatarObserver.observe(widget, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+    }
+    const handle = widget?.querySelector('.avatar-drag');
+    const visible = widget && !widget.hidden && handle && handle.getClientRects().length > 0 &&
+      getComputedStyle(widget).visibility !== 'hidden' && getComputedStyle(handle).visibility !== 'hidden';
+    avatarHandle = visible ? handle : null;
+    launcher.hidden = !!avatarHandle;
+    launcher.style.display = avatarHandle ? 'none' : '';
+    const expanded = String(!!panel && !panel.hidden);
+    launcher.setAttribute('aria-expanded', expanded);
+    if (handle) {
+      handle.setAttribute('aria-controls', 'cabin-chat');
+      handle.setAttribute('aria-haspopup', 'dialog');
+      handle.setAttribute('aria-expanded', expanded);
+      handle.setAttribute('aria-label', '和小栖聊聊；拖动或方向键移动，双击或 Home 键复位');
+      handle.title = '点击和小栖聊聊；拖动移动，双击复位';
+    }
+  }
+  function open() {
+    if (!panel) buildPanel();
+    const wasHidden = panel.hidden;
+    panel.hidden = false;
+    syncAvatar();
+    if (input.disabled) panel.querySelector('.cabin-chat-close').focus();
+    else input.focus();
+    if (wasHidden) scroll();
+    configPromise?.catch(() => {});
+  }
   function close() {
     panel.hidden = true;
-    launcher.setAttribute('aria-expanded', 'false');
-    launcher.focus();
+    syncAvatar();
+    (avatarHandle || launcher).focus({ preventScroll: true });
   }
   async function setupChallenge() {
     if (!config.turnstileSiteKey) return;
@@ -280,11 +315,13 @@
     }
   }
   launcher.addEventListener('click', () => {
-    if (!panel) buildPanel();
-    if (!panel.hidden) { close(); return; }
-    panel.hidden = false; launcher.setAttribute('aria-expanded', 'true');
-    input.focus(); scroll();
-    configPromise?.catch(() => {});
+    if (panel && !panel.hidden) close();
+    else open();
   });
-  document.addEventListener('pjax:complete', updateArticle);
+  document.addEventListener('hansen-avatar-chat', open);
+  document.addEventListener('hansen-avatar-ready', syncAvatar);
+  document.addEventListener('pjax:complete', () => { updateArticle(); syncAvatar(); });
+  window.addEventListener('resize', syncAvatar);
+  new MutationObserver(syncAvatar).observe(document.body, { childList: true });
+  syncAvatar();
 })();
