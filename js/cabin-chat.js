@@ -16,6 +16,7 @@
   document.head.append(style);
   document.body.append(launcher);
   let panel, config, configPromise, log, form, input, send, stop, retry, status, consent, web, article, clear, challenge;
+  let articleContext = null;
   let history = [], pending = null, lastPayload = null, lastAnswer = null, token = '', challengeId = null;
 
   function element(tag, className, text) {
@@ -252,7 +253,7 @@
     });
     webLabel.append(web);
     clear = button('清空', () => {
-      history = []; lastPayload = null; lastAnswer = null; log.replaceChildren(); welcome(); availability();
+      history = []; articleContext = null; lastPayload = null; lastAnswer = null; log.replaceChildren(); welcome(); availability();
     });
     const privacy = element('label', 'cabin-chat-privacy');
     consent = element('input'); consent.type = 'checkbox'; consent.checked = true;
@@ -278,7 +279,7 @@
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (send.disabled || !input.value.trim()) return;
-      submit({ message: input.value.trim(), history: history.slice(-6), currentPath: currentArticle(), web: web.value !== 'off', forceWeb: web.value === 'always' });
+      submit({ message: input.value.trim(), history: history.slice(-6), articleContext, currentPath: currentArticle(), web: web.value !== 'off', forceWeb: web.value === 'always' });
     });
     panel.append(header, log, suggestions, form);
     panel.addEventListener('keydown', event => { if (event.key === 'Escape') { event.stopPropagation(); close(); } });
@@ -297,6 +298,7 @@
     if (isRetry) lastAnswer?.node.remove();
     else { message('user', payload.message); input.value = ''; }
     const answer = message('assistant', ''); lastAnswer = answer;
+    let nextArticleContext = { paths: [] };
     let text = '', sources = [], completed = false, truncated = false, failure = '';
     const view = window.CabinChatView.stream(answer.content, log, () => sources);
     controller.signal.addEventListener('abort', view.flush, { once: true });
@@ -326,6 +328,9 @@
         if (!data) return;
         const value = JSON.parse(data);
         if (type === 'status') setStatus(value.message);
+        if (type === 'context' && Array.isArray(value.paths) && value.paths.length <= 20 && value.paths.every(p => typeof p === 'string' && p.startsWith('/') && !p.startsWith('//') && p.length <= 1800)) {
+          nextArticleContext = { paths: [...new Set(value.paths)] };
+        }
         if (type === 'sources') {
           sources = value.sources || [];
           renderSources(answer, sources, value.webStatus, value.blogAvailable);
@@ -352,7 +357,7 @@
       await view.finish();
       if (controller.signal.aborted) throw new Error('ABORTED');
       history.push({ role: 'user', content: payload.message }, { role: 'assistant', content: text.slice(0, 3000) });
-      history = history.slice(-6); lastPayload = null;
+      history = history.slice(-6); articleContext = truncated ? { paths: [] } : nextArticleContext; lastPayload = null;
     } catch (error) {
       failure = controller.signal.aborted ? '回答已停止或超时，已有片段可能不完整。' : error.message;
       answer.node.append(element('p', 'cabin-chat-error', failure));
